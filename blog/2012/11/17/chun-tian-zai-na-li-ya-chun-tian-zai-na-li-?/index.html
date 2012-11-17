@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>CS Notebook</title>
+  <title>春天在哪里呀春天在哪里？ - CS Notebook</title>
   <meta name="author" content="Tian">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://puncsky.github.com/">
+  <link rel="canonical" href="http://puncsky.github.com/blog/2012/11/17/chun-tian-zai-na-li-ya-chun-tian-zai-na-li-%3F/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -62,15 +62,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/11/17/chun-tian-zai-na-li-ya-chun-tian-zai-na-li-%3F/">春天在哪里呀春天在哪里？</a></h1>
+      <h1 class="entry-title">春天在哪里呀春天在哪里？</h1>
     
     
       <p class="meta">
@@ -93,7 +90,7 @@
   </header>
 
 
-  <div class="entry-content"><h3>一 大叔</h3>
+<div class="entry-content"><h3>一 大叔</h3>
 
 <p>第一次见到阿米(Amittai F. Aviram)大叔就被彻底震撼到了，你简直就无法相信眼前这位爷爷辈的大叔居然是计算机系的博士！OSDI&#8217;10（计算机系统界顶级会议）最佳论文的第一作者！要知道，人人生而平等，会议生而不等，同是顶级会议，论文被OSDI录用就比VLDB、WWW、NSDI等等这些难得不是一点两点；而且系统领域的论文不是推个数学公式，做个小实验验证一下就可以过关，而是需要老老实实动手实现整个复杂的设计的。而这位谈吐之间无时无刻不环绕着功成身退气息的大叔，此刻正在向比他小个几十岁的教授们作毕业答辩！机缘巧合的是，不久之后，当我想看看如何实现一个简单的数据库的时候，满心欢喜地查到一个B+树的C语言实现，左上角竟然也是赫然打着阿米大叔的大名！</p>
 
@@ -161,155 +158,16 @@
 
 <p>春天在那小朋友的眼睛里</p></blockquote>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/11/16/homeos-an-operating-system-for-the-home-nsdi-12/">HomeOS: An Operating System for the Home (NSDI &#8216;12)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn">Tian</span></span>
 
-<time datetime="2012-11-16T22:06:00-05:00" pubdate data-updated="true">Nov 16<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://researcher.watson.ibm.com/researcher/view.php?person=us-ckd">IBM</a>, <a href="http://research.microsoft.com/en-us/projects/homeos/">MS</a>, <a href="https://www.usenix.org/system/files/conference/nsdi12/nsdi12-final149.pdf">paper</a>,  <a href="https://www.usenix.org/conference/nsdi12/towards-commodity-smarthomes-homeos">Video</a>, <a href="https://www.usenix.org/sites/default/files/conference/protected-files/homeos-nsdi-talk-given-clean.pdf">Slides</a></p>
-
-<h3>1. Problem</h3>
-
-<p>High overhead of managing and extending network devices for <strong>smart home</strong>: 1) growing number of devices 2) heterogeneity 3) hardware/software incompatible.</p>
-
-<h3>2. Challenges</h3>
-
-<ul>
-<li>Appliance abstraction: a closed, monolithic system. (manageability)</li>
-<li>Decentralized network-of-devices: bad portability. (extensibility: both software and hardware)</li>
-</ul>
-
-
-<h3>3. Solution</h3>
-
-<p>HomeOS: a PC-like abstraction for network devices</p>
-
-<h4>3.1 Overview</h4>
-
-<table>
-    <tr>
-        <td>Application layer</td><td>Tasks</td>
-    </tr>
-    <tr>
-        <td>Management layer</td><td>Control</td>
-    </tr>
-    <tr>
-        <td>Device functionality layer (DFL)</td><td>Device</td>
-    </tr>
-    <tr>
-        <td>Device connectivity layer (DCL)</td><td>Topological</td>
-    </tr>
-    <tr>
-        <td>PCs, XBox, Smartphones, TVs, &#8230;</td><td>Heterogeneity source handled</td>
-    </tr>
-</table>
-
-
-<h4>3.2 Application Layer</h4>
-
-<p>Environment for develop-written codes. An application should have a manifest {rules} to specify what devices it needs.</p>
-
-<h4>3.3 Management Layer</h4>
-
-<ol>
-<li><p>Application manager with access control</p>
-
-<ul>
-<li>Time-based access control.</li>
-<li>Applications as security principals</li>
-<li>Settings should be querable</li>
-<li>Sensitive devices need extra attention</li>
-</ul>
-</li>
-<li><p>Mediate conflicting accesses</p>
-
-<ul>
-<li>Datalog access control rules: (r, g, m, Ts, Te, d, pri, a): Resource r can be accessed by users in group g, using module m, in the time window from Ts to Te, on day of the week d, with priority pri and access mode a.</li>
-<li>Simplicity. User account works within a given time. Groups are in a tree hierarchy.</li>
-</ul>
-</li>
-</ol>
-
-
-<h4>3.4 Device Functionality Layer</h4>
-
-<p>Provide APIs for higher layers by using handles.</p>
-
-<p>Service interfaces = roles{operations()} (&#8220;lightswitch&#8221; role = turnOn()+turnOff())</p>
-
-<ul>
-<li>A new device can either use an existing role or register new roles</li>
-<li>OS is agnostic to the services</li>
-</ul>
-
-
-<h4>3.5 Device Connectivity Layer</h4>
-
-<p>Provide handles for higher layers.</p>
-
-<ul>
-<li>No understanding of device semantics</li>
-<li>A uniform interaction with different kinds of devices</li>
-</ul>
-
-
-<h4>3.6 Implementation and Evaluation</h4>
-
-<p>C#</p>
-
-<p>Developer: &#8220;music follows the lights&#8221;/&#8221;custom lights per user&#8221;. 8/10 of them finished in 2h</p>
-
-<p>User: 77% completion rate</p>
-
-<h3>4. Conclusion</h3>
-
-<p>Bad abstractions in &#8220;smart home&#8221; result in high overhead of managing and extending network devices, which are in increasing number and mostly not compatible with each other. Traditionally, appliance abstraction provides a huge system with no potential for customization and extension. Meanwhile, decentralized network-of-devices provide little portability. So the authors present a new abstraction &#8211; HomeOS, a PC-like abstraction for network devices. The new abstraction architecture consists of four layers. Lower layers interact with heterogenous devices and protocols. Upper layers simplify development and use of applications. HomeOS is implemented with C# and its experience shows a satisfying manageability and extensibility.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10/">Fast and Parallel Webpage Layout (WWW &#8216;10)</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -321,171 +179,38 @@
   
 
 
-<time datetime="2012-11-16T15:56:00-05:00" pubdate data-updated="true">Nov 16<span>th</span>, 2012</time>
-        
-      </p>
+<time datetime="2012-11-17T15:51:00-05:00" pubdate data-updated="true">Nov 17<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/life/'>Life</a>
+  
+</span>
+
+
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.eecs.berkeley.edu/~lmeyerov/">UCB</a>, <a href="http://www.eecs.berkeley.edu/~lmeyerov/projects/pbrowser/pubfiles/playout.pdf">paper</a></p>
-
-<h2>1. Problem</h2>
-
-<p>The browsing of webpages is slow on smartphones for their limited CPU computational resources. The <em>power wall</em> forces hardware architects to apply increases in transistor counts towards improving parallel performance, not sequential performance. So the authors introduce the <strong>parallel</strong> mobile browser.</p>
-
-<h2>2. Challenges</h2>
-
-<p>In the analysis,  three core limitations of the rendering speed are:</p>
-
-<ol>
-<li>CSS selector matching</li>
-<li>Box and text layout</li>
-<li>Glyph rendering</li>
-</ol>
-
-
-<h2>3. Solution</h2>
-
-<p>Overall Input and Output</p>
-
-<ul>
-<li>Input: an HTML tree of content, CSS style rules, font files.</li>
-<li>Output: absolute element positions.</li>
-</ul>
-
-
-<h3>3.1 Algo1: CSS Selector Matching</h3>
-
-<p><em>Rule matcher</em> associates CSS rule set with HTML node tree.</p>
-
-<p>Two assumptions:</p>
-
-<ol>
-<li>In general, selector language is an exact subset of regular expression.</li>
-<li>Disjunctions are split into separate selectors</li>
-</ol>
-
-
-<p>Algorithm paraphrase:</p>
-
-<ol>
-<li>sequentially read rules and correspondingly build hash maps</li>
-<li>parallelly <strong>map</strong> nodes to different kinds of rules</li>
-<li>parallelly <strong>reduce</strong> several rules to each node</li>
-</ol>
-
-
-<p>Optimizations from WebKit:</p>
-
-<ol>
-<li>Hashtables. [×] check CSS for every node [√] read once, build hashmap, and check hash</li>
-<li>Right-to-left matching.</li>
-</ol>
-
-
-<p>New Optimization:</p>
-
-<ol>
-<li>Redundant selector elimination.</li>
-<li>Hash Tiling. partition the hashtable. reduce cache misses.</li>
-<li>Tokenization. store attributes as int instead of string to save cache.</li>
-<li>Parallel document traversal.</li>
-<li>Random load balancing. If in sequence, neighboring nodes will cause load imbalance.</li>
-<li>Result pre-allocation.</li>
-<li>Delayed set insertion.</li>
-<li>Non-STL sets.preallocate a vector with a size of potential matches.</li>
-</ol>
-
-
-<p>Overall Speedup = 60x: 204ms->3.5ms, 3s->50ms</p>
-
-<h3>3.2 Algo2:</h3>
-
-<ul>
-<li>Input: HTML tree nodes with symbolic constraint attributes</li>
-<li>Output: layout actual details (size, shape, position)</li>
-</ul>
-
-
-<p>Because CSS is confusing and informally-writtened, we create a new simple, concise, uniform, and intermediate language, Berkeley Style Sheets (BBS), which is transformed from CSS and will be specified with an attribute grammar (which shows potential for parallelization).</p>
-
-<p>Three contributions:</p>
-
-<ol>
-<li>Increase performance. decompse the tasks.</li>
-<li>Uniform a correct, concise specification.</li>
-<li>Prove it is at most linear in the size of HTML tree.</li>
-</ol>
-
-
-<p><strong>PARALLELIZATION</strong></p>
-
-<p>Two steps recursively for every node in the DOM tree</p>
-
-<ol>
-<li>calculate inherited attributes (top-down). Every level of childs in the tree enjoyes the parallelization.</li>
-<li>calculate synthesized attributes (node&#8217;s own attributes) (bottom-up). Every level of parents in the tree enjoys the parallelization.</li>
-</ol>
-
-
-<p>2 is dependent on 1.</p>
-
-<p>Complexity: O(log)</p>
-
-<p>Speedup of box + text layout = 2-3x</p>
-
-<p>Advanced layouts: floats</p>
-
-<h3>3.3 Algo3: Font Handling</h3>
-
-<ol>
-<li>create a pool of necessary font library request</li>
-<li>group the requests</li>
-<li>make parallel calls to process each group</li>
-</ol>
-
-
-<h2>4. Conclusions</h2>
-
-<p>Address three bottlenecks of loading a page</p>
-
-<ol>
-<li>CSS selector matching
-
-<ul>
-<li>Pre-built hash tables, map-reduce</li>
-</ul>
-</li>
-<li>Box and text layout solving
-
-<ul>
-<li>Specify layout as attribute grammars</li>
-</ul>
-</li>
-<li>Glyph rendering
-
-<ul>
-<li>Combine requests to groups and render in parallel</li>
-</ul>
-</li>
-</ol>
-
-
-<p>Milestone in building a parallel and mobile browser</p>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2012/11/17/chun-tian-zai-na-li-ya-chun-tian-zai-na-li-%3F/" data-via="" data-counturl="http://puncsky.github.com/blog/2012/11/17/chun-tian-zai-na-li-ya-chun-tian-zai-na-li-%3F/" >Tweet</a>
+  
+  
+  
 </div>
-  
-  
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/11/16/homeos-an-operating-system-for-the-home-nsdi-12/" title="Previous Post: HomeOS: An Operating System for the Home (NSDI '12)">&laquo; HomeOS: An Operating System for the Home (NSDI '12)</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
 </div>
+
 <aside class="sidebar">
   
     <section>
@@ -497,11 +222,11 @@
       </li>
     
       <li class="post">
-        <a href="/blog/2012/11/16/homeos-an-operating-system-for-the-home-nsdi-12/">HomeOS: An Operating System for the Home (NSDI &#8216;12)</a>
+        <a href="/blog/2012/11/16/homeos-an-operating-system-for-the-home-nsdi-12/">HomeOS: An Operating System for the Home (NSDI '12)</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10/">Fast and Parallel Webpage Layout (WWW &#8216;10)</a>
+        <a href="/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10/">Fast and Parallel Webpage Layout (WWW '10)</a>
       </li>
     
   </ul>
@@ -514,6 +239,7 @@
 
   
 </aside>
+
 
     </div>
   </div>
