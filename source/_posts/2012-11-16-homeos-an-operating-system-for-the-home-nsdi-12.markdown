@@ -5,6 +5,7 @@ date: 2012-11-16 22:06
 comments: true
 categories: 
 ---
+
 [IBM](http://researcher.watson.ibm.com/researcher/view.php?person=us-ckd), [MS](http://research.microsoft.com/en-us/projects/homeos/), [paper](https://www.usenix.org/system/files/conference/nsdi12/nsdi12-final149.pdf),  [Video](https://www.usenix.org/conference/nsdi12/towards-commodity-smarthomes-homeos), [Slides](https://www.usenix.org/sites/default/files/conference/protected-files/homeos-nsdi-talk-given-clean.pdf)
 
 ### 1. Problem
