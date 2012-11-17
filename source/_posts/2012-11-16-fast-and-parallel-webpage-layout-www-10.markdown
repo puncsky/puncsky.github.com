@@ -16,11 +16,6 @@ The browsing of webpages is slow on smartphones for their limited CPU computatio
 2. Challenges
 -
 
-7 steps to render a webpage:
-
-![7 Steps](http://hi.csdn.net/attachment/201203/2/0_1330689283EjC7.gif)
-
-
 In the analysis,  three core limitations of the rendering speed are:
 
 1. CSS selector matching
