@@ -17,6 +17,8 @@ High overhead of managing and extending network devices for **smart home**: 1) g
 - Appliance abstraction: a closed, monolithic system. (manageability)
 - Decentralized network-of-devices: bad portability. (extensibility: both software and hardware)
 
+<!--more-->
+
 ### 3. Solution
 
 HomeOS: a PC-like abstraction for network devices

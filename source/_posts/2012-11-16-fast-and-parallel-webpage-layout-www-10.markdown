@@ -5,6 +5,7 @@ date: 2012-11-16 15:56
 comments: true
 categories: Parallelization
 ---
+<iframe src="http://www.slideshare.net/slideshow/embed_code/15270792" width="427" height="356" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen webkitallowfullscreen mozallowfullscreen> </iframe> 
 
 [UCB](http://www.eecs.berkeley.edu/~lmeyerov/), [paper](http://www.eecs.berkeley.edu/~lmeyerov/projects/pbrowser/pubfiles/playout.pdf)
 
@@ -15,6 +16,8 @@ The browsing of webpages is slow on smartphones for their limited CPU computatio
 
 2. Challenges
 -
+
+<!--more-->
 
 In the analysis,  three core limitations of the rendering speed are:
 
