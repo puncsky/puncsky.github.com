@@ -4,7 +4,7 @@
   <title><![CDATA[CS Notebook]]></title>
   <link href="http://puncsky.github.com/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2012-11-17T16:08:49-05:00</updated>
+  <updated>2012-11-20T16:35:56-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -12,6 +12,403 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[HadoopDB: an architectural hybrid of MapReduce and DBMS technologies for analytical workloads (VLDB '09)]]></title>
+    <link href="http://puncsky.github.com/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/"/>
+    <updated>2012-11-20T16:20:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09</id>
+    <content type="html"><![CDATA[<p><a href="http://db.cs.yale.edu/hadoopdb/">Yale DB</a></p>
+
+<h3>1. Problem</h3>
+
+<p>Large analytical data management (OLAP) with commodity clusters</p>
+
+<h3>2. Challenges</h3>
+
+<ul>
+<li>Performance and efficiency
+
+<ul>
+<li>hadoop
+
+<ul>
+<li>is not for structured data analysis</li>
+<li>scale well</li>
+<li>open source, without cost</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>scalability, fault-tolerance, and flexibility
+
+<ul>
+<li>Previous parallel db fit into tens of nodes, not thousand of nodes.</li>
+<li>not scale well for failures, heterogeneous machines, performance untested</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>3. Solutions</h3>
+
+<ul>
+<li>MapReduce (Hadoop) + parallel db (or single-node DBs) = HadoopDB<!--more-->
+
+<ul>
+<li>Translation layer: Hive</li>
+<li>Communication layer: Hadoop</li>
+<li>Database layer: PostgreSQL (or MySQL, &#8230; JDBC)</li>
+</ul>
+</li>
+<li><p>Components</p>
+
+<ol>
+<li>Database Connector
+
+<ul>
+<li>Interface among dbs on nodes</li>
+<li>extends InputFormat class -> InputFormat Implementation lib</li>
+<li>JDBC-complaint</li>
+</ul>
+</li>
+<li>Catalog
+
+<ul>
+<li>metainformation as XML = connection para + metadata</li>
+</ul>
+</li>
+<li>Data Loader
+
+<ul>
+<li>Global Hasher: MR, repartition raw data from HDFS to NO. of nodes</li>
+<li>Local Hasher: copy from HDFS, repartition the partition into chunks</li>
+<li>Better load balance than Hadoop</li>
+</ul>
+</li>
+<li>SQL - MR - SQL (SMS) Planner
+
+<ul>
+<li>extend Hive for</li>
+<li>open and low cost</li>
+<li>each table stored separately in HDFS, low performance in multi-table trans.
+intercept normal Hive flow in</li>
+<li>update MetaStore before query execution</li>
+<li>between query plan generation and MR jobs
+retrieve fields, determine partition keys</li>
+</ul>
+
+
+<p>   traverse DAG bottom-up</p>
+
+<p> only support filter, select, aggregation</p></li>
+</ol>
+</li>
+<li><p>Extend performance [23] with fault tolerance and heterogeneous node exp</p>
+
+<p>  TODO: modify the current task scheduler, connect not straggler node but the replicas.</p>
+
+<p>  Exp on EC2, Hadoop, HadoopDB, Vertica, DBMS-X</p></li>
+</ul>
+
+
+<h3>4. Conclusion</h3>
+
+<ul>
+<li>HadoopDB&#8217;s performance &lt; parallel db for
+
+<ul>
+<li>PostgreSQL (not column-store, not compression)</li>
+<li>Hadoop and Hive are young</li>
+</ul>
+</li>
+<li>performance, heterogeneous environ., fault tolerance, flexibility</li>
+</ul>
+
+
+<h3>Related Readings</h3>
+
+<p>[23] A Comparison of Approaches to Large Scale Data Analysis</p>
+
+<p>[6] Scope [11] Hive [24] C-store [4] What is the right way to measure scale?</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Reliable Client Accounting for P2P-Infrastructure Hybrids (NSDI '12)]]></title>
+    <link href="http://puncsky.github.com/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12/"/>
+    <updated>2012-11-20T16:16:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12</id>
+    <content type="html"><![CDATA[<p><a href="http://www.mpi-sws.org/~paditya/">MPI-SWS</a>, UPenn, Duke, Akamai, <a href="http://www.mpi-sws.org/~paditya/papers/rca-nsdi2012.pdf">paper</a>, <a href="https://www.usenix.org/sites/default/files/conference/protected-files/nsdi12_reliable_client_accounting_for_p2p-infrastructure_hybrids.pdf">slides</a>, <a href="https://www.usenix.org/conference/nsdi12/reliable-client-accounting-hybrid-content-distribution-networks">video</a></p>
+
+<h2>1. Problems</h2>
+
+<p>Hybrid (Servers with assisting peers) designs in CDNs -> malicious clients can cause significant accounting inaccuracies.</p>
+
+<h2>2. Challenges</h2>
+
+<p>Infrastructure can not control P2P communications by malicious clients (peers). Even if infrastructure provides signed metadata and fallback (so content can not be mishandled by peers), there are still:</p>
+
+<ul>
+<li>Affect service quality</li>
+<li>Misreport P2P transfers</li>
+</ul>
+
+
+<p>For example, inflation attack occurred for a fake download report.</p>
+
+<h2>3. Solutions</h2>
+
+<p>Reliable Client Accounting (RCA)</p>
+
+<!--more-->
+
+
+<p>Clients keep logs of network activity and upload them to the infrastructure periodically. The infrastructure collects logs, verifies them, and isolate suspicious nodes.</p>
+
+<h3>1. Record client activities reliably</h3>
+
+<p>Tamper evident logging: log recording sending/receiving history forms hash chains. Every massages contains a signature (authenticator) from its sender (O(# of messages)). -> Later, RCA only records authenticators for clients (O(# of pairs)).</p>
+
+<h3>2. Identify misbehaving/suspicious clients</h3>
+
+<p>By accounting the logs, infrastructure can find clients unilaterally claim fake downloads.</p>
+
+<p>As to malicious client software:</p>
+
+<p>What if bad clients do not follow the above steps (e.g. do not keep logs and serve bad content)? Simplify NetSession protocol to a state machine. Rules are manually set to identify bad logs not following the them.</p>
+
+<p>What if many clients collude to cheat? It is difficult in practice (infrastructure assigns peers), but can still be found by statistical checks.</p>
+
+<p>As to malicious users:</p>
+
+<p>What if a user repeatedly downloading content to drive up demand? (can be amplified by Sybil attack) Statistical checks, too.</p>
+
+<h3>3. Handle misbehavior without affecting service quality</h3>
+
+<p>Blacklist and quarantine bad clients.</p>
+
+<h2>4. Conclusions</h2>
+
+<p>Since infrastructure cannot observe P2P communication, accounting is vulnerable to malicious clients (peers) in a hybrid design of CDN, e.g. inflation attacks. So the authors advance RCA to 1) keep tamper-evident logs and set rules for fixed state machines 2) perform statistical analysis on collected logs. Malicious clients can be detected and isolated effectively by RCA. The evaluation with real world Akamai NetSession shows that overhead is reasonable &lt;= 0.5%.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Towards Statistical Queries over Distributed Private User Data (NSDI '12)]]></title>
+    <link href="http://puncsky.github.com/blog/2012/11/20/towards-statistical-queries-over-distributed-private-user-data-nsdi-12/"/>
+    <updated>2012-11-20T16:13:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2012/11/20/towards-statistical-queries-over-distributed-private-user-data-nsdi-12</id>
+    <content type="html"><![CDATA[<p>From <a href="https://sites.google.com/site/ruichuanc/">MPI-SWS, Germany</a>, <a href="https://73aab115-a-62cb3a1a-s-sites.googlegroups.com/site/ruichuanc/pddp-nsdi12.pdf?attachauth=ANoY7cqTHmW8qn2UrCjxk0u-eafRsp77w2XtpG9QdnY9nOnDKkELrYiH-RrOI2ILFnQUv6gt-oz_ek1DA8q7TptjvCEWWWpT02huRCgNYXW-bUNQwjJjM0DLN7tiJzOKD509vt1JhOZ_fHQ_rijDX5Dhh3Bx1pdZotJp7mDbCw0yrcSTYEfbXAuzkZK2zDxfRKYzZXww-dESgY9wquSilSiX3ZrPYrATOg%3D%3D&amp;attredirects=0">paper</a> and <a href="https://www.usenix.org/sites/default/files/conference/protected-files/pddp-talk-nsdi12.pdf">slides</a></p>
+
+<h2>1. Problem</h2>
+
+<p>To protect user privacy in distributed systems from leaking by statistical queries.</p>
+
+<h2>2. Challenges</h2>
+
+<p>The most direct solutions are</p>
+
+<ol>
+<li><p>to <strong>anonymize + add noise</strong> to <em>user data</em>.</p>
+
+<p> [-] utility, de-anonymize</p></li>
+<li><p>differential privacy. add noise to <em>answer of queries</em>.</p>
+
+<p> [-] scale, churn tolerance, malicious client</p></li>
+</ol>
+
+
+<h2>3. Solution </h2>
+
+<p>PDDP: Practical Distributed Differential Privacy.</p>
+
+<!--more-->
+
+
+<ul>
+<li>Binary answer in bucket. The query result should not be distorted by the client arbitrarily.</li>
+<li>Blind noise addition. The Malicious should not be trusted. Private data are controlled by its user only.</li>
+</ul>
+
+
+<h3>3.1 Assumption</h3>
+
+<p>Clients and analysts are potentially malicious. Proxy is HbC (honest but curious) and should not have access to noise-free result.</p>
+
+<h3>3.2 Work Flow</h3>
+
+<ol>
+<li><p>Query Initialization(Analyst -> Proxy)</p></li>
+<li><p>Query Forwarding (Proxy -> Client)</p></li>
+<li><p>Client Respond (Client -> Proxy)</p>
+
+<p>answers are encrypted with the analyst&#8217;s public key.</p></li>
+<li><p>Differential Private Noise Addition.</p>
+
+<p>collaborative coin generation with a GM cryptosystem. Unbiased proxy flip encrypted coins from clients randomly and thus transform them into unbiased ones. Coins serve as DP noises.</p></li>
+<li><p>Noisy Answers to Analyst ( Proxy -> Analyst)</p></li>
+</ol>
+
+
+<h3>3.3 Implementation and Deployment</h3>
+
+<p>600+ Client = Firefox add-on + SQLite</p>
+
+<p>Proxy = Tomcat web service + MySQL</p>
+
+<p>Analyst = Java program</p>
+
+<h1>4. Conclusion</h1>
+
+<p>The authors achieve scalable, churn-tolerant user privacy against malicious analyst and clients by</p>
+
+<ol>
+<li>making a trade off between utility and privacy. (differential privacy)</li>
+<li>introduce distributed system to traditionally centralized differential privacy environment. (distributed)</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Three Papers Review about Deterministic Parallelism]]></title>
+    <link href="http://puncsky.github.com/blog/2012/11/20/three-papers-review-about-deterministic-parallelism/"/>
+    <updated>2012-11-20T16:10:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2012/11/20/three-papers-review-about-deterministic-parallelism</id>
+    <content type="html"><![CDATA[<p><a href="http://dedis.cs.yale.edu/2010/det/">Yale Dedis</a></p>
+
+<h3>1. Efficient System-Enforced Deterministic Parallelism (OSDI’10)</h3>
+
+<p>Parallelism introduces 1) non-determinism and 2) data races (heisenbugs). Determinism means that a given input always produces the same output. In other words, input alone determines the output, regardless of extrinsic events such as the OS’s thread scheduling.</p>
+
+<p>To achieve determinism,<!--more--> Determinator, an OS offering a programming model that is naturally and pervasively deterministic, is introduced. Its private workspace model solves data races in the first place, and the model is deterministic at all levels of abstraction. Like a version control system, this model gives a thread a private replica of all the state and the thread operate within its private state but could not interact directly with other threads until reconcile. At this time, write-write races become conflicts and determinator would throw an exception when main thread joins them.</p>
+
+<p>In terms of implementation, determinator takes an arbitrarily deep hierarchy of spaces, consisting of CPU register state and private virtual memory. The space is like a single-threaded process but different from the concepts of process and thread. Interaction is allowed only for the space’s parent and child spaces via put, get and return three system calls. It could be applied to multiprocessor/multicore system and also multiple nodes in a homogeneous cluster. In high level abstractions, it emulates traditional fork/exec/wait APIs, and shared state abstractions with no physical state sharing, which involves Distributed Shared Memory techniques. Its runtime maintains a complete file system replica in the address space of each process, with the copy-on-write mechanism. The runtime treats I/O as a special case of file system synchronization for the reason of space hierarchy.</p>
+
+<p>Determinator is written in C with small assembly fragments. PIOS is a subset of it, and the former is partly derived from MIT’s JOS.</p>
+
+<p>Since determinator is a primitive proof-of-concepts prototype, it inevitably has some limitations:</p>
+
+<ol>
+<li>A restrictive space hierarchy -> a performance bottleneck for I/O-bound applications     AND no support for non-hierarchical synchronization, queue, future</li>
+<li>Limited address space -> limited file system size</li>
+<li>No focus on file system -> no persistent storage</li>
+<li>Inefficient cross-node communication: no prefetching or other optimization, Eternet only.</li>
+</ol>
+
+
+<h3>2. Workspace Consistency: A Programming Model for Shared Memory Parallelism (WoDet ‘11)</h3>
+
+<p>To address the 1st limitation, Workspace Consistency: A Programming Model for Shared Memory Parallelism extends WC from OSDI’10 version of hierarchical structure to a more generalized non-hierarchical structure. It supports non-hierarchical synchronization patterns (dynamic producer/consumer graphs and inter-thread queues), besides hierarchical synchronization patterns such as fork/join and barrier. WC highlights matched release/acquire pairs, adding three constrains to Release Consistency (RC):</p>
+
+<ol>
+<li>Release/acquire pair is unique.</li>
+<li>One thread’s writes is not visible to another thread’s read until sync.</li>
+<li>Data races are handled by throwing a runtime exception or other deterministic ways.</li>
+</ol>
+
+
+<p>Two prototypes: one on Linux, one on Determinator, both supporting only hierarchical synchronization patterns.</p>
+
+<p>This generalized WC extends Determinator’s virtual memory system to support a Single Producer Multiple Consumer (SPMC) shared memory primitive – SPMC channels. The implementation adds 2 optional arguments to existing Put/Get system calls. Determinator maps the virtual memory ranges of the producer and all consumers to the same physical memory. Consumer would be blocked until the producer fixes the page.It is suitable for applications demanding pipeline parallelism or &#8220;all-to-all&#8221; communication.</p>
+
+<p>Full WC model atop SPMC extension is not yet implemented.</p>
+
+<h3>3. Deterministic OpenMP for Race-Free Parallelism (HotPar ‘11)</h3>
+
+<p>DOMP is a variant of OMP based on the WC model. It keeps parallel, loop, sections, barrier, excludes atomic, critical, flush, generalizes reduction as reduction (function : list), and extends the sections with pipeline clause.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Quincy: Fair Scheduling for Distributed Computing Clusters (SOSP '09)]]></title>
+    <link href="http://puncsky.github.com/blog/2012/11/20/quincy-fair-scheduling-for-distributed-computing-clusters-sosp-09/"/>
+    <updated>2012-11-20T16:08:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2012/11/20/quincy-fair-scheduling-for-distributed-computing-clusters-sosp-09</id>
+    <content type="html"><![CDATA[<p><a href="http://research.microsoft.com/en-us/people/misard/">Microsoft</a>, <a href="http://www.sigops.org/sosp/sosp09/papers/isard-sosp09.pdf">paper</a>, <a href="http://www.sigops.org/sosp/sosp09/videos/19_michael_isard.mov">video</a>, <a href="http://www.sigops.org/sosp/sosp09/slides/quincy/QuincyTestPage.html">slides</a></p>
+
+<h2>1. Problem</h2>
+
+<p>How to achieve fair scheduling? In other words, a guy who gets up early and performs huge tasks on a cluster should not always monopolize most computing resource, and someone else&#8217;s assignments should not be ignored. Otherwise, it is unfair for all the cluster users.</p>
+
+<p><strong>Fair sharing</strong> of the cluster resources</p>
+
+<p>Job x takes <em>t</em> seconds, when running exclusively on the cluster. When the cluster has <em>J</em> jobs, x should take &lt;= <em>Jt</em> seconds.</p>
+
+<p><em>N</em> computers and <em>J</em> jobs: each job gets at least N/J computers.</p>
+
+<h2>2. Challenges</h2>
+
+<p>Traditionally,</p>
+
+<!--more-->
+
+
+<p>MPI Model, tasks are in a pipeline and then assigned to a part of cluster.</p>
+
+<ul>
+<li>If one node is down, all the processes should be killed and the user have to start at a new checkpoint.</li>
+<li>Coarse grain allocation. Allocation is static.</li>
+<li>Off cluster data strage, e.g. SAN</li>
+</ul>
+
+
+<p>Dryad MapReduce Model</p>
+
+<ul>
+<li>No communication between slaves.</li>
+<li>No fine grain sharing for resource competence. Many Idle nodes.</li>
+</ul>
+
+
+<p><strong>Fine-grain sharing model</strong></p>
+
+<ul>
+<li>Multiplex all computers in cluster between jobs.</li>
+<li>When a task completes, computer may be assigned to another job.</li>
+<li>Jobs uses <em>N/J</em> computers at a time but set in use varies over lifetime.</li>
+</ul>
+
+
+<h2>3. Solution</h2>
+
+<p>The solution is intended for data-intensive computing with locality. There is no SAN. However, data locality conflicts with fairness. So they present Quincy: a new, graph-based framework for cluster scheduling under a fine grain cluster resource-sharing model with locality constrains. 2 basic ideas:</p>
+
+<ol>
+<li>sub-optimal assignment of a job&#8217;s tasks.</li>
+<li>kill running tasks to free resources</li>
+</ol>
+
+
+<h3>3.1 Queue-based Scheduling</h3>
+
+<p>Architecture: A core switch (CS) manages rack switches (RC). A rack switch (RC) manages computers (C). For example, C1, C2 and C3 in a rack have their own queues, and share a same rack queue. R1 R2 managed by the same core switch have their own queues above, and share a same core queue. Every time a task X is finished, X will be deleted from all the queues, no matter what hierarchy it is in.</p>
+
+<p>So how to get fairness?</p>
+
+<h3>3.2 Flow-based Scheduling</h3>
+
+<p>Simplify a scheduling problem to a matching problem.</p>
+
+<ul>
+<li>each task is either scheduled or unscheduled.</li>
+<li>can assign a cost to any matching</li>
+<li>fairness constrains number of tasks that are scheduled</li>
+</ul>
+
+
+<p>How to minimize matching cost while still maintaining fairness?</p>
+
+<p>Min-cost network flow.</p>
+
+<p>There are U (unscheduled nodes), X (cluster aggregator nodes), R (rack aggregator nodes), C (computing nodes). In addition to queue-based scheduling, the edges connecting tasks to these nodes have weights showing the cost of the matching. The capacities on the outgoing edge of job <em>j</em>&#8217;s unscheduled node <em>Uj</em> control the number of running tasks that the job will be allocated.</p>
+
+<h2>4. Conclusion</h2>
+
+<p>The authors advance a new fair schedule modeling for Dryad/MapReduce/Hadoop by min-cost network flow, achieving much better performance and effectiveness than traditional ways.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[春天在哪里呀春天在哪里？]]></title>
@@ -22,7 +419,10 @@
 
 <p>第一次见到阿米(Amittai F. Aviram)大叔就被彻底震撼到了，你简直就无法相信眼前这位爷爷辈的大叔居然是计算机系的博士！OSDI&#8217;10（计算机系统界顶级会议）最佳论文的第一作者！要知道，人人生而平等，会议生而不等，同是顶级会议，论文被OSDI录用就比VLDB、WWW、NSDI等等这些难得不是一点两点；而且系统领域的论文不是推个数学公式，做个小实验验证一下就可以过关，而是需要老老实实动手实现整个复杂的设计的。而这位谈吐之间无时无刻不环绕着功成身退气息的大叔，此刻正在向比他小个几十岁的教授们作毕业答辩！机缘巧合的是，不久之后，当我想看看如何实现一个简单的数据库的时候，满心欢喜地查到一个B+树的C语言实现，左上角竟然也是赫然打着阿米大叔的大名！</p>
 
-<p>大叔啊，您都一大把年纪了，上能发好论文，下能写好代码，让我们这群自诩码农的后生们情何以堪？元芳，你怎么看？此事必有蹊跷！于是怀着复杂的心情，我点开了大叔的履历。其实，大叔在三十年前就已经成为了南卡大学(University of South Carolina)的教授，后来是拿到了终身教职的。不知道为什么对计算机产生了浓厚的兴趣，04年去哥大读计算机专业的本科，后来一发不可收拾，经过八年的锤炼，几个月前在耶鲁博士毕业。现在在MathWorks任高级软件工程师……</p>
+<p>大叔啊，您都一大把年纪了，上能发好论文，下能写好代码，让我们这群自诩码农的后生们情何以堪？元芳，你怎么看？此事必有蹊跷！于是怀着复杂的心情，我点开了大叔的履历。其实，大叔在三十年前就已经成为了南卡大学(University of South Carolina)的英语文学教授，酷爱写诗，是拿到了终身教职的。后来，不知为何对计算机产生了浓厚的兴趣，04年去哥大读计算机专业的本科，后来一发不可收拾，经过八年的锤炼，几个月前在耶鲁博士毕业。现在在MathWorks任高级软件工程师……</p>
+
+<!--more-->
+
 
 <h3>二 狂奔</h3>
 
@@ -105,6 +505,9 @@
 <li>Appliance abstraction: a closed, monolithic system. (manageability)</li>
 <li>Decentralized network-of-devices: bad portability. (extensibility: both software and hardware)</li>
 </ul>
+
+
+<!--more-->
 
 
 <h3>3. Solution</h3>
@@ -199,13 +602,21 @@
     <link href="http://puncsky.github.com/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10/"/>
     <updated>2012-11-16T15:56:00-05:00</updated>
     <id>http://puncsky.github.com/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10</id>
-    <content type="html"><![CDATA[<p><a href="http://www.eecs.berkeley.edu/~lmeyerov/">UCB</a>, <a href="http://www.eecs.berkeley.edu/~lmeyerov/projects/pbrowser/pubfiles/playout.pdf">paper</a></p>
+    <content type="html"><![CDATA[<iframe src="http://www.slideshare.net/slideshow/embed_code/15270792" width="427" height="356" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen webkitallowfullscreen mozallowfullscreen> </iframe>
+
+
+<p></p>
+
+<p><a href="http://www.eecs.berkeley.edu/~lmeyerov/">UCB</a>, <a href="http://www.eecs.berkeley.edu/~lmeyerov/projects/pbrowser/pubfiles/playout.pdf">paper</a></p>
 
 <h2>1. Problem</h2>
 
 <p>The browsing of webpages is slow on smartphones for their limited CPU computational resources. The <em>power wall</em> forces hardware architects to apply increases in transistor counts towards improving parallel performance, not sequential performance. So the authors introduce the <strong>parallel</strong> mobile browser.</p>
 
 <h2>2. Challenges</h2>
+
+<!--more-->
+
 
 <p>In the analysis,  three core limitations of the rendering speed are:</p>
 

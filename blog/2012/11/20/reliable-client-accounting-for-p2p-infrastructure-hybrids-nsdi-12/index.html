@@ -1,0 +1,264 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Reliable Client Accounting for P2P-Infrastructure Hybrids (NSDI '12) - CS Notebook</title>
+  <meta name="author" content="Tian">
+
+  
+  <meta name="description" content="MPI-SWS, UPenn, Duke, Akamai, paper, slides, video 1. Problems Hybrid (Servers with assisting peers) designs in CDNs -> malicious clients can cause &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://puncsky.github.com/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="CS Notebook" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">CS Notebook</a></h1>
+  
+    <h2>Just a notebook about life and computer</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:puncsky.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Reliable Client Accounting for P2P-Infrastructure Hybrids (NSDI '12)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-20T16:16:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="http://www.mpi-sws.org/~paditya/">MPI-SWS</a>, UPenn, Duke, Akamai, <a href="http://www.mpi-sws.org/~paditya/papers/rca-nsdi2012.pdf">paper</a>, <a href="https://www.usenix.org/sites/default/files/conference/protected-files/nsdi12_reliable_client_accounting_for_p2p-infrastructure_hybrids.pdf">slides</a>, <a href="https://www.usenix.org/conference/nsdi12/reliable-client-accounting-hybrid-content-distribution-networks">video</a></p>
+
+<h2>1. Problems</h2>
+
+<p>Hybrid (Servers with assisting peers) designs in CDNs -> malicious clients can cause significant accounting inaccuracies.</p>
+
+<h2>2. Challenges</h2>
+
+<p>Infrastructure can not control P2P communications by malicious clients (peers). Even if infrastructure provides signed metadata and fallback (so content can not be mishandled by peers), there are still:</p>
+
+<ul>
+<li>Affect service quality</li>
+<li>Misreport P2P transfers</li>
+</ul>
+
+
+<p>For example, inflation attack occurred for a fake download report.</p>
+
+<h2>3. Solutions</h2>
+
+<p>Reliable Client Accounting (RCA)</p>
+
+<!--more-->
+
+
+<p>Clients keep logs of network activity and upload them to the infrastructure periodically. The infrastructure collects logs, verifies them, and isolate suspicious nodes.</p>
+
+<h3>1. Record client activities reliably</h3>
+
+<p>Tamper evident logging: log recording sending/receiving history forms hash chains. Every massages contains a signature (authenticator) from its sender (O(# of messages)). -> Later, RCA only records authenticators for clients (O(# of pairs)).</p>
+
+<h3>2. Identify misbehaving/suspicious clients</h3>
+
+<p>By accounting the logs, infrastructure can find clients unilaterally claim fake downloads.</p>
+
+<p>As to malicious client software:</p>
+
+<p>What if bad clients do not follow the above steps (e.g. do not keep logs and serve bad content)? Simplify NetSession protocol to a state machine. Rules are manually set to identify bad logs not following the them.</p>
+
+<p>What if many clients collude to cheat? It is difficult in practice (infrastructure assigns peers), but can still be found by statistical checks.</p>
+
+<p>As to malicious users:</p>
+
+<p>What if a user repeatedly downloading content to drive up demand? (can be amplified by Sybil attack) Statistical checks, too.</p>
+
+<h3>3. Handle misbehavior without affecting service quality</h3>
+
+<p>Blacklist and quarantine bad clients.</p>
+
+<h2>4. Conclusions</h2>
+
+<p>Since infrastructure cannot observe P2P communication, accounting is vulnerable to malicious clients (peers) in a hybrid design of CDN, e.g. inflation attacks. So the authors advance RCA to 1) keep tamper-evident logs and set rules for fixed state machines 2) perform statistical analysis on collected logs. Malicious clients can be detected and isolated effectively by RCA. The evaluation with real world Akamai NetSession shows that overhead is reasonable &lt;= 0.5%.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Tian</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-20T16:16:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12/" data-via="" data-counturl="http://puncsky.github.com/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/11/20/towards-statistical-queries-over-distributed-private-user-data-nsdi-12/" title="Previous Post: Towards Statistical Queries over Distributed Private User Data (NSDI '12)">&laquo; Towards Statistical Queries over Distributed Private User Data (NSDI '12)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/" title="Next Post: HadoopDB: an architectural hybrid of MapReduce and DBMS technologies for analytical workloads (VLDB '09)">HadoopDB: an architectural hybrid of MapReduce and DBMS technologies for analytical workloads (VLDB '09) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/">HadoopDB: an architectural hybrid of MapReduce and DBMS technologies for analytical workloads (VLDB '09)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12/">Reliable Client Accounting for P2P-Infrastructure Hybrids (NSDI '12)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/20/towards-statistical-queries-over-distributed-private-user-data-nsdi-12/">Towards Statistical Queries over Distributed Private User Data (NSDI '12)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/20/three-papers-review-about-deterministic-parallelism/">Three Papers Review about Deterministic Parallelism</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/20/quincy-fair-scheduling-for-distributed-computing-clusters-sosp-09/">Quincy: Fair Scheduling for Distributed Computing Clusters (SOSP '09)</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Tian -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

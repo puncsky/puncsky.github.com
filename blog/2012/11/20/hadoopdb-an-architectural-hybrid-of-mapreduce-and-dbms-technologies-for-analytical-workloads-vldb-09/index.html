@@ -1,0 +1,323 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>HadoopDB: an architectural hybrid of MapReduce and DBMS technologies for analytical workloads (VLDB '09) - CS Notebook</title>
+  <meta name="author" content="Tian">
+
+  
+  <meta name="description" content="Yale DB 1. Problem Large analytical data management (OLAP) with commodity clusters 2. Challenges Performance and efficiency hadoop is not for &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://puncsky.github.com/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="CS Notebook" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">CS Notebook</a></h1>
+  
+    <h2>Just a notebook about life and computer</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:puncsky.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">HadoopDB: An Architectural Hybrid of MapReduce and DBMS Technologies for Analytical Workloads (VLDB '09)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-20T16:20:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="http://db.cs.yale.edu/hadoopdb/">Yale DB</a></p>
+
+<h3>1. Problem</h3>
+
+<p>Large analytical data management (OLAP) with commodity clusters</p>
+
+<h3>2. Challenges</h3>
+
+<ul>
+<li>Performance and efficiency
+
+<ul>
+<li>hadoop
+
+<ul>
+<li>is not for structured data analysis</li>
+<li>scale well</li>
+<li>open source, without cost</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>scalability, fault-tolerance, and flexibility
+
+<ul>
+<li>Previous parallel db fit into tens of nodes, not thousand of nodes.</li>
+<li>not scale well for failures, heterogeneous machines, performance untested</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>3. Solutions</h3>
+
+<ul>
+<li>MapReduce (Hadoop) + parallel db (or single-node DBs) = HadoopDB<!--more-->
+
+<ul>
+<li>Translation layer: Hive</li>
+<li>Communication layer: Hadoop</li>
+<li>Database layer: PostgreSQL (or MySQL, &#8230; JDBC)</li>
+</ul>
+</li>
+<li><p>Components</p>
+
+<ol>
+<li>Database Connector
+
+<ul>
+<li>Interface among dbs on nodes</li>
+<li>extends InputFormat class -> InputFormat Implementation lib</li>
+<li>JDBC-complaint</li>
+</ul>
+</li>
+<li>Catalog
+
+<ul>
+<li>metainformation as XML = connection para + metadata</li>
+</ul>
+</li>
+<li>Data Loader
+
+<ul>
+<li>Global Hasher: MR, repartition raw data from HDFS to NO. of nodes</li>
+<li>Local Hasher: copy from HDFS, repartition the partition into chunks</li>
+<li>Better load balance than Hadoop</li>
+</ul>
+</li>
+<li>SQL - MR - SQL (SMS) Planner
+
+<ul>
+<li>extend Hive for</li>
+<li>open and low cost</li>
+<li>each table stored separately in HDFS, low performance in multi-table trans.
+intercept normal Hive flow in</li>
+<li>update MetaStore before query execution</li>
+<li>between query plan generation and MR jobs
+retrieve fields, determine partition keys</li>
+</ul>
+
+
+<p>   traverse DAG bottom-up</p>
+
+<p> only support filter, select, aggregation</p></li>
+</ol>
+</li>
+<li><p>Extend performance [23] with fault tolerance and heterogeneous node exp</p>
+
+<p>  TODO: modify the current task scheduler, connect not straggler node but the replicas.</p>
+
+<p>  Exp on EC2, Hadoop, HadoopDB, Vertica, DBMS-X</p></li>
+</ul>
+
+
+<h3>4. Conclusion</h3>
+
+<ul>
+<li>HadoopDB&#8217;s performance &lt; parallel db for
+
+<ul>
+<li>PostgreSQL (not column-store, not compression)</li>
+<li>Hadoop and Hive are young</li>
+</ul>
+</li>
+<li>performance, heterogeneous environ., fault tolerance, flexibility</li>
+</ul>
+
+
+<h3>Related Readings</h3>
+
+<p>[23] A Comparison of Approaches to Large Scale Data Analysis</p>
+
+<p>[6] Scope [11] Hive [24] C-store [4] What is the right way to measure scale?</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Tian</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-20T16:20:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/" data-via="" data-counturl="http://puncsky.github.com/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12/" title="Previous Post: Reliable Client Accounting for P2P-Infrastructure Hybrids (NSDI '12)">&laquo; Reliable Client Accounting for P2P-Infrastructure Hybrids (NSDI '12)</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/">HadoopDB: an architectural hybrid of MapReduce and DBMS technologies for analytical workloads (VLDB '09)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12/">Reliable Client Accounting for P2P-Infrastructure Hybrids (NSDI '12)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/20/towards-statistical-queries-over-distributed-private-user-data-nsdi-12/">Towards Statistical Queries over Distributed Private User Data (NSDI '12)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/20/three-papers-review-about-deterministic-parallelism/">Three Papers Review about Deterministic Parallelism</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/20/quincy-fair-scheduling-for-distributed-computing-clusters-sosp-09/">Quincy: Fair Scheduling for Distributed Computing Clusters (SOSP '09)</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Tian -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

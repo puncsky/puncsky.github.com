@@ -9,7 +9,7 @@
   <meta name="author" content="Tian">
 
   
-  <meta name="description" content="一 大叔 第一次见到阿米(Amittai F. Aviram)大叔就被彻底震撼到了，你简直就无法相信眼前这位爷爷辈的大叔居然是计算机系的博士！OSDI&#8217;10（计算机系统界顶级会议）最佳论文的第一作者！要知道，人人生而平等，会议生而不等，同是顶级会议，论文被OSDI录用就比VLDB、 &hellip;">
+  <meta name="description" content="Yale DB 1. Problem Large analytical data management (OLAP) with commodity clusters 2. Challenges Performance and efficiency hadoop is not for &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -70,6 +70,304 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/">HadoopDB: An Architectural Hybrid of MapReduce and DBMS Technologies for Analytical Workloads (VLDB &#8216;09)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-20T16:20:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://db.cs.yale.edu/hadoopdb/">Yale DB</a></p>
+
+<h3>1. Problem</h3>
+
+<p>Large analytical data management (OLAP) with commodity clusters</p>
+
+<h3>2. Challenges</h3>
+
+<ul>
+<li>Performance and efficiency
+
+<ul>
+<li>hadoop
+
+<ul>
+<li>is not for structured data analysis</li>
+<li>scale well</li>
+<li>open source, without cost</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>scalability, fault-tolerance, and flexibility
+
+<ul>
+<li>Previous parallel db fit into tens of nodes, not thousand of nodes.</li>
+<li>not scale well for failures, heterogeneous machines, performance untested</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>3. Solutions</h3>
+
+<ul>
+<li>MapReduce (Hadoop) + parallel db (or single-node DBs) = HadoopDB</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12/">Reliable Client Accounting for P2P-Infrastructure Hybrids (NSDI &#8216;12)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-20T16:16:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.mpi-sws.org/~paditya/">MPI-SWS</a>, UPenn, Duke, Akamai, <a href="http://www.mpi-sws.org/~paditya/papers/rca-nsdi2012.pdf">paper</a>, <a href="https://www.usenix.org/sites/default/files/conference/protected-files/nsdi12_reliable_client_accounting_for_p2p-infrastructure_hybrids.pdf">slides</a>, <a href="https://www.usenix.org/conference/nsdi12/reliable-client-accounting-hybrid-content-distribution-networks">video</a></p>
+
+<h2>1. Problems</h2>
+
+<p>Hybrid (Servers with assisting peers) designs in CDNs -> malicious clients can cause significant accounting inaccuracies.</p>
+
+<h2>2. Challenges</h2>
+
+<p>Infrastructure can not control P2P communications by malicious clients (peers). Even if infrastructure provides signed metadata and fallback (so content can not be mishandled by peers), there are still:</p>
+
+<ul>
+<li>Affect service quality</li>
+<li>Misreport P2P transfers</li>
+</ul>
+
+
+<p>For example, inflation attack occurred for a fake download report.</p>
+
+<h2>3. Solutions</h2>
+
+<p>Reliable Client Accounting (RCA)</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/20/towards-statistical-queries-over-distributed-private-user-data-nsdi-12/">Towards Statistical Queries Over Distributed Private User Data (NSDI &#8216;12)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-20T16:13:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>From <a href="https://sites.google.com/site/ruichuanc/">MPI-SWS, Germany</a>, <a href="https://73aab115-a-62cb3a1a-s-sites.googlegroups.com/site/ruichuanc/pddp-nsdi12.pdf?attachauth=ANoY7cqTHmW8qn2UrCjxk0u-eafRsp77w2XtpG9QdnY9nOnDKkELrYiH-RrOI2ILFnQUv6gt-oz_ek1DA8q7TptjvCEWWWpT02huRCgNYXW-bUNQwjJjM0DLN7tiJzOKD509vt1JhOZ_fHQ_rijDX5Dhh3Bx1pdZotJp7mDbCw0yrcSTYEfbXAuzkZK2zDxfRKYzZXww-dESgY9wquSilSiX3ZrPYrATOg%3D%3D&amp;attredirects=0">paper</a> and <a href="https://www.usenix.org/sites/default/files/conference/protected-files/pddp-talk-nsdi12.pdf">slides</a></p>
+
+<h2>1. Problem</h2>
+
+<p>To protect user privacy in distributed systems from leaking by statistical queries.</p>
+
+<h2>2. Challenges</h2>
+
+<p>The most direct solutions are</p>
+
+<ol>
+<li><p>to <strong>anonymize + add noise</strong> to <em>user data</em>.</p>
+
+<p> [-] utility, de-anonymize</p></li>
+<li><p>differential privacy. add noise to <em>answer of queries</em>.</p>
+
+<p> [-] scale, churn tolerance, malicious client</p></li>
+</ol>
+
+
+<h2>3. Solution </h2>
+
+<p>PDDP: Practical Distributed Differential Privacy.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/20/towards-statistical-queries-over-distributed-private-user-data-nsdi-12/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/20/three-papers-review-about-deterministic-parallelism/">Three Papers Review About Deterministic Parallelism</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-20T16:10:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://dedis.cs.yale.edu/2010/det/">Yale Dedis</a></p>
+
+<h3>1. Efficient System-Enforced Deterministic Parallelism (OSDI’10)</h3>
+
+<p>Parallelism introduces 1) non-determinism and 2) data races (heisenbugs). Determinism means that a given input always produces the same output. In other words, input alone determines the output, regardless of extrinsic events such as the OS’s thread scheduling.</p>
+
+<p>To achieve determinism,</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/20/three-papers-review-about-deterministic-parallelism/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/20/quincy-fair-scheduling-for-distributed-computing-clusters-sosp-09/">Quincy: Fair Scheduling for Distributed Computing Clusters (SOSP &#8216;09)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-20T16:08:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://research.microsoft.com/en-us/people/misard/">Microsoft</a>, <a href="http://www.sigops.org/sosp/sosp09/papers/isard-sosp09.pdf">paper</a>, <a href="http://www.sigops.org/sosp/sosp09/videos/19_michael_isard.mov">video</a>, <a href="http://www.sigops.org/sosp/sosp09/slides/quincy/QuincyTestPage.html">slides</a></p>
+
+<h2>1. Problem</h2>
+
+<p>How to achieve fair scheduling? In other words, a guy who gets up early and performs huge tasks on a cluster should not always monopolize most computing resource, and someone else&#8217;s assignments should not be ignored. Otherwise, it is unfair for all the cluster users.</p>
+
+<p><strong>Fair sharing</strong> of the cluster resources</p>
+
+<p>Job x takes <em>t</em> seconds, when running exclusively on the cluster. When the cluster has <em>J</em> jobs, x should take &lt;= <em>Jt</em> seconds.</p>
+
+<p><em>N</em> computers and <em>J</em> jobs: each job gets at least N/J computers.</p>
+
+<h2>2. Challenges</h2>
+
+<p>Traditionally,</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/20/quincy-fair-scheduling-for-distributed-computing-clusters-sosp-09/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2012/11/17/chun-tian-zai-na-li-ya-chun-tian-zai-na-li-%3F/">春天在哪里呀春天在哪里？</a></h1>
     
     
@@ -97,71 +395,14 @@
 
 <p>第一次见到阿米(Amittai F. Aviram)大叔就被彻底震撼到了，你简直就无法相信眼前这位爷爷辈的大叔居然是计算机系的博士！OSDI&#8217;10（计算机系统界顶级会议）最佳论文的第一作者！要知道，人人生而平等，会议生而不等，同是顶级会议，论文被OSDI录用就比VLDB、WWW、NSDI等等这些难得不是一点两点；而且系统领域的论文不是推个数学公式，做个小实验验证一下就可以过关，而是需要老老实实动手实现整个复杂的设计的。而这位谈吐之间无时无刻不环绕着功成身退气息的大叔，此刻正在向比他小个几十岁的教授们作毕业答辩！机缘巧合的是，不久之后，当我想看看如何实现一个简单的数据库的时候，满心欢喜地查到一个B+树的C语言实现，左上角竟然也是赫然打着阿米大叔的大名！</p>
 
-<p>大叔啊，您都一大把年纪了，上能发好论文，下能写好代码，让我们这群自诩码农的后生们情何以堪？元芳，你怎么看？此事必有蹊跷！于是怀着复杂的心情，我点开了大叔的履历。其实，大叔在三十年前就已经成为了南卡大学(University of South Carolina)的教授，后来是拿到了终身教职的。不知道为什么对计算机产生了浓厚的兴趣，04年去哥大读计算机专业的本科，后来一发不可收拾，经过八年的锤炼，几个月前在耶鲁博士毕业。现在在MathWorks任高级软件工程师……</p>
+<p>大叔啊，您都一大把年纪了，上能发好论文，下能写好代码，让我们这群自诩码农的后生们情何以堪？元芳，你怎么看？此事必有蹊跷！于是怀着复杂的心情，我点开了大叔的履历。其实，大叔在三十年前就已经成为了南卡大学(University of South Carolina)的英语文学教授，酷爱写诗，是拿到了终身教职的。后来，不知为何对计算机产生了浓厚的兴趣，04年去哥大读计算机专业的本科，后来一发不可收拾，经过八年的锤炼，几个月前在耶鲁博士毕业。现在在MathWorks任高级软件工程师……</p>
 
-<h3>二 狂奔</h3>
-
-<p>我在这一年多以来一直没有把一件事情做好的快感，内心里念想太大，脑子里干货太少，拼命狂奔，累到趴下，然后再狂奔。我觉得很可能很多人会像我一样，对新的人生阶段有这种后知后觉的不适应。大四之后也没有“课程”这种规定“几点到几点必须在什么地方和那些人一起干什么事情”的固定的安排，身边也没有人管你是死是活，于是作息变得不规律起来：你可以心血来潮时持续工作到凌晨五六点，也可以一觉睡到下午两三点；你可以早上五点起床，一天吃六餐，跑很多步，读很多书，见很多人，你也可以26小时不起床，一整天不吃东西……</p>
-
-<p>楠哥曾经表示过，身为一位计算机科学专业的博士，早就历练出了可以在一天之中任意时间任意睡着和醒着的本能。这位敬职的助教在学术上不辞劳苦日夜兼程，经常的情况是，我凌晨一两点给他发邮件，他凌晨三四点给我回复，甚至有一次我下午去他办公室，他不在，另一位博士说，他回去睡觉了……教授和博士后们似乎就更是这样了。我不止一次在凌晨4点左右收到不同教授发来的邮件。</p>
-
-<p>同时，各色论坛、微博、人人上，同学们都似乎很享受“最近很辛苦，每天凌晨几点睡”这样的言论！各种主流媒体也似乎非常欣赏“每天只睡三四个小时”这种埋头苦干拼命硬干日夜不辍的革命情怀……</p>
-
-<p>饶了我吧，对我来说，这不科学。我要把不规律的生活规律列为我这辈子最大的敌人。</p>
-
-<h3>三 趣味</h3>
-
-<p>另一件没有快感的事情是贫乏的趣味。本来我们这群神经病(Geek)就是拉低整条街趣味性平均水平的罪魁祸首，更何况背井离乡只身在外？现在愈发地赞同，所谓向往向往，心之所向的是过往的美好：最美妙的早餐当然是湖北的热干面，最温馨的香味当然是妈妈用的百雀羚，最得意的事情当然是小学的时候就想研习的码术，潜伏在深深的黑夜里欲罢不能的欲望当然还是那火锅、卤味、穆斯林的烤串、渔村的烤鱼、桃李二的麻辣烫……最最让我不敢相信的是，我居然还梦到了国关食堂打的饭菜！这梦也太没有节操了。</p>
-
-<p>突然之间，对我而言，黑樱桃汽水不是饮料，而是塑料，楼下无小黑，商店无零食，晚睡无宵夜，早起无早餐，举目无亲人，校园无美女。哦？对不起，我真心不好异国风情这一口！</p>
-
-<p>我问同学海神，你看人家“还能害得你好(Helen Hadley Hall 研究生公寓的谐音，大部分中国研究生都居住于此)”又成全了一对鸳鸯，少年你作为我们大HGS(Hall of Graduate Studies研究生宿舍)的杰出华人代表，还不赶紧加了个油？为我们HGS华人同胞们争光？</p>
-
-<p>海神淡定地表示，工作都没找到，哪来时间考虑这些？</p>
-
-<p>哪来时间考虑这些？</p>
-
-<p>我被戳到了痛处。突然之间，“有所成就”和”有趣”突然在我心目中成为了一对矛盾的存在。一方面，我的心目中浮现这样一个画面：</p>
-
-<blockquote><p>弟子毕恭毕敬地问大师：请问将此绝技修炼到炉火纯青需要多少时日？</p>
-
-<p>大师：七年</p>
-
-<p>弟子一惊：若每日勤加修炼，不分昼夜，不问世事，需要多久？</p>
-
-<p>大师：十年</p></blockquote>
-
-<p>程代展教授数日前发表博客称“<a href="http://blog.sciencenet.cn/blog-660333-632151.html">昨夜无眠</a>”，因为一位在他看来在学术上前程极其远大的学生，突然不再跟他继续科研，转而去做中学老师，而且居然还已经考过了会计师。这篇博客在网上掀起了讨论的狂潮，有一种观点认为，程教授是一位好的伯乐，可是伯乐骑到了千里马上，把千里马压得太紧了，以至于科研的过程太苦、太累、太没有意思。</p>
-
-<p>可是另一方面，在一个社会分工高度细化的时代，没有长时间、高强度的训练是无法<a href="http://www.geekonomics10000.com/519">练习一万小时成就天才</a>的。</p>
-
-<p>我要有趣地刻苦，哪怕慢一点，也不要刻苦到无趣。无论是谁在哪里生活，他的生活都有着自己的节奏，就像跑步的时候，每个运动员都有自己的步调，人生很长，毕竟有限，太快终会慢下、太慢不可致远。我们要做的是在合适的时机跑合适的速度，找到自己生命的节拍，只有跑得合拍，才能跑得长久，跑得悠远。</p>
-
-<h3>四 春天在哪里？</h3>
-
-<p>小乘佛法里认为，我执（无明, ignorance）是一切痛苦的根源。但我也很同意无知即是力量(ignorance is power)，这种认知既来源于阿甘正传里面的那种执着，也来自“宁肯大陆不长草，也要收复什么岛”的那种执着。</p>
-
-<p>我不知对错。</p>
-
-<p>孔子可以不饮盗泉之水，盗跖也可以骂孔丘“矫言伪行，以迷惑天下之主，而欲求富贵焉。盗莫大于子，天下何故不谓子为盗丘，而乃谓我为盗跖？”</p>
-
-<p>我不知对错。</p>
-
-<blockquote><p>大流士王召集了一批希腊人到宫廷上，问他们，什么代价可以使他们愿意去吃自己父亲的遗体；希腊人说，不可能，没有任何代价能让他们去做出如此可怕的勾当。同时，殿前有一批印度人，这个部落的印度人是以吃父辈遗体为风俗的。大流士问他们，什么代价可以使他们愿意将父亲的遗体火化（希腊人火化遗体）。印度人大惊失色：不可能，没有任何代价能让他们去做出如此可怕的勾当，想都别想。”希罗多德的评语：“这个世界就是这么回事。”</p></blockquote>
-
-<p>我不知对错。</p>
-
-<p>或者说，世上本无对错，只有选择，大多数人选择正确的，就是对，大多数人选择错误的，就是错。可是，如果真理是不言自明的，那还需要著书立说这种多余的行为干什么呢？</p>
-
-<p>既然都没有了对错，那一切似乎都可以随意，在这随意的、未知的世界，未来在哪里呢？</p>
-
-<blockquote><p>春天在哪里呀春天在哪里？</p>
-
-<p>春天在那青翠的山林里</p>
-
-<p>春天在那小朋友的眼睛里</p></blockquote>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/17/chun-tian-zai-na-li-ya-chun-tian-zai-na-li-%3F/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -209,92 +450,12 @@
 </ul>
 
 
-<h3>3. Solution</h3>
-
-<p>HomeOS: a PC-like abstraction for network devices</p>
-
-<h4>3.1 Overview</h4>
-
-<table>
-    <tr>
-        <td>Application layer</td><td>Tasks</td>
-    </tr>
-    <tr>
-        <td>Management layer</td><td>Control</td>
-    </tr>
-    <tr>
-        <td>Device functionality layer (DFL)</td><td>Device</td>
-    </tr>
-    <tr>
-        <td>Device connectivity layer (DCL)</td><td>Topological</td>
-    </tr>
-    <tr>
-        <td>PCs, XBox, Smartphones, TVs, &#8230;</td><td>Heterogeneity source handled</td>
-    </tr>
-</table>
-
-
-<h4>3.2 Application Layer</h4>
-
-<p>Environment for develop-written codes. An application should have a manifest {rules} to specify what devices it needs.</p>
-
-<h4>3.3 Management Layer</h4>
-
-<ol>
-<li><p>Application manager with access control</p>
-
-<ul>
-<li>Time-based access control.</li>
-<li>Applications as security principals</li>
-<li>Settings should be querable</li>
-<li>Sensitive devices need extra attention</li>
-</ul>
-</li>
-<li><p>Mediate conflicting accesses</p>
-
-<ul>
-<li>Datalog access control rules: (r, g, m, Ts, Te, d, pri, a): Resource r can be accessed by users in group g, using module m, in the time window from Ts to Te, on day of the week d, with priority pri and access mode a.</li>
-<li>Simplicity. User account works within a given time. Groups are in a tree hierarchy.</li>
-</ul>
-</li>
-</ol>
-
-
-<h4>3.4 Device Functionality Layer</h4>
-
-<p>Provide APIs for higher layers by using handles.</p>
-
-<p>Service interfaces = roles{operations()} (&#8220;lightswitch&#8221; role = turnOn()+turnOff())</p>
-
-<ul>
-<li>A new device can either use an existing role or register new roles</li>
-<li>OS is agnostic to the services</li>
-</ul>
-
-
-<h4>3.5 Device Connectivity Layer</h4>
-
-<p>Provide handles for higher layers.</p>
-
-<ul>
-<li>No understanding of device semantics</li>
-<li>A uniform interaction with different kinds of devices</li>
-</ul>
-
-
-<h4>3.6 Implementation and Evaluation</h4>
-
-<p>C#</p>
-
-<p>Developer: &#8220;music follows the lights&#8221;/&#8221;custom lights per user&#8221;. 8/10 of them finished in 2h</p>
-
-<p>User: 77% completion rate</p>
-
-<h3>4. Conclusion</h3>
-
-<p>Bad abstractions in &#8220;smart home&#8221; result in high overhead of managing and extending network devices, which are in increasing number and mostly not compatible with each other. Traditionally, appliance abstraction provides a huge system with no potential for customization and extension. Meanwhile, decentralized network-of-devices provide little portability. So the authors present a new abstraction &#8211; HomeOS, a PC-like abstraction for network devices. The new abstraction architecture consists of four layers. Lower layers interact with heterogenous devices and protocols. Upper layers simplify development and use of applications. HomeOS is implemented with C# and its experience shows a satisfying manageability and extensibility.</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/16/homeos-an-operating-system-for-the-home-nsdi-12/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -328,7 +489,12 @@
   </header>
 
 
-  <div class="entry-content"><p><a href="http://www.eecs.berkeley.edu/~lmeyerov/">UCB</a>, <a href="http://www.eecs.berkeley.edu/~lmeyerov/projects/pbrowser/pubfiles/playout.pdf">paper</a></p>
+  <div class="entry-content"><iframe src="http://www.slideshare.net/slideshow/embed_code/15270792" width="427" height="356" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen webkitallowfullscreen mozallowfullscreen> </iframe>
+
+
+<p></p>
+
+<p><a href="http://www.eecs.berkeley.edu/~lmeyerov/">UCB</a>, <a href="http://www.eecs.berkeley.edu/~lmeyerov/projects/pbrowser/pubfiles/playout.pdf">paper</a></p>
 
 <h2>1. Problem</h2>
 
@@ -336,145 +502,12 @@
 
 <h2>2. Challenges</h2>
 
-<p>In the analysis,  three core limitations of the rendering speed are:</p>
-
-<ol>
-<li>CSS selector matching</li>
-<li>Box and text layout</li>
-<li>Glyph rendering</li>
-</ol>
-
-
-<h2>3. Solution</h2>
-
-<p>Overall Input and Output</p>
-
-<ul>
-<li>Input: an HTML tree of content, CSS style rules, font files.</li>
-<li>Output: absolute element positions.</li>
-</ul>
-
-
-<h3>3.1 Algo1: CSS Selector Matching</h3>
-
-<p><em>Rule matcher</em> associates CSS rule set with HTML node tree.</p>
-
-<p>Two assumptions:</p>
-
-<ol>
-<li>In general, selector language is an exact subset of regular expression.</li>
-<li>Disjunctions are split into separate selectors</li>
-</ol>
-
-
-<p>Algorithm paraphrase:</p>
-
-<ol>
-<li>sequentially read rules and correspondingly build hash maps</li>
-<li>parallelly <strong>map</strong> nodes to different kinds of rules</li>
-<li>parallelly <strong>reduce</strong> several rules to each node</li>
-</ol>
-
-
-<p>Optimizations from WebKit:</p>
-
-<ol>
-<li>Hashtables. [×] check CSS for every node [√] read once, build hashmap, and check hash</li>
-<li>Right-to-left matching.</li>
-</ol>
-
-
-<p>New Optimization:</p>
-
-<ol>
-<li>Redundant selector elimination.</li>
-<li>Hash Tiling. partition the hashtable. reduce cache misses.</li>
-<li>Tokenization. store attributes as int instead of string to save cache.</li>
-<li>Parallel document traversal.</li>
-<li>Random load balancing. If in sequence, neighboring nodes will cause load imbalance.</li>
-<li>Result pre-allocation.</li>
-<li>Delayed set insertion.</li>
-<li>Non-STL sets.preallocate a vector with a size of potential matches.</li>
-</ol>
-
-
-<p>Overall Speedup = 60x: 204ms->3.5ms, 3s->50ms</p>
-
-<h3>3.2 Algo2:</h3>
-
-<ul>
-<li>Input: HTML tree nodes with symbolic constraint attributes</li>
-<li>Output: layout actual details (size, shape, position)</li>
-</ul>
-
-
-<p>Because CSS is confusing and informally-writtened, we create a new simple, concise, uniform, and intermediate language, Berkeley Style Sheets (BBS), which is transformed from CSS and will be specified with an attribute grammar (which shows potential for parallelization).</p>
-
-<p>Three contributions:</p>
-
-<ol>
-<li>Increase performance. decompse the tasks.</li>
-<li>Uniform a correct, concise specification.</li>
-<li>Prove it is at most linear in the size of HTML tree.</li>
-</ol>
-
-
-<p><strong>PARALLELIZATION</strong></p>
-
-<p>Two steps recursively for every node in the DOM tree</p>
-
-<ol>
-<li>calculate inherited attributes (top-down). Every level of childs in the tree enjoyes the parallelization.</li>
-<li>calculate synthesized attributes (node&#8217;s own attributes) (bottom-up). Every level of parents in the tree enjoys the parallelization.</li>
-</ol>
-
-
-<p>2 is dependent on 1.</p>
-
-<p>Complexity: O(log)</p>
-
-<p>Speedup of box + text layout = 2-3x</p>
-
-<p>Advanced layouts: floats</p>
-
-<h3>3.3 Algo3: Font Handling</h3>
-
-<ol>
-<li>create a pool of necessary font library request</li>
-<li>group the requests</li>
-<li>make parallel calls to process each group</li>
-</ol>
-
-
-<h2>4. Conclusions</h2>
-
-<p>Address three bottlenecks of loading a page</p>
-
-<ol>
-<li>CSS selector matching
-
-<ul>
-<li>Pre-built hash tables, map-reduce</li>
-</ul>
-</li>
-<li>Box and text layout solving
-
-<ul>
-<li>Specify layout as attribute grammars</li>
-</ul>
-</li>
-<li>Glyph rendering
-
-<ul>
-<li>Combine requests to groups and render in parallel</li>
-</ul>
-</li>
-</ol>
-
-
-<p>Milestone in building a parallel and mobile browser</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -493,15 +526,23 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2012/11/17/chun-tian-zai-na-li-ya-chun-tian-zai-na-li-%3F/">春天在哪里呀春天在哪里？</a>
+        <a href="/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/">HadoopDB: an architectural hybrid of MapReduce and DBMS technologies for analytical workloads (VLDB &#8216;09)</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2012/11/16/homeos-an-operating-system-for-the-home-nsdi-12/">HomeOS: An Operating System for the Home (NSDI &#8216;12)</a>
+        <a href="/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12/">Reliable Client Accounting for P2P-Infrastructure Hybrids (NSDI &#8216;12)</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10/">Fast and Parallel Webpage Layout (WWW &#8216;10)</a>
+        <a href="/blog/2012/11/20/towards-statistical-queries-over-distributed-private-user-data-nsdi-12/">Towards Statistical Queries over Distributed Private User Data (NSDI &#8216;12)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/20/three-papers-review-about-deterministic-parallelism/">Three Papers Review about Deterministic Parallelism</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/20/quincy-fair-scheduling-for-distributed-computing-clusters-sosp-09/">Quincy: Fair Scheduling for Distributed Computing Clusters (SOSP &#8216;09)</a>
       </li>
     
   </ul>
