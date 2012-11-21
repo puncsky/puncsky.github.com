@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Towards Statistical Queries over Distributed Private User Data (NSDI '12) - CS Notebook</title>
+  <title>如何阅读一篇论文？ - CS Notebook</title>
   <meta name="author" content="Tian">
 
   
-  <meta name="description" content="From MPI-SWS, Germany, paper and slides 1. Problem To protect user privacy in distributed systems from leaking by statistical queries. 2. Challenges &hellip;">
+  <meta name="description" content="阅读是人生的终极命题之一。人生苦短，我们需要阅读来继承前人的衣钵，我们需要笔记来对抗过往的遗忘，我们需要写作来连接自我和人世沧桑。 那么，如何最高效地阅读一篇论文呢？ 如同任何一个学习过程，读论文的周期显然是螺旋向上的，可以划分为简单的三板斧： 1. 略读 五到十分钟的快速略读：
+1. 题目，摘要 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://puncsky.github.com/blog/2012/11/20/towards-statistical-queries-over-distributed-private-user-data-nsdi-12/">
+  <link rel="canonical" href="http://puncsky.github.com/blog/2012/11/21/ru-he-yue-du-%5B%3F%5D-pian-lun-wen-%3F/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -67,7 +68,7 @@
   
   <header>
     
-      <h1 class="entry-title">Towards Statistical Queries Over Distributed Private User Data (NSDI '12)</h1>
+      <h1 class="entry-title">如何阅读一篇论文？</h1>
     
     
       <p class="meta">
@@ -83,82 +84,66 @@
   
 
 
-<time datetime="2012-11-20T16:13:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
+<time datetime="2012-11-21T16:15:00-05:00" pubdate data-updated="true">Nov 21<span>st</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>From <a href="https://sites.google.com/site/ruichuanc/">MPI-SWS, Germany</a>, <a href="https://73aab115-a-62cb3a1a-s-sites.googlegroups.com/site/ruichuanc/pddp-nsdi12.pdf?attachauth=ANoY7cqTHmW8qn2UrCjxk0u-eafRsp77w2XtpG9QdnY9nOnDKkELrYiH-RrOI2ILFnQUv6gt-oz_ek1DA8q7TptjvCEWWWpT02huRCgNYXW-bUNQwjJjM0DLN7tiJzOKD509vt1JhOZ_fHQ_rijDX5Dhh3Bx1pdZotJp7mDbCw0yrcSTYEfbXAuzkZK2zDxfRKYzZXww-dESgY9wquSilSiX3ZrPYrATOg%3D%3D&amp;attredirects=0">paper</a> and <a href="https://www.usenix.org/sites/default/files/conference/protected-files/pddp-talk-nsdi12.pdf">slides</a></p>
+<div class="entry-content"><p>阅读是人生的终极命题之一。人生苦短，我们需要阅读来继承前人的衣钵，我们需要笔记来对抗过往的遗忘，我们需要写作来连接自我和人世沧桑。</p>
 
-<h2>1. Problem</h2>
+<p>那么，<a href="http://blizzard.cs.uwaterloo.ca/keshav/home/Papers/data/07/paper-reading.pdf">如何最高效地阅读一篇论文呢？</a></p>
 
-<p>To protect user privacy in distributed systems from leaking by statistical queries.</p>
-
-<h2>2. Challenges</h2>
-
-<p>The most direct solutions are</p>
-
-<ol>
-<li><p>to <strong>anonymize + add noise</strong> to <em>user data</em>.</p>
-
-<p> [-] utility, de-anonymize</p></li>
-<li><p>differential privacy. add noise to <em>answer of queries</em>.</p>
-
-<p> [-] scale, churn tolerance, malicious client</p></li>
-</ol>
-
-
-<h2>3. Solution </h2>
-
-<p>PDDP: Practical Distributed Differential Privacy.</p>
+<p>如同任何一个学习过程，读论文的周期显然是螺旋向上的，可以划分为简单的三板斧：</p>
 
 <!--more-->
 
 
-<ul>
-<li>Binary answer in bucket. The query result should not be distorted by the client arbitrarily.</li>
-<li>Blind noise addition. The Malicious should not be trusted. Private data are controlled by its user only.</li>
-</ul>
+<h3>1. 略读</h3>
 
+<p>五到十分钟的快速略读：
+1. 题目，摘要，介绍
+2. 各部分的标题
+3. 如果有数学式子，大致了解有什么样的理论基础
+4. 结论
+5. 标出引用中度过的文献</p>
 
-<h3>3.1 Assumption</h3>
-
-<p>Clients and analysts are potentially malicious. Proxy is HbC (honest but curious) and should not have access to noise-free result.</p>
-
-<h3>3.2 Work Flow</h3>
+<p>此时回答下列五个C：</p>
 
 <ol>
-<li><p>Query Initialization(Analyst -> Proxy)</p></li>
-<li><p>Query Forwarding (Proxy -> Client)</p></li>
-<li><p>Client Respond (Client -> Proxy)</p>
-
-<p>answers are encrypted with the analyst&#8217;s public key.</p></li>
-<li><p>Differential Private Noise Addition.</p>
-
-<p>collaborative coin generation with a GM cryptosystem. Unbiased proxy flip encrypted coins from clients randomly and thus transform them into unbiased ones. Coins serve as DP noises.</p></li>
-<li><p>Noisy Answers to Analyst ( Proxy -> Analyst)</p></li>
+<li>类别Category: A measurement paper? An analysis of an existing system? A description of a research prototype?</li>
+<li>背景Context: Related papers? Theoretical bases?</li>
+<li>正确？Correctness: Valid assumptions?</li>
+<li>贡献Contributions.</li>
+<li>清楚？Clarify. Well-written?</li>
 </ol>
 
 
-<h3>3.3 Implementation and Deployment</h3>
+<p>此时，可以据此进一步决定该文章是否值得打印出来细看。相应的，自己写论文的时候如果给这些部分写得不出彩，也就不会被人关注到。</p>
 
-<p>600+ Client = Firefox add-on + SQLite</p>
+<h3>2. 选读</h3>
 
-<p>Proxy = Tomcat web service + MySQL</p>
+<p>一个小时的选读，就像GRE阅读那样，只读关键的主干，不要读细节，比如证据、例子什么的。批注关键点、评论、或者自己不懂的地方。细读图表，标注相关阅读文献。</p>
 
-<p>Analyst = Java program</p>
-
-<h1>4. Conclusion</h1>
-
-<p>The authors achieve scalable, churn-tolerant user privacy against malicious analyst and clients by</p>
+<p>如果此时还是不懂这篇论文在说什么，又三种选择：</p>
 
 <ol>
-<li>making a trade off between utility and privacy. (differential privacy)</li>
-<li>introduce distributed system to traditionally centralized differential privacy environment. (distributed)</li>
+<li>算了，这篇文章对我将来没帮助</li>
+<li>认了，大侠过两天重新读过，不充点背景知识先</li>
+<li>拼了，进入第三阶段</li>
 </ol>
 
+
+<h3>3. 重现</h3>
+
+<p>四到五小时的重现：自己基于作者的假设会怎么解决这个问题？将自己的解决过程和作者的过程一一比较，就能够发现两者各自的优缺点。</p>
+
+<h3>后话</h3>
+
+<p>这三个步骤并不一定是连在一起的，通常的情况是，拿着一堆论文先走第一步，几个星期后走第二部，再几个星期或者几个月后走第三步。当然，如果是赶进度的话，就甭想这么闲了 :P</p>
+
+<p>总而言之，想要一口吃掉一篇论文似乎是很难的事情，我们需要反复咀嚼，这也是为什么我要写不完整的阅读笔记的原因。</p>
 </div>
 
 
@@ -181,7 +166,7 @@
   
 
 
-<time datetime="2012-11-20T16:13:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
+<time datetime="2012-11-21T16:15:00-05:00" pubdate data-updated="true">Nov 21<span>st</span>, 2012</time>
       
 
 
@@ -189,7 +174,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2012/11/20/towards-statistical-queries-over-distributed-private-user-data-nsdi-12/" data-via="" data-counturl="http://puncsky.github.com/blog/2012/11/20/towards-statistical-queries-over-distributed-private-user-data-nsdi-12/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2012/11/21/ru-he-yue-du-%5B%3F%5D-pian-lun-wen-%3F/" data-via="" data-counturl="http://puncsky.github.com/blog/2012/11/21/ru-he-yue-du-%5B%3F%5D-pian-lun-wen-%3F/" >Tweet</a>
   
   
   
@@ -198,10 +183,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2012/11/20/three-papers-review-about-deterministic-parallelism/" title="Previous Post: Three Papers Review about Deterministic Parallelism">&laquo; Three Papers Review about Deterministic Parallelism</a>
+        <a class="basic-alignment left" href="/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/" title="Previous Post: HadoopDB: an architectural hybrid of MapReduce and DBMS technologies for analytical workloads (VLDB '09)">&laquo; HadoopDB: an architectural hybrid of MapReduce and DBMS technologies for analytical workloads (VLDB '09)</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12/" title="Next Post: Reliable Client Accounting for P2P-Infrastructure Hybrids (NSDI '12)">Reliable Client Accounting for P2P-Infrastructure Hybrids (NSDI '12) &raquo;</a>
       
     </p>
   </footer>
