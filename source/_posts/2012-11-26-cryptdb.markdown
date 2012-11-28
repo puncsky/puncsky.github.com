@@ -1,0 +1,98 @@
+---
+layout: post
+title: "CryptDB: Protecting Confidentiality with Encrypted Query Processing"
+date: 2012-11-26 19:45
+comments: true
+categories: 
+published: false
+---
+
+[MIT CSAIL](http://css.csail.mit.edu/cryptdb/), [papers](http://people.csail.mit.edu/nickolai/papers/raluca-cryptdb.pdf), [slides](http://www.sigops.org/sosp/sosp11/current/2011-Cascais/07-popa.pptx)
+
+### 1. Problem
+
+Provide confidentiality for applications using DBMSes to solve two threats:
+
+1. The curious database administrator (DBA) learns private data.
+2. The adversary gains complete control over application and DBMS servers.
+
+### 2. Challenges
+
+1. Tension between confidentiality and efficiency.
+	- too slow or not
+	- incapable of executing SQL queries without giving keys to DBMS servers
+2. Minimizing data leakage when both application servers and DBMS servers are compromised.
+	- can be solved by different keys for different users. However, it is not suitable for user-shared data.
+	
+### 3. Solutions
+
+TODO overview
+
+
+
+SQL-aware encryption strategy with symmetric-key encryption (for efficiency). The basic idea is to design different ways of encryption for different sets of SQL queries. Of course, they are in different levels of security.
+
+#### 6 types of SQL-aware encryption
+
+1. Random (RND)
+	- support indistinguishability under an adaptive chosen-plaintext attack (IND-CPA), same plain texts -> different cipher texts
+	- AES / Blowfish in CBC mode, a random initialization vector (IV)
+2. Deterministic (DET)
+	- support equality checks, same plain texts -> same cipher texts
+	- different keys for different columns to prevent cross-column correlations
+	- Pseudo-random permutation (PRP), Blowfish for 64-bit block, AES for 128-bit block
+	- AES in CMC mode (= one round of CBC + another round of CBC in reverse order), zero IV. (to prevent leakage of prefix equality in CBC mode)
+3. Order-preserving (OPE)
+	- support order relations. If x < y, then OPEk(x) < OPEk(y) for any secret key K.
+	- Weaker. Thus, OPE-encrypted columns are revealed to the server only when the order query is needed.
+	- Implementation and optimization of [Order-preserving symmetric encryption](http://www.cc.gatech.edu/~aboldyre/papers/bclo.pdf). Use AVL BST for batch encryption. 25 ms/encryption -> 7 ms/encryption
+4. Homomorphic encryption(HOM)
+	- retains IND-CPA while allows computations to be conducted on ciphertext and obtain an encrypted result which is the ciphertext of the result of operations performed on the plaintext.
+	- UDF calling Paillier crytosystem
+	- e.g. SUM: HOMk(x)*HOMk(y)=HOMk(x+y)
+5. Join (JOIN and OPE-JOIN)
+	- support joins between two columns (because of DET)
+6. Word search (SEARCH)
+	- support LIKE operation
+	- A new implementation of the protocol from [Practical Techniques for Searches on Encrypted Data](http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=848445)
+	- Proxy
+		1. split texts to keywords
+		2. remove repetitions
+		3. randomly permute the positions of the words
+		4. encrypt each of the words
+		5. paddle each word to the same size
+		6. send the encrypted words to the server as a token
+	- Server can only know whether the token matches.
+
+#### Adjustable query-based encryption
+
+However, the query set is not always known in advance. So we need to dynamically pick up a layer of SQL-aware encryption scheme for queries at runtime. **Onions of encryption**: different keys for different layers of onions. The proxy does not give all keys to the server at any time.
+
+- Encrypt data in one or more onions
+- Multiple onions are needed in practice
+- Same key for encrypting values in the same column (Threat 1)
+- Different keys for different rows in the same column (Threat 2)
+- Different keys across tables, columns, onions, and onion layers
+- All keys are derived from master key (MK)
+- Onion decryption happens only when operations on a column are required 
+- Once a layer of decryption happens, the layer remains its new state
+
+K t,c,o,l = PRP MK(t, c, o, l)
+
+	// DECRYPT_RND UDF in server:
+	UPDATE Table1 SET
+		C2-Ord = DECRYPT_RND(K, C2-Ord, C2-IV)
+	// Proxy's internal state updates itself to remember that 
+	// C2-Ord in Table1 is at layer OPE now
+	
+#### Execute SQL queries over encrypted data
+
+
+
+#### Chain encryption keys to user passwords
+
+If the adversary do not know the user's password, the adversary cannot decrypt the user's data.
+
+### 4. Evaluation 
+
+### 5. Conclusion
