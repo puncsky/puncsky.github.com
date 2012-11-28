@@ -12,27 +12,35 @@ categories:
 
 Provide confidentiality for applications using DBMSes to solve two threats:
 
-1. The curious database administrator (DBA) learns private data.
-2. The adversary gains complete control over application and DBMS servers.
+1. *Passive DB server attacks*. The curious database administrator (DBA) learns private data.
+2. *Any attacks on all servers*. The adversary gains complete control over application and DBMS servers.
 
 ### 2. Challenges
 
-1. Tension between confidentiality and efficiency.
+1. Tension between confidentiality and efficiency. (Threat 1 + 2)
 	- too slow or not enough confidentiality
 	- incapable of executing SQL queries without giving keys to DBMS servers
-2. Minimizing data leakage when both application servers and DBMS servers are compromised.
-	- can be solved by different keys for different users. However, it is not suitable for user-shared data.
+2. Support user-shared data while minimizing data leakage when both application servers and DBMS servers are compromised.
+	- “Different keys for different users” alone is not suitable for user-shared data.
 	
 ### 3. Solutions
 
+How to solve Challenge 1 (Threat 1+2) while still retaining data sharing (Challenge 2)?
+
 Architecture Overview
 
-![architecture overview](http://puncsky.github.com/images/arc.png) 
+![architecture overview](http://puncsky.github.com/images/cryptdb/arch.png) 
 
+1. No plaintext in database at all.
+2. Fine-grind keys chained to user passwords.
+	
+#### 3.1 Solution to Threat 1
 
-SQL-aware encryption strategy with symmetric-key encryption (for efficiency). The basic idea is to design different ways of encryption for different sets of SQL queries. Of course, they are in different levels of security.
+##### 3.1.1 Execute SQL queries over encrypted data
 
-#### 6 types of SQL-aware encryption
+Six types of SQL-aware encryption
+
+SQL-aware encryption strategy with symmetric-key encryption (for efficiency).
 
 1. Random (RND)
 	- support indistinguishability under an adaptive chosen-plaintext attack (IND-CPA), same plain texts -> different cipher texts
@@ -64,35 +72,63 @@ SQL-aware encryption strategy with symmetric-key encryption (for efficiency). Th
 		6. send the encrypted words to the server as a token
 	- Server can only know whether the token matches.
 
-#### Adjustable query-based encryption
+##### 3.1.2 Adjustable query-based encryption
 
-However, the query set is not always known in advance. So we need to dynamically pick up a layer of SQL-aware encryption scheme for queries at runtime. **Onions of encryption**: different keys for different layers of onions. The proxy does not give all keys to the server at any time.
+However, the query set is not always known in advance. So we need to dynamically adjust a layer of SQL-aware encryption scheme for queries at runtime. **Onions of encryption**: different keys for different layers of onions. The proxy will not give all keys to the server at any time.
+
+![onion encryption](http://puncsky.github.com/images/cryptdb/onion.png)
+
+![table](http://puncsky.github.com/images/cryptdb/table1.png)
+
+keys for each layer are calculated by
+
+![keys](http://puncsky.github.com/images/cryptdb/calcKey.png)
 
 - Encrypt data in one or more onions
 - Multiple onions are needed in practice
-- Same key for encrypting values in the same column (Threat 1)
-- Different keys for different rows in the same column (Threat 2)
-- Different keys across tables, columns, onions, and onion layers
-- All keys are derived from master key (MK)
-- Onion decryption happens only when operations on a column are required 
-- Once a layer of decryption happens, the layer remains its new state
+- Onion decryption (stripe-off) happens only when operations on a column are required 
+- Once a layer of decryption happens, the layer remains its new state until an update
 
-K t,c,o,l = PRP MK(t, c, o, l)
+###### a) Read query execution
 
-	// DECRYPT_RND UDF in server:
-	UPDATE Table1 SET
-		C2-Ord = DECRYPT_RND(K, C2-Ord, C2-IV)
-	// Proxy's internal state updates itself to remember that 
-	// C2-Ord in Table1 is at layer OPE now
+1. Application server issues a query
+	- SELECT ID FROM Employees WHERE Name = ‘Alice’
+2. Proxy server anonymizes the query, and adjust encryption layers if stripe-off is needed
+	- UPDATE Table1 SET C2-Eq = DECRYPT RND(KT1,C2,Eq,RND, C2-Eq, C2-IV)
+3. DBMS server execute the adjusted query and return the results
+	- SELECT C1-Eq, C1-IV FROM Table1 WHERE C2-Eq = x7..d
+4. Proxy server decrypts the results and sends them to the user
+
+###### b) Write query execution
+
+
 	
-#### Execute SQL queries over encrypted data
+#### 3.2 Solution to Threat 2
 
-
-
-#### Chain encryption keys to user passwords
+Chain encryption keys to user passwords
 
 If the adversary do not know the user's password, the adversary cannot decrypt the user's data.
 
-### 4. Evaluation 
+##### Solution to Challenge 2
+
+Data Sharing with Multiple Principals
+
+### 4. Implementation & Evaluation 
 
 ### 5. Conclusion
+
+1. First practical DBMS to process most SQL queries on encrypted data
+	- Hide DB from DBA, outsource DB
+2. Protects data of users logged out during attack, even when all servers are compromised 
+	- Limit leakage from compromised applications
+3. Modest overhead: 26% throughput loss for TPC-C 
+4. No changes to DBMS (e.g., Postgres, MySQL)
+
+	
+
+
+
+
+
+
+ 
