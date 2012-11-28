@@ -4,7 +4,7 @@
   <title><![CDATA[CS Notebook]]></title>
   <link href="http://puncsky.github.com/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2012-11-27T21:12:14-05:00</updated>
+  <updated>2012-11-28T05:21:36-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -134,6 +134,150 @@
 <p>至于房地产，房地产行业与城市人口增多是最直接的线性相关的，不管土地财政依赖不依赖，不管政府政策调控不调控。只要有大量的人口涌进城市，城市房地产就会兴旺。</p>
 
 <p>至于私募股权基金，私募股权基金不是主流产品，在中国之所以火爆，是因为媒体抄得火爆。实际上其中的竞争是非常激烈的，对于青年来说是极其危险的。这个行业只适合经验丰富的人。年轻人就牛皮哄哄地做这个行业，天天跟老总打交道，四处找错，这样不好。当然，如果有应届毕业生有志进入这个领域，他也欢迎，因为是金子总会发光 ：D</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[CryptDB: Protecting Confidentiality with Encrypted Query Processing]]></title>
+    <link href="http://puncsky.github.com/blog/2012/11/26/cryptdb/"/>
+    <updated>2012-11-26T19:45:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2012/11/26/cryptdb</id>
+    <content type="html"><![CDATA[<p><a href="http://css.csail.mit.edu/cryptdb/">MIT CSAIL</a>, <a href="http://people.csail.mit.edu/nickolai/papers/raluca-cryptdb.pdf">papers</a>, <a href="http://www.sigops.org/sosp/sosp11/current/2011-Cascais/07-popa.pptx">slides</a></p>
+
+<h3>1. Problem</h3>
+
+<p>Provide confidentiality for applications using DBMSes to solve two threats:</p>
+
+<ol>
+<li>The curious database administrator (DBA) learns private data.</li>
+<li>The adversary gains complete control over application and DBMS servers.</li>
+</ol>
+
+
+<h3>2. Challenges</h3>
+
+<ol>
+<li>Tension between confidentiality and efficiency.
+
+<ul>
+<li>too slow or not enough confidentiality</li>
+<li>incapable of executing SQL queries without giving keys to DBMS servers</li>
+</ul>
+</li>
+<li>Minimizing data leakage when both application servers and DBMS servers are compromised.
+
+<ul>
+<li>can be solved by different keys for different users. However, it is not suitable for user-shared data.</li>
+</ul>
+</li>
+</ol>
+
+
+<h3>3. Solutions</h3>
+
+<p>Architecture Overview</p>
+
+<p><img src="http://puncsky.github.com/images/arc.png" alt="architecture overview" /></p>
+
+<p>SQL-aware encryption strategy with symmetric-key encryption (for efficiency). The basic idea is to design different ways of encryption for different sets of SQL queries. Of course, they are in different levels of security.</p>
+
+<h4>6 types of SQL-aware encryption</h4>
+
+<ol>
+<li>Random (RND)
+
+<ul>
+<li>support indistinguishability under an adaptive chosen-plaintext attack (IND-CPA), same plain texts -> different cipher texts</li>
+<li>AES / Blowfish in CBC mode, a random initialization vector (IV)</li>
+</ul>
+</li>
+<li>Deterministic (DET)
+
+<ul>
+<li>support equality checks, same plain texts -> same cipher texts</li>
+<li>different keys for different columns to prevent cross-column correlations</li>
+<li>Pseudo-random permutation (PRP), Blowfish for 64-bit block, AES for 128-bit block</li>
+<li>AES in CMC mode (= one round of CBC + another round of CBC in reverse order), zero IV. (to prevent leakage of prefix equality in CBC mode)</li>
+</ul>
+</li>
+<li>Order-preserving (OPE)
+
+<ul>
+<li>support order relations. If x &lt; y, then OPEk(x) &lt; OPEk(y) for any secret key K.</li>
+<li>Weaker. Thus, OPE-encrypted columns are revealed to the server only when the order query is needed.</li>
+<li>Implementation and optimization of <a href="http://www.cc.gatech.edu/~aboldyre/papers/bclo.pdf">Order-preserving symmetric encryption</a>. Use AVL BST for batch encryption. 25 ms/encryption -> 7 ms/encryption</li>
+</ul>
+</li>
+<li>Homomorphic encryption(HOM)
+
+<ul>
+<li>retains IND-CPA while allows computations to be conducted on ciphertext and obtain an encrypted result which is the ciphertext of the result of operations performed on the plaintext.</li>
+<li>UDF calling Paillier crytosystem</li>
+<li>e.g. SUM: HOMk(x)*HOMk(y)=HOMk(x+y)</li>
+</ul>
+</li>
+<li>Join (JOIN and OPE-JOIN)
+
+<ul>
+<li>support joins between two columns (because of DET)</li>
+</ul>
+</li>
+<li>Word search (SEARCH)
+
+<ul>
+<li>support LIKE operation</li>
+<li>A new implementation of the protocol from <a href="http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=848445">Practical Techniques for Searches on Encrypted Data</a></li>
+<li>Proxy
+
+<ol>
+<li>split texts to keywords</li>
+<li>remove repetitions</li>
+<li>randomly permute the positions of the words</li>
+<li>encrypt each of the words</li>
+<li>paddle each word to the same size</li>
+<li>send the encrypted words to the server as a token</li>
+</ol>
+</li>
+<li>Server can only know whether the token matches.</li>
+</ul>
+</li>
+</ol>
+
+
+<h4>Adjustable query-based encryption</h4>
+
+<p>However, the query set is not always known in advance. So we need to dynamically pick up a layer of SQL-aware encryption scheme for queries at runtime. <strong>Onions of encryption</strong>: different keys for different layers of onions. The proxy does not give all keys to the server at any time.</p>
+
+<ul>
+<li>Encrypt data in one or more onions</li>
+<li>Multiple onions are needed in practice</li>
+<li>Same key for encrypting values in the same column (Threat 1)</li>
+<li>Different keys for different rows in the same column (Threat 2)</li>
+<li>Different keys across tables, columns, onions, and onion layers</li>
+<li>All keys are derived from master key (MK)</li>
+<li>Onion decryption happens only when operations on a column are required</li>
+<li>Once a layer of decryption happens, the layer remains its new state</li>
+</ul>
+
+
+<p>K t,c,o,l = PRP MK(t, c, o, l)</p>
+
+<pre><code>// DECRYPT_RND UDF in server:
+UPDATE Table1 SET
+    C2-Ord = DECRYPT_RND(K, C2-Ord, C2-IV)
+// Proxy's internal state updates itself to remember that 
+// C2-Ord in Table1 is at layer OPE now
+</code></pre>
+
+<h4>Execute SQL queries over encrypted data</h4>
+
+<h4>Chain encryption keys to user passwords</h4>
+
+<p>If the adversary do not know the user&#8217;s password, the adversary cannot decrypt the user&#8217;s data.</p>
+
+<h3>4. Evaluation</h3>
+
+<h3>5. Conclusion</h3>
 ]]></content>
   </entry>
   
