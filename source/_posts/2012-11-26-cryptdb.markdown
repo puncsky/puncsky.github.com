@@ -4,7 +4,6 @@ title: "CryptDB: Protecting Confidentiality with Encrypted Query Processing"
 date: 2012-11-26 19:45
 comments: true
 categories: 
-published: false
 ---
 
 [MIT CSAIL](http://css.csail.mit.edu/cryptdb/), [papers](http://people.csail.mit.edu/nickolai/papers/raluca-cryptdb.pdf), [slides](http://www.sigops.org/sosp/sosp11/current/2011-Cascais/07-popa.pptx)
@@ -19,15 +18,16 @@ Provide confidentiality for applications using DBMSes to solve two threats:
 ### 2. Challenges
 
 1. Tension between confidentiality and efficiency.
-	- too slow or not
+	- too slow or not enough confidentiality
 	- incapable of executing SQL queries without giving keys to DBMS servers
 2. Minimizing data leakage when both application servers and DBMS servers are compromised.
 	- can be solved by different keys for different users. However, it is not suitable for user-shared data.
 	
 ### 3. Solutions
 
-TODO overview
+Architecture Overview
 
+![architecture overview](http://puncsky.github.com/images/arc.png) 
 
 
 SQL-aware encryption strategy with symmetric-key encryption (for efficiency). The basic idea is to design different ways of encryption for different sets of SQL queries. Of course, they are in different levels of security.
