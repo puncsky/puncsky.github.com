@@ -161,25 +161,25 @@
 <p>Provide confidentiality for applications using DBMSes to solve two threats:</p>
 
 <ol>
-<li>The curious database administrator (DBA) learns private data.</li>
-<li>The adversary gains complete control over application and DBMS servers.</li>
+<li><em>Passive DB server attacks</em>. The curious database administrator (DBA) learns private data.</li>
+<li><em>Any attacks on all servers</em>. The adversary gains complete control over application and DBMS servers.</li>
 </ol>
 
 
 <h3>2. Challenges</h3>
 
 <ol>
-<li>Tension between confidentiality and efficiency.
+<li>Tension between confidentiality and efficiency. (Threat 1 + 2)
 
 <ul>
 <li>too slow or not enough confidentiality</li>
 <li>incapable of executing SQL queries without giving keys to DBMS servers</li>
 </ul>
 </li>
-<li>Minimizing data leakage when both application servers and DBMS servers are compromised.
+<li>Support user-shared data while minimizing data leakage when both application servers and DBMS servers are compromised.
 
 <ul>
-<li>can be solved by different keys for different users. However, it is not suitable for user-shared data.</li>
+<li>“Different keys for different users” alone is not suitable for user-shared data.</li>
 </ul>
 </li>
 </ol>
@@ -187,13 +187,25 @@
 
 <h3>3. Solutions</h3>
 
+<p>How to solve Challenge 1 (Threat 1+2) while still retaining data sharing (Challenge 2)?</p>
+
 <p>Architecture Overview</p>
 
-<p><img src="http://puncsky.github.com/images/arc.png" alt="architecture overview" /></p>
+<p><img src="http://puncsky.github.com/images/cryptdb/arch.png" alt="architecture overview" /></p>
 
-<p>SQL-aware encryption strategy with symmetric-key encryption (for efficiency). The basic idea is to design different ways of encryption for different sets of SQL queries. Of course, they are in different levels of security.</p>
+<ol>
+<li>No plaintext in database at all.</li>
+<li>Fine-grind keys chained to user passwords.</li>
+</ol>
 
-<h4>6 types of SQL-aware encryption</h4>
+
+<h4>3.1 Solution to Threat 1</h4>
+
+<h5>3.1.1 Execute SQL queries over encrypted data</h5>
+
+<p>Six types of SQL-aware encryption</p>
+
+<p>SQL-aware encryption strategy with symmetric-key encryption (for efficiency).</p>
 
 <ol>
 <li>Random (RND)
@@ -256,40 +268,84 @@
 </ol>
 
 
-<h4>Adjustable query-based encryption</h4>
+<h5>3.1.2 Adjustable query-based encryption</h5>
 
-<p>However, the query set is not always known in advance. So we need to dynamically pick up a layer of SQL-aware encryption scheme for queries at runtime. <strong>Onions of encryption</strong>: different keys for different layers of onions. The proxy does not give all keys to the server at any time.</p>
+<p>However, the query set is not always known in advance. So we need to dynamically adjust a layer of SQL-aware encryption scheme for queries at runtime. <strong>Onions of encryption</strong>: different keys for different layers of onions. The proxy will not give all keys to the server at any time.</p>
+
+<p><img src="http://puncsky.github.com/images/cryptdb/onion.png" alt="onion encryption" /></p>
+
+<p><img src="http://puncsky.github.com/images/cryptdb/table1.png" alt="table" /></p>
+
+<p>keys for each layer are calculated by</p>
+
+<p><img src="http://puncsky.github.com/images/cryptdb/calcKey.png" alt="keys" /></p>
 
 <ul>
 <li>Encrypt data in one or more onions</li>
 <li>Multiple onions are needed in practice</li>
-<li>Same key for encrypting values in the same column (Threat 1)</li>
-<li>Different keys for different rows in the same column (Threat 2)</li>
-<li>Different keys across tables, columns, onions, and onion layers</li>
-<li>All keys are derived from master key (MK)</li>
-<li>Onion decryption happens only when operations on a column are required</li>
-<li>Once a layer of decryption happens, the layer remains its new state</li>
+<li>Onion decryption (stripe-off) happens only when operations on a column are required</li>
+<li>Once a layer of decryption happens, the layer remains its new state until an update</li>
 </ul>
 
 
-<p>K t,c,o,l = PRP MK(t, c, o, l)</p>
+<h6>a) Read query execution</h6>
 
-<pre><code>// DECRYPT_RND UDF in server:
-UPDATE Table1 SET
-    C2-Ord = DECRYPT_RND(K, C2-Ord, C2-IV)
-// Proxy's internal state updates itself to remember that 
-// C2-Ord in Table1 is at layer OPE now
-</code></pre>
+<ol>
+<li>Application server issues a query
 
-<h4>Execute SQL queries over encrypted data</h4>
+<ul>
+<li>SELECT ID FROM Employees WHERE Name = ‘Alice’</li>
+</ul>
+</li>
+<li>Proxy server anonymizes the query, and adjust encryption layers if stripe-off is needed
 
-<h4>Chain encryption keys to user passwords</h4>
+<ul>
+<li>UPDATE Table1 SET C2-Eq = DECRYPT RND(KT1,C2,Eq,RND, C2-Eq, C2-IV)</li>
+</ul>
+</li>
+<li>DBMS server execute the adjusted query and return the results
+
+<ul>
+<li>SELECT C1-Eq, C1-IV FROM Table1 WHERE C2-Eq = x7..d</li>
+</ul>
+</li>
+<li>Proxy server decrypts the results and sends them to the user</li>
+</ol>
+
+
+<h6>b) Write query execution</h6>
+
+<h4>3.2 Solution to Threat 2</h4>
+
+<p>Chain encryption keys to user passwords</p>
 
 <p>If the adversary do not know the user&#8217;s password, the adversary cannot decrypt the user&#8217;s data.</p>
 
-<h3>4. Evaluation</h3>
+<h5>Solution to Challenge 2</h5>
+
+<p>Data Sharing with Multiple Principals</p>
+
+<h3>4. Implementation &amp; Evaluation</h3>
 
 <h3>5. Conclusion</h3>
+
+<ol>
+<li>First practical DBMS to process most SQL queries on encrypted data
+
+<ul>
+<li>Hide DB from DBA, outsource DB</li>
+</ul>
+</li>
+<li>Protects data of users logged out during attack, even when all servers are compromised
+
+<ul>
+<li>Limit leakage from compromised applications</li>
+</ul>
+</li>
+<li>Modest overhead: 26% throughput loss for TPC-C</li>
+<li>No changes to DBMS (e.g., Postgres, MySQL)</li>
+</ol>
+
 </div>
   
   
