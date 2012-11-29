@@ -4,7 +4,7 @@
   <title><![CDATA[CS Notebook]]></title>
   <link href="http://puncsky.github.com/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2012-11-28T20:55:24-05:00</updated>
+  <updated>2012-11-28T21:17:42-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -152,6 +152,9 @@
 <li><em>Passive DB server attacks</em>. The curious database administrator (DBA) learns private data.</li>
 <li><em>Any attacks on all servers</em>. The adversary gains complete control over application and DBMS servers.</li>
 </ol>
+
+
+<!--more-->
 
 
 <h3>2. Challenges</h3>
@@ -332,16 +335,10 @@
 <ul>
 <li>What does the key derives from?
 
-<ul>
-<li><ol>
+<ol>
 <li><em>One Single principal</em> uses Global proxy Master Key (MK).</li>
-</ol>
-</li>
-<li><ol>
 <li><em>Multiple principals</em> chain encryption keys to user passwords.</li>
 </ol>
-</li>
-</ul>
 </li>
 </ul>
 
