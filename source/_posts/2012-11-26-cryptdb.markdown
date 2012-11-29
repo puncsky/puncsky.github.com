@@ -14,7 +14,9 @@ Provide confidentiality for applications using DBMSes to solve two threats:
 
 1. *Passive DB server attacks*. The curious database administrator (DBA) learns private data.
 2. *Any attacks on all servers*. The adversary gains complete control over application and DBMS servers.
+
 <!--more-->
+
 ### 2. Challenges
 
 1. Tension between confidentiality and efficiency. (Threat 1 + 2)
