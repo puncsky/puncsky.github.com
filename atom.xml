@@ -4,7 +4,7 @@
   <title><![CDATA[CS Notebook]]></title>
   <link href="http://puncsky.github.com/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2012-11-28T06:26:12-05:00</updated>
+  <updated>2012-11-28T20:55:24-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -182,12 +182,14 @@
 <p><img src="http://puncsky.github.com/images/cryptdb/arch.png" alt="architecture overview" /></p>
 
 <ol>
-<li>No plaintext in database at all.</li>
-<li>Fine-grind keys chained to user passwords.</li>
+<li>No plaintext in database at all. (eliminate Threat 1)</li>
+<li>Fine-grind keys chained to user passwords. (eliminate Threat 2 and Challenge 2)</li>
 </ol>
 
 
 <h4>3.1 Solution to Threat 1</h4>
+
+<p>How to deal with <em>Passive DB server attacks</em>? No plaintext in database at all.</p>
 
 <h5>3.1.1 Execute SQL queries over encrypted data</h5>
 
@@ -232,6 +234,7 @@
 
 <ul>
 <li>support joins between two columns (because of DET)</li>
+<li>TODO</li>
 </ul>
 </li>
 <li>Word search (SEARCH)
@@ -264,17 +267,19 @@
 
 <p><img src="http://puncsky.github.com/images/cryptdb/table1.png" alt="table" /></p>
 
-<p>keys for each layer are calculated by</p>
-
-<p><img src="http://puncsky.github.com/images/cryptdb/calcKey.png" alt="keys" /></p>
-
 <ul>
 <li>Encrypt data in one or more onions</li>
 <li>Multiple onions are needed in practice</li>
 <li>Onion decryption (stripe-off) happens only when operations on a column are required</li>
-<li>Once a layer of decryption happens, the layer remains its new state until an update</li>
+<li>Once a layer of decryption happens, the layer remains its new state</li>
 </ul>
 
+
+<p>keys for each layer are calculated by</p>
+
+<p><img src="http://puncsky.github.com/images/cryptdb/calcKey.png" alt="keys" /></p>
+
+<p><strong>MK is the proxy&#8217;s Master Key and only intended for a single principal (user).</strong></p>
 
 <h6>a) Read query execution</h6>
 
@@ -298,22 +303,114 @@
 </ul>
 </li>
 <li>Proxy server decrypts the results and sends them to the user</li>
+<li>No need to decrypt data in DBMS when a new similar type of query is issued</li>
 </ol>
 
 
 <h6>b) Write query execution</h6>
 
-<h4>3.2 Solution to Threat 2</h4>
+<ul>
+<li>INSERT and UPDATE queries make the proxy encrypts data to the layer that has not yet been stripped off.</li>
+<li>Addition and direct comparison should not be allowed simultaneously.
 
-<p>Chain encryption keys to user passwords</p>
+<ul>
+<li>If a column is incremented and then only projected, DBMS operates on add onion.</li>
+<li>If a column is used in comparisons after increasing, proxy calculates the final value and updates it once and for all.</li>
+</ul>
+</li>
+</ul>
 
-<p>If the adversary do not know the user&#8217;s password, the adversary cannot decrypt the user&#8217;s data.</p>
 
-<h5>Solution to Challenge 2</h5>
+<p>At this time, we can defend against Threat 1 (passive DB server attacks) by not exposing any plaintext to the DBMS server while most SQL queries can still be supported.</p>
 
-<p>Data Sharing with Multiple Principals</p>
+<h4>3.2 Solution to Threat 2 and Challenge 2</h4>
+
+<p>How to deal with <em>any attacks on all servers</em> while <strong>still retaining data-sharing</strong> among users? The proxy&#8217;s Master Key (MK) is not adequate for multi-users. The solution is to chain encryption keys to user passwords with the specification of key access policy among users.</p>
+
+<h5>3.2.1 Chain encryption keys to user passwords</h5>
+
+<ul>
+<li>What does the key derives from?
+
+<ul>
+<li><ol>
+<li><em>One Single principal</em> uses Global proxy Master Key (MK).</li>
+</ol>
+</li>
+<li><ol>
+<li><em>Multiple principals</em> chain encryption keys to user passwords.</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h6>Define <em>principal</em></h6>
+
+<p>A principal is an entity such as a user or a group, over which it is natural to specify an access policy.</p>
+
+<ul>
+<li><em>external principals</em>: real users authenticated with their passwords</li>
+<li><em>internal principals</em>: entities whose privileges are acquired through delegations</li>
+</ul>
+
+
+<h6>Annotate the schema with access control policy</h6>
+
+<p>We need to support data-sharing, so the access control policy should be specified to the schema.</p>
+
+<ul>
+<li>ENC_FOR(Sensitive-Column1, PrincipalA), A has access to column1.</li>
+<li>(principalA typeX) SPEAKS_FOR(principalB typeY), A has access to all keys that b has access to.</li>
+</ul>
+
+
+<p><img src="http://puncsky.github.com/images/cryptdb/accessControl.png" alt="Access Control Policy Annotation" /></p>
+
+<h6>Chain encryption keys</h6>
+
+<ul>
+<li>Each principal is associated with a secret and random-generated key
+
+<ul>
+<li>symmetric key (online) + public/private key pair (off-line)</li>
+<li>External principal&#8217;s random-generated symmetric key and private key is encrypted with user&#8217;s password and stored in <em>external_keys</em></li>
+</ul>
+</li>
+<li>If B speaks for A, A&#8217;s key is encrypted with B&#8217;s key and stored in <em>access_keys</em> table</li>
+<li>When a user logs in, the proxy loads all the key the user has access to.</li>
+<li>When a user logs out, the proxy delete all the user&#8217;s keys in the memory.</li>
+</ul>
+
+
+<p>At this time, threat 2 is successfully conquered while the data-sharing feature is retained.</p>
 
 <h3>4. Implementation &amp; Evaluation</h3>
+
+<h4>4.1 Implementation</h4>
+
+<ul>
+<li>No change to the DBMS and applications</li>
+<li>Portable</li>
+<li>Multi-user keys: annotations and login/logout</li>
+</ul>
+
+
+<h4>4.2 Evaluation</h4>
+
+<ul>
+<li>Support most queries</li>
+<li>Exceptional confidentiality
+
+<ul>
+<li>Most columns at RND layer</li>
+<li>Most columns at OPE analyzed were less sensitive</li>
+</ul>
+</li>
+<li>Throughput loss 26%</li>
+</ul>
+
 
 <h3>5. Conclusion</h3>
 
