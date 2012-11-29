@@ -14,7 +14,7 @@ Provide confidentiality for applications using DBMSes to solve two threats:
 
 1. *Passive DB server attacks*. The curious database administrator (DBA) learns private data.
 2. *Any attacks on all servers*. The adversary gains complete control over application and DBMS servers.
-
+<!--more-->
 ### 2. Challenges
 
 1. Tension between confidentiality and efficiency. (Threat 1 + 2)
@@ -121,8 +121,8 @@ How to deal with *any attacks on all servers* while **still retaining data-shari
 ##### 3.2.1 Chain encryption keys to user passwords
 
 - What does the key derives from?
-	- 1. _One Single principal_ uses Global proxy Master Key (MK).
-	- 2. _Multiple principals_ chain encryption keys to user passwords. 
+	1. _One Single principal_ uses Global proxy Master Key (MK).
+	2. _Multiple principals_ chain encryption keys to user passwords. 
 
 ###### Define _principal_
 
