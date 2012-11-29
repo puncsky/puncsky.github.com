@@ -31,10 +31,12 @@ Architecture Overview
 
 ![architecture overview](http://puncsky.github.com/images/cryptdb/arch.png) 
 
-1. No plaintext in database at all.
-2. Fine-grind keys chained to user passwords.
+1. No plaintext in database at all. (eliminate Threat 1)
+2. Fine-grind keys chained to user passwords. (eliminate Threat 2 and Challenge 2)
 	
 #### 3.1 Solution to Threat 1
+
+How to deal with *Passive DB server attacks*? No plaintext in database at all.
 
 ##### 3.1.1 Execute SQL queries over encrypted data
 
@@ -60,6 +62,7 @@ SQL-aware encryption strategy with symmetric-key encryption (for efficiency).
 	- e.g. SUM: HOMk(x)*HOMk(y)=HOMk(x+y)
 5. Join (JOIN and OPE-JOIN)
 	- support joins between two columns (because of DET)
+	- TODO
 6. Word search (SEARCH)
 	- support LIKE operation
 	- A new implementation of the protocol from [Practical Techniques for Searches on Encrypted Data](http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=848445)
@@ -80,14 +83,16 @@ However, the query set is not always known in advance. So we need to dynamically
 
 ![table](http://puncsky.github.com/images/cryptdb/table1.png)
 
-keys for each layer are calculated by
-
-![keys](http://puncsky.github.com/images/cryptdb/calcKey.png)
-
 - Encrypt data in one or more onions
 - Multiple onions are needed in practice
 - Onion decryption (stripe-off) happens only when operations on a column are required 
-- Once a layer of decryption happens, the layer remains its new state until an update
+- Once a layer of decryption happens, the layer remains its new state
+
+keys for each layer are calculated by 
+
+![keys](http://puncsky.github.com/images/cryptdb/calcKey.png)
+
+**MK is the proxy's Master Key and only intended for a single principal (user).**
 
 ###### a) Read query execution
 
@@ -98,22 +103,69 @@ keys for each layer are calculated by
 3. DBMS server execute the adjusted query and return the results
 	- SELECT C1-Eq, C1-IV FROM Table1 WHERE C2-Eq = x7..d
 4. Proxy server decrypts the results and sends them to the user
+5. No need to decrypt data in DBMS when a new similar type of query is issued
 
 ###### b) Write query execution
 
-
+- INSERT and UPDATE queries make the proxy encrypts data to the layer that has not yet been stripped off.
+- Addition and direct comparison should not be allowed simultaneously. 
+	- If a column is incremented and then only projected, DBMS operates on add onion.
+	- If a column is used in comparisons after increasing, proxy calculates the final value and updates it once and for all.
 	
-#### 3.2 Solution to Threat 2
+At this time, we can defend against Threat 1 (passive DB server attacks) by not exposing any plaintext to the DBMS server while most SQL queries can still be supported.
 
-Chain encryption keys to user passwords
+#### 3.2 Solution to Threat 2 and Challenge 2
 
-If the adversary do not know the user's password, the adversary cannot decrypt the user's data.
+How to deal with *any attacks on all servers* while **still retaining data-sharing** among users? The proxy's Master Key (MK) is not adequate for multi-users. The solution is to chain encryption keys to user passwords with the specification of key access policy among users.
 
-##### Solution to Challenge 2
+##### 3.2.1 Chain encryption keys to user passwords
 
-Data Sharing with Multiple Principals
+- What does the key derives from?
+	- 1. _One Single principal_ uses Global proxy Master Key (MK).
+	- 2. _Multiple principals_ chain encryption keys to user passwords. 
+
+###### Define _principal_
+
+A principal is an entity such as a user or a group, over which it is natural to specify an access policy. 
+
+- _external principals_: real users authenticated with their passwords
+- _internal principals_: entities whose privileges are acquired through delegations
+
+###### Annotate the schema with access control policy
+
+We need to support data-sharing, so the access control policy should be specified to the schema.
+
+- ENC_FOR(Sensitive-Column1, PrincipalA), A has access to column1.
+- (principalA typeX) SPEAKS_FOR(principalB typeY), A has access to all keys that b has access to.
+
+![Access Control Policy Annotation](http://puncsky.github.com/images/cryptdb/accessControl.png)
+
+###### Chain encryption keys
+
+- Each principal is associated with a secret and random-generated key
+	- symmetric key (online) + public/private key pair (off-line)
+	- External principal's random-generated symmetric key and private key is encrypted with user's password and stored in *external\_keys*
+- If B speaks for A, A's key is encrypted with B's key and stored in *access\_keys* table
+- When a user logs in, the proxy loads all the key the user has access to.
+- When a user logs out, the proxy delete all the user's keys in the memory.
+
+At this time, threat 2 is successfully conquered while the data-sharing feature is retained.
 
 ### 4. Implementation & Evaluation 
+
+#### 4.1 Implementation
+
+- No change to the DBMS and applications
+- Portable
+- Multi-user keys: annotations and login/logout
+
+#### 4.2 Evaluation
+
+- Support most queries
+- Exceptional confidentiality
+	- Most columns at RND layer
+	- Most columns at OPE analyzed were less sensitive
+- Throughput loss 26%
 
 ### 5. Conclusion
 
