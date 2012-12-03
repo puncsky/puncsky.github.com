@@ -1,0 +1,56 @@
+---
+layout: post
+title: "Cells: a virtual mobile smartphone architecture (SOSP '11)"
+date: 2012-12-01 19:52
+comments: true
+categories: 
+---
+
+[Columbia University](http://systems.cs.columbia.edu/archive/pub/2011/10/cells-a-virtual-mobile-smartphone-architecture/), [papers](http://www.sigops.org/sosp/sosp11/current/2011-Cascais/printable/13-andrus.pdf), [slides](http://www.sigops.org/sosp/sosp11/current/2011-Cascais/13-andrus-slides.pdf), [video](http://www.youtube.com/watch?v=XBBJ8873vqE)
+
+### 1. Problem
+
+The popularity of smartphones results in the need that a user may purchase several smartphones for different uses. Virtual machine (VM) mechanisms may be the solution, which enables separate and isolated instances of a smartphone software stack to run on the same ARM hardware. 
+
+### 2. Challenges
+
+Traditional VMs for desktops and servers can not be applied to smartphones for 
+
+1. limited resources can not fully support running an another entire OS
+2. existing design cannot leverage new devices, such as GPS, camera, GPUs, ...
+
+### 3. Solution
+
+Key observation: **one app at a time**
+<!--more-->
+- Cells, a new, lightweight virtualization architecture for enabling multiple virtual phones (VPs) to run simultaneously on the same smartphone hardware with high performance. 
+	- not entire OS virtualization but multiple isolated virtual phones (VP) on a single OS.
+	- a novel file system layout based on unioning which minimizes memory consumption
+- Architecture
+	- one foreground VP for displaying and multiple background VPs
+	- remap OS resource id to virtual ones and then each VP has its own private virtual namespaces
+	- foreground VP has direct access to hardware. If the foreground VP does not acquire exclusive access, the hardware can be shared by background VPs.
+		- Kernel-Level Device Virtualization to support transparency and performance by introducing _device namespace_ 
+		- User-Level Device Virtualization to support portability and transparency by proxy
+- Graphics
+	- Linux framebuffer (FB) provides an abstraction to a physical display, so a new FB device driver **mux\_fb**  is introduced between virtual addresses and physical addresses, providing an identical device interface to all VPs.
+	- The foreground VP uses the GPU directly, but background VPs use GPU render into their respective _backing buffers_.
+- Power Management
+	- _early suspend_ interface: it is blocked by Cells for background VPs
+	- _fbearlysuspend_ interface: Cells makes it namespace-aware. Block & unblock.
+	- _weak locks_ interface: The same weak lock can be locked and unlocked independently by multiple device namespaces.
+- Phone calls: combination use of VoIP and cellular network
+	- VoIP provides telephone numbers for VPs 
+	- Proxy libraries
+	
+Implementation & evaluation
+
+- Up to 5 VPs on Nexus 1, Nexus S ...
+- Modest memory overhead (less than 2%)
+- Imperceptible switch time among VPs
+
+### 4. Conclusion
+
+- First OS virtualization fully supports smartphone hardware with native performance
+- One app at a time -> foreground and background usage model
+- No need of modifications for applications
