@@ -1,0 +1,297 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Cells: a virtual mobile smartphone architecture (SOSP '11) - CS Notebook</title>
+  <meta name="author" content="Tian">
+
+  
+  <meta name="description" content="Columbia University, papers, slides, video 1. Problem The popularity of smartphones results in the need that a user may purchase several smartphones &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://puncsky.github.com/blog/2012/12/01/cells/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="CS Notebook" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">CS Notebook</a></h1>
+  
+    <h2>Just a notebook about life and computer</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:puncsky.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Cells: A Virtual Mobile Smartphone Architecture (SOSP '11)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-01T19:52:00-05:00" pubdate data-updated="true">Dec 1<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="http://systems.cs.columbia.edu/archive/pub/2011/10/cells-a-virtual-mobile-smartphone-architecture/">Columbia University</a>, <a href="http://www.sigops.org/sosp/sosp11/current/2011-Cascais/printable/13-andrus.pdf">papers</a>, <a href="http://www.sigops.org/sosp/sosp11/current/2011-Cascais/13-andrus-slides.pdf">slides</a>, <a href="http://www.youtube.com/watch?v=XBBJ8873vqE">video</a></p>
+
+<h3>1. Problem</h3>
+
+<p>The popularity of smartphones results in the need that a user may purchase several smartphones for different uses. Virtual machine (VM) mechanisms may be the solution, which enables separate and isolated instances of a smartphone software stack to run on the same ARM hardware.</p>
+
+<h3>2. Challenges</h3>
+
+<p>Traditional VMs for desktops and servers can not be applied to smartphones for</p>
+
+<ol>
+<li>limited resources can not fully support running an another entire OS</li>
+<li>existing design cannot leverage new devices, such as GPS, camera, GPUs, &#8230;</li>
+</ol>
+
+
+<h3>3. Solution</h3>
+
+<p>Key observation: <strong>one app at a time</strong></p>
+
+<!--more-->
+
+
+<ul>
+<li>Cells, a new, lightweight virtualization architecture for enabling multiple virtual phones (VPs) to run simultaneously on the same smartphone hardware with high performance.
+
+<ul>
+<li>not entire OS virtualization but multiple isolated virtual phones (VP) on a single OS.</li>
+<li>a novel file system layout based on unioning which minimizes memory consumption</li>
+</ul>
+</li>
+<li>Architecture
+
+<ul>
+<li>one foreground VP for displaying and multiple background VPs</li>
+<li>remap OS resource id to virtual ones and then each VP has its own private virtual namespaces</li>
+<li>foreground VP has direct access to hardware. If the foreground VP does not acquire exclusive access, the hardware can be shared by background VPs.
+
+<ul>
+<li>Kernel-Level Device Virtualization to support transparency and performance by introducing <em>device namespace</em></li>
+<li>User-Level Device Virtualization to support portability and transparency by proxy</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Graphics
+
+<ul>
+<li>Linux framebuffer (FB) provides an abstraction to a physical display, so a new FB device driver <strong>mux_fb</strong>  is introduced between virtual addresses and physical addresses, providing an identical device interface to all VPs.</li>
+<li>The foreground VP uses the GPU directly, but background VPs use GPU render into their respective <em>backing buffers</em>.</li>
+</ul>
+</li>
+<li>Power Management
+
+<ul>
+<li><em>early suspend</em> interface: it is blocked by Cells for background VPs</li>
+<li><em>fbearlysuspend</em> interface: Cells makes it namespace-aware. Block &amp; unblock.</li>
+<li><em>weak locks</em> interface: The same weak lock can be locked and unlocked independently by multiple device namespaces.</li>
+</ul>
+</li>
+<li>Phone calls: combination use of VoIP and cellular network
+
+<ul>
+<li>VoIP provides telephone numbers for VPs</li>
+<li>Proxy libraries</li>
+</ul>
+</li>
+</ul>
+
+
+<p>Implementation &amp; evaluation</p>
+
+<ul>
+<li>Up to 5 VPs on Nexus 1, Nexus S &#8230;</li>
+<li>Modest memory overhead (less than 2%)</li>
+<li>Imperceptible switch time among VPs</li>
+</ul>
+
+
+<h3>4. Conclusion</h3>
+
+<ul>
+<li>First OS virtualization fully supports smartphone hardware with native performance</li>
+<li>One app at a time -> foreground and background usage model</li>
+<li>No need of modifications for applications</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Tian</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-01T19:52:00-05:00" pubdate data-updated="true">Dec 1<span>st</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2012/12/01/cells/" data-via="" data-counturl="http://puncsky.github.com/blog/2012/12/01/cells/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/11/27/wang-gong-quan-jiang-zuo/" title="Previous Post: 王功权先生给年轻人的四点建议">&laquo; 王功权先生给年轻人的四点建议</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/12/01/cells/">Cells: a virtual mobile smartphone architecture (SOSP '11)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/27/wang-gong-quan-jiang-zuo/">王功权先生给年轻人的四点建议</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/26/cryptdb/">CryptDB: Protecting Confidentiality with Encrypted Query Processing</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/21/ru-he-yue-du-%5B%3F%5D-pian-lun-wen-%3F/">如何阅读一篇论文？</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/">HadoopDB: an architectural hybrid of MapReduce and DBMS technologies for analytical workloads (VLDB '09)</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Tian -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
