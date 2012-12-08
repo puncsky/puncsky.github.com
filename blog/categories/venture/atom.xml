@@ -1,96 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>王功权先生给年轻人的四点建议 - CS Notebook</title>
-  <meta name="author" content="Tian">
-
-  
-  <meta name="description" content="概述 方才在和朋友们一起去管理学院参加了王功权先生的讲座，期间做了一些笔记，稍作整理记录在此。王功权先生似乎并没有为这次演讲做过多的准备，也不愿意表现地太过正式，毕竟谈人生这种事情，还是需要明月夜短松冈这种微醺的情怀的。实际的情况可能是，他在从哥伦比亚大学过来的路上稍微用iPhone写了个提纲， &hellip;">
-  
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://puncsky.github.com/blog/2012/11/27/wang-gong-quan-jiang-zuo/">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="CS Notebook" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">CS Notebook</a></h1>
-  
-    <h2>Just a notebook about life and computer</h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:puncsky.github.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
-  
-  <header>
+  <title><![CDATA[Category: Venture | CS Notebook]]></title>
+  <link href="http://puncsky.github.com/blog/categories/venture/atom.xml" rel="self"/>
+  <link href="http://puncsky.github.com/"/>
+  <updated>2012-12-08T11:25:03-05:00</updated>
+  <id>http://puncsky.github.com/</id>
+  <author>
+    <name><![CDATA[Tian]]></name>
     
-      <h1 class="entry-title">王功权先生给年轻人的四点建议</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
-
-
-<time datetime="2012-11-27T16:34:00-05:00" pubdate data-updated="true">Nov 27<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-<div class="entry-content"><h3>概述</h3>
+  <entry>
+    <title type="html"><![CDATA[王功权先生给年轻人的四点建议]]></title>
+    <link href="http://puncsky.github.com/blog/2012/11/27/wang-gong-quan-jiang-zuo/"/>
+    <updated>2012-11-27T16:34:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2012/11/27/wang-gong-quan-jiang-zuo</id>
+    <content type="html"><![CDATA[<h3>概述</h3>
 
 <p>方才在和朋友们一起去管理学院参加了王功权先生的讲座，期间做了一些笔记，稍作整理记录在此。王功权先生似乎并没有为这次演讲做过多的准备，也不愿意表现地太过正式，毕竟谈人生这种事情，还是需要明月夜短松冈这种微醺的情怀的。实际的情况可能是，他在从哥伦比亚大学过来的路上稍微用iPhone写了个提纲，讲述之前看了几眼，便开始侃侃而谈，当然，情到深处之时，还是让人颇有触动的，不愧为一位诗人。以下的记录纯属个人笔记，有我个人理解的偏差，并不能确保准确地反映王功权先生的观点，也不反映我自己的观点。</p>
 
@@ -206,129 +134,7 @@
 <p>至于房地产，房地产行业与城市人口增多是最直接的线性相关的，不管土地财政依赖不依赖，不管政府政策调控不调控。只要有大量的人口涌进城市，城市房地产就会兴旺。</p>
 
 <p>至于私募股权基金，私募股权基金不是主流产品，在中国之所以火爆，是因为媒体抄得火爆。实际上其中的竞争是非常激烈的，对于青年来说是极其危险的。这个行业只适合经验丰富的人。年轻人就牛皮哄哄地做这个行业，天天跟老总打交道，四处找错，这样不好。当然，如果有应届毕业生有志进入这个领域，他也欢迎，因为是金子总会发光 ：D</p>
-</div>
-
-
-  <footer>
-    <p class="meta">
-      
+]]></content>
+  </entry>
   
-
-<span class="byline author vcard">Posted by <span class="fn">Tian</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-27T16:34:00-05:00" pubdate data-updated="true">Nov 27<span>th</span>, 2012</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/venture/'>Venture</a>
-  
-</span>
-
-
-    </p>
-    
-      <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2012/11/27/wang-gong-quan-jiang-zuo/" data-via="" data-counturl="http://puncsky.github.com/blog/2012/11/27/wang-gong-quan-jiang-zuo/" >Tweet</a>
-  
-  
-  
-</div>
-
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2012/11/26/cryptdb/" title="Previous Post: CryptDB: Protecting Confidentiality with Encrypted Query Processing (SOSP '11)">&laquo; CryptDB: Protecting Confidentiality with Encrypted Query Processing (SOSP '11)</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2012/12/01/cells/" title="Next Post: Cells: a virtual mobile smartphone architecture (SOSP '11)">Cells: a virtual mobile smartphone architecture (SOSP '11) &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
-</div>
-
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2012/12/06/cleanos/">CleanOS: Limiting Mobile Data Exposure with Idle Eviction (OSDI'12)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/12/06/chord/">Chord: A Scalable Peer-to-peer Lookup Service for Internet Applications</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/12/01/cells/">Cells: a virtual mobile smartphone architecture (SOSP '11)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/11/27/wang-gong-quan-jiang-zuo/">王功权先生给年轻人的四点建议</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/11/26/cryptdb/">CryptDB: Protecting Confidentiality with Encrypted Query Processing (SOSP '11)</a>
-      </li>
-    
-  </ul>
-</section>
-
-
-
-
-
-
-  
-</aside>
-
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - Tian -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
-</footer>
-  
-
-
-
-
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-
-</body>
-</html>
+</feed>

@@ -9,7 +9,7 @@
   <meta name="author" content="Tian">
 
   
-  <meta name="description" content="IBM, MS, paper, Video, Slides 1. Problem High overhead of managing and extending network devices for smart home: 1) growing number of devices 2) &hellip;">
+  <meta name="description" content="Microsoft, paper, video, slides 1. Problem How to achieve fair scheduling? In other words, a guy who gets up early and performs huge tasks on a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,106 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/20/quincy-fair-scheduling-for-distributed-computing-clusters-sosp-09/">Quincy: Fair Scheduling for Distributed Computing Clusters (SOSP &#8216;09)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-20T16:08:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://research.microsoft.com/en-us/people/misard/">Microsoft</a>, <a href="http://www.sigops.org/sosp/sosp09/papers/isard-sosp09.pdf">paper</a>, <a href="http://www.sigops.org/sosp/sosp09/videos/19_michael_isard.mov">video</a>, <a href="http://www.sigops.org/sosp/sosp09/slides/quincy/QuincyTestPage.html">slides</a></p>
+
+<h2>1. Problem</h2>
+
+<p>How to achieve fair scheduling? In other words, a guy who gets up early and performs huge tasks on a cluster should not always monopolize most computing resource, and someone else&#8217;s assignments should not be ignored. Otherwise, it is unfair for all the cluster users.</p>
+
+<p><strong>Fair sharing</strong> of the cluster resources</p>
+
+<p>Job x takes <em>t</em> seconds, when running exclusively on the cluster. When the cluster has <em>J</em> jobs, x should take &lt;= <em>Jt</em> seconds.</p>
+
+<p><em>N</em> computers and <em>J</em> jobs: each job gets at least N/J computers.</p>
+
+<h2>2. Challenges</h2>
+
+<p>Traditionally,</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/20/quincy-fair-scheduling-for-distributed-computing-clusters-sosp-09/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/17/chun-tian-zai-na-li-ya-chun-tian-zai-na-li-%3F/">春天在哪里呀春天在哪里？</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-17T15:51:00-05:00" pubdate data-updated="true">Nov 17<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>一 大叔</h3>
+
+<p>第一次见到阿米(Amittai F. Aviram)大叔就被彻底震撼到了，你简直就无法相信眼前这位爷爷辈的大叔居然是计算机系的博士！OSDI&#8217;10（计算机系统界顶级会议）最佳论文的第一作者！要知道，人人生而平等，会议生而不等，同是顶级会议，论文被OSDI录用就比VLDB、WWW、NSDI等等这些难得不是一点两点；而且系统领域的论文不是推个数学公式，做个小实验验证一下就可以过关，而是需要老老实实动手实现整个复杂的设计的。而这位谈吐之间无时无刻不环绕着功成身退气息的大叔，此刻正在向比他小个几十岁的教授们作毕业答辩！机缘巧合的是，不久之后，当我想看看如何实现一个简单的数据库的时候，满心欢喜地查到一个B+树的C语言实现，左上角竟然也是赫然打着阿米大叔的大名！</p>
+
+<p>大叔啊，您都一大把年纪了，上能发好论文，下能写好代码，让我们这群自诩码农的后生们情何以堪？元芳，你怎么看？此事必有蹊跷！于是怀着复杂的心情，我点开了大叔的履历。其实，大叔在三十年前就已经成为了南卡大学(University of South Carolina)的英语文学教授，酷爱写诗，是拿到了终身教职的。后来，不知为何对计算机产生了浓厚的兴趣，04年去哥大读计算机专业的本科，后来一发不可收拾，经过八年的锤炼，几个月前在耶鲁博士毕业。现在在MathWorks任高级软件工程师……</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/17/chun-tian-zai-na-li-ya-chun-tian-zai-na-li-%3F/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -185,6 +285,14 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/12/06/cleanos/">CleanOS: Limiting Mobile Data Exposure with Idle Eviction (OSDI&#8217;12)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/06/chord/">Chord: A Scalable Peer-to-peer Lookup Service for Internet Applications</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/12/01/cells/">Cells: a virtual mobile smartphone architecture (SOSP &#8216;11)</a>
       </li>
     
@@ -193,15 +301,7 @@
       </li>
     
       <li class="post">
-        <a href="/blog/2012/11/26/cryptdb/">CryptDB: Protecting Confidentiality with Encrypted Query Processing</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/11/21/ru-he-yue-du-%5B%3F%5D-pian-lun-wen-%3F/">如何阅读一篇论文？</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/">HadoopDB: an architectural hybrid of MapReduce and DBMS technologies for analytical workloads (VLDB &#8216;09)</a>
+        <a href="/blog/2012/11/26/cryptdb/">CryptDB: Protecting Confidentiality with Encrypted Query Processing (SOSP &#8216;11)</a>
       </li>
     
   </ul>

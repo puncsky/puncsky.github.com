@@ -4,7 +4,7 @@
   <title><![CDATA[CS Notebook]]></title>
   <link href="http://puncsky.github.com/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2012-12-02T20:25:49-05:00</updated>
+  <updated>2012-12-08T11:25:03-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -12,6 +12,203 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[CleanOS: Limiting Mobile Data Exposure with Idle Eviction (OSDI'12)]]></title>
+    <link href="http://puncsky.github.com/blog/2012/12/06/cleanos/"/>
+    <updated>2012-12-06T06:40:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2012/12/06/cleanos</id>
+    <content type="html"><![CDATA[<p><a href="http://systems.cs.columbia.edu/projects/cleanos/">Columbia University</a>, <a href="https://www.usenix.org/system/files/conference/osdi12/osdi12-final-203.pdf">paper</a> <a href="https://www.usenix.org/sites/default/files/conference/protected-files/tang_osdi12_slides.pdf">slides</a>, <a href="https://www.usenix.org/conference/osdi12/cleanos-increasing-mobile-data-control-cloud-based-eviction">video</a></p>
+
+<h3>1. Problem</h3>
+
+<p>How to protect sensitive data in mobile phones? Mobile devices are extremely prone to be stolen or lost.</p>
+
+<!--more-->
+
+
+<h3>2. Challenges</h3>
+
+<ul>
+<li>Users don’t lock their devices (57%) or configure poor passwords</li>
+<li><strong>Physical attacks</strong> are notoriously difficult to protect against
+
+<ul>
+<li>E.g., memory dumps, cold boot attacks, breaking trusted-hardware seals can reveal data or decryption keys</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>3. Solution</h3>
+
+<p>CleanOS evicts cryptographic keys to the trusted cloud and keeps a clean environment at all times:</p>
+
+<ol>
+<li>Sensitive data objects (SDOs) disappear automatically unless are frequently used</li>
+<li><em>evict-idle</em> garbage collector (eiGC) encrypts objects that have not been active for a while</li>
+</ol>
+
+
+<p>Architecture Overview: 1. SDO abstraction, 2. Dalvik interpreter with eiGC, 3. SDO cloud store</p>
+
+<h4>SDO</h4>
+
+<p>Application developers restrict sensitive data with SDO. There are three default default: &#8220;SSL&#8221;, &#8220;User Input&#8221;, &#8220;Password&#8221; SDOs in SDK. And it does not rely on app modifications.</p>
+
+<pre><code>// SDO API:
+class SDO {
+    SDO(String description, SDOLevel level) // new SDO
+    void add(Object o)      // adds object to SDO
+    void remvoe(Object o)   // removes object from SDO
+}
+// CleanOS protocol between the phone and the cloud
+registerSDO(sdoID, appName, description, key) 
+    // register SDO with DB
+fetchKey(appName, sdoID, bucketID) -&gt; key || null
+    // fetches the key for a bucket in the SDO
+    // bucketID = 0 returns the SDO's key
+sdoEvicted(appName, sdoID)
+    // anounces an SDO's eviction to the cloud
+</code></pre>
+
+<h4>Dalvik VM</h4>
+
+<ol>
+<li>Tracking module(Modified TaintDroid): automatically marks and saves SDO</li>
+<li>Eviction module with eiGC: periodically <code>sdoEvicted()</code> (AES)</li>
+<li>Decryption module: <code>fetchKey()</code> (Several keys at once)</li>
+</ol>
+
+
+<h4>Trusted Clouds</h4>
+
+<p>The cloud keeps the DB to store SDO information and audit logs.</p>
+
+<h4>Implementation &amp; Evaluation</h4>
+
+<p>Dalvik VM(TaintDroid taint-tracking system, interpreter, GC,&#8230;) , Google App Engine.</p>
+
+<p>Exposure: ~100% to &lt;~7%</p>
+
+<p>Auditing: much better with user-defined SDOs</p>
+
+<p>Reasonable network traffic and energy overhead with optimization.</p>
+
+<h3>4. Conclusion</h3>
+
+<p>Smartphones accumulate sensitive data over time and vulnerable to physical attacks. CleanOS protects confidentiality in smartphones by evicting idle sensitive data to the trusted cloud. The idea is mainly implemented with SDO and eiGC. It successfully provides practical protection and auditing services for Android devices.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Chord: A Scalable Peer-to-peer Lookup Service for Internet Applications]]></title>
+    <link href="http://puncsky.github.com/blog/2012/12/06/chord/"/>
+    <updated>2012-12-06T06:29:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2012/12/06/chord</id>
+    <content type="html"><![CDATA[<p><a href="http://pdos.lcs.mit.edu/chord/">MIT PDOS</a>, <a href="http://pdos.csail.mit.edu/papers/chord:sigcomm01/chord_sigcomm.pdf">paper</a>, <a href="http://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=5&amp;cad=rja&amp;ved=0CGEQFjAE&amp;url=http%3A%2F%2Fpdos.csail.mit.edu%2Frtm%2Fslides%2Fsigcomm01.ppt&amp;ei=tYLAUNjmLoSt0AGb7YCoBw&amp;usg=AFQjCNHmlld_WDglWjj7TP_coYsk1O_l-A&amp;sig2=SO8yiWfEsi_V2VEI-F2pmw">slides</a></p>
+
+<h3>1. Problem</h3>
+
+<p><em>A lookup protocol</em>: How to locate the node that stores a data item in a dynamic P2P system with frequent node arrivals and departures? In other words, given a key, it maps the key onto a node.</p>
+
+<!--more-->
+
+
+<h3>2. Challenges</h3>
+
+<ul>
+<li>Scalability
+
+<ul>
+<li>Previous consistent hashing needs to know <strong>most</strong> other nodes</li>
+</ul>
+</li>
+<li>Robustness</li>
+<li>Efficiency
+
+<ul>
+<li>Centralized lookup (Napster): O(N)</li>
+<li>Flooded queries (Gnutella): Worst case O(N)</li>
+</ul>
+</li>
+<li>Simplicity</li>
+</ul>
+
+
+<h3>3. Solution</h3>
+
+<p>Chord: Just <code>IPaddress Lookup(key)</code> service, no data storage.</p>
+
+<p>Distributed Hash Table (DHT)</p>
+
+<p><strong>Consistent Hashing</strong>: Key ID and Node ID are in the <strong>same ID space</strong> with SHA-1. A key is stored at is successor (node with next higher ID). For each node &#8230;</p>
+
+<h4>Simple Lookup Algorithm (O(n))</h4>
+
+<p>Each node picks a random ID in a circular numeric space, and supervises a region of ID space immediately following its ID. The data shall be stored in its successor.</p>
+
+<pre><code>Lookup(my-id, key-id)
+    n = my sucessor
+    if my-id &lt; n &lt; key-id
+        call Lookup(id) on node n   // next hop
+    else
+        return my successor         // done
+</code></pre>
+
+<h4>Lookup with finger tables (log(N))</h4>
+
+<p>Finger i points to successor of n+2<sup>i.</sup></p>
+
+<pre><code>Lookup(my-id, key)
+    look in local finger table for highest node m s.t. my-id &lt; n &lt; key-id
+    if n exists
+        call Lookup(id) on node n   // next hop
+    else
+        return my successor         // done
+</code></pre>
+
+<p>How to join a new node? For example, join N36 (Node 36) between N25 and N40.</p>
+
+<ol>
+<li>Lookup(36) and get N40&#8217;s IP</li>
+<li>N36 sets its own successor pointer point to N40</li>
+<li>Copy keys 26~36 from N40 to N36</li>
+<li>Set N25&#8217;s successor pointer point to N36, and update finger pointers in the background</li>
+</ol>
+
+
+<p>How to deal with failure (a node doesn&#8217;t know correct successor)?</p>
+
+<ul>
+<li>Successor lists. Each node knows <em>r</em> immediate successors.
+
+<ul>
+<li>Assume 1/2 of nodes fail.</li>
+<li>P(successor list all dead) (1/2)<sup>r</sup></li>
+<li>P(no broken nodes)=(1-(1/2)<sup>r)<sup>N</sup></sup></li>
+</ul>
+</li>
+</ul>
+
+
+<h4>Lookup with fault tolerance</h4>
+
+<pre><code>Lookup(my-id, key-id)
+    look in local finger table and sucessor-list for highest node n s.t. my-id &lt; n &lt; key-id
+    if n exists
+        call Lookup(id) on node n   // next hop
+        if call failed
+            remove n from finger table
+            return Lookup(my-id, key-id)
+    else return my sucessor         // done
+</code></pre>
+
+<h3>4. Conclusion</h3>
+
+<p>Chord uses consistent hashing, distributed hash tables, and novel finger tables to provide lookup services for P2P systems. Each node maintains only O(logN) other nodes. The arrivals and departures acquire only O(log<sup>2</sup> N) messages. The successor list can deal with failure effectively. Chord is simple, scalable, and efficient.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Cells: a virtual mobile smartphone architecture (SOSP '11)]]></title>
@@ -233,7 +430,7 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[CryptDB: Protecting Confidentiality with Encrypted Query Processing]]></title>
+    <title type="html"><![CDATA[CryptDB: Protecting Confidentiality with Encrypted Query Processing (SOSP '11)]]></title>
     <link href="http://puncsky.github.com/blog/2012/11/26/cryptdb/"/>
     <updated>2012-11-26T19:45:00-05:00</updated>
     <id>http://puncsky.github.com/blog/2012/11/26/cryptdb</id>
