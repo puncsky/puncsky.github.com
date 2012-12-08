@@ -3,7 +3,7 @@ layout: post
 title: "Cells: a virtual mobile smartphone architecture (SOSP '11)"
 date: 2012-12-01 19:52
 comments: true
-categories: 
+categories: Paper Review
 ---
 
 [Columbia University](http://systems.cs.columbia.edu/archive/pub/2011/10/cells-a-virtual-mobile-smartphone-architecture/), [papers](http://www.sigops.org/sosp/sosp11/current/2011-Cascais/printable/13-andrus.pdf), [slides](http://www.sigops.org/sosp/sosp11/current/2011-Cascais/13-andrus-slides.pdf), [video](http://www.youtube.com/watch?v=XBBJ8873vqE)

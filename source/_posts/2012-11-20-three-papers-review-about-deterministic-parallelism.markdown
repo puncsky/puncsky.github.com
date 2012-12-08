@@ -3,7 +3,7 @@ layout: post
 title: "Three Papers Review about Deterministic Parallelism"
 date: 2012-11-20 16:10
 comments: true
-categories: 
+categories: Paper Review
 ---
 
 [Yale Dedis](http://dedis.cs.yale.edu/2010/det/)

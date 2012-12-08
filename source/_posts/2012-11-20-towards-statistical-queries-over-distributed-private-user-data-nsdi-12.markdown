@@ -3,7 +3,7 @@ layout: post
 title: "Towards Statistical Queries over Distributed Private User Data (NSDI '12)"
 date: 2012-11-20 16:13
 comments: true
-categories: 
+categories: Paper Review
 ---
 
 From [MPI-SWS, Germany](https://sites.google.com/site/ruichuanc/), [paper](https://73aab115-a-62cb3a1a-s-sites.googlegroups.com/site/ruichuanc/pddp-nsdi12.pdf?attachauth=ANoY7cqTHmW8qn2UrCjxk0u-eafRsp77w2XtpG9QdnY9nOnDKkELrYiH-RrOI2ILFnQUv6gt-oz_ek1DA8q7TptjvCEWWWpT02huRCgNYXW-bUNQwjJjM0DLN7tiJzOKD509vt1JhOZ_fHQ_rijDX5Dhh3Bx1pdZotJp7mDbCw0yrcSTYEfbXAuzkZK2zDxfRKYzZXww-dESgY9wquSilSiX3ZrPYrATOg%3D%3D&attredirects=0) and [slides](https://www.usenix.org/sites/default/files/conference/protected-files/pddp-talk-nsdi12.pdf)

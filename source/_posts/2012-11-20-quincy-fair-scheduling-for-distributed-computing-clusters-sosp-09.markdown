@@ -3,7 +3,7 @@ layout: post
 title: "Quincy: Fair Scheduling for Distributed Computing Clusters (SOSP '09)"
 date: 2012-11-20 16:08
 comments: true
-categories: 
+categories: Paper Review
 ---
 [Microsoft](http://research.microsoft.com/en-us/people/misard/), [paper](http://www.sigops.org/sosp/sosp09/papers/isard-sosp09.pdf), [video](http://www.sigops.org/sosp/sosp09/videos/19_michael_isard.mov), [slides](http://www.sigops.org/sosp/sosp09/slides/quincy/QuincyTestPage.html)
 

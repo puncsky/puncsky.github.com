@@ -3,7 +3,7 @@ layout: post
 title: "王功权先生给年轻人的四点建议"
 date: 2012-11-27 16:34
 comments: true
-categories: 
+categories: Venture
 ---
 
 ### 概述

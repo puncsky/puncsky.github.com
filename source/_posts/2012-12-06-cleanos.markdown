@@ -1,0 +1,71 @@
+---
+layout: post
+title: "CleanOS: Limiting Mobile Data Exposure with Idle Eviction (OSDI'12)"
+date: 2012-12-06 06:40
+comments: true
+categories: 
+---
+
+[Columbia University](http://systems.cs.columbia.edu/projects/cleanos/), [paper](https://www.usenix.org/system/files/conference/osdi12/osdi12-final-203.pdf) [slides](https://www.usenix.org/sites/default/files/conference/protected-files/tang_osdi12_slides.pdf), [video](https://www.usenix.org/conference/osdi12/cleanos-increasing-mobile-data-control-cloud-based-eviction)
+
+### 1. Problem
+
+How to protect sensitive data in mobile phones? Mobile devices are extremely prone to be stolen or lost.
+<!--more-->
+### 2. Challenges
+
+- Users don’t lock their devices (57%) or configure poor passwords 
+- **Physical attacks** are notoriously difficult to protect against 
+	- E.g., memory dumps, cold boot attacks, breaking trusted-hardware seals can reveal data or decryption keys 
+	
+### 3. Solution
+
+CleanOS evicts cryptographic keys to the trusted cloud and keeps a clean environment at all times:
+
+1. Sensitive data objects (SDOs) disappear automatically unless are frequently used
+2. _evict-idle_ garbage collector (eiGC) encrypts objects that have not been active for a while
+
+Architecture Overview: 1. SDO abstraction, 2. Dalvik interpreter with eiGC, 3. SDO cloud store
+
+#### SDO
+
+Application developers restrict sensitive data with SDO. There are three default default: "SSL", "User Input", "Password" SDOs in SDK. And it does not rely on app modifications.
+
+	// SDO API:
+	class SDO {
+		SDO(String description, SDOLevel level) // new SDO
+		void add(Object o)		// adds object to SDO
+		void remvoe(Object o)	// removes object from SDO
+	}
+	// CleanOS protocol between the phone and the cloud
+	registerSDO(sdoID, appName, description, key) 
+		// register SDO with DB
+	fetchKey(appName, sdoID, bucketID) -> key || null
+		// fetches the key for a bucket in the SDO
+		// bucketID = 0 returns the SDO's key
+	sdoEvicted(appName, sdoID)
+		// anounces an SDO's eviction to the cloud
+
+#### Dalvik VM
+
+1. Tracking module(Modified TaintDroid): automatically marks and saves SDO
+2. Eviction module with eiGC: periodically `sdoEvicted()` (AES)
+3. Decryption module: `fetchKey()` (Several keys at once)
+
+#### Trusted Clouds
+
+The cloud keeps the DB to store SDO information and audit logs.
+
+#### Implementation & Evaluation
+
+Dalvik VM(TaintDroid taint-tracking system, interpreter, GC,...) , Google App Engine.
+
+Exposure: ~100% to \<~7%
+
+Auditing: much better with user-defined SDOs
+
+Reasonable network traffic and energy overhead with optimization.  
+
+### 4. Conclusion
+
+Smartphones accumulate sensitive data over time and vulnerable to physical attacks. CleanOS protects confidentiality in smartphones by evicting idle sensitive data to the trusted cloud. The idea is mainly implemented with SDO and eiGC. It successfully provides practical protection and auditing services for Android devices.

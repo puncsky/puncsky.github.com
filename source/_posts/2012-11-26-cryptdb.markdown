@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "CryptDB: Protecting Confidentiality with Encrypted Query Processing"
+title: "CryptDB: Protecting Confidentiality with Encrypted Query Processing (SOSP '11)"
 date: 2012-11-26 19:45
 comments: true
-categories: 
+categories: Paper Review
 ---
 
 [MIT CSAIL](http://css.csail.mit.edu/cryptdb/), [papers](http://people.csail.mit.edu/nickolai/papers/raluca-cryptdb.pdf), [slides](http://www.sigops.org/sosp/sosp11/current/2011-Cascais/07-popa.pptx)

@@ -1,0 +1,82 @@
+---
+layout: post
+title: "Chord: A Scalable Peer-to-peer Lookup Service for Internet Applications"
+date: 2012-12-06 06:29
+comments: true
+categories: Paper Review
+---
+
+[MIT PDOS](http://pdos.lcs.mit.edu/chord/), [paper](http://pdos.csail.mit.edu/papers/chord:sigcomm01/chord_sigcomm.pdf), [slides](http://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=5&cad=rja&ved=0CGEQFjAE&url=http%3A%2F%2Fpdos.csail.mit.edu%2Frtm%2Fslides%2Fsigcomm01.ppt&ei=tYLAUNjmLoSt0AGb7YCoBw&usg=AFQjCNHmlld_WDglWjj7TP_coYsk1O_l-A&sig2=SO8yiWfEsi_V2VEI-F2pmw)
+
+### 1. Problem
+
+_A lookup protocol_: How to locate the node that stores a data item in a dynamic P2P system with frequent node arrivals and departures? In other words, given a key, it maps the key onto a node.
+<!--more-->
+### 2. Challenges
+
+- Scalability
+	- Previous consistent hashing needs to know **most** other nodes
+- Robustness
+- Efficiency
+	- Centralized lookup (Napster): O(N)
+	- Flooded queries (Gnutella): Worst case O(N)
+- Simplicity
+
+### 3. Solution
+
+Chord: Just `IPaddress Lookup(key)` service, no data storage.
+
+Distributed Hash Table (DHT)
+
+**Consistent Hashing**: Key ID and Node ID are in the **same ID space** with SHA-1. A key is stored at is successor (node with next higher ID). For each node ...
+
+#### Simple Lookup Algorithm (O(n))
+
+Each node picks a random ID in a circular numeric space, and supervises a region of ID space immediately following its ID. The data shall be stored in its successor.
+
+	Lookup(my-id, key-id)
+		n = my sucessor
+		if my-id < n < key-id
+			call Lookup(id) on node n	// next hop
+		else
+			return my successor			// done
+
+#### Lookup with finger tables (log(N))
+
+Finger i points to successor of n+2^i. 
+
+	Lookup(my-id, key)
+		look in local finger table for highest node m s.t. my-id < n < key-id
+		if n exists
+			call Lookup(id) on node n	// next hop
+		else
+			return my successor			// done
+			
+How to join a new node? For example, join N36 (Node 36) between N25 and N40.
+
+1. Lookup(36) and get N40's IP
+2. N36 sets its own successor pointer point to N40
+3. Copy keys 26~36 from N40 to N36
+4. Set N25's successor pointer point to N36, and update finger pointers in the background
+
+How to deal with failure (a node doesn't know correct successor)? 
+
+- Successor lists. Each node knows _r_ immediate successors. 
+	- Assume 1/2 of nodes fail.
+	- P(successor list all dead) (1/2)^r
+	- P(no broken nodes)=(1-(1/2)^r)^N
+	
+#### Lookup with fault tolerance
+
+	Lookup(my-id, key-id)
+		look in local finger table and sucessor-list for highest node n s.t. my-id < n < key-id
+		if n exists
+			call Lookup(id) on node n	// next hop
+			if call failed
+				remove n from finger table
+				return Lookup(my-id, key-id)
+		else return my sucessor			// done
+		
+### 4. Conclusion
+
+Chord uses consistent hashing, distributed hash tables, and novel finger tables to provide lookup services for P2P systems. Each node maintains only O(logN) other nodes. The arrivals and departures acquire only O(log^2 N) messages. The successor list can deal with failure effectively. Chord is simple, scalable, and efficient. 
