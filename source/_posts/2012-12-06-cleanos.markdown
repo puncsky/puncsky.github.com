@@ -3,7 +3,7 @@ layout: post
 title: "CleanOS: Limiting Mobile Data Exposure with Idle Eviction (OSDI'12)"
 date: 2012-12-06 06:40
 comments: true
-categories: 
+categories: Paper Review
 ---
 
 [Columbia University](http://systems.cs.columbia.edu/projects/cleanos/), [paper](https://www.usenix.org/system/files/conference/osdi12/osdi12-final-203.pdf) [slides](https://www.usenix.org/sites/default/files/conference/protected-files/tang_osdi12_slides.pdf), [video](https://www.usenix.org/conference/osdi12/cleanos-increasing-mobile-data-control-cloud-based-eviction)
@@ -68,4 +68,4 @@ Reasonable network traffic and energy overhead with optimization.
 
 ### 4. Conclusion
 
-Smartphones accumulate sensitive data over time and vulnerable to physical attacks. CleanOS protects confidentiality in smartphones by evicting idle sensitive data to the trusted cloud. The idea is mainly implemented with SDO and eiGC. It successfully provides practical protection and auditing services for Android devices.
+Smartphones accumulate sensitive data over time and is vulnerable to physical attacks. CleanOS protects confidentiality in smartphones by evicting idle sensitive data to the trusted cloud. The idea is mainly implemented with SDO and eiGC. It successfully provides practical protection and auditing services for Android devices.
