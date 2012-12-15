@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Review | CS Notebook]]></title>
   <link href="http://puncsky.github.com/blog/categories/review/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2012-12-08T11:25:03-05:00</updated>
+  <updated>2012-12-15T02:10:11-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -12,6 +12,153 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Fast Crash Recovery in RAMCloud (SOSP'11)]]></title>
+    <link href="http://puncsky.github.com/blog/2012/12/13/fast-crash-recovery-in-ramcloud/"/>
+    <updated>2012-12-13T12:22:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2012/12/13/fast-crash-recovery-in-ramcloud</id>
+    <content type="html"><![CDATA[<p><a href="http://www.stanford.edu/~ouster/cgi-bin/home.php">Stanford</a>, <a href="http://www.stanford.edu/~ouster/cgi-bin/papers/ramcloud-recovery.pdf">paper</a>, <a href="https://ramcloud.stanford.edu/wiki/display/ramcloud/RAMCloud+Presentations">slides</a>, <a href="http://www.youtube.com/watch?v=RE3CmdEGv4M">video</a></p>
+
+<h3>1. Problem</h3>
+
+<p>RAMCloud is a storage system helping developers manage large-scale DRAM storage, driven by the fact that large-scale Web applications need to cache large data in DRAM. (For example, Facebook cached 150TB DRAM in <em>memcached</em> out of 200TB of disk storage.)</p>
+
+<p>In order to keep a high level of durability and availability without impacting system performance, RAMCloud has only one single copy of data in DRAM. The problem here is how to recover from crash within 1s~2s.</p>
+
+<h3>2. Challenges</h3>
+
+<ul>
+<li><strong>Durability</strong>. RAM is lack of durability. Data is unavailable on crashed nodes.</li>
+<li><strong>Availability</strong>. How to recover as soon as possible?
+
+<ul>
+<li>Synchronous disk writes too slow</li>
+</ul>
+</li>
+<li><strong>Large scale</strong>. 10,000 nodes, 100TB to 1PB</li>
+</ul>
+
+
+<h3>3. Solution</h3>
+
+<ul>
+<li>For durability, keep a <em>pervasive log structure</em>. Even RAM is a log.</li>
+<li>For availability, employ data parallelism and pipelining while backup data are distributed across a large number of secondary storage devices.</li>
+</ul>
+
+
+<p>Architecture Overview</p>
+
+<p>(Up to 100,000) application servers are connected to (up to 10,000) master/backup storage servers. Each storage server contains a master and a backup. Masters expose RAM as key-value store, while backups store data from other Masters. A central coordinator manages the server pool and tablet configuration.</p>
+
+<p>When a master receives a write requests, it updates its in-memory log and forwards the new data to several backups, which buffer the data in their memory. Master maintains a hash table to record locations of data objects. The data is eventually written to disk or flash in large batches. <strong>Backups must use an auxiliary power source to ensure that buffers can be written to stable storage after a power failure.</strong></p>
+
+<p>When a master crashes, its in-memory log and hash table will be lost, but log data stored on disk on backups will survive.</p>
+
+<p>How to recover? The crashed and restarted master replays log data into RAM and reconstruct the hash table.</p>
+
+<p>How to recover with scale? Partition and scatter log data to more backups randomly. So backup data can be read in parallel.</p>
+
+<p>How about the network bandwidth bottleneck of NIC on recovery master? More recovery masters are used and each master's data are also partitioned. Before recovery, backups receive a partition list specifying which master should what part of data should be sent to.</p>
+
+<p><strong>What if one backup is slow and make the whole process slow?</strong> The master chooses candidate Backups randomly and selects the best one according to its locality, disk information, etc.</p>
+
+<p>Performance: recovers 35GB to RAM in 1.6s using 60 nodes.</p>
+
+<h3>4. Conclusion</h3>
+
+<p>The authors use the log-structured storage instead of synchronous disk write to preserve durability. And the availability is achieved via data parallelism. The design harness the scale well and has exceptional performance.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[CleanOS: Limiting Mobile Data Exposure with Idle Eviction (OSDI'12)]]></title>
+    <link href="http://puncsky.github.com/blog/2012/12/06/cleanos/"/>
+    <updated>2012-12-06T06:40:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2012/12/06/cleanos</id>
+    <content type="html"><![CDATA[<p><a href="http://systems.cs.columbia.edu/projects/cleanos/">Columbia University</a>, <a href="https://www.usenix.org/system/files/conference/osdi12/osdi12-final-203.pdf">paper</a> <a href="https://www.usenix.org/sites/default/files/conference/protected-files/tang_osdi12_slides.pdf">slides</a>, <a href="https://www.usenix.org/conference/osdi12/cleanos-increasing-mobile-data-control-cloud-based-eviction">video</a></p>
+
+<h3>1. Problem</h3>
+
+<p>How to protect sensitive data in mobile phones? Mobile devices are extremely prone to be stolen or lost.</p>
+
+<!--more-->
+
+
+<h3>2. Challenges</h3>
+
+<ul>
+<li>Users don’t lock their devices (57%) or configure poor passwords</li>
+<li><strong>Physical attacks</strong> are notoriously difficult to protect against
+
+<ul>
+<li>E.g., memory dumps, cold boot attacks, breaking trusted-hardware seals can reveal data or decryption keys</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>3. Solution</h3>
+
+<p>CleanOS evicts cryptographic keys to the trusted cloud and keeps a clean environment at all times:</p>
+
+<ol>
+<li>Sensitive data objects (SDOs) disappear automatically unless are frequently used</li>
+<li><em>evict-idle</em> garbage collector (eiGC) encrypts objects that have not been active for a while</li>
+</ol>
+
+
+<p>Architecture Overview: 1. SDO abstraction, 2. Dalvik interpreter with eiGC, 3. SDO cloud store</p>
+
+<h4>SDO</h4>
+
+<p>Application developers restrict sensitive data with SDO. There are three default default: "SSL", "User Input", "Password" SDOs in SDK. And it does not rely on app modifications.</p>
+
+<pre><code>// SDO API:
+class SDO {
+    SDO(String description, SDOLevel level) // new SDO
+    void add(Object o)      // adds object to SDO
+    void remvoe(Object o)   // removes object from SDO
+}
+// CleanOS protocol between the phone and the cloud
+registerSDO(sdoID, appName, description, key) 
+    // register SDO with DB
+fetchKey(appName, sdoID, bucketID) -&gt; key || null
+    // fetches the key for a bucket in the SDO
+    // bucketID = 0 returns the SDO's key
+sdoEvicted(appName, sdoID)
+    // anounces an SDO's eviction to the cloud
+</code></pre>
+
+<h4>Dalvik VM</h4>
+
+<ol>
+<li>Tracking module(Modified TaintDroid): automatically marks and saves SDO</li>
+<li>Eviction module with eiGC: periodically <code>sdoEvicted()</code> (AES)</li>
+<li>Decryption module: <code>fetchKey()</code> (Several keys at once)</li>
+</ol>
+
+
+<h4>Trusted Clouds</h4>
+
+<p>The cloud keeps the DB to store SDO information and audit logs.</p>
+
+<h4>Implementation &amp; Evaluation</h4>
+
+<p>Dalvik VM(TaintDroid taint-tracking system, interpreter, GC,...) , Google App Engine.</p>
+
+<p>Exposure: ~100% to &lt;~7%</p>
+
+<p>Auditing: much better with user-defined SDOs</p>
+
+<p>Reasonable network traffic and energy overhead with optimization.</p>
+
+<h3>4. Conclusion</h3>
+
+<p>Smartphones accumulate sensitive data over time and is vulnerable to physical attacks. CleanOS protects confidentiality in smartphones by evicting idle sensitive data to the trusted cloud. The idea is mainly implemented with SDO and eiGC. It successfully provides practical protection and auditing services for Android devices.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Chord: A Scalable Peer-to-peer Lookup Service for Internet Applications]]></title>
@@ -508,192 +655,6 @@
 <li>No changes to DBMS (e.g., Postgres, MySQL)</li>
 </ol>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[如何阅读一篇论文？]]></title>
-    <link href="http://puncsky.github.com/blog/2012/11/21/ru-he-yue-du-%5B%3F%5D-pian-lun-wen-%3F/"/>
-    <updated>2012-11-21T16:15:00-05:00</updated>
-    <id>http://puncsky.github.com/blog/2012/11/21/ru-he-yue-du-[?]-pian-lun-wen-?</id>
-    <content type="html"><![CDATA[<p>阅读是人生的终极命题之一。人生苦短，我们需要阅读来继承前人的衣钵，我们需要笔记来对抗过往的遗忘，我们需要写作来连接自我和人世沧桑。</p>
-
-<p>那么，<a href="http://blizzard.cs.uwaterloo.ca/keshav/home/Papers/data/07/paper-reading.pdf">如何最高效地阅读一篇论文呢？</a></p>
-
-<p>如同任何一个学习过程，读论文的周期显然是螺旋向上的，可以划分为简单的三板斧：</p>
-
-<!--more-->
-
-
-<h3>1. 略读</h3>
-
-<p>五到十分钟的快速略读：</p>
-
-<ol>
-<li>题目，摘要，介绍</li>
-<li>各部分的标题</li>
-<li>如果有数学式子，大致了解有什么样的理论基础</li>
-<li>结论</li>
-<li>标出引用中度过的文献</li>
-</ol>
-
-
-<p>此时回答下列五个C：</p>
-
-<ol>
-<li>类别Category: A measurement paper? An analysis of an existing system? A description of a research prototype?</li>
-<li>背景Context: Related papers? Theoretical bases?</li>
-<li>正确？Correctness: Valid assumptions?</li>
-<li>贡献Contributions.</li>
-<li>清楚？Clarify. Well-written?</li>
-</ol>
-
-
-<p>此时，可以据此进一步决定该文章是否值得打印出来细看。相应的，自己写论文的时候如果给这些部分写得不出彩，也就不会被人关注到。</p>
-
-<h3>2. 选读</h3>
-
-<p>一个小时的选读，就像GRE阅读那样，只读关键的主干，不要读细节，比如证据、例子什么的。批注关键点、评论、或者自己不懂的地方。细读图表，标注相关阅读文献。</p>
-
-<p>如果此时还是不懂这篇论文在说什么，有三种选择：</p>
-
-<ol>
-<li>算了，这篇文章对我将来没帮助</li>
-<li>认了，大侠过两天重新读过，不过是充点背景知识先</li>
-<li>拼了，进入第三阶段</li>
-</ol>
-
-
-<h3>3. 重现</h3>
-
-<p>四到五小时的重现：自己基于作者的假设会怎么解决这个问题？将自己的解决过程和作者的过程一一比较，就能够发现两者各自的优缺点。</p>
-
-<h3>后话</h3>
-
-<p>这三个步骤并不一定是连在一起的，通常的情况是，拿着一堆论文先走第一步，几个星期后走第二部，再几个星期或者几个月后走第三步。当然，如果是赶进度的话，就甭想这么闲了 :P</p>
-
-<p>总而言之，想要一口吃掉一篇论文似乎是很难的事情，我们需要反复咀嚼，这也是为什么我要写不完整的阅读笔记的原因。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[HadoopDB: an architectural hybrid of MapReduce and DBMS technologies for analytical workloads (VLDB '09)]]></title>
-    <link href="http://puncsky.github.com/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/"/>
-    <updated>2012-11-20T16:20:00-05:00</updated>
-    <id>http://puncsky.github.com/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09</id>
-    <content type="html"><![CDATA[<p><a href="http://db.cs.yale.edu/hadoopdb/">Yale DB</a></p>
-
-<h3>1. Problem</h3>
-
-<p>Large analytical data management (OLAP) with commodity clusters</p>
-
-<h3>2. Challenges</h3>
-
-<ul>
-<li>Performance and efficiency
-
-<ul>
-<li>hadoop
-
-<ul>
-<li>is not for structured data analysis</li>
-<li>scale well</li>
-<li>open source, without cost</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>scalability, fault-tolerance, and flexibility
-
-<ul>
-<li>Previous parallel db fit into tens of nodes, not thousand of nodes.</li>
-<li>not scale well for failures, heterogeneous machines, performance untested</li>
-</ul>
-</li>
-</ul>
-
-
-<h3>3. Solutions</h3>
-
-<ul>
-<li>MapReduce (Hadoop) + parallel db (or single-node DBs) = HadoopDB<!--more-->
-
-<ul>
-<li>Translation layer: Hive</li>
-<li>Communication layer: Hadoop</li>
-<li>Database layer: PostgreSQL (or MySQL, ... JDBC)</li>
-</ul>
-</li>
-<li><p>Components</p>
-
-<ol>
-<li>Database Connector
-
-<ul>
-<li>Interface among dbs on nodes</li>
-<li>extends InputFormat class -> InputFormat Implementation lib</li>
-<li>JDBC-complaint</li>
-</ul>
-</li>
-<li>Catalog
-
-<ul>
-<li>metainformation as XML = connection para + metadata</li>
-</ul>
-</li>
-<li>Data Loader
-
-<ul>
-<li>Global Hasher: MR, repartition raw data from HDFS to NO. of nodes</li>
-<li>Local Hasher: copy from HDFS, repartition the partition into chunks</li>
-<li>Better load balance than Hadoop</li>
-</ul>
-</li>
-<li>SQL - MR - SQL (SMS) Planner
-
-<ul>
-<li>extend Hive for</li>
-<li>open and low cost</li>
-<li>each table stored separately in HDFS, low performance in multi-table trans.
-intercept normal Hive flow in</li>
-<li>update MetaStore before query execution</li>
-<li>between query plan generation and MR jobs
-retrieve fields, determine partition keys</li>
-</ul>
-
-
-<p>   traverse DAG bottom-up</p>
-
-<p> only support filter, select, aggregation</p></li>
-</ol>
-</li>
-<li><p>Extend performance [23] with fault tolerance and heterogeneous node exp</p>
-
-<p>  TODO: modify the current task scheduler, connect not straggler node but the replicas.</p>
-
-<p>  Exp on EC2, Hadoop, HadoopDB, Vertica, DBMS-X</p></li>
-</ul>
-
-
-<h3>4. Conclusion</h3>
-
-<ul>
-<li>HadoopDB's performance &lt; parallel db for
-
-<ul>
-<li>PostgreSQL (not column-store, not compression)</li>
-<li>Hadoop and Hive are young</li>
-</ul>
-</li>
-<li>performance, heterogeneous environ., fault tolerance, flexibility</li>
-</ul>
-
-
-<h3>Related Readings</h3>
-
-<p>[23] A Comparison of Approaches to Large Scale Data Analysis</p>
-
-<p>[6] Scope [11] Hive [24] C-store [4] What is the right way to measure scale?</p>
 ]]></content>
   </entry>
   
