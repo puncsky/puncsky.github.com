@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Review | CS Notebook]]></title>
   <link href="http://puncsky.github.com/blog/categories/review/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2012-12-15T02:10:11-05:00</updated>
+  <updated>2012-12-19T02:04:27-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -25,6 +25,9 @@
 <p>RAMCloud is a storage system helping developers manage large-scale DRAM storage, driven by the fact that large-scale Web applications need to cache large data in DRAM. (For example, Facebook cached 150TB DRAM in <em>memcached</em> out of 200TB of disk storage.)</p>
 
 <p>In order to keep a high level of durability and availability without impacting system performance, RAMCloud has only one single copy of data in DRAM. The problem here is how to recover from crash within 1s~2s.</p>
+
+<!--more-->
+
 
 <h3>2. Challenges</h3>
 

@@ -9,7 +9,7 @@
   <meta name="author" content="Tian">
 
   
-  <meta name="description" content="Yale Dedis 1. Efficient System-Enforced Deterministic Parallelism (OSDI’10) Parallelism introduces 1) non-determinism and 2) data races (heisenbugs &hellip;">
+  <meta name="description" content="MPI-SWS, UPenn, Duke, Akamai, paper, slides, video 1. Problems Hybrid (Servers with assisting peers) designs in CDNs -> malicious clients can cause &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,130 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12/">Reliable Client Accounting for P2P-Infrastructure Hybrids (NSDI &#8216;12)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-20T16:16:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.mpi-sws.org/~paditya/">MPI-SWS</a>, UPenn, Duke, Akamai, <a href="http://www.mpi-sws.org/~paditya/papers/rca-nsdi2012.pdf">paper</a>, <a href="https://www.usenix.org/sites/default/files/conference/protected-files/nsdi12_reliable_client_accounting_for_p2p-infrastructure_hybrids.pdf">slides</a>, <a href="https://www.usenix.org/conference/nsdi12/reliable-client-accounting-hybrid-content-distribution-networks">video</a></p>
+
+<h2>1. Problems</h2>
+
+<p>Hybrid (Servers with assisting peers) designs in CDNs -> malicious clients can cause significant accounting inaccuracies.</p>
+
+<h2>2. Challenges</h2>
+
+<p>Infrastructure can not control P2P communications by malicious clients (peers). Even if infrastructure provides signed metadata and fallback (so content can not be mishandled by peers), there are still:</p>
+
+<ul>
+<li>Affect service quality</li>
+<li>Misreport P2P transfers</li>
+</ul>
+
+
+<p>For example, inflation attack occurred for a fake download report.</p>
+
+<h2>3. Solutions</h2>
+
+<p>Reliable Client Accounting (RCA)</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/20/towards-statistical-queries-over-distributed-private-user-data-nsdi-12/">Towards Statistical Queries Over Distributed Private User Data (NSDI &#8216;12)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-20T16:13:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>From <a href="https://sites.google.com/site/ruichuanc/">MPI-SWS, Germany</a>, <a href="https://73aab115-a-62cb3a1a-s-sites.googlegroups.com/site/ruichuanc/pddp-nsdi12.pdf?attachauth=ANoY7cqTHmW8qn2UrCjxk0u-eafRsp77w2XtpG9QdnY9nOnDKkELrYiH-RrOI2ILFnQUv6gt-oz_ek1DA8q7TptjvCEWWWpT02huRCgNYXW-bUNQwjJjM0DLN7tiJzOKD509vt1JhOZ_fHQ_rijDX5Dhh3Bx1pdZotJp7mDbCw0yrcSTYEfbXAuzkZK2zDxfRKYzZXww-dESgY9wquSilSiX3ZrPYrATOg%3D%3D&amp;attredirects=0">paper</a> and <a href="https://www.usenix.org/sites/default/files/conference/protected-files/pddp-talk-nsdi12.pdf">slides</a></p>
+
+<h2>1. Problem</h2>
+
+<p>To protect user privacy in distributed systems from leaking by statistical queries.</p>
+
+<h2>2. Challenges</h2>
+
+<p>The most direct solutions are</p>
+
+<ol>
+<li><p>to <strong>anonymize + add noise</strong> to <em>user data</em>.</p>
+
+<p> [-] utility, de-anonymize</p></li>
+<li><p>differential privacy. add noise to <em>answer of queries</em>.</p>
+
+<p> [-] scale, churn tolerance, malicious client</p></li>
+</ol>
+
+
+<h2>3. Solution </h2>
+
+<p>PDDP: Practical Distributed Differential Privacy.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/20/towards-statistical-queries-over-distributed-private-user-data-nsdi-12/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -330,6 +454,14 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/12/19/oop2/">OOP Final Term Notes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/19/oop1/">OOP Mid Term Notes</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/12/13/fast-crash-recovery-in-ramcloud/">Fast Crash Recovery in RAMCloud (SOSP&#8217;11)</a>
       </li>
     
@@ -339,14 +471,6 @@
     
       <li class="post">
         <a href="/blog/2012/12/06/chord/">Chord: A Scalable Peer-to-peer Lookup Service for Internet Applications</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/12/01/cells/">Cells: a virtual mobile smartphone architecture (SOSP &#8216;11)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/11/27/wang-gong-quan-jiang-zuo/">王功权先生给年轻人的四点建议</a>
       </li>
     
   </ul>

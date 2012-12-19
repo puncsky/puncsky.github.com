@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>CS Notebook</title>
+  <title>OOP Mid Term Notes - CS Notebook</title>
   <meta name="author" content="Tian">
 
   
-  <meta name="description" content="如果自己不定义constructor，C++会默认使用空的constructor。但是如果自己声明了，就一定要把定义写出来。 Reuse and recycle. Maintain a free list a pool of currently unused objects and reuse &hellip;">
+  <meta name="description" content="Referencing composed and base objects. site:http://zoo.cs.yale.edu/classes/cs427/ C++ Basics 1. Properties of C++ Widely used in the real world. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://puncsky.github.com/">
+  <link rel="canonical" href="http://puncsky.github.com/blog/2012/12/19/oop1/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -62,15 +62,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/12/19/oop2/">OOP Final Term Notes</a></h1>
+      <h1 class="entry-title">OOP Mid Term Notes</h1>
     
     
       <p class="meta">
@@ -93,482 +90,7 @@
   </header>
 
 
-  <div class="entry-content"><hr />
-
-<p>如果自己不定义constructor，C++会默认使用空的constructor。但是如果自己声明了，就一定要把定义写出来。</p>
-
-<hr />
-
-<p>Reuse and recycle. Maintain a <strong>free list</strong> a pool of currently unused objects and reuse rather than recreate when possible.</p>
-
-<hr />
-
-<p>How to measure run time of a program?</p>
-
-<p>Clocks advance in discrete clicks called <strong>jiffies</strong>. A jiffy on the Zoo linux machines is one millisecond (0.001 seconds) long.</p>
-
-<p>the first run of a program is likely to be slower than subsequent runs because of caching.</p>
-
-<p>class members are private by default.</p>
-
-<pre><code>if(!in) {...}
-</code></pre>
-
-<p>to test if an istream object in is open for reading. Here, the <code>istream</code> object is coerced to a <code>bool</code> because operator <code>bool()</code> is defined inside the streams package.</p>
-
-<hr />
-
-<p>operator⊕ overload</p>
-
-<h3>a⊕b can be ambiguous</h3>
-
-<ul>
-<li>Global function: operator⊕(a, b).</li>
-<li>Member function: a.operator⊕(b).</li>
-</ul>
-
-
-<p>It could mean either, and the compiler sees if either one matches. If both match, it reports an ambiguity.</p>
-
-<p>We use a global form of operator&lt;&lt; because the left hand operator is of predefined type ostream, and we can’t add member functions to that class.</p>
-
-<h3>++, &#8211;</h3>
-
-<ol>
-<li><p>prefix unary operators</p></li>
-<li><p>class member: <code>operator++()</code></p></li>
-<li><p>global: <code>operator++(ClassA a)</code></p></li>
-<li><p>postfix unary operators</p></li>
-</ol>
-
-
-<p>They <strong>must be</strong> like</p>
-
-<ul>
-<li>class member: <code>operator++(int)</code></li>
-<li>global: <code>operator++(ClassA a, int)</code></li>
-</ul>
-
-
-<p>Here <code>int</code> is dummy.</p>
-
-<hr />
-
-<p>两种定义类的cast的方式 cast A to B</p>
-
-<pre><code>class A {};
-class B{
-    public:
-    B(A&amp; a) {
-        cout &lt;&lt; "constructor cast called" &lt;&lt; endl;
-    }
-};
-</code></pre>
-
-<p>conversion function cast</p>
-
-<pre><code>class B {};
-class A {
-    public:
-    operator B() {
-        cout &lt;&lt; "operator B cast called" &lt;&lt; endl;
-        return *new B;
-    } 
-};
-</code></pre>
-
-<p>注意没有返回类型，讲述自己怎么被cast成其他类</p>
-
-<hr />
-
-<p>Polymorphism</p>
-
-<pre><code>class B     { public: int f(); ... };
-class U : B { int f(); ... };
-class V : B { int f(); ... };
-</code></pre>
-
-<p><code>B* bp</code> can point to B, U, and V, but bp->f() always refers to B::f()</p>
-
-<p>Solution: Polymorphic derivation</p>
-
-<pre><code>   class B     { public: virtual int f(); ... };
-   class U : B { virtual int f(); ... };
-   class V : B { virtual int f(); ... };
-   B* bp;
-</code></pre>
-
-<p>A virtual function is dispatched at run time to the class of the actual object.</p>
-
-<ul>
-<li>bp->f() refers to U::f() if bp points to a U.</li>
-<li>bp->f() refers to V::f() if bp points to a V.</li>
-<li>bp->f() refers to B::f() if bp points to a B.</li>
-</ul>
-
-
-<p>Here, the type refers to the allocation type.</p>
-
-<p>其实，只有基类加virtual都是可以的</p>
-
-<hr />
-
-<p>Calling constructors implicitly</p>
-
-<pre><code>MyClass b;
-MyClass b(4);
-new MyClass(4);
-</code></pre>
-
-<p>Calling constructors explicitly</p>
-
-<pre><code>MyClass(4);
-throw Fatal("Error message"); 
-</code></pre>
-
-<hr />
-
-<p>A <strong>pure virtual function</strong> is sometimes called a <strong>promise</strong>. Instances of B are never created and B::f() does not exist. It tells the compiler that a construct like bp->f() is legal. The compiler requires every derived class to contain a method f().</p>
-
-<p>An <strong>abstract class</strong> is a class with one or more pure virtual functions. An abstract class <strong>cannot be instantiated</strong>. It can <strong>only be used as the base</strong> for another class. The <strong>destructor can never be a pure virtual function but will generally be virtual</strong>.</p>
-
-<p>A <strong>pure abstract class</strong> is one where all member functions are pure virtual (except for the destructor) and there are no data members, Pure abstract classes define an <strong>interface</strong> `a la Java. An interface allows user-supplied code to integrate into a large system.</p>
-
-<hr />
-
-<p>A global function is one that takes zero or more explicit arguments. Example: f(a, b) has two explicit arguments a and b.</p>
-
-<p>A member function is one that <strong>takes an implicit argument</strong> along with zero or more explicit arguments.
-Example: c.g(a, b) has two explicit arguments a and b and implicit argument c.
-Example: d->g(a, b) has two explicit arguments a and b and implicit argument *d.</p>
-
-<p>Note that an omitted implicit argument defaults to (<em>this), which must make sense in the context.
-Example: If g is a member function of class MyClass, then within MyClass, the call g(a, b) defaults to (</em>this).g(a,b) (or equivalently this->g(a,b)).</p>
-
-<hr />
-
-<p>Good function prototypes</p>
-
-<p>Pass by reference instead of by pointer. A pass by pointer may imply optional and the user may pass a null pointer:</p>
-
-<pre><code>Method(const Class *value); // value can be null Cannot pass a null pointer via reference
-Method(const Class &amp;value); // value cannot be null
-</code></pre>
-
-<p>Always include “const” unless the calling function needs to modify the state of passed reference</p>
-
-<p>Do not pass simple data types (int, char, bool) by by const reference … it does not do anything good and may actually inhibit some optimizations</p>
-
-<hr />
-
-<p>Casting!</p>
-
-<pre><code>int x = 5;
-double y0 = (int) x;
-double y1 = static_cast&lt;int&gt;(x);
-</code></pre>
-
-<p>Do not use C style casting it is difficult to find</p>
-
-<hr />
-
-<p>Iterators
-Iterators are like generalized pointers into containers.
-Most pointer operations *, ->, ++, ==, !=, etc. work with iterators.</p>
-
-<ul>
-<li><code>begin()</code> returns an iterator pointing to the first element of the vector.</li>
-<li><code>end()</code> returns an iterator pointing past the last element of the vector.</li>
-</ul>
-
-
-<hr />
-
-<p><code>class B : A { ... };</code> specifies private derivation of B from A.</p>
-
-<hr />
-
-<p>Protected class members are inaccessible from outside the class (like private) but accessible within a derived class (like public).</p>
-
-<hr />
-
-<p>ln16.pdf</p>
-
-<ul>
-<li>The declaration context is the context in which the <strong>referent</strong> of x appears.</li>
-<li>The reference context is the context in which the <strong>reference</strong> x appears.</li>
-</ul>
-
-
-<hr />
-
-<p>Template functions and specialization</p>
-
-<p>Template functions
-Definition:</p>
-
-<p>   template <class X> void swapargs(X&amp; a, X&amp; b) {</p>
-
-<pre><code> X temp;
- temp = a;
- a = b;
- b = temp;
-</code></pre>
-
-<p>}</p>
-
-<p>Use:</p>
-
-<pre><code> int i,j;
- double x,y;
- char a, b;
- swapargs(i,j);
- swapargs(x,y);
- swapargs(a,b);
-</code></pre>
-
-<p>Specialization
-Definition:</p>
-
-<pre><code> template &lt;&gt; void swapargs(int&amp; a, int&amp; b) {
-   // different code
- }
-</code></pre>
-
-<p>This overrides the template body for int arguments.</p>
-
-<hr />
-
-<p><strong>Non-inline template functions must be compiled and linked for each instantiation</strong></p>
-
-<ul>
-<li>(a) Put all template function definitions in the .hpp file along with the class definition.</li>
-<li>(b) Put template function definition in the .hpp file and explicitly instantiate all the possible types.
-  e.g. <code>template class FlexArray&lt;int&gt;; template class FlexArray&lt;double&gt;; ...</code></li>
-</ul>
-
-
-<hr />
-
-<p>C casts. C uses the same syntax for different kinds of casts.</p>
-
-<ul>
-<li><strong>Value casts</strong> convert from one representation to another, partially preserving semantics. Often called <em>conversions</em>.</li>
-<li><strong>Pointer casts</strong> leave representation alone but change interpretation of pointer.</li>
-</ul>
-
-
-<p>C++ casts</p>
-
-<p>C++ has four kinds of casts.</p>
-
-<ol>
-<li>Static cast includes value casts of C. Tries to preserve semantics, but not always safe. Applied at compile time.</li>
-<li>Dynamic cast Applies only to pointers and references to objects. Preserves semantics. Applied at run time. [See demo 18c-Dynamic cast.]</li>
-<li>Reinterpret cast is like the C pointer cast. Ignores semantics. Applied at compile time.</li>
-<li>Const cast Allows const restriction to be overridden. Applied at compile time.</li>
-</ol>
-
-
-<p>notation</p>
-
-<pre><code>int x; myBase* b; const int c;
-static_cast&lt;double&gt;(x);
-dynamic_cast&lt;myDerived*&gt;(b);
-reinterpret_cast&lt;int*&gt;(p);
-const_cast&lt;int&gt;(c);
-</code></pre>
-
-<hr />
-
-<p><code>explicit</code> keyword inhibit implicit casts.</p>
-
-<pre><code>class B;
-class A {
-public:
-    A(){};
-    explicit A(B&amp; b) { cout&lt;&lt; "constructed A from B\n"; }
-};
-</code></pre>
-
-<hr />
-
-<p>C-style exception solution uses status returns</p>
-
-<p>The C library functions generally report exceptions by returning <em>status values</em> or <em>error codes</em>.</p>
-
-<p>C++ exception mechanism</p>
-
-<p>Deriving your own exception classes from std::exception</p>
-
-<pre><code>#include &lt;iostream&gt;
-#include &lt;exception&gt;
-using namespace std;
-class myexception: public exception {
-  virtual const char* what() const throw()
-    { return "My exception happened"; }
-} myex;  // declares class and instantiates it
-int main () {
-  try {
-    throw myex;
-  }
-  catch (exception&amp; e) {
-    cout &lt;&lt; e.what() &lt;&lt; endl;
-  }
-return 0; }
-</code></pre>
-
-<p>each kind of exception should <strong>throw it’s own type of object</strong>.</p>
-
-<hr />
-
-<p>rethrow</p>
-
-<p><code>throw e;</code> will throw a new copy of e</p>
-
-<p><code>throw;</code> will not throw a new copy of e, but e itself</p>
-
-<hr />
-
-<p><strong>All exceptions should be caught and dealt with explicitly.</strong> That terminate() is called to abort the process is a bad thing when exceptions are not caught or thrown by the destructor.</p>
-
-<hr />
-
-<p>multiple inheritance</p>
-
-<p>class A: public B, protected C {&#8230;};</p>
-
-<p><em>diamond pattern</em>, A->B, A->C, {B,C}->D</p>
-
-<hr />
-
-<p>Good Reference Books</p>
-
-<p>C Programming Language, Effective C++, More Effective C++, Design Patterns</p>
-
-<hr />
-
-<p>test</p>
-
-<pre><code>make test&amp;&amp; ./test
-</code></pre>
-
-<hr />
-
-<p>STL</p>
-
-<p>Common wisdom on the internet says <strong>not to inherit from STL containers</strong>.</p>
-
-<blockquote><p>STL containers are not intended to be used as base classes (their destructors are deliberately non-virtual); deriving from a container is a common mistake.”</p></blockquote>
-
-<hr />
-
-<p>Two kinds of derivation</p>
-
-<p>C++ supports two distinct kinds of derivation:</p>
-
-<ul>
-<li>Simple derivation.</li>
-<li><p>Polymorphic derivation.</p>
-
-<p>  class A { &#8230; };
-  class B : public A { &#8230; };</p></li>
-</ul>
-
-
-<p>We say B is derived from A, and B inherits members from A. Each B object has an A object embedded within it.<strong>The derivation is simple if no members of A are virtual; otherwise it is polymorphic.</strong></p>
-
-<hr />
-
-<p>What are the problems of polymorphic derivation? (ln13.pdf)</p>
-
-<p>Every polymorphic base class (containing even one virtual function) adds a <strong>runtime type tag</strong> to each instance.</p>
-
-<p>This costs in both time and space.</p>
-
-<ul>
-<li>Time: Each call to a virtual function goes through a <strong>run-time dispatch table (the vtable)</strong>.</li>
-<li>Space: Each instance of a polymorphic object contains a <strong>type tag</strong>, which takes extra space.</li>
-<li>Every polymorphic base class should have a virtual destructor.</li>
-</ul>
-
-
-<hr />
-
-<p>General OO principles</p>
-
-<ol>
-<li><strong>Encapsulation</strong> <em>Data members should be private.</em> Public accessing functions should be defined only when absolutely necessary. This minimizes the ways in which one class can depend on the representation of another.</li>
-<li><strong>Narrow interface</strong> <em>Keep the interface (set of public functions) as simple as possible</em>; include only those functions that are of direct interest to client classes. Utility functions that are used only to implement the interface should be kept private. This minimizes the chance for information to leak out of the class or for a function to be used inappropriately.</li>
-<li><strong>Delegation</strong> A class that is called upon to perform a task often delegates that task (or part of it) to one of its members who is an expert.</li>
-</ol>
-
-
-<hr />
-
-<p>What is a design pattern?</p>
-
-<p>A pattern has four essential elements.</p>
-
-<ol>
-<li>A pattern name.</li>
-<li>The problem, which describes when to apply the pattern.</li>
-<li>The solution, which describes the elements, relations, and responsibilities.</li>
-<li>The consequences, which are the results and tradeoffs.</li>
-</ol>
-
-
-<p>Design Patterns</p>
-
-<ul>
-<li><em>Adaptor</em> matches interface between toolkit classes and applications.</li>
-<li><em>Indirection</em> decouples high-level applications from manipulations of low-level devices.</li>
-<li><em>Proxy</em> is like indirection and controls access via a placeholder</li>
-<li><em>Polymorphism</em> enables multiple implementations from the abstraction</li>
-<li><em>Controller</em> handles system events</li>
-<li><em>Bridge</em> is generalized indirection and decouples interface from implementation. Used when both application and implementation are polymorphic.</li>
-<li><em>Subject-observer</em>: keep updated states of the subject with observers.</li>
-<li><em>Singleton</em> enforces only one instance of a class</li>
-<li><em>Strategy</em> defines a family of algorithms, encapsulates each one, and makes them interchangeable at run time.</li>
-<li><em>Factory method</em> defines an interface for creating an object but lets the implementation decide which class to instantiate.</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/19/oop1/">OOP Mid Term Notes</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-19T02:01:00-05:00" pubdate data-updated="true">Dec 19<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Referencing composed and base objects. site:http://zoo.cs.yale.edu/classes/cs427/</p>
+<div class="entry-content"><p>Referencing composed and base objects. site:http://zoo.cs.yale.edu/classes/cs427/</p>
 
 <h2>C++ Basics</h2>
 
@@ -1223,22 +745,16 @@ vector examples</li>
 </ol>
 
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/13/fast-crash-recovery-in-ramcloud/">Fast Crash Recovery in RAMCloud (SOSP&#8217;11)</a></h1>
-    
-    
-      <p class="meta">
-        
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Tian</span></span>
+
+      
 
 
 
@@ -1250,420 +766,40 @@ vector examples</li>
   
 
 
-<time datetime="2012-12-13T12:22:00-05:00" pubdate data-updated="true">Dec 13<span>th</span>, 2012</time>
-        
-      </p>
+<time datetime="2012-12-19T02:01:00-05:00" pubdate data-updated="true">Dec 19<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/programming-languages/'>programming_languages</a>
+  
+</span>
+
+
+    </p>
     
-  </header>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2012/12/19/oop1/" data-via="" data-counturl="http://puncsky.github.com/blog/2012/12/19/oop1/" >Tweet</a>
+  
+  
+  
+</div>
 
-
-  <div class="entry-content"><p><a href="http://www.stanford.edu/~ouster/cgi-bin/home.php">Stanford</a>, <a href="http://www.stanford.edu/~ouster/cgi-bin/papers/ramcloud-recovery.pdf">paper</a>, <a href="https://ramcloud.stanford.edu/wiki/display/ramcloud/RAMCloud+Presentations">slides</a>, <a href="http://www.youtube.com/watch?v=RE3CmdEGv4M">video</a></p>
-
-<h3>1. Problem</h3>
-
-<p>RAMCloud is a storage system helping developers manage large-scale DRAM storage, driven by the fact that large-scale Web applications need to cache large data in DRAM. (For example, Facebook cached 150TB DRAM in <em>memcached</em> out of 200TB of disk storage.)</p>
-
-<p>In order to keep a high level of durability and availability without impacting system performance, RAMCloud has only one single copy of data in DRAM. The problem here is how to recover from crash within 1s~2s.</p>
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/12/13/fast-crash-recovery-in-ramcloud/" title="Previous Post: Fast Crash Recovery in RAMCloud (SOSP'11)">&laquo; Fast Crash Recovery in RAMCloud (SOSP'11)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/12/19/oop2/" title="Next Post: OOP Final Term Notes">OOP Final Term Notes &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
 
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/12/13/fast-crash-recovery-in-ramcloud/">Read on &rarr;</a>
-    </footer>
-  
 
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/06/cleanos/">CleanOS: Limiting Mobile Data Exposure With Idle Eviction (OSDI&#8217;12)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-06T06:40:00-05:00" pubdate data-updated="true">Dec 6<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://systems.cs.columbia.edu/projects/cleanos/">Columbia University</a>, <a href="https://www.usenix.org/system/files/conference/osdi12/osdi12-final-203.pdf">paper</a> <a href="https://www.usenix.org/sites/default/files/conference/protected-files/tang_osdi12_slides.pdf">slides</a>, <a href="https://www.usenix.org/conference/osdi12/cleanos-increasing-mobile-data-control-cloud-based-eviction">video</a></p>
-
-<h3>1. Problem</h3>
-
-<p>How to protect sensitive data in mobile phones? Mobile devices are extremely prone to be stolen or lost.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/12/06/cleanos/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/06/chord/">Chord: A Scalable Peer-to-peer Lookup Service for Internet Applications</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-06T06:29:00-05:00" pubdate data-updated="true">Dec 6<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://pdos.lcs.mit.edu/chord/">MIT PDOS</a>, <a href="http://pdos.csail.mit.edu/papers/chord:sigcomm01/chord_sigcomm.pdf">paper</a>, <a href="http://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=5&amp;cad=rja&amp;ved=0CGEQFjAE&amp;url=http%3A%2F%2Fpdos.csail.mit.edu%2Frtm%2Fslides%2Fsigcomm01.ppt&amp;ei=tYLAUNjmLoSt0AGb7YCoBw&amp;usg=AFQjCNHmlld_WDglWjj7TP_coYsk1O_l-A&amp;sig2=SO8yiWfEsi_V2VEI-F2pmw">slides</a></p>
-
-<h3>1. Problem</h3>
-
-<p><em>A lookup protocol</em>: How to locate the node that stores a data item in a dynamic P2P system with frequent node arrivals and departures? In other words, given a key, it maps the key onto a node.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/12/06/chord/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/01/cells/">Cells: A Virtual Mobile Smartphone Architecture (SOSP &#8216;11)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-01T19:52:00-05:00" pubdate data-updated="true">Dec 1<span>st</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://systems.cs.columbia.edu/archive/pub/2011/10/cells-a-virtual-mobile-smartphone-architecture/">Columbia University</a>, <a href="http://www.sigops.org/sosp/sosp11/current/2011-Cascais/printable/13-andrus.pdf">papers</a>, <a href="http://www.sigops.org/sosp/sosp11/current/2011-Cascais/13-andrus-slides.pdf">slides</a>, <a href="http://www.youtube.com/watch?v=XBBJ8873vqE">video</a></p>
-
-<h3>1. Problem</h3>
-
-<p>The popularity of smartphones results in the need that a user may purchase several smartphones for different uses. Virtual machine (VM) mechanisms may be the solution, which enables separate and isolated instances of a smartphone software stack to run on the same ARM hardware.</p>
-
-<h3>2. Challenges</h3>
-
-<p>Traditional VMs for desktops and servers can not be applied to smartphones for</p>
-
-<ol>
-<li>limited resources can not fully support running an another entire OS</li>
-<li>existing design cannot leverage new devices, such as GPS, camera, GPUs, &#8230;</li>
-</ol>
-
-
-<h3>3. Solution</h3>
-
-<p>Key observation: <strong>one app at a time</strong></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/12/01/cells/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/11/27/wang-gong-quan-jiang-zuo/">王功权先生给年轻人的四点建议</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-27T16:34:00-05:00" pubdate data-updated="true">Nov 27<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>概述</h3>
-
-<p>方才在和朋友们一起去管理学院参加了王功权先生的讲座，期间做了一些笔记，稍作整理记录在此。王功权先生似乎并没有为这次演讲做过多的准备，也不愿意表现地太过正式，毕竟谈人生这种事情，还是需要明月夜短松冈这种微醺的情怀的。实际的情况可能是，他在从哥伦比亚大学过来的路上稍微用iPhone写了个提纲，讲述之前看了几眼，便开始侃侃而谈，当然，情到深处之时，还是让人颇有触动的，不愧为一位诗人。以下的记录纯属个人笔记，有我个人理解的偏差，并不能确保准确地反映王功权先生的观点，也不反映我自己的观点。</p>
-
-<p>他讲述的这四点建议分别是：</p>
-
-<ol>
-<li>规划未来不如调整现在</li>
-<li>志存高远</li>
-<li>选择意味着放弃</li>
-<li>在美国就业，在中国创业</li>
-</ol>
-
-
-<p>在其后的问答环节中，他回答同学们提出的两个问题：</p>
-
-<ol>
-<li>简要介绍您现在在哥伦比亚大学东亚研究所研究的“公民社会”这一议题？</li>
-<li>对经济管理类毕业生就业领域选择有那些建议？</li>
-</ol>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/11/27/wang-gong-quan-jiang-zuo/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/11/26/cryptdb/">CryptDB: Protecting Confidentiality With Encrypted Query Processing (SOSP &#8216;11)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-26T19:45:00-05:00" pubdate data-updated="true">Nov 26<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://css.csail.mit.edu/cryptdb/">MIT CSAIL</a>, <a href="http://people.csail.mit.edu/nickolai/papers/raluca-cryptdb.pdf">papers</a>, <a href="http://www.sigops.org/sosp/sosp11/current/2011-Cascais/07-popa.pptx">slides</a></p>
-
-<h3>1. Problem</h3>
-
-<p>Provide confidentiality for applications using DBMSes to solve two threats:</p>
-
-<ol>
-<li><em>Passive DB server attacks</em>. The curious database administrator (DBA) learns private data.</li>
-<li><em>Any attacks on all servers</em>. The adversary gains complete control over application and DBMS servers.</li>
-</ol>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/11/26/cryptdb/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/11/21/ru-he-yue-du-%5B%3F%5D-pian-lun-wen-%3F/">如何阅读一篇论文？</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-21T16:15:00-05:00" pubdate data-updated="true">Nov 21<span>st</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>阅读是人生的终极命题之一。人生苦短，我们需要阅读来继承前人的衣钵，我们需要笔记来对抗过往的遗忘，我们需要写作来连接自我和人世沧桑。</p>
-
-<p>那么，<a href="http://blizzard.cs.uwaterloo.ca/keshav/home/Papers/data/07/paper-reading.pdf">如何最高效地阅读一篇论文呢？</a></p>
-
-<p>如同任何一个学习过程，读论文的周期显然是螺旋向上的，可以划分为简单的三板斧：</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/11/21/ru-he-yue-du-%5B%3F%5D-pian-lun-wen-%3F/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/">HadoopDB: An Architectural Hybrid of MapReduce and DBMS Technologies for Analytical Workloads (VLDB &#8216;09)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-20T16:20:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://db.cs.yale.edu/hadoopdb/">Yale DB</a></p>
-
-<h3>1. Problem</h3>
-
-<p>Large analytical data management (OLAP) with commodity clusters</p>
-
-<h3>2. Challenges</h3>
-
-<ul>
-<li>Performance and efficiency
-
-<ul>
-<li>hadoop
-
-<ul>
-<li>is not for structured data analysis</li>
-<li>scale well</li>
-<li>open source, without cost</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>scalability, fault-tolerance, and flexibility
-
-<ul>
-<li>Previous parallel db fit into tens of nodes, not thousand of nodes.</li>
-<li>not scale well for failures, heterogeneous machines, performance untested</li>
-</ul>
-</li>
-</ul>
-
-
-<h3>3. Solutions</h3>
-
-<ul>
-<li>MapReduce (Hadoop) + parallel db (or single-node DBs) = HadoopDB</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-      <a class="prev" href="/blog/page/2/">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
 <aside class="sidebar">
   
     <section>
@@ -1679,11 +815,11 @@ vector examples</li>
       </li>
     
       <li class="post">
-        <a href="/blog/2012/12/13/fast-crash-recovery-in-ramcloud/">Fast Crash Recovery in RAMCloud (SOSP&#8217;11)</a>
+        <a href="/blog/2012/12/13/fast-crash-recovery-in-ramcloud/">Fast Crash Recovery in RAMCloud (SOSP'11)</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2012/12/06/cleanos/">CleanOS: Limiting Mobile Data Exposure with Idle Eviction (OSDI&#8217;12)</a>
+        <a href="/blog/2012/12/06/cleanos/">CleanOS: Limiting Mobile Data Exposure with Idle Eviction (OSDI'12)</a>
       </li>
     
       <li class="post">
@@ -1700,6 +836,7 @@ vector examples</li>
 
   
 </aside>
+
 
     </div>
   </div>

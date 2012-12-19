@@ -1,99 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>CS Notebook</title>
-  <meta name="author" content="Tian">
-
-  
-  <meta name="description" content="如果自己不定义constructor，C++会默认使用空的constructor。但是如果自己声明了，就一定要把定义写出来。 Reuse and recycle. Maintain a free list a pool of currently unused objects and reuse &hellip;">
-  
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://puncsky.github.com/">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="CS Notebook" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">CS Notebook</a></h1>
-  
-    <h2>Just a notebook about life and computer</h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:puncsky.github.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
-  
-    <article>
-      
-  <header>
+  <title><![CDATA[Category: programming_languages | CS Notebook]]></title>
+  <link href="http://puncsky.github.com/blog/categories/programming-languages/atom.xml" rel="self"/>
+  <link href="http://puncsky.github.com/"/>
+  <updated>2012-12-19T02:04:27-05:00</updated>
+  <id>http://puncsky.github.com/</id>
+  <author>
+    <name><![CDATA[Tian]]></name>
     
-      <h1 class="entry-title"><a href="/blog/2012/12/19/oop2/">OOP Final Term Notes</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
-
-
-<time datetime="2012-12-19T02:01:00-05:00" pubdate data-updated="true">Dec 19<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><hr />
+  <entry>
+    <title type="html"><![CDATA[OOP Final Term Notes]]></title>
+    <link href="http://puncsky.github.com/blog/2012/12/19/oop2/"/>
+    <updated>2012-12-19T02:01:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2012/12/19/oop2</id>
+    <content type="html"><![CDATA[<hr />
 
 <p>如果自己不定义constructor，C++会默认使用空的constructor。但是如果自己声明了，就一定要把定义写出来。</p>
 
@@ -132,7 +57,7 @@
 
 <p>We use a global form of operator&lt;&lt; because the left hand operator is of predefined type ostream, and we can’t add member functions to that class.</p>
 
-<h3>++, &#8211;</h3>
+<h3>++, --</h3>
 
 <ol>
 <li><p>prefix unary operators</p></li>
@@ -436,7 +361,7 @@ return 0; }
 
 <p>multiple inheritance</p>
 
-<p>class A: public B, protected C {&#8230;};</p>
+<p>class A: public B, protected C {...};</p>
 
 <p><em>diamond pattern</em>, A->B, A->C, {B,C}->D</p>
 
@@ -471,8 +396,8 @@ return 0; }
 <li>Simple derivation.</li>
 <li><p>Polymorphic derivation.</p>
 
-<p>  class A { &#8230; };
-  class B : public A { &#8230; };</p></li>
+<p>  class A { ... };
+  class B : public A { ... };</p></li>
 </ul>
 
 
@@ -533,42 +458,15 @@ return 0; }
 <li><em>Factory method</em> defines an interface for creating an object but lets the implementation decide which class to instantiate.</li>
 </ul>
 
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/19/oop1/">OOP Mid Term Notes</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-19T02:01:00-05:00" pubdate data-updated="true">Dec 19<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Referencing composed and base objects. site:http://zoo.cs.yale.edu/classes/cs427/</p>
+  <entry>
+    <title type="html"><![CDATA[OOP Mid Term Notes]]></title>
+    <link href="http://puncsky.github.com/blog/2012/12/19/oop1/"/>
+    <updated>2012-12-19T02:01:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2012/12/19/oop1</id>
+    <content type="html"><![CDATA[<p>Referencing composed and base objects. site:http://zoo.cs.yale.edu/classes/cs427/</p>
 
 <h2>C++ Basics</h2>
 
@@ -797,8 +695,8 @@ Ctors also can be used to initialze primitive (non-class) variables.</p>
 <h3>2. Handling files.</h3>
 
 <ul>
-<li>ifstream fin ( &#8220;myfile.in&#8221; ); opens stream fin for reading. This implicitly invokes the constructor ifstream( &#8220;myfile.in&#8221; ).</li>
-<li>ifstream fin; creates an input stream not associated with a file. fin.open( &#8220;myfile.in&#8221; ); attaches it to a file. Can also specify open modes.</li>
+<li>ifstream fin ( "myfile.in" ); opens stream fin for reading. This implicitly invokes the constructor ifstream( "myfile.in" ).</li>
+<li>ifstream fin; creates an input stream not associated with a file. fin.open( "myfile.in" ); attaches it to a file. Can also specify open modes.</li>
 <li>To test if fin failed to open correctly, write if (!fin) {…}.</li>
 <li>To close, use fin.close();.</li>
 </ul>
@@ -873,12 +771,12 @@ Ctors also can be used to initialze primitive (non-class) variables.</p>
 <h3>1. Passing data to a function. What are the different ways to pass data to a function? Advantages of each method.</h3>
 
 <ul>
-<li>Call by value: The argument values are copied into the parameter storage locations in the function&#8217;s stack frame. There is no way for the function to change values in main&#8217;s stack frame.</li>
-<li>Call by pointer: The arguments must be addresses of integer variables in the caller&#8217;s stack frame. These
-addresses are stored in the parameter locations in the function&#8217;s stack frame. They permit the function to
-modify its caller&#8217;s memory locations.</li>
-<li>Call by reference: The arguments must be integer variables in the caller&#8217;s stack frame. The addresses of
-these variables are stored in the parameter locations in the function&#8217;s stack frame, permitting the function to modify its caller&#8217;s memory locations.</li>
+<li>Call by value: The argument values are copied into the parameter storage locations in the function's stack frame. There is no way for the function to change values in main's stack frame.</li>
+<li>Call by pointer: The arguments must be addresses of integer variables in the caller's stack frame. These
+addresses are stored in the parameter locations in the function's stack frame. They permit the function to
+modify its caller's memory locations.</li>
+<li>Call by reference: The arguments must be integer variables in the caller's stack frame. The addresses of
+these variables are stored in the parameter locations in the function's stack frame, permitting the function to modify its caller's memory locations.</li>
 </ul>
 
 
@@ -1218,518 +1116,11 @@ vector examples</li>
 <li>Deletion</li>
 <li>Consistency</li>
 <li>Delegation</li>
-<li>Don&#8217;t talk to strangers</li>
+<li>Don't talk to strangers</li>
 <li>Responsibility</li>
 </ol>
 
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/13/fast-crash-recovery-in-ramcloud/">Fast Crash Recovery in RAMCloud (SOSP&#8217;11)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-13T12:22:00-05:00" pubdate data-updated="true">Dec 13<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.stanford.edu/~ouster/cgi-bin/home.php">Stanford</a>, <a href="http://www.stanford.edu/~ouster/cgi-bin/papers/ramcloud-recovery.pdf">paper</a>, <a href="https://ramcloud.stanford.edu/wiki/display/ramcloud/RAMCloud+Presentations">slides</a>, <a href="http://www.youtube.com/watch?v=RE3CmdEGv4M">video</a></p>
-
-<h3>1. Problem</h3>
-
-<p>RAMCloud is a storage system helping developers manage large-scale DRAM storage, driven by the fact that large-scale Web applications need to cache large data in DRAM. (For example, Facebook cached 150TB DRAM in <em>memcached</em> out of 200TB of disk storage.)</p>
-
-<p>In order to keep a high level of durability and availability without impacting system performance, RAMCloud has only one single copy of data in DRAM. The problem here is how to recover from crash within 1s~2s.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/12/13/fast-crash-recovery-in-ramcloud/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/06/cleanos/">CleanOS: Limiting Mobile Data Exposure With Idle Eviction (OSDI&#8217;12)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-06T06:40:00-05:00" pubdate data-updated="true">Dec 6<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://systems.cs.columbia.edu/projects/cleanos/">Columbia University</a>, <a href="https://www.usenix.org/system/files/conference/osdi12/osdi12-final-203.pdf">paper</a> <a href="https://www.usenix.org/sites/default/files/conference/protected-files/tang_osdi12_slides.pdf">slides</a>, <a href="https://www.usenix.org/conference/osdi12/cleanos-increasing-mobile-data-control-cloud-based-eviction">video</a></p>
-
-<h3>1. Problem</h3>
-
-<p>How to protect sensitive data in mobile phones? Mobile devices are extremely prone to be stolen or lost.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/12/06/cleanos/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/06/chord/">Chord: A Scalable Peer-to-peer Lookup Service for Internet Applications</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-06T06:29:00-05:00" pubdate data-updated="true">Dec 6<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://pdos.lcs.mit.edu/chord/">MIT PDOS</a>, <a href="http://pdos.csail.mit.edu/papers/chord:sigcomm01/chord_sigcomm.pdf">paper</a>, <a href="http://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=5&amp;cad=rja&amp;ved=0CGEQFjAE&amp;url=http%3A%2F%2Fpdos.csail.mit.edu%2Frtm%2Fslides%2Fsigcomm01.ppt&amp;ei=tYLAUNjmLoSt0AGb7YCoBw&amp;usg=AFQjCNHmlld_WDglWjj7TP_coYsk1O_l-A&amp;sig2=SO8yiWfEsi_V2VEI-F2pmw">slides</a></p>
-
-<h3>1. Problem</h3>
-
-<p><em>A lookup protocol</em>: How to locate the node that stores a data item in a dynamic P2P system with frequent node arrivals and departures? In other words, given a key, it maps the key onto a node.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/12/06/chord/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/01/cells/">Cells: A Virtual Mobile Smartphone Architecture (SOSP &#8216;11)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-01T19:52:00-05:00" pubdate data-updated="true">Dec 1<span>st</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://systems.cs.columbia.edu/archive/pub/2011/10/cells-a-virtual-mobile-smartphone-architecture/">Columbia University</a>, <a href="http://www.sigops.org/sosp/sosp11/current/2011-Cascais/printable/13-andrus.pdf">papers</a>, <a href="http://www.sigops.org/sosp/sosp11/current/2011-Cascais/13-andrus-slides.pdf">slides</a>, <a href="http://www.youtube.com/watch?v=XBBJ8873vqE">video</a></p>
-
-<h3>1. Problem</h3>
-
-<p>The popularity of smartphones results in the need that a user may purchase several smartphones for different uses. Virtual machine (VM) mechanisms may be the solution, which enables separate and isolated instances of a smartphone software stack to run on the same ARM hardware.</p>
-
-<h3>2. Challenges</h3>
-
-<p>Traditional VMs for desktops and servers can not be applied to smartphones for</p>
-
-<ol>
-<li>limited resources can not fully support running an another entire OS</li>
-<li>existing design cannot leverage new devices, such as GPS, camera, GPUs, &#8230;</li>
-</ol>
-
-
-<h3>3. Solution</h3>
-
-<p>Key observation: <strong>one app at a time</strong></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/12/01/cells/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/11/27/wang-gong-quan-jiang-zuo/">王功权先生给年轻人的四点建议</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-27T16:34:00-05:00" pubdate data-updated="true">Nov 27<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>概述</h3>
-
-<p>方才在和朋友们一起去管理学院参加了王功权先生的讲座，期间做了一些笔记，稍作整理记录在此。王功权先生似乎并没有为这次演讲做过多的准备，也不愿意表现地太过正式，毕竟谈人生这种事情，还是需要明月夜短松冈这种微醺的情怀的。实际的情况可能是，他在从哥伦比亚大学过来的路上稍微用iPhone写了个提纲，讲述之前看了几眼，便开始侃侃而谈，当然，情到深处之时，还是让人颇有触动的，不愧为一位诗人。以下的记录纯属个人笔记，有我个人理解的偏差，并不能确保准确地反映王功权先生的观点，也不反映我自己的观点。</p>
-
-<p>他讲述的这四点建议分别是：</p>
-
-<ol>
-<li>规划未来不如调整现在</li>
-<li>志存高远</li>
-<li>选择意味着放弃</li>
-<li>在美国就业，在中国创业</li>
-</ol>
-
-
-<p>在其后的问答环节中，他回答同学们提出的两个问题：</p>
-
-<ol>
-<li>简要介绍您现在在哥伦比亚大学东亚研究所研究的“公民社会”这一议题？</li>
-<li>对经济管理类毕业生就业领域选择有那些建议？</li>
-</ol>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/11/27/wang-gong-quan-jiang-zuo/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/11/26/cryptdb/">CryptDB: Protecting Confidentiality With Encrypted Query Processing (SOSP &#8216;11)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-26T19:45:00-05:00" pubdate data-updated="true">Nov 26<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://css.csail.mit.edu/cryptdb/">MIT CSAIL</a>, <a href="http://people.csail.mit.edu/nickolai/papers/raluca-cryptdb.pdf">papers</a>, <a href="http://www.sigops.org/sosp/sosp11/current/2011-Cascais/07-popa.pptx">slides</a></p>
-
-<h3>1. Problem</h3>
-
-<p>Provide confidentiality for applications using DBMSes to solve two threats:</p>
-
-<ol>
-<li><em>Passive DB server attacks</em>. The curious database administrator (DBA) learns private data.</li>
-<li><em>Any attacks on all servers</em>. The adversary gains complete control over application and DBMS servers.</li>
-</ol>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/11/26/cryptdb/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/11/21/ru-he-yue-du-%5B%3F%5D-pian-lun-wen-%3F/">如何阅读一篇论文？</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-21T16:15:00-05:00" pubdate data-updated="true">Nov 21<span>st</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>阅读是人生的终极命题之一。人生苦短，我们需要阅读来继承前人的衣钵，我们需要笔记来对抗过往的遗忘，我们需要写作来连接自我和人世沧桑。</p>
-
-<p>那么，<a href="http://blizzard.cs.uwaterloo.ca/keshav/home/Papers/data/07/paper-reading.pdf">如何最高效地阅读一篇论文呢？</a></p>
-
-<p>如同任何一个学习过程，读论文的周期显然是螺旋向上的，可以划分为简单的三板斧：</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/11/21/ru-he-yue-du-%5B%3F%5D-pian-lun-wen-%3F/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/">HadoopDB: An Architectural Hybrid of MapReduce and DBMS Technologies for Analytical Workloads (VLDB &#8216;09)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-20T16:20:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://db.cs.yale.edu/hadoopdb/">Yale DB</a></p>
-
-<h3>1. Problem</h3>
-
-<p>Large analytical data management (OLAP) with commodity clusters</p>
-
-<h3>2. Challenges</h3>
-
-<ul>
-<li>Performance and efficiency
-
-<ul>
-<li>hadoop
-
-<ul>
-<li>is not for structured data analysis</li>
-<li>scale well</li>
-<li>open source, without cost</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>scalability, fault-tolerance, and flexibility
-
-<ul>
-<li>Previous parallel db fit into tens of nodes, not thousand of nodes.</li>
-<li>not scale well for failures, heterogeneous machines, performance untested</li>
-</ul>
-</li>
-</ul>
-
-
-<h3>3. Solutions</h3>
-
-<ul>
-<li>MapReduce (Hadoop) + parallel db (or single-node DBs) = HadoopDB</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-      <a class="prev" href="/blog/page/2/">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2012/12/19/oop2/">OOP Final Term Notes</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/12/19/oop1/">OOP Mid Term Notes</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/12/13/fast-crash-recovery-in-ramcloud/">Fast Crash Recovery in RAMCloud (SOSP&#8217;11)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/12/06/cleanos/">CleanOS: Limiting Mobile Data Exposure with Idle Eviction (OSDI&#8217;12)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/12/06/chord/">Chord: A Scalable Peer-to-peer Lookup Service for Internet Applications</a>
-      </li>
-    
-  </ul>
-</section>
-
-
-
-
-
-
-  
-</aside>
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - Tian -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
-</footer>
-  
-
-
-
-
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-
-</body>
-</html>
+</feed>
