@@ -4,7 +4,7 @@
   <title><![CDATA[CS Notebook]]></title>
   <link href="http://puncsky.github.com/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2012-12-19T02:04:27-05:00</updated>
+  <updated>2012-12-19T14:02:19-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -1120,6 +1120,336 @@ vector examples</li>
 <li>Responsibility</li>
 </ol>
 
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[CLRS Notes]]></title>
+    <link href="http://puncsky.github.com/blog/2012/12/19/clrs/"/>
+    <updated>2012-12-19T01:42:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2012/12/19/clrs</id>
+    <content type="html"><![CDATA[<h2>I Foundations</h2>
+
+<h3>1 The Role of Algorithms in Computing 5</h3>
+
+<h4>1.1 Algorithms 5</h4>
+
+<p>An algorithm is thus a sequence of computational steps that transform the input into the output.</p>
+
+<h4>1.2 Algorithms as a technology 11</h4>
+
+<p>lg n &lt; sqrt(n) &lt; n &lt; n lg(n) &lt; n<sup>2</sup> &lt; n<sup>3</sup> &lt; n!</p>
+
+<h3>2 Getting Started 16</h3>
+
+<h4>2.1 Insertion sort 16</h4>
+
+<pre><code>void insertionSort(double* A, int size) {
+    for (int i = 1; i &lt; size; ++i) {
+        double key = A[i];
+        int index = i - 1;
+        while (index &gt;= 0 &amp;&amp; A[index] &gt; key) {
+            A[index+1] = A[index];
+            -- index;
+        }
+        A[i+1] = key;
+    } 
+}
+</code></pre>
+
+<h4>2.2 Analyzing algorithms 23</h4>
+
+<p>insertion sort has a worst-case running time of Θ(n<sup>2)</sup></p>
+
+<h4>2.3 Designing algorithms 29</h4>
+
+<ul>
+<li>The divide-and-conquer approach and recursive</li>
+</ul>
+
+
+<p>c-code:</p>
+
+<pre><code>//Input:
+//  A array
+//  size size of A
+//  p starting index of the span waiting to be sorted
+//  r ending index of the span waiting to be sorted
+//Procedure:
+//  sort left
+//  sort right
+//  merge by comparing two numbers from the sorted left and right pair by pair
+//Output:
+//  A sorted array 
+void mergeSort(double* A, int size, int p, int r) {
+    if (p &lt; r) {
+        int q = (p+r)/2;
+        mergeSort(A, 10, p, q);
+        mergeSort(A, 10, q+1, r);
+        merge(A, 10, p, q, r);
+    }
+}
+void merge(double* A, int size, int p, int q, int r) {
+    // create left and right arrays                                                                                                          
+    int span1 = q-p+1;
+    int span2 = r-q;
+    double* left = reinterpret_cast&lt;double*&gt;(malloc(sizeof(double) * (span1+1)));
+    double* right= reinterpret_cast&lt;double*&gt;(malloc(sizeof(double) * (span2+1)));
+    for (int i = 0; i &lt; span1; ++i) left [i] = A[p+i];
+    for (int i = 0; i &lt; span2; ++i) right[i] = A[q+1+i];
+    left [span1] = numeric_limits&lt;double&gt;::max();
+    right[span2] = numeric_limits&lt;double&gt;::max();
+    for(int k=p, i=0, j=0; k&lt;=r; ++k) {
+        if (left[i] &lt;= right[j]) {
+            A[k] = left [i];
+            ++i;    
+        } else {
+            A[k] = right[j];
+            ++j;
+        }
+    }
+    free(left);
+    free(right);
+}
+int main() {
+    double A[10] = {4.,3.,2.,1.,0.,5.,6.,8.,7.,9.};
+    for (int i=0; i&lt;10; ++i)
+        cout &lt;&lt; A[i];
+    cout &lt;&lt; endl;
+    mergeSort(A, 10, 0, 9);
+    for (int i=0; i&lt;10; ++i)
+        cout &lt;&lt; A[i];
+    cout &lt;&lt; endl;
+}
+</code></pre>
+
+<ul>
+<li>Θ(n lg n) but not operate in place</li>
+</ul>
+
+
+<h3>3 Growth of Functions 43</h3>
+
+<h4>3.1 Asymptotic notation 43</h4>
+
+<ul>
+<li><strong>O()</strong>. When we have only an <strong>asymptotic upper bound</strong>, we use O-notation.
+
+<ul>
+<li>O(g(n)) = {f(n): there exist positive constants c and n0 such that 0 &lt;= f(n) &lt;= c*g(n) for all n >= n0}.</li>
+<li>if f(n) == c*g(n) is not possible, we use <strong>o()</strong></li>
+</ul>
+</li>
+<li><strong>Θ()</strong>. When we have <strong>both an asymptotic upper bound and an asymptotic lower bound</strong>, we use Θ-notation.
+
+<ul>
+<li>Θ(g(n)) = {f(n): there exist positive constants c1, c2, and n0 such that 0 &lt;= c1<em>g(n) &lt;= f(n) &lt;= c2</em>g(n) for all n >=  n0}</li>
+</ul>
+</li>
+<li><strong>Ω()</strong>, When we have only an <strong>asymptotic lower bound</strong>, we use omega-notation.
+
+<ul>
+<li>uppercase_omega(g(n)) = {f(n): there exist positive constants c and n0 such that 0 &lt;= c*g(n) &lt;=  f(n) for all n >= n0}</li>
+<li>if f(n) == c*g(n) is not possible, we use <strong>ω()</strong></li>
+</ul>
+</li>
+</ul>
+
+
+<h4>3.2 Standard notations and common functions 53</h4>
+
+<h3>4 Divide-and-Conquer 65</h3>
+
+<ul>
+<li>Three ways for solving recurrences
+
+<ul>
+<li>substitution method</li>
+<li>recursive-tree method</li>
+<li>master method
+
+<ul>
+<li>T(n) = a*T(n/b) + f(n), a>=1, b>1. It characterizes a divide- and-conquer algorithm that creates <em>a</em> subproblems, each of which is <em>1/b</em> the size of the original problem, and in which the divide and combine steps together take f(n) time.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>4.1 The maximum-subarray problem 68</h4>
+
+<p>In the stock market, you need to buy low and sell high. But the maximum profit does not always start at the lowest price or end at the highest price.</p>
+
+<h5>A brute-force solution</h5>
+
+<p>Choose 2 from n pairs of (date, price) and calculate the difference. Θ(n<sup>2)</sup></p>
+
+<h5>A solution using divide-and-conquer</h5>
+
+<p>A transformation: create an array of the daily change in price, and <strong>find the maximum subarray</strong>.</p>
+
+<ul>
+<li>find the max subarray on the left</li>
+<li>find the max subarray on the right</li>
+<li>find the max subarray crossing the middle
+
+<ul>
+<li>find max left, max right, and their sum</li>
+</ul>
+</li>
+<li>take the max of the above</li>
+</ul>
+
+
+<p>TODO: codes</p>
+
+<p>Θ(n*lg(n))</p>
+
+<h4>4.2 Strassen’s algorithm for matrix multiplication 75</h4>
+
+<p>O(n<sup>3)</sup> to O(n<sup>2.81)</sup></p>
+
+<h4>4.3 The substitution method for solving recurrences</h4>
+
+<ol>
+<li>Guess the form of the solution.</li>
+<li>Use mathematical induction to find the constants and show that the solution works.</li>
+</ol>
+
+
+<h4>4.4 The recursion-tree method for solving recurrences 88</h4>
+
+<p>depth * height</p>
+
+<h4>4.5 The master method for solving recurrences 93</h4>
+
+<p><img src="http://puncsky.github.com/images/CLRS/mastermethod.png" alt="Master Method" /></p>
+
+<h3>5 Probabilistic Analysis and Randomized Algorithms 114</h3>
+
+<p>5.1 The hiring problem 114
+5.2 Indicator random variables 118
+5.3 Randomized algorithms 122
+5.4 Probabilistic analysis and further uses of indicator random variables</p>
+
+<h2>II Sorting and Order Statistics Introduction 147</h2>
+
+<table>
+  <tr>
+    <th></th>
+    <th>worst-case running time</th>
+    <th>average-cased running time</th>
+  </tr>
+  <tr>
+    <th>Insertion sort</th>
+    <td>Θ(n^2)</td>
+    <td>Θ(n^2)</td>
+  </tr>
+  <tr>
+    <th>Merge sort</th>
+    <td>Θ(n lg n)</td>
+    <td>Θ(n lg n)</td>
+  </tr>
+  <tr>
+    <th>Heapsort</th>
+    <td>O(n lg n)</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <th>Quicksort</th>
+    <td>Θ(n^2)</td>
+    <td>Θ(n lg n) (*)</td>
+  </tr>
+  <tr>
+    <th>Counting sort</th>
+    <td>Θ(k+n)</td>
+    <td>Θ(k+n)</td>
+  </tr>
+  <tr>
+    <th>Radix sort</th>
+    <td>Θ(d(n+k))</td>
+    <td>Θ(d(n+k))</td>
+  </tr>
+  <tr>
+    <th>Bucket sort</th>
+    <td>Θ(n^2)</td>
+    <td>Θ(n) </td>
+  </tr>
+</table>
+
+
+<h3>6 Heapsort 151</h3>
+
+<p>O(n lg n),Our heap data structure is not garbage-collected storage.</p>
+
+<h4>6.1 Heaps 151</h4>
+
+<p>The (binary) heap data structure is an array object that we can view as a nearly complete binary tree.</p>
+
+<pre><code>// calculate by shifting the binary representation
+int parent(i) {
+    return i/2;
+}
+int left(i) {
+    return 2*i;
+}
+int right(i) {
+    return 2*i + 1;
+}
+</code></pre>
+
+<ul>
+<li>max-heap: for every node <em>i</em> other than the root, A[parent(i)]>=A[i].</li>
+<li>min-heap: for every node <em>i</em> other than the root, A[parent(i)]&lt;=A[i].</li>
+<li>height of a node: number of edges on the longest simple downward path from the node to a leaf.</li>
+<li>height of the heap: height of its root. Θ(lg n)</li>
+</ul>
+
+
+<h4>6.2 Maintaining the heap property 154</h4>
+
+<pre><code>// Input:
+//      A array
+//      i index
+//   Binary trees rooted at left(i) and right(i) are max-heaps
+//   but A[i] might be smaller than its children. 
+// Procedure:
+//      exchange A[i] with the larger one between A[left[i]] and A[right[i]]
+//      maxHeapify the new sub tree
+// Output:
+//      This routine lets the value at A[i] float down in the max-heap. 
+maxHeapify(A, i) {
+    TODO;
+}
+</code></pre>
+
+<p>T(n) &lt;= T(2*n/3) + Θ(1)</p>
+
+<h4>6.3 Building a heap 156</h4>
+
+<p>6.4 The heapsort algorithm 159
+6.5 Priority queues 162</p>
+
+<h3>7 Quicksort 170</h3>
+
+<p>7.1 Description of quicksort 170
+7.2 Performance of quicksort 174
+7.3 A randomized version of quicksort 179
+7.4 Analysis of quicksort 180</p>
+
+<h3>8 Sorting in Linear Time 191</h3>
+
+<p>8.1 Lower bounds for sorting 191
+8.2 Counting sort 194
+8.3 Radix sort 197
+8.4 Bucket sort 200</p>
+
+<h3>9 Medians and Order Statistics 213</h3>
+
+<p>9.1 Minimum and maximum 214
+9.2 Selection in expected linear time 215
+9.3 Selection in worst-case linear time 220</p>
 ]]></content>
   </entry>
   
