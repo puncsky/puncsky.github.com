@@ -1,0 +1,361 @@
+---
+layout: post
+title: "OOP Final Term Notes"
+date: 2012-12-19 02:01
+comments: true
+categories: programming_languages
+---
+
+---
+如果自己不定义constructor，C++会默认使用空的constructor。但是如果自己声明了，就一定要把定义写出来。
+
+---
+Reuse and recycle. Maintain a **free list** a pool of currently unused objects and reuse rather than recreate when possible. 
+
+---
+How to measure run time of a program?
+
+Clocks advance in discrete clicks called **jiffies**. A jiffy on the Zoo linux machines is one millisecond (0.001 seconds) long.
+
+the first run of a program is likely to be slower than subsequent runs because of caching.
+
+class members are private by default.
+
+	if(!in) {...}
+	
+to test if an istream object in is open for reading. Here, the `istream` object is coerced to a `bool` because operator `bool()` is defined inside the streams package.
+
+---
+operator⊕ overload
+
+### a⊕b can be ambiguous
+
+-  Global function: operator⊕(a, b).
+-  Member function: a.operator⊕(b).
+
+It could mean either, and the compiler sees if either one matches. If both match, it reports an ambiguity.
+
+We use a global form of operator<< because the left hand operator is of predefined type ostream, and we can’t add member functions to that class.
+
+### ++, --
+
+1. prefix unary operators
+
+- class member: `operator++()`
+- global: `operator++(ClassA a)`
+
+2. postfix unary operators
+
+They **must be** like 
+
+- class member: `operator++(int)` 
+- global: `operator++(ClassA a, int)`
+
+Here `int` is dummy.
+
+---
+两种定义类的cast的方式 cast A to B
+
+	class A {};
+	class B{
+		public:
+		B(A& a) {
+			cout << "constructor cast called" << endl;
+		}
+	};
+
+conversion function cast
+
+	class B {};
+    class A {
+    	public:
+        operator B() {
+            cout << "operator B cast called" << endl;
+            return *new B;
+		} 
+	};
+
+注意没有返回类型，讲述自己怎么被cast成其他类
+
+---
+Polymorphism
+
+	class B     { public: int f(); ... };
+    class U : B { int f(); ... };
+    class V : B { int f(); ... };
+
+`B* bp` can point to B, U, and V, but bp->f() always refers to B::f()
+
+Solution: Polymorphic derivation
+
+       class B     { public: virtual int f(); ... };
+       class U : B { virtual int f(); ... };
+       class V : B { virtual int f(); ... };
+       B* bp;
+	   
+A virtual function is dispatched at run time to the class of the actual object.
+
+- bp->f() refers to U::f() if bp points to a U. 
+- bp->f() refers to V::f() if bp points to a V. 
+- bp->f() refers to B::f() if bp points to a B.
+
+Here, the type refers to the allocation type.
+
+其实，只有基类加virtual都是可以的
+
+---
+Calling constructors implicitly
+
+	MyClass b;
+	MyClass b(4);
+	new MyClass(4);
+
+Calling constructors explicitly
+
+	MyClass(4);
+	throw Fatal("Error message"); 
+	
+---
+A **pure virtual function** is sometimes called a **promise**. Instances of B are never created and B::f() does not exist. It tells the compiler that a construct like bp->f() is legal. The compiler requires every derived class to contain a method f().
+
+An **abstract class** is a class with one or more pure virtual functions. An abstract class **cannot be instantiated**. It can **only be used as the base** for another class. The **destructor can never be a pure virtual function but will generally be virtual**. 
+
+A **pure abstract class** is one where all member functions are pure virtual (except for the destructor) and there are no data members, Pure abstract classes define an **interface** `a la Java. An interface allows user-supplied code to integrate into a large system.
+
+---
+A global function is one that takes zero or more explicit arguments. Example: f(a, b) has two explicit arguments a and b.
+
+A member function is one that **takes an implicit argument** along with zero or more explicit arguments.
+Example: c.g(a, b) has two explicit arguments a and b and implicit argument c.
+Example: d->g(a, b) has two explicit arguments a and b and implicit argument *d.
+
+Note that an omitted implicit argument defaults to (*this), which must make sense in the context.
+Example: If g is a member function of class MyClass, then within MyClass, the call g(a, b) defaults to (*this).g(a,b) (or equivalently this->g(a,b)).
+
+---
+Good function prototypes
+
+Pass by reference instead of by pointer. A pass by pointer may imply optional and the user may pass a null pointer:
+
+	Method(const Class *value); // value can be null Cannot pass a null pointer via reference
+	Method(const Class &value); // value cannot be null
+
+Always include “const” unless the calling function needs to modify the state of passed reference
+
+Do not pass simple data types (int, char, bool) by by const reference … it does not do anything good and may actually inhibit some optimizations
+
+---
+Casting!
+
+	int x = 5;
+	double y0 = (int) x;
+	double y1 = static_cast<int>(x);
+
+Do not use C style casting it is difficult to find
+
+--- 
+Iterators
+Iterators are like generalized pointers into containers.
+Most pointer operations *, ->, ++, ==, !=, etc. work with iterators.
+
+- `begin()` returns an iterator pointing to the first element of the vector.
+- `end()` returns an iterator pointing past the last element of the vector.
+
+---
+`class B : A { ... };` specifies private derivation of B from A.
+
+---
+Protected class members are inaccessible from outside the class (like private) but accessible within a derived class (like public).
+
+---
+ln16.pdf
+
+- The declaration context is the context in which the **referent** of x appears.
+- The reference context is the context in which the **reference** x appears.
+
+---
+Template functions and specialization
+
+Template functions
+Definition:
+
+   template <class X> void swapargs(X& a, X& b) {
+     X temp;
+     temp = a;
+     a = b;
+     b = temp;
+}
+
+Use:
+
+     int i,j;
+     double x,y;
+     char a, b;
+     swapargs(i,j);
+     swapargs(x,y);
+     swapargs(a,b);
+	 
+Specialization
+Definition:
+
+	 template <> void swapargs(int& a, int& b) {
+	   // different code
+	 }
+	 
+This overrides the template body for int arguments.
+
+---
+**Non-inline template functions must be compiled and linked for each instantiation**
+
+- (a) Put all template function definitions in the .hpp file along with the class definition.
+- (b) Put template function definition in the .hpp file and explicitly instantiate all the possible types.
+	e.g. `template class FlexArray<int>; template class FlexArray<double>; ...`
+ 
+---
+C casts. C uses the same syntax for different kinds of casts.
+
+- **Value casts** convert from one representation to another, partially preserving semantics. Often called _conversions_.
+- **Pointer casts** leave representation alone but change interpretation of pointer.
+
+C++ casts
+
+C++ has four kinds of casts.
+
+1. Static cast includes value casts of C. Tries to preserve semantics, but not always safe. Applied at compile time.
+2. Dynamic cast Applies only to pointers and references to objects. Preserves semantics. Applied at run time. [See demo 18c-Dynamic cast.]
+3. Reinterpret cast is like the C pointer cast. Ignores semantics. Applied at compile time.
+4. Const cast Allows const restriction to be overridden. Applied at compile time.
+
+notation
+
+	int x; myBase* b; const int c;
+	static_cast<double>(x);
+	dynamic_cast<myDerived*>(b);
+	reinterpret_cast<int*>(p);
+	const_cast<int>(c);
+	
+---
+`explicit` keyword inhibit implicit casts.
+
+	class B;
+	class A {
+	public:
+		A(){};
+      	explicit A(B& b) { cout<< "constructed A from B\n"; }
+    };
+
+---
+C-style exception solution uses status returns
+
+The C library functions generally report exceptions by returning _status values_ or _error codes_.
+
+C++ exception mechanism
+
+Deriving your own exception classes from std::exception
+
+    #include <iostream>
+    #include <exception>
+    using namespace std;
+    class myexception: public exception {
+      virtual const char* what() const throw()
+        { return "My exception happened"; }
+    } myex;  // declares class and instantiates it
+    int main () {
+      try {
+        throw myex;
+      }
+      catch (exception& e) {
+        cout << e.what() << endl;
+      }
+	return 0; }
+	
+each kind of exception should **throw it’s own type of object**. 
+
+---
+rethrow
+
+`throw e;` will throw a new copy of e
+
+`throw;` will not throw a new copy of e, but e itself
+
+---
+**All exceptions should be caught and dealt with explicitly.** That terminate() is called to abort the process is a bad thing when exceptions are not caught or thrown by the destructor.
+
+---
+multiple inheritance 
+
+class A: public B, protected C {...};
+
+_diamond pattern_, A->B, A->C, {B,C}->D
+
+---
+Good Reference Books
+
+C Programming Language, Effective C++, More Effective C++, Design Patterns
+
+---
+test
+
+	make test&& ./test
+	
+---
+STL
+
+Common wisdom on the internet says **not to inherit from STL containers**.
+
+> STL containers are not intended to be used as base classes (their destructors are deliberately non-virtual); deriving from a container is a common mistake.”
+
+---
+Two kinds of derivation
+
+C++ supports two distinct kinds of derivation: 
+
+- Simple derivation.
+- Polymorphic derivation.
+ 
+    class A { ... };
+    class B : public A { ... };
+	
+We say B is derived from A, and B inherits members from A. Each B object has an A object embedded within it.**The derivation is simple if no members of A are virtual; otherwise it is polymorphic.**
+
+---
+What are the problems of polymorphic derivation? (ln13.pdf)
+
+Every polymorphic base class (containing even one virtual function) adds a **runtime type tag** to each instance.
+
+This costs in both time and space.
+
+- Time: Each call to a virtual function goes through a **run-time dispatch table (the vtable)**.
+- Space: Each instance of a polymorphic object contains a **type tag**, which takes extra space.
+- Every polymorphic base class should have a virtual destructor.
+
+---
+General OO principles
+
+1. **Encapsulation** _Data members should be private._ Public accessing functions should be defined only when absolutely necessary. This minimizes the ways in which one class can depend on the representation of another.
+2. **Narrow interface** _Keep the interface (set of public functions) as simple as possible_; include only those functions that are of direct interest to client classes. Utility functions that are used only to implement the interface should be kept private. This minimizes the chance for information to leak out of the class or for a function to be used inappropriately.
+3. **Delegation** A class that is called upon to perform a task often delegates that task (or part of it) to one of its members who is an expert.
+
+---
+What is a design pattern?
+
+A pattern has four essential elements.
+
+1. A pattern name.
+2. The problem, which describes when to apply the pattern.
+3. The solution, which describes the elements, relations, and responsibilities.
+4. The consequences, which are the results and tradeoffs.
+ 
+Design Patterns
+ 
+- _Adaptor_ matches interface between toolkit classes and applications.
+- _Indirection_ decouples high-level applications from manipulations of low-level devices.
+- _Proxy_ is like indirection and controls access via a placeholder
+- _Polymorphism_ enables multiple implementations from the abstraction
+- _Controller_ handles system events
+- _Bridge_ is generalized indirection and decouples interface from implementation. Used when both application and implementation are polymorphic.
+- _Subject-observer_: keep updated states of the subject with observers.
+- _Singleton_ enforces only one instance of a class
+- _Strategy_ defines a family of algorithms, encapsulates each one, and makes them interchangeable at run time.
+- _Factory method_ defines an interface for creating an object but lets the implementation decide which class to instantiate.
+ 

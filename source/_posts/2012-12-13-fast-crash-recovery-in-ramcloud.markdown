@@ -13,7 +13,7 @@ categories: Paper Review
 RAMCloud is a storage system helping developers manage large-scale DRAM storage, driven by the fact that large-scale Web applications need to cache large data in DRAM. (For example, Facebook cached 150TB DRAM in _memcached_ out of 200TB of disk storage.)
 
 In order to keep a high level of durability and availability without impacting system performance, RAMCloud has only one single copy of data in DRAM. The problem here is how to recover from crash within 1s~2s.
-
+<!--more-->
 ### 2. Challenges
 
 - **Durability**. RAM is lack of durability. Data is unavailable on crashed nodes.

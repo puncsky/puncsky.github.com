@@ -1,0 +1,205 @@
+---
+layout: post
+title: "CLRS Notes"
+date: 2012-12-19 01:42
+comments: true
+published: false
+categories: algorithm
+---
+
+
+## I Foundations
+
+### 1 The Role of Algorithms in Computing 5 
+
+#### 1.1 Algorithms 5
+
+An algorithm is thus a sequence of computational steps that transform the input into the output.
+
+#### 1.2 Algorithms as a technology 11
+
+It is important.
+
+	lg n < sqrt(n) < n < n lg(n) < n^2 < n^3 < n!
+
+### 2 Getting Started 16
+
+#### 2.1 Insertion sort 16
+
+	void insertionSort(double* A, int size) {
+		for (int i = 1; i < size; ++i) {
+			double key = A[i];
+			int index = i - 1;
+			while (index >= 0 && A[index] > key) {
+				A[index+1] = A[index];
+				-- index;
+			}
+			A[i+1] = key;
+		} 
+	}
+
+#### 2.2 Analyzing algorithms 23
+
+insertion sort has a worst-case running time of theta(n^2)
+
+#### 2.3 Designing algorithms 29
+
+- The divide-and-conquer approach and recursive
+- merge sort
+	- sort left
+	- sort right
+	- merge by comparing two numbers from the sorted left and right pair by pair
+ 
+	void merge(double* A, int size, int p, int q, int r) {
+		// create left and right arrays                                                                                                          
+		int span1 = q-p+1;
+		int span2 = r-q;
+		double* left = reinterpret_cast<double*>(malloc(sizeof(double) * (span1+1)));
+		double* right= reinterpret_cast<double*>(malloc(sizeof(double) * (span2+1)));
+		for (int i = 0; i < span1; ++i) left [i] = A[p+i];
+		for (int i = 0; i < span2; ++i) right[i] = A[q+1+i];
+		left [span1] = numeric_limits<double>::max();
+		right[span2] = numeric_limits<double>::max();
+		for(int k=p, i=0, j=0; k<=r; ++k) {
+			if (left[i] <= right[j]) {
+				A[k] = left [i];
+				++i;	
+			} else {
+    			A[k] = right[j];
+     		   	++j;
+  		  	}
+		}
+		free(left);
+		free(right);
+	}
+
+	void mergeSort(double* A, int size, int p, int r) {
+		if (p < r) {
+			int q = (p+r)/2;
+			mergeSort(A, 10, p, q);
+			mergeSort(A, 10, q+1, r);
+			merge(A, 10, p, q, r);
+		}
+	}
+	
+	int main() {
+		double A[10] = {4.,3.,2.,1.,0.,5.,6.,8.,7.,9.};
+		for (int i=0; i<10; ++i)
+			cout << A[i];
+		cout << endl;
+		mergeSort(A, 10, 0, 9);
+    	for (int i=0; i<10; ++i)
+        	cout << A[i];
+    	cout << endl;
+	}
+ 
+- theta(n lg n)
+
+
+### 3 Growth of Functions 43
+
+#### 3.1 Asymptotic notation 43
+
+- **O()**. When we have only an **asymptotic upper bound**, we use O-notation. 
+	- O(g(n)) = {f(n): there exist positive constants c and n0 such that 0 <= f(n) <= c*g(n) for all n >= n0}.
+	- if f(n) == c*g(n) is not possible, we use **o()**
+- **theta()**. When we have **both an asymptotic upper bound and an asymptotic lower bound**, we use theta-notation.
+	- theta(g(n)) = {f(n): there exist positive constants c1, c2, and n0 such that 0 <= c1*g(n) <= f(n) <= c2*g(n) for all n >=  n0}
+- **big_omega()**, When we have only an **asymptotic lower bound**, we use omega-notation.
+	- uppercase_omega(g(n)) = {f(n): there exist positive constants c and n0 such that 0 <= c*g(n) <=  f(n) for all n >= n0}
+	- if f(n) == c*g(n) is not possible, we use **small_omega()**
+
+#### 3.2 Standard notations and common functions 53
+
+### 4 Divide-and-Conquer 65
+
+- Three ways for solving recurrences
+	- substitution method
+	- recursive-tree method
+	- master method
+		- T(n) = a*T(n/b) + f(n), a>=1, b>1. It characterizes a divide- and-conquer algorithm that creates _a_ subproblems, each of which is _1/b_ the size of the original problem, and in which the divide and combine steps together take f(n) time.
+
+#### 4.1 The maximum-subarray problem 68
+
+In the stock market, you need to buy low and sell high. But the maximum profit does not always start at the lowest price or end at the highest price. 
+
+##### A brute-force solution
+
+Choose 2 from n pairs of (date, price) and calculate the difference. theta(n^2)
+
+##### A solution using divide-and-conquer
+
+A transformation: create an array of the daily change in price, and **find the maximum subarray**.
+
+- find the max subarray on the left
+- find the max subarray on the right
+- find the max subarray crossing the middle
+	- find max left, max right, and their sum
+- take the max of the above
+
+TODO: codes
+
+theta(n*lg(n))
+
+#### 4.2 Strassen’s algorithm for matrix multiplication 75
+
+O(n^3) to O(n^2.81)
+
+#### 4.3 The substitution method for solving recurrences
+
+1. Guess the form of the solution.
+2. Use mathematical induction to find the constants and show that the solution works.
+
+#### 4.4 The recursion-tree method for solving recurrences 88
+
+depth * height
+
+#### 4.5 The master method for solving recurrences 93
+
+![Master Method](http://puncsky.github.com/images/CLRS/mastermethod.png)
+
+### 5 Probabilistic Analysis and Randomized Algorithms 114
+
+5.1 The hiring problem 114
+5.2 Indicator random variables 118
+5.3 Randomized algorithms 122
+5.4 Probabilistic analysis and further uses of indicator random variables
+
+
+## II Sorting and Order Statistics Introduction 147
+
+### 6 Heapsort 151
+
+O(n lgn)
+
+6.1 Heaps 151
+6.2 Maintaining the heap property 154
+6.3 Building a heap 156
+6.4 The heapsort algorithm 159
+6.5 Priority queues 162
+
+
+
+
+
+
+
+
+
+### 7 Quicksort 170
+7.1 Description of quicksort 170
+7.2 Performance of quicksort 174
+7.3 A randomized version of quicksort 179
+7.4 Analysis of quicksort 180
+
+### 8 Sorting in Linear Time 191
+8.1 Lower bounds for sorting 191
+8.2 Counting sort 194
+8.3 Radix sort 197
+8.4 Bucket sort 200
+
+### 9 Medians and Order Statistics 213
+9.1 Minimum and maximum 214
+9.2 Selection in expected linear time 215
+9.3 Selection in worst-case linear time 220
+
