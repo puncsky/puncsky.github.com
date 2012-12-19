@@ -3,7 +3,6 @@ layout: post
 title: "CLRS Notes"
 date: 2012-12-19 01:42
 comments: true
-published: false
 categories: algorithm
 ---
 
@@ -18,9 +17,8 @@ An algorithm is thus a sequence of computational steps that transform the input 
 
 #### 1.2 Algorithms as a technology 11
 
-It is important.
 
-	lg n < sqrt(n) < n < n lg(n) < n^2 < n^3 < n!
+lg n < sqrt(n) < n < n lg(n) < n^2 < n^3 < n!
 
 ### 2 Getting Started 16
 
@@ -40,16 +38,33 @@ It is important.
 
 #### 2.2 Analyzing algorithms 23
 
-insertion sort has a worst-case running time of theta(n^2)
+insertion sort has a worst-case running time of Θ(n^2)
 
 #### 2.3 Designing algorithms 29
 
 - The divide-and-conquer approach and recursive
-- merge sort
-	- sort left
-	- sort right
-	- merge by comparing two numbers from the sorted left and right pair by pair
- 
+
+c-code:
+
+	//Input:
+	//	A array
+	//	size size of A
+	//	p starting index of the span waiting to be sorted
+	//	r ending index of the span waiting to be sorted
+	//Procedure:
+	//	sort left
+	//	sort right
+	//	merge by comparing two numbers from the sorted left and right pair by pair
+	//Output:
+	//	A sorted array 
+	void mergeSort(double* A, int size, int p, int r) {
+		if (p < r) {
+			int q = (p+r)/2;
+			mergeSort(A, 10, p, q);
+			mergeSort(A, 10, q+1, r);
+			merge(A, 10, p, q, r);
+		}
+	}
 	void merge(double* A, int size, int p, int q, int r) {
 		// create left and right arrays                                                                                                          
 		int span1 = q-p+1;
@@ -72,16 +87,6 @@ insertion sort has a worst-case running time of theta(n^2)
 		free(left);
 		free(right);
 	}
-
-	void mergeSort(double* A, int size, int p, int r) {
-		if (p < r) {
-			int q = (p+r)/2;
-			mergeSort(A, 10, p, q);
-			mergeSort(A, 10, q+1, r);
-			merge(A, 10, p, q, r);
-		}
-	}
-	
 	int main() {
 		double A[10] = {4.,3.,2.,1.,0.,5.,6.,8.,7.,9.};
 		for (int i=0; i<10; ++i)
@@ -93,7 +98,7 @@ insertion sort has a worst-case running time of theta(n^2)
     	cout << endl;
 	}
  
-- theta(n lg n)
+- Θ(n lg n) but not operate in place
 
 
 ### 3 Growth of Functions 43
@@ -103,11 +108,11 @@ insertion sort has a worst-case running time of theta(n^2)
 - **O()**. When we have only an **asymptotic upper bound**, we use O-notation. 
 	- O(g(n)) = {f(n): there exist positive constants c and n0 such that 0 <= f(n) <= c*g(n) for all n >= n0}.
 	- if f(n) == c*g(n) is not possible, we use **o()**
-- **theta()**. When we have **both an asymptotic upper bound and an asymptotic lower bound**, we use theta-notation.
-	- theta(g(n)) = {f(n): there exist positive constants c1, c2, and n0 such that 0 <= c1*g(n) <= f(n) <= c2*g(n) for all n >=  n0}
-- **big_omega()**, When we have only an **asymptotic lower bound**, we use omega-notation.
+- **Θ()**. When we have **both an asymptotic upper bound and an asymptotic lower bound**, we use Θ-notation.
+	- Θ(g(n)) = {f(n): there exist positive constants c1, c2, and n0 such that 0 <= c1*g(n) <= f(n) <= c2*g(n) for all n >=  n0}
+- **Ω()**, When we have only an **asymptotic lower bound**, we use omega-notation.
 	- uppercase_omega(g(n)) = {f(n): there exist positive constants c and n0 such that 0 <= c*g(n) <=  f(n) for all n >= n0}
-	- if f(n) == c*g(n) is not possible, we use **small_omega()**
+	- if f(n) == c*g(n) is not possible, we use **ω()**
 
 #### 3.2 Standard notations and common functions 53
 
@@ -125,7 +130,7 @@ In the stock market, you need to buy low and sell high. But the maximum profit d
 
 ##### A brute-force solution
 
-Choose 2 from n pairs of (date, price) and calculate the difference. theta(n^2)
+Choose 2 from n pairs of (date, price) and calculate the difference. Θ(n^2)
 
 ##### A solution using divide-and-conquer
 
@@ -139,7 +144,7 @@ A transformation: create an array of the daily change in price, and **find the m
 
 TODO: codes
 
-theta(n*lg(n))
+Θ(n*lg(n))
 
 #### 4.2 Strassen’s algorithm for matrix multiplication 75
 
@@ -168,13 +173,95 @@ depth * height
 
 ## II Sorting and Order Statistics Introduction 147
 
+<table>
+  <tr>
+    <th></th>
+    <th>worst-case running time</th>
+    <th>average-cased running time</th>
+  </tr>
+  <tr>
+    <th>Insertion sort</th>
+    <td>Θ(n^2)</td>
+    <td>Θ(n^2)</td>
+  </tr>
+  <tr>
+    <th>Merge sort</th>
+    <td>Θ(n lg n)</td>
+    <td>Θ(n lg n)</td>
+  </tr>
+  <tr>
+    <th>Heapsort</th>
+    <td>O(n lg n)</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <th>Quicksort</th>
+    <td>Θ(n^2)</td>
+    <td>Θ(n lg n) (*)</td>
+  </tr>
+  <tr>
+    <th>Counting sort</th>
+    <td>Θ(k+n)</td>
+    <td>Θ(k+n)</td>
+  </tr>
+  <tr>
+    <th>Radix sort</th>
+    <td>Θ(d(n+k))</td>
+    <td>Θ(d(n+k))</td>
+  </tr>
+  <tr>
+    <th>Bucket sort</th>
+    <td>Θ(n^2)</td>
+    <td>Θ(n) </td>
+  </tr>
+</table>
+
 ### 6 Heapsort 151
 
-O(n lgn)
+O(n lg n),Our heap data structure is not garbage-collected storage.
 
-6.1 Heaps 151
-6.2 Maintaining the heap property 154
-6.3 Building a heap 156
+#### 6.1 Heaps 151
+
+The (binary) heap data structure is an array object that we can view as a nearly complete binary tree.
+
+	// calculate by shifting the binary representation
+	int parent(i) {
+		return i/2;
+	}
+	int left(i) {
+		return 2*i;
+	}
+	int right(i) {
+		return 2*i + 1;
+	}
+
+- max-heap: for every node _i_ other than the root, A[parent(i)]>=A[i].
+- min-heap: for every node _i_ other than the root, A[parent(i)]<=A[i].
+- height of a node: number of edges on the longest simple downward path from the node to a leaf.
+- height of the heap: height of its root. Θ(lg n)
+
+#### 6.2 Maintaining the heap property 154
+
+	// Input:
+	// 		A array
+	//		i index
+	//   Binary trees rooted at left(i) and right(i) are max-heaps
+	//   but A[i] might be smaller than its children. 
+	// Procedure:
+	//		exchange A[i] with the larger one between A[left[i]] and A[right[i]]
+	//		maxHeapify the new sub tree
+	// Output:
+	//		This routine lets the value at A[i] float down in the max-heap. 
+	maxHeapify(A, i) {
+		TODO;
+	}
+
+T(n) <= T(2*n/3) + Θ(1)
+
+#### 6.3 Building a heap 156
+
+
+
 6.4 The heapsort algorithm 159
 6.5 Priority queues 162
 
