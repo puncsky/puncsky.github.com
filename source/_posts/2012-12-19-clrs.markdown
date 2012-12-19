@@ -220,6 +220,150 @@ depth * height
 
 O(n lg n),Our heap data structure is not garbage-collected storage.
 
+	#include <iostream>
+	#include <cstdlib>
+
+	template <class T>
+	class Heap
+	{
+	public:
+	    Heap():m_array(0), m_size(0), m_maxSize(0){}
+	    Heap(int maxSize);
+	    ~Heap(){delete [] m_array;}
+	    bool insert(T item);
+	    bool isEmpty();
+	    T fetchMax();
+	    void deleteMax();
+	    void display();
+	    //Transfer Array<T> to a heap
+	    void arrayToHeap(T* array, int size); 
+	    //Sort the heap
+	    void heapSort();
+
+	private:
+	    void locate_down(int start, int end);
+	    void locate_up(int start, int end);
+
+	private:
+	    T* m_array;
+	    int m_size;//num of elem stored
+	    int m_maxSize;//allocated memory
+	};
+
+	template <class T>
+	Heap<T>::Heap(int maxSize)
+	{
+	    m_array=new T[maxSize+1];
+	    m_size=0;
+	    m_maxSize=maxSize;
+	}
+
+	template <class T>
+	T Heap<T>::fetchMax()
+	{
+	    return m_array[1];
+	}
+
+	template <class T>
+	bool Heap<T>::isEmpty()
+	{
+	    return m_size==0;
+	}
+
+	template <class T>
+	void Heap<T>::locate_down(int start, int end)
+	{
+	    int c=start*2;
+	    int temp;
+	    while(c<=end)
+	    {
+	        if((c<end) && (m_array[c]<m_array[c+1])) //Pick the larger one in both childs. ATTENTION: c==end is not approved!!
+	            c=c+1
+	        if(m_array[start]<m_array[c])
+	        {
+	            temp=m_array[start];
+	            m_array[start]=m_array[c];
+	            m_array[c]=temp;
+	        }
+	        start=c;
+	        c=2*c;
+	    }
+	}
+
+	template <class T>  //overlap the top with the bottom, decrease the size, and locate_down
+	void Heap<T>::deleteMax()
+	{
+	    m_array[1]=m_array[m_size];
+	    --m_size;
+	    locate_down(1,m_size);
+	}
+
+	template <class T>
+	void Heap<T>::locate_up(int start, int end)
+	{
+	    int loc=end;
+	    int parent=end/2;
+	    int temp;
+	    while(parent>=start && m_array[loc]<m_array[parent])
+	    {
+	        temp=m_array[loc];
+	        m_array[loc]=m_array[parent];
+	        m_array[parent]=temp;
+	        loc=parent;
+	        parent=loc/2;
+	    }
+	}
+
+	template <class T>
+	bool Heap<T>::insert(T item)
+	{
+	    if(m_size==m_maxSize)
+	    {
+	        std::cerr<<"Heap is full";
+	        this->~Heap();
+	        return 0;
+	    }
+	    ++m_size;
+	    m_array[m_size]=item;
+	    locate_up(1, m_size);
+	    return true;
+	}
+
+	template <class T>
+	void Heap<T>::display()
+	{
+	    for(int i=1; i<=m_size; i++)
+	        std::cout<<m_array[i]<<" ";
+	    std::cout<<std::endl;
+	}
+
+	template <class T>
+	void Heap<T>::arrayToHeap(T* array, int size)
+	{
+	    m_maxSize=size;
+	    m_array=new T[m_maxSize+1];
+	    for(int i=1; i<=size; ++i)
+	        this->insert(array[i-1]);
+	    this->heapSort();
+	    for(int i=1; i<size; ++i)
+	        array[i-1]=m_array[i];
+	}
+
+	template <class T>
+	void Heap<T>::heapSort()
+	{
+	    T temp;
+	    int i;
+	    for(i=m_size; i>=2; --i)
+	    {
+	        temp=m_array[1];
+	        m_array[1]=m_array[i];
+	        m_array[i]=temp;
+	        locate_down(1, i-1);
+	    }
+	}
+
+
 #### 6.1 Heaps 151
 
 The (binary) heap data structure is an array object that we can view as a nearly complete binary tree.
@@ -256,24 +400,125 @@ The (binary) heap data structure is an array object that we can view as a nearly
 		TODO;
 	}
 
-T(n) <= T(2*n/3) + Θ(1)
+T(n) <= T(2*n/3) + Θ(1), T(n) = O(lg n) = O(height)
 
 #### 6.3 Building a heap 156
 
+conduct maxHeapify upon the array from the rear to the head
 
+O(n)
 
-6.4 The heapsort algorithm 159
-6.5 Priority queues 162
+#### 6.4 The heapsort algorithm 159
 
+build max-heap, exchange the root with the end of heap, and maxHeapify the rest of the heap.
 
+#### 6.5 Priority queues 162
 
+one of the most popular applications of a heap: as an efficient priority queue. It can be used to schedule jobs on a shared computer. Highest-priority job first.
 
+	#include <iostream>
+	template <class T>
+	class PrioQueue //Min Heap
+	{
+	public:
+	    PrioQueue(int mSize=20);
+	    ~PrioQueue(){delete [] q;}
+	    bool IsEmpty() const {return size==0;}
+	    bool IsFull() const {return size==maxSize;}
+	    bool Append(const T &x);
+	    bool Serve(T &x);
+	private:
+	    void AdjustDown(int start, int end);
+	    void AdjustUp(int start, int end);
+	    T *q;
+	    int size, maxSize;
+	};
 
+	template <class T>
+	PrioQueue<T>::PrioQueue(int mSize)
+	{
+	    maxSize=mSize;
+	    size=0;
+	    q=new T[maxSize];
+	}
 
+	template <class T>
+	void PrioQueue<T>::AdjustDown(int start, int end)
+	{
+	    if(start<end)
+	    {
+	        int parent=start;
+	        int child=2*parent+1;
+	        while(child<=end)
+	        {
+	            if((child<end)&&(q[child]>q[child+1]))
+	                child=child+1;
+	            if(q[parent]>q[child])
+	            {
+	                T temp=q[parent];
+	                q[parent]=q[child];
+	                q[child]=temp;
+	            }
+	            else break;
+	            parent=child;
+	            child=2*parent+1;
+	        }
+	    }
+	}
 
+	template <class T>
+	void PrioQueue<T>::AdjustUp(int start, int end)
+	{
+	    if(start<end)
+	    {
+	        int child=end;
+	        int parent=(child-1)/2;
+	        while((parent>=start)&& (q[parent]>q[child]))
+	        {
+	                T temp=q[parent];
+	                q[parent]=q[child];
+	                q[child]=temp;
+	                child=parent;
+	                parent=(child-1)/2;
+	        }
+	    }
+	}
+
+	template <class T>
+	bool PrioQueue<T>::Append(const T &x)
+	{
+	    if(this->IsFull())
+	    {
+	        //throw std::Overflow;
+	        std::cout<<"overflow"<<std::endl;
+	       return(0); 
+	    }
+	    size++;
+	    q[size-1]=x;
+	    this->AdjustUp(0, size-1);//ATTENTION: n-1
+	}
+
+	template <class T>
+	bool PrioQueue<T>::Serve(T &x)
+	{
+	    if(this->IsEmpty())
+	    {
+	        //throw std::Underflow;
+	        return(0);
+	    }
+	    x=q[0];
+	    q[0]=q[size-1];
+	    q[size-1]=0;
+	    size--;
+	    this->AdjustDown(0, size-1); //ATTENTION: n-1
+	    std::cout<<"After AdjustDown:"<<q[0]<<q[1]<<q[2]<<q[3]<<q[4]<<std::endl;
+	}
 
 
 ### 7 Quicksort 170
+
+Despite this slow worst-case running time _Θ(n^2)_, quicksort is often **the best practical choice** for sorting because it is remarkably efficient on the average: its expected running time is _Θ(n lg n)_, and the **constant factors hidden in the _Θ(n lg n)_ notation are quite small**. 
+
 7.1 Description of quicksort 170
 7.2 Performance of quicksort 174
 7.3 A randomized version of quicksort 179
@@ -290,3 +535,14 @@ T(n) <= T(2*n/3) + Θ(1)
 9.2 Selection in expected linear time 215
 9.3 Selection in worst-case linear time 220
 
+## III Data Structures
+Introduction 229
+### 10 Elementary Data Structures 232
+10.1 Stacks and queues 232
+10.2 Linked lists 236
+10.3 Implementing pointers and objects 241 10.4 Representing rooted trees 246
+### 11 Hash Tables 253
+11.1 Direct-address tables 254 11.2 Hash tables 256
+11.3 Hash functions 262
+11.4 Open addressing 269
+11.5 Perfect hashing 277
