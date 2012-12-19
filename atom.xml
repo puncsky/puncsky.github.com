@@ -4,7 +4,7 @@
   <title><![CDATA[CS Notebook]]></title>
   <link href="http://puncsky.github.com/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2012-12-19T14:02:19-05:00</updated>
+  <updated>2012-12-19T15:40:05-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -1383,6 +1383,150 @@ int main() {
 
 <p>O(n lg n),Our heap data structure is not garbage-collected storage.</p>
 
+<pre><code>#include &lt;iostream&gt;
+#include &lt;cstdlib&gt;
+
+template &lt;class T&gt;
+class Heap
+{
+public:
+    Heap():m_array(0), m_size(0), m_maxSize(0){}
+    Heap(int maxSize);
+    ~Heap(){delete [] m_array;}
+    bool insert(T item);
+    bool isEmpty();
+    T fetchMax();
+    void deleteMax();
+    void display();
+    //Transfer Array&lt;T&gt; to a heap
+    void arrayToHeap(T* array, int size); 
+    //Sort the heap
+    void heapSort();
+
+private:
+    void locate_down(int start, int end);
+    void locate_up(int start, int end);
+
+private:
+    T* m_array;
+    int m_size;//num of elem stored
+    int m_maxSize;//allocated memory
+};
+
+template &lt;class T&gt;
+Heap&lt;T&gt;::Heap(int maxSize)
+{
+    m_array=new T[maxSize+1];
+    m_size=0;
+    m_maxSize=maxSize;
+}
+
+template &lt;class T&gt;
+T Heap&lt;T&gt;::fetchMax()
+{
+    return m_array[1];
+}
+
+template &lt;class T&gt;
+bool Heap&lt;T&gt;::isEmpty()
+{
+    return m_size==0;
+}
+
+template &lt;class T&gt;
+void Heap&lt;T&gt;::locate_down(int start, int end)
+{
+    int c=start*2;
+    int temp;
+    while(c&lt;=end)
+    {
+        if((c&lt;end) &amp;&amp; (m_array[c]&lt;m_array[c+1])) //Pick the larger one in both childs. ATTENTION: c==end is not approved!!
+            c=c+1
+        if(m_array[start]&lt;m_array[c])
+        {
+            temp=m_array[start];
+            m_array[start]=m_array[c];
+            m_array[c]=temp;
+        }
+        start=c;
+        c=2*c;
+    }
+}
+
+template &lt;class T&gt;  //overlap the top with the bottom, decrease the size, and locate_down
+void Heap&lt;T&gt;::deleteMax()
+{
+    m_array[1]=m_array[m_size];
+    --m_size;
+    locate_down(1,m_size);
+}
+
+template &lt;class T&gt;
+void Heap&lt;T&gt;::locate_up(int start, int end)
+{
+    int loc=end;
+    int parent=end/2;
+    int temp;
+    while(parent&gt;=start &amp;&amp; m_array[loc]&lt;m_array[parent])
+    {
+        temp=m_array[loc];
+        m_array[loc]=m_array[parent];
+        m_array[parent]=temp;
+        loc=parent;
+        parent=loc/2;
+    }
+}
+
+template &lt;class T&gt;
+bool Heap&lt;T&gt;::insert(T item)
+{
+    if(m_size==m_maxSize)
+    {
+        std::cerr&lt;&lt;"Heap is full";
+        this-&gt;~Heap();
+        return 0;
+    }
+    ++m_size;
+    m_array[m_size]=item;
+    locate_up(1, m_size);
+    return true;
+}
+
+template &lt;class T&gt;
+void Heap&lt;T&gt;::display()
+{
+    for(int i=1; i&lt;=m_size; i++)
+        std::cout&lt;&lt;m_array[i]&lt;&lt;" ";
+    std::cout&lt;&lt;std::endl;
+}
+
+template &lt;class T&gt;
+void Heap&lt;T&gt;::arrayToHeap(T* array, int size)
+{
+    m_maxSize=size;
+    m_array=new T[m_maxSize+1];
+    for(int i=1; i&lt;=size; ++i)
+        this-&gt;insert(array[i-1]);
+    this-&gt;heapSort();
+    for(int i=1; i&lt;size; ++i)
+        array[i-1]=m_array[i];
+}
+
+template &lt;class T&gt;
+void Heap&lt;T&gt;::heapSort()
+{
+    T temp;
+    int i;
+    for(i=m_size; i&gt;=2; --i)
+    {
+        temp=m_array[1];
+        m_array[1]=m_array[i];
+        m_array[i]=temp;
+        locate_down(1, i-1);
+    }
+}
+</code></pre>
+
 <h4>6.1 Heaps 151</h4>
 
 <p>The (binary) heap data structure is an array object that we can view as a nearly complete binary tree.</p>
@@ -1424,14 +1568,124 @@ maxHeapify(A, i) {
 }
 </code></pre>
 
-<p>T(n) &lt;= T(2*n/3) + Θ(1)</p>
+<p>T(n) &lt;= T(2*n/3) + Θ(1), T(n) = O(lg n) = O(height)</p>
 
 <h4>6.3 Building a heap 156</h4>
 
-<p>6.4 The heapsort algorithm 159
-6.5 Priority queues 162</p>
+<p>conduct maxHeapify upon the array from the rear to the head</p>
+
+<p>O(n)</p>
+
+<h4>6.4 The heapsort algorithm 159</h4>
+
+<p>build max-heap, exchange the root with the end of heap, and maxHeapify the rest of the heap.</p>
+
+<h4>6.5 Priority queues 162</h4>
+
+<p>one of the most popular applications of a heap: as an efficient priority queue. It can be used to schedule jobs on a shared computer. Highest-priority job first.</p>
+
+<pre><code>#include &lt;iostream&gt;
+template &lt;class T&gt;
+class PrioQueue //Min Heap
+{
+public:
+    PrioQueue(int mSize=20);
+    ~PrioQueue(){delete [] q;}
+    bool IsEmpty() const {return size==0;}
+    bool IsFull() const {return size==maxSize;}
+    bool Append(const T &amp;x);
+    bool Serve(T &amp;x);
+private:
+    void AdjustDown(int start, int end);
+    void AdjustUp(int start, int end);
+    T *q;
+    int size, maxSize;
+};
+
+template &lt;class T&gt;
+PrioQueue&lt;T&gt;::PrioQueue(int mSize)
+{
+    maxSize=mSize;
+    size=0;
+    q=new T[maxSize];
+}
+
+template &lt;class T&gt;
+void PrioQueue&lt;T&gt;::AdjustDown(int start, int end)
+{
+    if(start&lt;end)
+    {
+        int parent=start;
+        int child=2*parent+1;
+        while(child&lt;=end)
+        {
+            if((child&lt;end)&amp;&amp;(q[child]&gt;q[child+1]))
+                child=child+1;
+            if(q[parent]&gt;q[child])
+            {
+                T temp=q[parent];
+                q[parent]=q[child];
+                q[child]=temp;
+            }
+            else break;
+            parent=child;
+            child=2*parent+1;
+        }
+    }
+}
+
+template &lt;class T&gt;
+void PrioQueue&lt;T&gt;::AdjustUp(int start, int end)
+{
+    if(start&lt;end)
+    {
+        int child=end;
+        int parent=(child-1)/2;
+        while((parent&gt;=start)&amp;&amp; (q[parent]&gt;q[child]))
+        {
+                T temp=q[parent];
+                q[parent]=q[child];
+                q[child]=temp;
+                child=parent;
+                parent=(child-1)/2;
+        }
+    }
+}
+
+template &lt;class T&gt;
+bool PrioQueue&lt;T&gt;::Append(const T &amp;x)
+{
+    if(this-&gt;IsFull())
+    {
+        //throw std::Overflow;
+        std::cout&lt;&lt;"overflow"&lt;&lt;std::endl;
+       return(0); 
+    }
+    size++;
+    q[size-1]=x;
+    this-&gt;AdjustUp(0, size-1);//ATTENTION: n-1
+}
+
+template &lt;class T&gt;
+bool PrioQueue&lt;T&gt;::Serve(T &amp;x)
+{
+    if(this-&gt;IsEmpty())
+    {
+        //throw std::Underflow;
+        return(0);
+    }
+    x=q[0];
+    q[0]=q[size-1];
+    q[size-1]=0;
+    size--;
+    this-&gt;AdjustDown(0, size-1); //ATTENTION: n-1
+    std::cout&lt;&lt;"After AdjustDown:"&lt;&lt;q[0]&lt;&lt;q[1]&lt;&lt;q[2]&lt;&lt;q[3]&lt;&lt;q[4]&lt;&lt;std::endl;
+}
+</code></pre>
 
 <h3>7 Quicksort 170</h3>
+
+<p>Despite this slow worst-case running time <em>Θ(n<sup>2)_,</sup> quicksort is often <strong>the best practical choice</strong> for sorting because it is remarkably efficient on the average: its expected running time is </em>Θ(n lg n)<em>, and the **constant factors hidden in the </em>Θ(n lg n)_ notation are quite small**.</p>
 
 <p>7.1 Description of quicksort 170
 7.2 Performance of quicksort 174
@@ -1450,6 +1704,23 @@ maxHeapify(A, i) {
 <p>9.1 Minimum and maximum 214
 9.2 Selection in expected linear time 215
 9.3 Selection in worst-case linear time 220</p>
+
+<h2>III Data Structures</h2>
+
+<p>Introduction 229</p>
+
+<h3>10 Elementary Data Structures 232</h3>
+
+<p>10.1 Stacks and queues 232
+10.2 Linked lists 236
+10.3 Implementing pointers and objects 241 10.4 Representing rooted trees 246</p>
+
+<h3>11 Hash Tables 253</h3>
+
+<p>11.1 Direct-address tables 254 11.2 Hash tables 256
+11.3 Hash functions 262
+11.4 Open addressing 269
+11.5 Perfect hashing 277</p>
 ]]></content>
   </entry>
   
