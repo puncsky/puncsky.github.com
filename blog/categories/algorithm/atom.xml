@@ -4,7 +4,7 @@
   <title><![CDATA[Category: algorithm | CS Notebook]]></title>
   <link href="http://puncsky.github.com/blog/categories/algorithm/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2012-12-20T04:44:47-05:00</updated>
+  <updated>2012-12-20T05:03:19-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -66,9 +66,7 @@
 </ul>
 
 
-<p>c-code:</p>
-
-<p>``` cpp</p>
+<p>``` cpp mergeSort.cpp</p>
 
 <pre><code>//Input:
 //  A array
@@ -285,7 +283,7 @@ int main() {
 
 <p>O(n lg n),Our heap data structure is not garbage-collected storage.</p>
 
-<p>``` cpp</p>
+<p>``` cpp heap.hpp</p>
 
 <pre><code>#include &lt;iostream&gt;
 #include &lt;cstdlib&gt;
@@ -498,7 +496,7 @@ maxHeapify(A, i) {
 
 <p>one of the most popular applications of a heap: as an efficient priority queue. It can be used to schedule jobs on a shared computer. Highest-priority job first.</p>
 
-<p>``` cpp</p>
+<p>``` cpp prioqueue.hpp</p>
 
 <pre><code>#include &lt;iostream&gt;
 template &lt;class T&gt;
@@ -616,9 +614,7 @@ bool PrioQueue&lt;T&gt;::Serve(T &amp;x)
 </ul>
 
 
-<p>quickSort.cxx</p>
-
-<p>``` cpp</p>
+<p>``` cpp quickSort.cxx</p>
 
 <pre><code>#include &lt;iostream&gt;
 using namespace std;
@@ -749,9 +745,7 @@ int main() {
 
 <h4>9.2 Selection in expected linear time 215</h4>
 
-<p>randomizedSelect.cxx</p>
-
-<p>``` cpp</p>
+<p>``` cpp randomizedSelect.cxx</p>
 
 <pre><code>#include &lt;iostream&gt;
 using namespace std;
@@ -838,9 +832,7 @@ int main() {
 
 <h5>Stack</h5>
 
-<p>stack.h</p>
-
-<p>``` cpp</p>
+<p>``` cpp stack.h</p>
 
 <pre><code>#include &lt;iostream&gt;
 template &lt;class T&gt;
@@ -860,9 +852,7 @@ public:
 
 <h5>Sequential Stack</h5>
 
-<p>seqstack.cxx</p>
-
-<p>``` cpp</p>
+<p>``` cpp seqstack.cxx</p>
 
 <pre><code>#include "stack.h"
 
@@ -929,9 +919,7 @@ T SeqStack&lt;T&gt;::Pop()
 
 <p>```</p>
 
-<p>SeqStackTest.cxx</p>
-
-<p>``` cpp</p>
+<p>``` cpp SeqStackTest.cxx</p>
 
 <pre><code>#include "seqstack.h"
 int main()
@@ -960,9 +948,7 @@ int main()
 
 <h5>Queue</h5>
 
-<p>queue.h</p>
-
-<p>``` cpp</p>
+<p>``` cpp queue.h</p>
 
 <pre><code>#include &lt;iostream&gt;
 template &lt;class T&gt;
@@ -982,9 +968,7 @@ public:
 
 <h5>Sequential Queue</h5>
 
-<p>seqqueue.h</p>
-
-<p>``` cpp</p>
+<p>``` cpp seqqueue.h</p>
 
 <pre><code>#include "queue.h"
 
@@ -1058,9 +1042,7 @@ T SeqQueue&lt;T&gt;::DeQueue()
 
 <h5>Linear List</h5>
 
-<p>linearlist.h</p>
-
-<p>``` cpp</p>
+<p>``` cpp linearlist.h</p>
 
 <pre><code>template &lt;class T&gt;
 class LinearList
@@ -1083,9 +1065,7 @@ protected:
 
 <h5>Single List</h5>
 
-<p>singlelist.h</p>
-
-<p>``` cpp</p>
+<p>``` cpp singlelist.h</p>
 
 <pre><code>#include "iostream"
 #include "linearlist.h"
@@ -1281,9 +1261,7 @@ void SingleList&lt;T&gt;::Output(std::ostream&amp; out) const
 
 <p>```</p>
 
-<p>SingleListTest.cxx</p>
-
-<p>``` cpp</p>
+<p>``` cpp SingleListTest.cxx</p>
 
 <pre><code>#include "singlelisti.h"
 #include "stdio.h"
@@ -1309,9 +1287,7 @@ int main()
 
 <h5>Double List</h5>
 
-<p>doublelist.h</p>
-
-<p>``` cpp</p>
+<p>``` cpp doublelist.h</p>
 
 <pre><code>#include "linearlist.h"
 
@@ -1507,9 +1483,7 @@ void DoubleList&lt;T&gt;::Output(std::ostream&amp; out) const
 
 <p>```</p>
 
-<p>DoubleListTest.cxx</p>
-
-<p>``` cpp</p>
+<p>``` cpp DoubleListTest.cxx</p>
 
 <pre><code>#include "singlelisti.h"
 #include "stdio.h"
