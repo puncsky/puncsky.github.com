@@ -4,7 +4,7 @@
   <title><![CDATA[CS Notebook]]></title>
   <link href="http://puncsky.github.com/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2012-12-20T02:30:48-05:00</updated>
+  <updated>2012-12-20T04:00:54-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -1897,13 +1897,711 @@ int main() {
 
 <h2>III Data Structures</h2>
 
-<p>Introduction 229</p>
+<ul>
+<li>Data structures: techniques for representing finite dynamic sets and manipulating them on a computer.</li>
+<li>Dictionary: a dynamic set supporting insert, delete, and test membership.</li>
+<li>2 categories of operations
+
+<ul>
+<li>queries</li>
+<li>modifying operations</li>
+</ul>
+</li>
+</ul>
+
 
 <h3>10 Elementary Data Structures 232</h3>
 
-<p>10.1 Stacks and queues 232
-10.2 Linked lists 236
-10.3 Implementing pointers and objects 241 10.4 Representing rooted trees 246</p>
+<h4>10.1 Stacks and queues 232</h4>
+
+<h5>Stack</h5>
+
+<p>stack.h</p>
+
+<pre><code>#include &lt;iostream&gt;
+template &lt;class T&gt;
+class Stack
+{
+public:
+    virtual bool IsEmpty() const=0;
+    virtual bool IsFull() const=0;
+    virtual bool Top(T &amp;x) const=0;
+    virtual bool Push(T x) =0;
+    virtual T Pop() =0;
+    virtual void Clear() =0;
+};
+</code></pre>
+
+<h5>Sequential Stack</h5>
+
+<p>seqstack.cxx</p>
+
+<pre><code>#include "stack.h"
+
+template &lt;class T&gt;
+class SeqStack:public Stack&lt;T&gt;
+{
+public:
+    SeqStack(int mSize);
+    ~SeqStack() {delete []s;}
+    bool IsEmpty() const { return top == -1;}
+    bool IsFull() const { return top == maxTop;}
+    bool Top(T &amp;x) const;         //return the top element in x
+    bool Push(T x);
+    T Pop();
+    void Clear() { top = -1;}
+private:
+    int top;
+    int maxTop;
+    T *s;
+};
+template &lt;class T&gt;
+SeqStack&lt;T&gt;::SeqStack(int mSize)
+{
+    maxTop = mSize - 1;
+    s = new T[mSize];
+    top = -1;
+}
+
+template &lt;class T&gt;
+bool SeqStack&lt;T&gt;::Top(T &amp;x) const
+{
+    if (IsEmpty())
+    {
+        std::cout&lt;&lt;"Empty"&lt;&lt;std::endl;
+        return false;
+    }
+    x = s[top];
+    return true;
+}
+
+template &lt;class T&gt;
+bool SeqStack&lt;T&gt;::Push(T x)
+{
+    if(IsFull())
+    {
+        std::cout&lt;&lt;"Overflow"&lt;&lt;std::endl;
+        return false;
+    }
+    s[++top] = x;
+    return true;
+}
+
+template &lt;class T&gt;
+T SeqStack&lt;T&gt;::Pop()
+{
+    if(IsEmpty())
+    {
+        std::cout&lt;&lt;"Underflow"&lt;&lt;std::endl;
+        return false;
+    }
+    return s[top--];
+}
+</code></pre>
+
+<p>SeqStackTest.cxx</p>
+
+<pre><code>#include "seqstack.h"
+int main()
+{
+    SeqStack&lt;int&gt; S(10);
+    std::cout&lt;&lt;S.IsEmpty()&lt;&lt;std::endl;
+    std::cout &lt;&lt; S.IsFull() &lt;&lt; std::endl;
+    for(int i = 0; i &lt; 10; i++)
+    {
+        S.Push(i);
+        int x;
+        S.Top(x);
+        std::cout&lt;&lt; x &lt;&lt; " "; 
+    }
+    std::cout &lt;&lt; std::endl;
+    std::cout &lt;&lt; S.IsFull() &lt;&lt; std::endl;
+    for(int i = 0; i &lt; 10; i++)
+    {
+        std::cout &lt;&lt;  S.Pop() &lt;&lt; " " ;
+    }
+    std::cout &lt;&lt; std::endl;
+}
+</code></pre>
+
+<h5>Queue</h5>
+
+<p>queue.h</p>
+
+<pre><code>#include &lt;iostream&gt;
+template &lt;class T&gt;
+class Queue
+{
+public:
+    virtual bool IsEmpty() const=0;
+    virtual bool IsFull() const=0;
+    virtual bool Front(T&amp; x) const=0;
+    virtual bool EnQueue(T x) =0;
+    virtual T DeQueue() =0;
+    virtual bool Clear() =0;
+};
+</code></pre>
+
+<h5>Sequential Queue</h5>
+
+<p>seqqueue.h</p>
+
+<pre><code>#include "queue.h"
+
+template &lt;class T&gt;
+class SeqQueue:public Queue 
+{
+public:
+    SeqQueue(int mSize);
+    ~SeqQueue() { delete [] q;}
+    bool IsEmpty() const { return front == rear;}
+    bool IsFull() const { return (rear+1) == front;}
+    bool Front(T&amp; x) const;
+    bool EnQueue(T x);
+    T DeQueue();
+    void Clear() { front = rear = 0;}
+private:
+    int front, rear;
+    int maxSize;
+    T *q;
+};
+
+template &lt;class T&gt;
+SeqQueue&lt;T&gt;::SeqQueue(int mSize)
+{
+    maxSize = mSize;
+    q = new T[maxSize];
+    front = rear = 0;
+}
+
+template &lt;class T&gt;
+bool SeqQueue&lt;T&gt;::Front(T&amp; x) const
+{
+    if (IsEmpty())
+    {
+        std::cout &lt;&lt; "Empty" &lt;&lt; std::endl;
+        return false;
+    }
+    x = q[front];
+    return true;
+}
+
+template &lt;class T&gt;
+bool SeqQueue&lt;T&gt;::EnQueue(T x)
+{
+    if (IsFull()) 
+    {
+        std::cout &lt;&lt; "Overflow" &lt;&lt; std::endl;
+        return false;
+    }
+    q[(rear=(rear + 1) % maxSize)] = x;
+    return true;
+}
+
+template &lt;class T&gt;
+T SeqQueue&lt;T&gt;::DeQueue()
+{
+    if (IsEmpty())
+    {
+        std::cout &lt;&lt; "Underflow" &lt;&lt; std::endl;
+        return false;
+    }
+    T x = q[front];
+    front = (front + 1) % maxSize;
+    return x;
+}
+</code></pre>
+
+<h4>10.2 Linked lists 236</h4>
+
+<h5>Linear List</h5>
+
+<p>linearlist.h</p>
+
+<pre><code>template &lt;class T&gt;
+class LinearList
+{
+public:
+    virtual bool IsEmpty() const=0;
+    virtual int GetLength() const=0;
+    virtual bool Find(int i, T&amp; x) const=0;            //return element x with index i
+    virtual int Search(T x) const=0;                   //if x is found, return its index, else -1
+    virtual bool Insert(int i, T x)=0;                 //insert x at element Ai.
+    virtual bool Delete(int i)=0;                      //delete element Ai
+    virtual bool Update(int i, T x)=0;                 //update element Ai with x
+    virtual void Output(std::ostream&amp; out)const=0;     //ouput the list to the stream
+protected:
+    int ElemNum;                                        //element number in the list
+};
+</code></pre>
+
+<h5>Single List</h5>
+
+<p>singlelist.h</p>
+
+<pre><code>#include "iostream"
+#include "linearlist.h"
+
+template &lt;class T&gt; class SingleList;
+
+template &lt;class T&gt;
+class Node
+{
+    private:
+        T element;
+        Node&lt;T&gt; *next;
+        friend class SingleList&lt;T&gt;;
+};
+
+template &lt;class T&gt;
+class SingleList:public LinearList&lt;T&gt;
+{
+    public:
+        SingleList(){ head = NULL; this-&gt;ElemNum = 0;}
+        ~SingleList();
+        bool IsEmpty() const;
+        int GetLength() const;
+        bool Find(int i, T&amp; x) const;
+        int Search(T x) const;
+        bool Insert(int i, T x);
+        bool Delete(int i);
+        bool Update(int i, T x);
+        void Clear();
+        void Output(std::ostream&amp; out) const;
+    private:
+        Node&lt;T&gt;* head;
+};
+
+template &lt;class T&gt;
+SingleList&lt;T&gt;::~SingleList()
+{
+    Node&lt;T&gt; *p;
+    while (head)
+    {
+        p = head-&gt;next;
+        delete head;
+        head = p;
+    }
+}
+
+template &lt;class T&gt;
+bool SingleList&lt;T&gt;::IsEmpty() const
+{
+    return this-&gt;ElemNum == 0;
+}
+
+template &lt;class T&gt;
+int SingleList&lt;T&gt;::GetLength() const
+{
+    return this-&gt;ElemNum;
+}
+
+template &lt;class T&gt;
+bool SingleList&lt;T&gt;::Find(int i, T&amp; x) const
+{
+    if (i &lt; 0 || i &gt; this-&gt;ElemNum -1)
+    {
+        std::cout &lt;&lt; "Exceed Bounds!" &lt;&lt; std::endl;
+        return false;
+    }
+    Node&lt;T&gt; *p = head;
+    for (int j = 0; j &lt; i; j++) p = p-&gt;next;
+    x = p-&gt;element;
+    return true;
+}
+
+template &lt;class T&gt;
+int SingleList&lt;T&gt;::Search(T x) const
+{
+    Node&lt;T&gt; *p = head;
+    for (int i = 0; i &lt; this-&gt;ElemNum; i ++) 
+    {
+        if(x == p-&gt;element)
+            return i;
+        else
+            p = p-&gt;next;
+    }
+    return -1;
+}
+
+template &lt;class T&gt;
+bool SingleList&lt;T&gt;::Insert(int i, T x)
+{
+    if (i &lt; 0 || i &gt; this-&gt;ElemNum )
+    {
+        std::cout &lt;&lt; "Exceed Bounds!" &lt;&lt; std::endl;
+        return false;
+    }
+    Node&lt;T&gt; * r = new Node&lt;T&gt;(); r-&gt;element = x;
+    Node&lt;T&gt; * p = head;
+    Node&lt;T&gt; * q ;
+    for (int j = 0; j &lt; i; j++)
+    {
+        q = p;
+        p = p-&gt;next;
+    }
+    if(i == 0)
+    {
+        head = r;
+        r-&gt;next = p;
+    }
+    else
+    {
+        q-&gt;next = r;
+        r-&gt;next = p;
+    }
+    (this-&gt;ElemNum) ++;
+    return true;
+}
+
+template &lt;class T&gt;
+bool SingleList&lt;T&gt;::Delete(int i)
+{
+    if (!(this-&gt;ElemNum))
+    {
+        std::cout&lt;&lt;"Underflow!"&lt;&lt;std::endl;
+        return false;
+    }
+    if (i &lt; 0 || i &gt; this-&gt;ElemNum - 1)
+    {
+        std::cout &lt;&lt; "Exceed Bounds!" &lt;&lt; std::endl;
+        return false;
+    }
+    Node&lt;T&gt; * p = head;
+    Node&lt;T&gt; * q = head;
+    if (i == 0)
+    {
+        head = head-&gt;next;
+        delete p;
+    }
+    else
+    {
+        for (int j = 0; j &lt; i; j++)
+        {
+            q = p;
+            p = p-&gt;next;
+        }
+        q-&gt;next = p-&gt;next;
+        delete p;
+    }
+    (this-&gt;ElemNum) --; 
+    return true;
+}
+
+template &lt;class T&gt;
+bool SingleList&lt;T&gt;::Update(int i, T x)
+{
+    if (i &lt; 0 || i &gt; this-&gt;ElemNum-1)
+    {
+
+        std::cout &lt;&lt; "Exceed Bounds!" &lt;&lt; std::endl;
+        return false;
+    }
+    Node&lt;T&gt; * p = head;
+    for (int j = 0; j &lt; i; j ++)
+    {
+        p = p-&gt;next;
+    }
+    p-&gt;element = x;
+    return true;
+}
+
+template &lt;class T&gt;
+void SingleList&lt;T&gt;::Clear()
+{
+    Node&lt;T&gt; *p;
+    while (head)
+    {
+        p = head-&gt;next;
+        delete head;
+        head = p;
+    }
+}
+
+template &lt;class T&gt;
+void SingleList&lt;T&gt;::Output(std::ostream&amp; out) const
+{
+    Node&lt;T&gt; *p = head;
+    while (p)
+    {
+        out &lt;&lt; p-&gt;element &lt;&lt; " ";
+        p = p-&gt;next;
+    }
+    out &lt;&lt; std::endl;
+}
+</code></pre>
+
+<p>SingleListTest.cxx</p>
+
+<pre><code>#include "singlelisti.h"
+#include "stdio.h"
+int main()
+{
+    SingleList&lt;int&gt; LA;
+    SingleList&lt;int&gt; LB;
+    for (int i = 0; i &lt; 6; i++) LA.Insert(i, i);
+    for (int i = 5; i &lt; 10; i++) LB.Insert(i-5, i);
+    LB.Insert(0, 0);
+    LB.Insert(4, 2);
+    LB.Insert(LB.GetLength(), 4);
+    LA.Output(std::cout);
+    LB.Output(std::cout);
+    Intersection(LA, LB);
+    LA.Output(std::cout);
+
+    return 0;
+}
+</code></pre>
+
+<h5>Double List</h5>
+
+<p>doublelist.h</p>
+
+<pre><code>#include "linearlist.h"
+
+template &lt;class T&gt; class DoubleList;
+
+template &lt;class T&gt;
+class Node
+{
+    private:
+        T element;
+        Node&lt;T&gt; *last, *next;
+        friend class DoubleList&lt;T&gt;;
+};
+
+template &lt;class T&gt;
+class DoubleList:public LinearList&lt;T&gt;
+{
+    public:
+        DoubleList(){ head = NULL; this-&gt;ElemNum = 0;}
+        ~DoubleList();
+        bool IsEmpty() const;
+        int GetLength() const;
+        bool Find(int i, T&amp; x) const;
+        int Search(T x) const;
+        bool Insert(int i, T x);
+        bool Delete(int i);
+        bool Update(int i, T x);
+        void Clear();
+        void Output(std::ostream&amp; out) const;
+    private:
+        Node&lt;T&gt;* head;
+};
+
+template &lt;class T&gt;
+DoubleList&lt;T&gt;::~DoubleList()
+{
+    Node&lt;T&gt; *p;
+    while (head)
+    {
+        p = head-&gt;next;
+        delete head;
+        head = p;
+    }
+}
+
+template &lt;class T&gt;
+bool DoubleList&lt;T&gt;::IsEmpty() const
+{
+    return this-&gt;ElemNum == 0;
+}
+
+template &lt;class T&gt;
+int DoubleList&lt;T&gt;::GetLength() const
+{
+    return this-&gt;ElemNum;
+}
+
+template &lt;class T&gt;
+bool DoubleList&lt;T&gt;::Find(int i, T&amp; x) const
+{
+    if (i &lt; 0 || i &gt; this-&gt;ElemNum -1)
+    {
+        std::cout &lt;&lt; "Exceed Bounds!" &lt;&lt; std::endl;
+        return false;
+    }
+    Node&lt;T&gt; *p = head;
+    for (int j = 0; j &lt; i; j++) p = p-&gt;next;
+    x = p-&gt;element;
+    return true;
+}
+
+template &lt;class T&gt;
+int DoubleList&lt;T&gt;::Search(T x) const
+{
+    Node&lt;T&gt; *p = head;
+    for (int i = 0; i &lt; this-&gt;ElemNum; i ++) 
+    {
+        if(x == p-&gt;element)
+            return i;
+        else
+            p = p-&gt;next;
+    }
+    return -1;
+}
+
+template &lt;class T&gt;
+bool DoubleList&lt;T&gt;::Insert(int i, T x)
+{
+    if (i &lt; 0 || i &gt; this-&gt;ElemNum )
+    {
+        std::cout &lt;&lt; "Exceed Bounds!" &lt;&lt; std::endl;
+        return false;
+    }
+    Node&lt;T&gt; * r = new Node&lt;T&gt;(); r-&gt;element = x;
+    Node&lt;T&gt; * p = head;
+    for (int j = 0; j &lt; i; j++)
+    {
+        p = p-&gt;next;
+    }
+    if(i == 0)
+    {
+        head = r;
+        r-&gt;last = NULL;
+        r-&gt;next = p;
+        p-&gt;last = r;
+    }
+    else
+    {
+        r-&gt;last = p-&gt;last;
+        p-&gt;last-&gt;next = r;
+        r-&gt;next = p;
+        p-&gt;last = r;
+    }
+    (this-&gt;ElemNum) ++;
+    return true;
+}
+
+template &lt;class T&gt;
+bool DoubleList&lt;T&gt;::Delete(int i)
+{
+    if (!(this-&gt;ElemNum))
+    {
+        std::cout&lt;&lt;"Underflow!"&lt;&lt;std::endl;
+        return false;
+    }
+    if (i &lt; 0 || i &gt; this-&gt;ElemNum - 1)
+    {
+        std::cout &lt;&lt; "Exceed Bounds!" &lt;&lt; std::endl;
+        return false;
+    }
+    Node&lt;T&gt; * p = head;
+    if (i == 0)
+    {
+        head = head-&gt;next;
+        delete p;
+    }
+    else
+    {
+        for (int j = 0; j &lt; i; j++)
+        {
+            p = p-&gt;next;
+        }
+        p-&gt;last-&gt;next = p-&gt;next;
+        p-&gt;next-&gt;last = p-&gt;last;
+        delete p;
+    }
+    (this-&gt;ElemNum) --; 
+    return true;
+}
+
+template &lt;class T&gt;
+bool DoubleList&lt;T&gt;::Update(int i, T x)
+{
+    if (i &lt; 0 || i &gt; this-&gt;ElemNum-1)
+    {
+
+        std::cout &lt;&lt; "Exceed Bounds!" &lt;&lt; std::endl;
+        return false;
+    }
+    Node&lt;T&gt; * p = head;
+    for (int j = 0; j &lt; i; j ++)
+    {
+        p = p-&gt;next;
+    }
+    p-&gt;element = x;
+    return true;
+}
+
+template &lt;class T&gt;
+void DoubleList&lt;T&gt;::Clear()
+{
+    Node&lt;T&gt; *p;
+    while (head)
+    {
+        p = head-&gt;next;
+        delete head;
+        head = p;
+    }
+}
+
+template &lt;class T&gt;
+void DoubleList&lt;T&gt;::Output(std::ostream&amp; out) const
+{
+    Node&lt;T&gt; *p = head;
+    while (p)
+    {
+        out &lt;&lt; p-&gt;element &lt;&lt; " ";
+        p = p-&gt;next;
+    }
+    out &lt;&lt; std::endl;
+}
+</code></pre>
+
+<p>DoubleListTest.cxx</p>
+
+<pre><code>#include "singlelisti.h"
+#include "stdio.h"
+int main()
+{
+    SingleList&lt;int&gt; LA;
+    SingleList&lt;int&gt; LB;
+    for (int i = 0; i &lt; 6; i++) LA.Insert(i, i);
+    for (int i = 5; i &lt; 10; i++) LB.Insert(i-5, i);
+    LB.Insert(0, 0);
+    LB.Insert(4, 2);
+    LB.Insert(LB.GetLength(), 4);
+    LA.Output(std::cout);
+    LB.Output(std::cout);
+    LA.Delete(3);
+    LA.Output(std::cout);
+
+    return 0;
+}
+</code></pre>
+
+<h4>10.3 Implementing pointers and objects 241</h4>
+
+<ul>
+<li>How do we implement pointers and objects in languages that do not provide them?
+
+<ol>
+<li>A multiple-array representation of objects
+
+<ul>
+<li>for example, <code>next[]</code>, <code>key[]</code>, <code>prev[]</code> can store the values and indexes</li>
+</ul>
+</li>
+<li>A single-array representation of objects
+
+<ul>
+<li>for example, store triple &lt; key, next, prev > in one single array</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>Allocating and freeing objects
+
+<ul>
+<li>a <strong>garbage collector</strong> is responsible for determining which objects are unused.</li>
+<li>We keep the free objects in a singly linked list, which we call the <strong>free list</strong>. Each object in the representation is either in list L or in the free list, but not in both. Free list acts like a stack. 在free list的head操作</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>10.4 Representing rooted trees 246</h4>
 
 <h3>11 Hash Tables 253</h3>
 
