@@ -24,6 +24,8 @@ lg n < sqrt(n) < n < n lg(n) < n^2 < n^3 < n!
 
 #### 2.1 Insertion sort 16
 
+``` cpp
+
 	void insertionSort(double* A, int size) {
 		for (int i = 1; i < size; ++i) {
 			double key = A[i];
@@ -35,6 +37,7 @@ lg n < sqrt(n) < n < n lg(n) < n^2 < n^3 < n!
 			A[i+1] = key;
 		} 
 	}
+```
 
 #### 2.2 Analyzing algorithms 23
 
@@ -49,6 +52,8 @@ The divide-and-conquer approach and recursive
 - Combine: merge by comparing two numbers from the sorted left and right pair by pair 
 
 c-code:
+
+``` cpp
 
 	//Input:
 	//	A array
@@ -101,6 +106,7 @@ c-code:
         	cout << A[i];
     	cout << endl;
 	}
+``` 
  
 - Θ(n lg n) but not operate in place
 
@@ -223,6 +229,8 @@ depth * height
 ### 6 Heapsort 151
 
 O(n lg n),Our heap data structure is not garbage-collected storage.
+
+``` cpp
 
 	#include <iostream>
 	#include <cstdlib>
@@ -366,11 +374,13 @@ O(n lg n),Our heap data structure is not garbage-collected storage.
 	        locate_down(1, i-1);
 	    }
 	}
-
+```
 
 #### 6.1 Heaps 151
 
 The (binary) heap data structure is an array object that we can view as a nearly complete binary tree.
+
+``` cpp
 
 	// calculate by shifting the binary representation
 	int parent(i) {
@@ -382,6 +392,7 @@ The (binary) heap data structure is an array object that we can view as a nearly
 	int right(i) {
 		return 2*i + 1;
 	}
+```
 
 - max-heap: for every node _i_ other than the root, A[parent(i)]>=A[i].
 - min-heap: for every node _i_ other than the root, A[parent(i)]<=A[i].
@@ -389,6 +400,8 @@ The (binary) heap data structure is an array object that we can view as a nearly
 - height of the heap: height of its root. Θ(lg n)
 
 #### 6.2 Maintaining the heap property 154
+
+``` cpp
 
 	// Input:
 	// 		A array
@@ -403,6 +416,7 @@ The (binary) heap data structure is an array object that we can view as a nearly
 	maxHeapify(A, i) {
 		TODO;
 	}
+```
 
 T(n) <= T(2*n/3) + Θ(1), T(n) = O(lg n) = O(height)
 
@@ -419,6 +433,8 @@ build max-heap, exchange the root with the end of heap, and maxHeapify the rest 
 #### 6.5 Priority queues 162
 
 one of the most popular applications of a heap: as an efficient priority queue. It can be used to schedule jobs on a shared computer. Highest-priority job first.
+
+``` cpp
 
 	#include <iostream>
 	template <class T>
@@ -517,7 +533,7 @@ one of the most popular applications of a heap: as an efficient priority queue. 
 	    this->AdjustDown(0, size-1); //ATTENTION: n-1
 	    std::cout<<"After AdjustDown:"<<q[0]<<q[1]<<q[2]<<q[3]<<q[4]<<std::endl;
 	}
-
+```
 
 ### 7 Quicksort 170
 
@@ -532,6 +548,8 @@ Divide-and-conquer paradigm
 - Combine: NULL
  
 quickSort.cxx
+
+``` cpp
 
 	#include <iostream>
 	using namespace std;
@@ -572,7 +590,7 @@ quickSort.cxx
 	    cout << endl;
 	    return 0;
 	}
-
+```
 
 
 #### 7.2 Performance of quicksort 174
@@ -644,6 +662,8 @@ How to find min and max simultaneously? In fact, we can find both the minimum an
 
 randomizedSelect.cxx
 
+``` cpp
+
 	#include <iostream>
 	using namespace std;
 
@@ -698,7 +718,7 @@ randomizedSelect.cxx
 	    cout << randomizedSelect(A, 0, 9, 5) << endl;
 	    return 0;
 	}
-
+```
 
 E[T(n)] = O(n)
 
@@ -721,6 +741,8 @@ O(n)
 
 stack.h
 
+``` cpp
+
 	#include <iostream>
 	template <class T>
 	class Stack
@@ -733,10 +755,13 @@ stack.h
 	    virtual T Pop() =0;
 	    virtual void Clear() =0;
 	};
+```
 	
 ##### Sequential Stack
 
 seqstack.cxx
+
+``` cpp
 
 	#include "stack.h"
 
@@ -799,8 +824,11 @@ seqstack.cxx
 	    }
 	    return s[top--];
 	}
+```
 
 SeqStackTest.cxx
+
+``` cpp
 
 	#include "seqstack.h"
 	int main()
@@ -823,10 +851,13 @@ SeqStackTest.cxx
 	    }
 	    std::cout << std::endl;
 	}
+```
 
 #####  Queue
 
 queue.h
+
+``` cpp
 
 	#include <iostream>
 	template <class T>
@@ -840,10 +871,13 @@ queue.h
 	    virtual T DeQueue() =0;
 	    virtual bool Clear() =0;
 	};
+```
 
 ##### Sequential Queue
 
 seqqueue.h
+
+``` cpp
 
 	#include "queue.h"
 
@@ -909,12 +943,15 @@ seqqueue.h
 	    front = (front + 1) % maxSize;
 	    return x;
 	}
+```
 
 #### 10.2 Linked lists 236
 
 ##### Linear List
 
 linearlist.h
+
+``` cpp
 
 	template <class T>
 	class LinearList
@@ -931,10 +968,13 @@ linearlist.h
 	protected:
 	    int ElemNum;                                        //element number in the list
 	};
+```
 	
 ##### Single List
 
 singlelist.h
+
+``` cpp
 
 	#include "iostream"
 	#include "linearlist.h"
@@ -1126,8 +1166,11 @@ singlelist.h
 		}
 		out << std::endl;
 	}
+```
 
 SingleListTest.cxx
+
+``` cpp
 
 	#include "singlelisti.h"
 	#include "stdio.h"
@@ -1147,11 +1190,13 @@ SingleListTest.cxx
 
 		return 0;
 	}
-
+```
 
 ##### Double List
 
 doublelist.h
+
+``` cpp
 
 	#include "linearlist.h"
 
@@ -1343,8 +1388,11 @@ doublelist.h
 		}
 		out << std::endl;
 	}
+```
 
 DoubleListTest.cxx
+
+``` cpp
 
 	#include "singlelisti.h"
 	#include "stdio.h"
@@ -1364,7 +1412,7 @@ DoubleListTest.cxx
 
 		return 0;
 	}
-
+```
 
 #### 10.3 Implementing pointers and objects 241 
 
