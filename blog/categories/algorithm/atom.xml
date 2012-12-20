@@ -4,7 +4,7 @@
   <title><![CDATA[Category: algorithm | CS Notebook]]></title>
   <link href="http://puncsky.github.com/blog/categories/algorithm/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2012-12-20T04:00:54-05:00</updated>
+  <updated>2012-12-20T04:44:47-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -34,6 +34,8 @@
 
 <h4>2.1 Insertion sort 16</h4>
 
+<p>``` cpp</p>
+
 <pre><code>void insertionSort(double* A, int size) {
     for (int i = 1; i &lt; size; ++i) {
         double key = A[i];
@@ -46,6 +48,8 @@
     } 
 }
 </code></pre>
+
+<p>```</p>
 
 <h4>2.2 Analyzing algorithms 23</h4>
 
@@ -63,6 +67,8 @@
 
 
 <p>c-code:</p>
+
+<p>``` cpp</p>
 
 <pre><code>//Input:
 //  A array
@@ -116,6 +122,8 @@ int main() {
     cout &lt;&lt; endl;
 }
 </code></pre>
+
+<p>```</p>
 
 <ul>
 <li>Θ(n lg n) but not operate in place</li>
@@ -277,6 +285,8 @@ int main() {
 
 <p>O(n lg n),Our heap data structure is not garbage-collected storage.</p>
 
+<p>``` cpp</p>
+
 <pre><code>#include &lt;iostream&gt;
 #include &lt;cstdlib&gt;
 
@@ -421,9 +431,13 @@ void Heap&lt;T&gt;::heapSort()
 }
 </code></pre>
 
+<p>```</p>
+
 <h4>6.1 Heaps 151</h4>
 
 <p>The (binary) heap data structure is an array object that we can view as a nearly complete binary tree.</p>
+
+<p>``` cpp</p>
 
 <pre><code>// calculate by shifting the binary representation
 int parent(i) {
@@ -437,6 +451,8 @@ int right(i) {
 }
 </code></pre>
 
+<p>```</p>
+
 <ul>
 <li>max-heap: for every node <em>i</em> other than the root, A[parent(i)]>=A[i].</li>
 <li>min-heap: for every node <em>i</em> other than the root, A[parent(i)]&lt;=A[i].</li>
@@ -446,6 +462,8 @@ int right(i) {
 
 
 <h4>6.2 Maintaining the heap property 154</h4>
+
+<p>``` cpp</p>
 
 <pre><code>// Input:
 //      A array
@@ -462,6 +480,8 @@ maxHeapify(A, i) {
 }
 </code></pre>
 
+<p>```</p>
+
 <p>T(n) &lt;= T(2*n/3) + Θ(1), T(n) = O(lg n) = O(height)</p>
 
 <h4>6.3 Building a heap 156</h4>
@@ -477,6 +497,8 @@ maxHeapify(A, i) {
 <h4>6.5 Priority queues 162</h4>
 
 <p>one of the most popular applications of a heap: as an efficient priority queue. It can be used to schedule jobs on a shared computer. Highest-priority job first.</p>
+
+<p>``` cpp</p>
 
 <pre><code>#include &lt;iostream&gt;
 template &lt;class T&gt;
@@ -577,6 +599,8 @@ bool PrioQueue&lt;T&gt;::Serve(T &amp;x)
 }
 </code></pre>
 
+<p>```</p>
+
 <h3>7 Quicksort 170</h3>
 
 <p>Despite this slow worst-case running time Θ(n<sup>2)</sup> , quicksort is often <strong>the best practical choice</strong> for sorting because it is remarkably efficient on the average: its expected running time is <em>Θ(n lg n)</em>, and the <strong>constant factors hidden in the <em>Θ(n lg n)</em> notation are quite small</strong>.</p>
@@ -593,6 +617,8 @@ bool PrioQueue&lt;T&gt;::Serve(T &amp;x)
 
 
 <p>quickSort.cxx</p>
+
+<p>``` cpp</p>
 
 <pre><code>#include &lt;iostream&gt;
 using namespace std;
@@ -634,6 +660,8 @@ int main() {
     return 0;
 }
 </code></pre>
+
+<p>```</p>
 
 <h4>7.2 Performance of quicksort 174</h4>
 
@@ -723,6 +751,8 @@ int main() {
 
 <p>randomizedSelect.cxx</p>
 
+<p>``` cpp</p>
+
 <pre><code>#include &lt;iostream&gt;
 using namespace std;
 
@@ -779,6 +809,8 @@ int main() {
 }
 </code></pre>
 
+<p>```</p>
+
 <p>E[T(n)] = O(n)</p>
 
 <h4>9.3 Selection in worst-case linear time 220</h4>
@@ -808,6 +840,8 @@ int main() {
 
 <p>stack.h</p>
 
+<p>``` cpp</p>
+
 <pre><code>#include &lt;iostream&gt;
 template &lt;class T&gt;
 class Stack
@@ -822,9 +856,13 @@ public:
 };
 </code></pre>
 
+<p>```</p>
+
 <h5>Sequential Stack</h5>
 
 <p>seqstack.cxx</p>
+
+<p>``` cpp</p>
 
 <pre><code>#include "stack.h"
 
@@ -889,7 +927,11 @@ T SeqStack&lt;T&gt;::Pop()
 }
 </code></pre>
 
+<p>```</p>
+
 <p>SeqStackTest.cxx</p>
+
+<p>``` cpp</p>
 
 <pre><code>#include "seqstack.h"
 int main()
@@ -914,9 +956,13 @@ int main()
 }
 </code></pre>
 
+<p>```</p>
+
 <h5>Queue</h5>
 
 <p>queue.h</p>
+
+<p>``` cpp</p>
 
 <pre><code>#include &lt;iostream&gt;
 template &lt;class T&gt;
@@ -932,9 +978,13 @@ public:
 };
 </code></pre>
 
+<p>```</p>
+
 <h5>Sequential Queue</h5>
 
 <p>seqqueue.h</p>
+
+<p>``` cpp</p>
 
 <pre><code>#include "queue.h"
 
@@ -1002,11 +1052,15 @@ T SeqQueue&lt;T&gt;::DeQueue()
 }
 </code></pre>
 
+<p>```</p>
+
 <h4>10.2 Linked lists 236</h4>
 
 <h5>Linear List</h5>
 
 <p>linearlist.h</p>
+
+<p>``` cpp</p>
 
 <pre><code>template &lt;class T&gt;
 class LinearList
@@ -1025,9 +1079,13 @@ protected:
 };
 </code></pre>
 
+<p>```</p>
+
 <h5>Single List</h5>
 
 <p>singlelist.h</p>
+
+<p>``` cpp</p>
 
 <pre><code>#include "iostream"
 #include "linearlist.h"
@@ -1221,7 +1279,11 @@ void SingleList&lt;T&gt;::Output(std::ostream&amp; out) const
 }
 </code></pre>
 
+<p>```</p>
+
 <p>SingleListTest.cxx</p>
+
+<p>``` cpp</p>
 
 <pre><code>#include "singlelisti.h"
 #include "stdio.h"
@@ -1243,9 +1305,13 @@ int main()
 }
 </code></pre>
 
+<p>```</p>
+
 <h5>Double List</h5>
 
 <p>doublelist.h</p>
+
+<p>``` cpp</p>
 
 <pre><code>#include "linearlist.h"
 
@@ -1439,7 +1505,11 @@ void DoubleList&lt;T&gt;::Output(std::ostream&amp; out) const
 }
 </code></pre>
 
+<p>```</p>
+
 <p>DoubleListTest.cxx</p>
+
+<p>``` cpp</p>
 
 <pre><code>#include "singlelisti.h"
 #include "stdio.h"
@@ -1460,6 +1530,8 @@ int main()
     return 0;
 }
 </code></pre>
+
+<p>```</p>
 
 <h4>10.3 Implementing pointers and objects 241</h4>
 
