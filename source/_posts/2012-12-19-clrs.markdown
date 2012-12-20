@@ -51,9 +51,7 @@ The divide-and-conquer approach and recursive
 - Conquer: recursively sort left and right
 - Combine: merge by comparing two numbers from the sorted left and right pair by pair 
 
-c-code:
-
-``` cpp
+``` cpp mergeSort.cpp
 
 	//Input:
 	//	A array
@@ -230,7 +228,7 @@ depth * height
 
 O(n lg n),Our heap data structure is not garbage-collected storage.
 
-``` cpp
+``` cpp heap.hpp
 
 	#include <iostream>
 	#include <cstdlib>
@@ -434,7 +432,7 @@ build max-heap, exchange the root with the end of heap, and maxHeapify the rest 
 
 one of the most popular applications of a heap: as an efficient priority queue. It can be used to schedule jobs on a shared computer. Highest-priority job first.
 
-``` cpp
+``` cpp prioqueue.hpp
 
 	#include <iostream>
 	template <class T>
@@ -547,9 +545,9 @@ Divide-and-conquer paradigm
 - Conquer: recursively sort left and right
 - Combine: NULL
  
-quickSort.cxx
 
-``` cpp
+``` cpp quickSort.cxx
+
 
 	#include <iostream>
 	using namespace std;
@@ -660,9 +658,9 @@ How to find min and max simultaneously? In fact, we can find both the minimum an
 
 #### 9.2 Selection in expected linear time 215
 
-randomizedSelect.cxx
 
-``` cpp
+``` cpp randomizedSelect.cxx
+
 
 	#include <iostream>
 	using namespace std;
@@ -739,9 +737,8 @@ O(n)
 
 ##### Stack
 
-stack.h
 
-``` cpp
+``` cpp stack.h
 
 	#include <iostream>
 	template <class T>
@@ -759,9 +756,8 @@ stack.h
 	
 ##### Sequential Stack
 
-seqstack.cxx
 
-``` cpp
+``` cpp seqstack.cxx
 
 	#include "stack.h"
 
@@ -826,9 +822,7 @@ seqstack.cxx
 	}
 ```
 
-SeqStackTest.cxx
-
-``` cpp
+``` cpp SeqStackTest.cxx
 
 	#include "seqstack.h"
 	int main()
@@ -855,9 +849,8 @@ SeqStackTest.cxx
 
 #####  Queue
 
-queue.h
 
-``` cpp
+``` cpp queue.h
 
 	#include <iostream>
 	template <class T>
@@ -875,9 +868,8 @@ queue.h
 
 ##### Sequential Queue
 
-seqqueue.h
 
-``` cpp
+``` cpp seqqueue.h
 
 	#include "queue.h"
 
@@ -949,9 +941,8 @@ seqqueue.h
 
 ##### Linear List
 
-linearlist.h
 
-``` cpp
+``` cpp linearlist.h
 
 	template <class T>
 	class LinearList
@@ -972,9 +963,8 @@ linearlist.h
 	
 ##### Single List
 
-singlelist.h
 
-``` cpp
+``` cpp singlelist.h
 
 	#include "iostream"
 	#include "linearlist.h"
@@ -1168,9 +1158,8 @@ singlelist.h
 	}
 ```
 
-SingleListTest.cxx
 
-``` cpp
+``` cpp SingleListTest.cxx
 
 	#include "singlelisti.h"
 	#include "stdio.h"
@@ -1194,9 +1183,8 @@ SingleListTest.cxx
 
 ##### Double List
 
-doublelist.h
 
-``` cpp
+``` cpp doublelist.h
 
 	#include "linearlist.h"
 
@@ -1390,9 +1378,9 @@ doublelist.h
 	}
 ```
 
-DoubleListTest.cxx
 
-``` cpp
+
+``` cpp DoubleListTest.cxx
 
 	#include "singlelisti.h"
 	#include "stdio.h"
