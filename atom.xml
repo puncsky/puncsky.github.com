@@ -4,7 +4,7 @@
   <title><![CDATA[CS Notebook]]></title>
   <link href="http://puncsky.github.com/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2012-12-20T05:03:19-05:00</updated>
+  <updated>2012-12-20T05:13:58-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -3627,6 +3627,41 @@ vector examples</li>
 11.3 Hash functions 262
 11.4 Open addressing 269
 11.5 Perfect hashing 277</p>
+
+<h3>12 Binary Search Trees 286</h3>
+
+<p>12.1 What is a binary search tree? 286 12.2 Querying a binary search tree 289 12.3 Insertion and deletion 294
+12.4 Randomly built binary search trees 299</p>
+
+<h3>13 Red-Black Trees 308</h3>
+
+<p>13.1 Properties of red-black trees 308 13.2 Rotations 312
+13.3 Insertion 315
+13.4 Deletion 323</p>
+
+<h3>14 Augmenting Data Structures 339</h3>
+
+<p>14.1 Dynamic order statistics 339
+14.2 How to augment a data structure 345 14.3 Interval trees 348</p>
+
+<h2>IV Advanced Design and Analysis Techniques Introduction 357</h2>
+
+<h3>15 Dynamic Programming 359</h3>
+
+<p>15.1 Rod cutting 360
+15.2 Matrix-chain multiplication 370
+15.3 Elements of dynamic programming 378 15.4 Longest common subsequence 390 15.5 Optimal binary search trees 397</p>
+
+<h3>16 Greedy Algorithms 414</h3>
+
+<p>16.1 An activity-selection problem
+16.2 Elements of the greedy strategy 423 16.3 Huffman codes 428
+415 ? 16.4 Matroids and greedy methods 437
+16.5 A task-scheduling problem as a matroid 443</p>
+
+<h3>17 Amortized Analysis 451</h3>
+
+<p>17.1 Aggregate analysis 452 17.2 The accounting method 456 17.3 The potential method 459 17.4 Dynamic tables 463</p>
 ]]></content>
   </entry>
   
