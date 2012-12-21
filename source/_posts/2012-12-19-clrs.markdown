@@ -1674,9 +1674,23 @@ Assume that universe U of keys is reasonably small, and no two elements have the
 
 #### 11.4 Open addressing 269
 
-
+- **Open addressing**: all elements occupy the hash table itself. No chaining. load factor α can never exceed 1. 
+	- We compute the sequence of slots to be examined by probing until we find an empty slot. The probing sequence has not to be < 0, 1, ..., m-1 > with Θ(n), but **depends upon the key being inserted**. To determine which slots to probe, we extend the hash function to include the probe number (starting from 0) as a second input.  < h(k,0), h(k,1), ..., h(k,m-1) >. 
+	- 注意，此处不能标记删除的slot为NIL，因为这样一来就无法读到存在其后面部分的散列 值了。解决方法是，用DELETED取代NIL.
+	- ***uniform hashing***: the probe sequence of each key is equally likely to be any of the m! permutations of < 0, 1, ..., m-1 >.
+		- linear probing
+			- h(k,i) = (h'(k)+i) mod m
+			- problem: primary clustering
+		- quadratic probing
+			- h(k,i) = (h'(k) + c1\*i + c2\*i^2) mod m
+			- problem: secondary clustering
+		- double hashing
+			- one of the best
+			- h(k,i) = (h1(k) + i\*h2(k)) mod m
 
 #### 11.5 Perfect hashing 277
+
+O(1) memory accesses are required to perform a search in the worst case.
 
 ### 12 Binary Search Trees 286
 12.1 What is a binary search tree? 286 12.2 Querying a binary search tree 289 12.3 Insertion and deletion 294
