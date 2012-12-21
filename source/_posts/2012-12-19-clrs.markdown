@@ -1415,13 +1415,268 @@ O(n)
 	
 #### 10.4 Representing rooted trees 246
 
+- Binary trees
+- Rooted trees with unbounded branching
+	- **left-child, right-sibling representation**
+		1. _x.left-child_ points to the leftmost child of node _x_
+		2. _x.right-sibling_ points to the sibling of _x_ immediately to its right.
+		3. If node _x_ has no children, then _x.left-child_ = NIL, and if node x is the rightmost child of its parent, then _x.right-sibling_ = NIL.
+- Other tree representations. Many are possible.
+
+``` cpp binarytree.hpp
+
+	template <class T>
+	struct BTNode
+	{
+	    BTNode()
+	    {
+	        lChild = rChild = NULL;
+	    }
+	    BTNode(const T& x)
+	    {
+	        element = x;
+	        lChild = rChild = NULL;
+	    }
+	    BTNode(const T& x, BTNode<T>* l, BTNode<T>* r)
+	    {
+	        element = x;
+	        lChild = l;
+	        rChild = r;
+	    }
+	    T element;
+	    BTNode<T>* lChild, *rChild;
+	};
+
+	template <class T>
+	class BinaryTree
+	{
+	public:
+	    BinaryTree() {root = NULL;}
+	    ~BinaryTree() {};
+	    bool IsEmpty() const;
+	    void Clear();
+	    bool Root(T& x) const;
+	    void MakeTree(const T& x, BinaryTree<T>& left, BinaryTree<T>& right);
+	    void BreakTree(T& x, BinaryTree<T>& left, BinaryTree<T>& right);
+	    void PreOrder(void (*Visit)(T& x));
+	    void InOrder(void (*Visit)(T& x));
+	    void PostOrder(void (*Visit)(T& x));
+	    int Size();
+	    void Copy();
+	protected:
+	    BTNode<T>* root;
+	private:
+	    void Clear(BTNode<T>* &t);
+	    void PreOrder(void (*Visit)(T& x), BTNode<T> *t);
+	    void InOrder(void (*Visit)(T& x), BTNode<T> *t);
+	    void PostOrder(void (*Visit)(T& x), BTNode<T> *t);
+	    int Size(BTNode<T> *t);
+	    void Clear(BTNode<T> *t);
+	    friend class BIterator;
+	};
+
+	template <class T>
+	bool BinaryTree<T>::Root(T& x)const
+	{
+	    if(root)
+	    {
+	        x = root->element;
+	        return true;
+	    }
+	    else
+	        return false;
+	}
+
+	template <class T>
+	void BinaryTree<T>::MakeTree(const T& x, BinaryTree<T>& left, BinaryTree<T>& right)
+	{
+	    if (root || &left == &right) return;
+	    root = new BTNode<T> (x, left.root, right.root);
+	    left.root=right.root=NULL;
+	}
+
+	template <class T>
+	void BinaryTree<T>::BreakTree(T& x, BinaryTree<T>& left, BinaryTree<T>& right)
+	{
+	    if (!root||&left==&right||left.root||left.root) return;
+	    x=root->element;
+	    left.root=root->lChild; right.root=root->rChild;
+	    delete root;
+	    root=NULL;
+	}
+
+	template <class T>
+	void BinaryTree<T>::PreOrder(void (* Visit)(T& x))
+	{
+	    PreOrder(Visit, root);
+	}
+	template <class T>
+	void BinaryTree<T>::PreOrder(void (* Visit)(T& x), BTNode<T>* t)
+	{
+	    if (t)
+	    {
+	        Visit(t->element);
+	        PreOrder(Visit, t->lChild);
+	        PreOrder(Visit, t->rChild);
+	    }
+	}
+
+	template <class T>
+	void BinaryTree<T>::InOrder(void (* Visit)(T& x))
+	{
+	    InOrder(Visit, root);
+	}
+	template <class T>
+	void BinaryTree<T>::InOrder(void (* Visit)(T& x), BTNode<T>* t)
+	{
+	    if(t)
+	    {
+	        InOrder(Visit, t->lChild);
+	        Visit(t->element);
+	        InOrder(Visit, t->rChild);
+	    }
+	}
+
+
+	template <class T>
+	void BinaryTree<T>::PostOrder(void (* Visit)(T& x))
+	{
+	    PostOrder(Visit, root);
+	}
+	template <class T>
+	void BinaryTree<T>::PostOrder(void (* Visit)(T&x), BTNode<T>* t)
+	{
+	    if(t)
+	    {
+	        PostOrder(Visit, t->lChild);
+	        PostOrder(Visit, t->rChild);
+	        Visit(t->element);
+	    }
+	}
+
+	template <class T>
+	int BinaryTree<T>::Size()
+	{
+	    return Size(root);
+	}
+	template <class T>
+	int BinaryTree<T>::Size(BTNode<T> &t)
+	{
+	    if(!t) return 0;
+	    return Size(t->lChild) + Size(t->rChild) + 1;
+	}
+
+	template <class T>
+	BTNode<T>* BinaryTree<T>::Copy(BTNode<T>* t)
+	{
+	    if(!t) return NULL;
+	    BTNode<T>* q=new BTNode<T>(t->element);
+	    q->lChild=Copy(t->lChild);
+	    q->rChild=Copy(t->rChild);
+	    return q;
+	}
+
+	template <class T>
+	void BinaryTree<T>::Clear()
+	{
+	    Clear(root);
+	}
+	template <class T>
+	void BinaryTree<T>::Clear(BTNode<T>* t)
+	{
+	    if(t)
+	    {
+	        Clear(t->lChild);
+	        Clear(t->rChild);
+	        delete t;
+	    }
+	}
+
+
+	template <class>
+	class BIterator
+	{
+	public:
+	    virtual T* GoFirst(const BinaryTree<T>& bt)=0;
+	    virtual T* Next()=0;
+	    virtual void Traverse(void (*Visit)(T& x), const BinaryTree<T>& bt);
+	protected:
+	    BTNode<T>* r, *current;
+	};
+
+	template <class T>
+	void BIterator<T>::Traverse(void (*Visit)(T& x), const BinaryTree<T>& bt)
+	{
+	    T* p=GoFirst(bt);
+	    while(p)
+	    {
+	        Visit(*p);
+	        p=Next();
+	    }
+	}
+
+	template <class T>
+	class IInOrder:public BIterator<T>
+	{
+	public:
+	    IInOrder(BinaryTree<T>& bt, int mSize)
+	    {
+	        r=bt.root;
+	        current=NULL;
+	        s=new SeqStack<BTNode<T>* >(mSize);
+	    }
+	    T* GoFirst(const BinaryTree<T>& bt);
+	    T* Next();
+	private:
+	    SeqStack<BTNode<T>*> *s;
+	};
+```
 
 
 ### 11 Hash Tables 253
-11.1 Direct-address tables 254 11.2 Hash tables 256
-11.3 Hash functions 262
-11.4 Open addressing 269
-11.5 Perfect hashing 277
+
+- A hash table is an effective data structure for implementing dictionaries. 
+	- searching worst-case Θ(n)
+	- expected O(1)
+	- Instead of using the key as an array index directly, the array index is computed from the key.
+
+#### 11.1 Direct-address tables 254 
+
+Assume that universe U of keys is reasonably small, and no two elements have the same key. Store _x_ at _T[x.key]_ or at the place which _T[x.key]_ points to. (Even storing the key is not necessary.)
+
+**slot**: position in the array (direct-address table)
+
+#### 11.2 Hash tables 256
+
+- What if universe U is large? namely, K of keys stored in a dictionary is much smaller than the universe U of all possible keys?
+- hash function! element is stored in slot _h(k)_
+	- h: U -> {0, 1, ..., m-1}
+	- An element with key _k_ **hashes** to slot _h(k)_. 
+- Problem: **collision**: two keys may hash to the same slot.
+	- Collision resolution by chaining, insert at the head
+		-  Given a hash table T with m slots that stores n elements, we define the ***load factor α*** for T as n/m, that is, the average number of elements stored in a chain.
+		- Worst-case: Θ(n) + T(compute hash)
+		- Average-case: **simple uniform hashing** Any given element is equally likely to hash into any of the m slots, independently of where any other element has hashed to.
+			- Unsuccessful, Θ(1+α) n个元素m个slot，期望是每个slot有n/m个元素
+			- Successful, Θ(1+α)
+
+#### 11.3 Hash functions 262
+
+- What makes a good hash function? less collisions
+	- satisfies (approximately) the assumption of simple uniform hashing.
+	- Hash values are independent of any patterns that might exist in the data.
+- Interpreting keys as natural numbers
+
+
+1. division method. h(k) = k mod m.
+2. multiplication method. h(k) = ⦏m(kA mod 1)⦎, “kA mod 1” means the fractional part of kA, that is, kA - ⦏kA⦎. (A is a constant, 0 < A < 1) Knuth suggests that A = 0.618
+3. universal hashing. select the hash function at random from a carefully designed class of functions.
+
+#### 11.4 Open addressing 269
+
+
+
+#### 11.5 Perfect hashing 277
 
 ### 12 Binary Search Trees 286
 12.1 What is a binary search tree? 286 12.2 Querying a binary search tree 289 12.3 Insertion and deletion 294
