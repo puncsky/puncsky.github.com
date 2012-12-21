@@ -4,7 +4,7 @@
   <title><![CDATA[CS Notebook]]></title>
   <link href="http://puncsky.github.com/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2012-12-21T02:26:34-05:00</updated>
+  <updated>2012-12-21T07:29:38-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -4125,7 +4125,46 @@ vector examples</li>
 
 <h4>11.4 Open addressing 269</h4>
 
+<ul>
+<li><strong>Open addressing</strong>: all elements occupy the hash table itself. No chaining. load factor α can never exceed 1.
+
+<ul>
+<li>We compute the sequence of slots to be examined by probing until we find an empty slot. The probing sequence has not to be &lt; 0, 1, &#8230;, m-1 > with Θ(n), but <strong>depends upon the key being inserted</strong>. To determine which slots to probe, we extend the hash function to include the probe number (starting from 0) as a second input.  &lt; h(k,0), h(k,1), &#8230;, h(k,m-1) >.</li>
+<li>注意，此处不能标记删除的slot为NIL，因为这样一来就无法读到存在其后面部分的散列 值了。解决方法是，用DELETED取代NIL.</li>
+<li><strong><em>uniform hashing</em></strong>: the probe sequence of each key is equally likely to be any of the m! permutations of &lt; 0, 1, &#8230;, m-1 >.
+
+<ul>
+<li>linear probing
+
+<ul>
+<li>h(k,i) = (h&#8217;(k)+i) mod m</li>
+<li>problem: primary clustering</li>
+</ul>
+</li>
+<li>quadratic probing
+
+<ul>
+<li>h(k,i) = (h&#8217;(k) + c1*i + c2*i<sup>2)</sup> mod m</li>
+<li>problem: secondary clustering</li>
+</ul>
+</li>
+<li>double hashing
+
+<ul>
+<li>one of the best</li>
+<li>h(k,i) = (h1(k) + i*h2(k)) mod m</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
 <h4>11.5 Perfect hashing 277</h4>
+
+<p>O(1) memory accesses are required to perform a search in the worst case.</p>
 
 <h3>12 Binary Search Trees 286</h3>
 
