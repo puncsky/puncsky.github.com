@@ -4,7 +4,7 @@
   <title><![CDATA[Category: algorithm | CS Notebook]]></title>
   <link href="http://puncsky.github.com/blog/categories/algorithm/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2012-12-20T05:13:58-05:00</updated>
+  <updated>2012-12-21T02:26:34-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -1539,12 +1539,309 @@ int main()
 
 <h4>10.4 Representing rooted trees 246</h4>
 
+<ul>
+<li>Binary trees</li>
+<li>Rooted trees with unbounded branching
+
+<ul>
+<li><strong>left-child, right-sibling representation</strong>
+
+<ol>
+<li><em>x.left-child</em> points to the leftmost child of node <em>x</em></li>
+<li><em>x.right-sibling</em> points to the sibling of <em>x</em> immediately to its right.</li>
+<li>If node <em>x</em> has no children, then <em>x.left-child</em> = NIL, and if node x is the rightmost child of its parent, then <em>x.right-sibling</em> = NIL.</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>Other tree representations. Many are possible.</li>
+</ul>
+
+
+<p>``` cpp binarytree.hpp</p>
+
+<pre><code>template &lt;class T&gt;
+struct BTNode
+{
+    BTNode()
+    {
+        lChild = rChild = NULL;
+    }
+    BTNode(const T&amp; x)
+    {
+        element = x;
+        lChild = rChild = NULL;
+    }
+    BTNode(const T&amp; x, BTNode&lt;T&gt;* l, BTNode&lt;T&gt;* r)
+    {
+        element = x;
+        lChild = l;
+        rChild = r;
+    }
+    T element;
+    BTNode&lt;T&gt;* lChild, *rChild;
+};
+
+template &lt;class T&gt;
+class BinaryTree
+{
+public:
+    BinaryTree() {root = NULL;}
+    ~BinaryTree() {};
+    bool IsEmpty() const;
+    void Clear();
+    bool Root(T&amp; x) const;
+    void MakeTree(const T&amp; x, BinaryTree&lt;T&gt;&amp; left, BinaryTree&lt;T&gt;&amp; right);
+    void BreakTree(T&amp; x, BinaryTree&lt;T&gt;&amp; left, BinaryTree&lt;T&gt;&amp; right);
+    void PreOrder(void (*Visit)(T&amp; x));
+    void InOrder(void (*Visit)(T&amp; x));
+    void PostOrder(void (*Visit)(T&amp; x));
+    int Size();
+    void Copy();
+protected:
+    BTNode&lt;T&gt;* root;
+private:
+    void Clear(BTNode&lt;T&gt;* &amp;t);
+    void PreOrder(void (*Visit)(T&amp; x), BTNode&lt;T&gt; *t);
+    void InOrder(void (*Visit)(T&amp; x), BTNode&lt;T&gt; *t);
+    void PostOrder(void (*Visit)(T&amp; x), BTNode&lt;T&gt; *t);
+    int Size(BTNode&lt;T&gt; *t);
+    void Clear(BTNode&lt;T&gt; *t);
+    friend class BIterator;
+};
+
+template &lt;class T&gt;
+bool BinaryTree&lt;T&gt;::Root(T&amp; x)const
+{
+    if(root)
+    {
+        x = root-&gt;element;
+        return true;
+    }
+    else
+        return false;
+}
+
+template &lt;class T&gt;
+void BinaryTree&lt;T&gt;::MakeTree(const T&amp; x, BinaryTree&lt;T&gt;&amp; left, BinaryTree&lt;T&gt;&amp; right)
+{
+    if (root || &amp;left == &amp;right) return;
+    root = new BTNode&lt;T&gt; (x, left.root, right.root);
+    left.root=right.root=NULL;
+}
+
+template &lt;class T&gt;
+void BinaryTree&lt;T&gt;::BreakTree(T&amp; x, BinaryTree&lt;T&gt;&amp; left, BinaryTree&lt;T&gt;&amp; right)
+{
+    if (!root||&amp;left==&amp;right||left.root||left.root) return;
+    x=root-&gt;element;
+    left.root=root-&gt;lChild; right.root=root-&gt;rChild;
+    delete root;
+    root=NULL;
+}
+
+template &lt;class T&gt;
+void BinaryTree&lt;T&gt;::PreOrder(void (* Visit)(T&amp; x))
+{
+    PreOrder(Visit, root);
+}
+template &lt;class T&gt;
+void BinaryTree&lt;T&gt;::PreOrder(void (* Visit)(T&amp; x), BTNode&lt;T&gt;* t)
+{
+    if (t)
+    {
+        Visit(t-&gt;element);
+        PreOrder(Visit, t-&gt;lChild);
+        PreOrder(Visit, t-&gt;rChild);
+    }
+}
+
+template &lt;class T&gt;
+void BinaryTree&lt;T&gt;::InOrder(void (* Visit)(T&amp; x))
+{
+    InOrder(Visit, root);
+}
+template &lt;class T&gt;
+void BinaryTree&lt;T&gt;::InOrder(void (* Visit)(T&amp; x), BTNode&lt;T&gt;* t)
+{
+    if(t)
+    {
+        InOrder(Visit, t-&gt;lChild);
+        Visit(t-&gt;element);
+        InOrder(Visit, t-&gt;rChild);
+    }
+}
+
+
+template &lt;class T&gt;
+void BinaryTree&lt;T&gt;::PostOrder(void (* Visit)(T&amp; x))
+{
+    PostOrder(Visit, root);
+}
+template &lt;class T&gt;
+void BinaryTree&lt;T&gt;::PostOrder(void (* Visit)(T&amp;x), BTNode&lt;T&gt;* t)
+{
+    if(t)
+    {
+        PostOrder(Visit, t-&gt;lChild);
+        PostOrder(Visit, t-&gt;rChild);
+        Visit(t-&gt;element);
+    }
+}
+
+template &lt;class T&gt;
+int BinaryTree&lt;T&gt;::Size()
+{
+    return Size(root);
+}
+template &lt;class T&gt;
+int BinaryTree&lt;T&gt;::Size(BTNode&lt;T&gt; &amp;t)
+{
+    if(!t) return 0;
+    return Size(t-&gt;lChild) + Size(t-&gt;rChild) + 1;
+}
+
+template &lt;class T&gt;
+BTNode&lt;T&gt;* BinaryTree&lt;T&gt;::Copy(BTNode&lt;T&gt;* t)
+{
+    if(!t) return NULL;
+    BTNode&lt;T&gt;* q=new BTNode&lt;T&gt;(t-&gt;element);
+    q-&gt;lChild=Copy(t-&gt;lChild);
+    q-&gt;rChild=Copy(t-&gt;rChild);
+    return q;
+}
+
+template &lt;class T&gt;
+void BinaryTree&lt;T&gt;::Clear()
+{
+    Clear(root);
+}
+template &lt;class T&gt;
+void BinaryTree&lt;T&gt;::Clear(BTNode&lt;T&gt;* t)
+{
+    if(t)
+    {
+        Clear(t-&gt;lChild);
+        Clear(t-&gt;rChild);
+        delete t;
+    }
+}
+
+
+template &lt;class&gt;
+class BIterator
+{
+public:
+    virtual T* GoFirst(const BinaryTree&lt;T&gt;&amp; bt)=0;
+    virtual T* Next()=0;
+    virtual void Traverse(void (*Visit)(T&amp; x), const BinaryTree&lt;T&gt;&amp; bt);
+protected:
+    BTNode&lt;T&gt;* r, *current;
+};
+
+template &lt;class T&gt;
+void BIterator&lt;T&gt;::Traverse(void (*Visit)(T&amp; x), const BinaryTree&lt;T&gt;&amp; bt)
+{
+    T* p=GoFirst(bt);
+    while(p)
+    {
+        Visit(*p);
+        p=Next();
+    }
+}
+
+template &lt;class T&gt;
+class IInOrder:public BIterator&lt;T&gt;
+{
+public:
+    IInOrder(BinaryTree&lt;T&gt;&amp; bt, int mSize)
+    {
+        r=bt.root;
+        current=NULL;
+        s=new SeqStack&lt;BTNode&lt;T&gt;* &gt;(mSize);
+    }
+    T* GoFirst(const BinaryTree&lt;T&gt;&amp; bt);
+    T* Next();
+private:
+    SeqStack&lt;BTNode&lt;T&gt;*&gt; *s;
+};
+</code></pre>
+
+<p>```</p>
+
 <h3>11 Hash Tables 253</h3>
 
-<p>11.1 Direct-address tables 254 11.2 Hash tables 256
-11.3 Hash functions 262
-11.4 Open addressing 269
-11.5 Perfect hashing 277</p>
+<ul>
+<li>A hash table is an effective data structure for implementing dictionaries.
+
+<ul>
+<li>searching worst-case Θ(n)</li>
+<li>expected O(1)</li>
+<li>Instead of using the key as an array index directly, the array index is computed from the key.</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>11.1 Direct-address tables 254</h4>
+
+<p>Assume that universe U of keys is reasonably small, and no two elements have the same key. Store <em>x</em> at <em>T[x.key]</em> or at the place which <em>T[x.key]</em> points to. (Even storing the key is not necessary.)</p>
+
+<p><strong>slot</strong>: position in the array (direct-address table)</p>
+
+<h4>11.2 Hash tables 256</h4>
+
+<ul>
+<li>What if universe U is large? namely, K of keys stored in a dictionary is much smaller than the universe U of all possible keys?</li>
+<li>hash function! element is stored in slot <em>h(k)</em>
+
+<ul>
+<li>h: U -> {0, 1, ..., m-1}</li>
+<li>An element with key <em>k</em> <strong>hashes</strong> to slot <em>h(k)</em>.</li>
+</ul>
+</li>
+<li>Problem: <strong>collision</strong>: two keys may hash to the same slot.
+
+<ul>
+<li>Collision resolution by chaining, insert at the head
+
+<ul>
+<li> Given a hash table T with m slots that stores n elements, we define the <strong><em>load factor α</em></strong> for T as n/m, that is, the average number of elements stored in a chain.</li>
+<li>Worst-case: Θ(n) + T(compute hash)</li>
+<li>Average-case: <strong>simple uniform hashing</strong> Any given element is equally likely to hash into any of the m slots, independently of where any other element has hashed to.
+
+<ul>
+<li>Unsuccessful, Θ(1+α) n个元素m个slot，期望是每个slot有n/m个元素</li>
+<li>Successful, Θ(1+α)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>11.3 Hash functions 262</h4>
+
+<ul>
+<li>What makes a good hash function? less collisions
+
+<ul>
+<li>satisfies (approximately) the assumption of simple uniform hashing.</li>
+<li>Hash values are independent of any patterns that might exist in the data.</li>
+</ul>
+</li>
+<li><p>Interpreting keys as natural numbers</p></li>
+<li><p>division method. h(k) = k mod m.</p></li>
+<li>multiplication method. h(k) = ⦏m(kA mod 1)⦎, “kA mod 1” means the fractional part of kA, that is, kA - ⦏kA⦎. (A is a constant, 0 &lt; A &lt; 1) Knuth suggests that A = 0.618</li>
+<li>universal hashing. select the hash function at random from a carefully designed class of functions.</li>
+</ul>
+
+
+<h4>11.4 Open addressing 269</h4>
+
+<h4>11.5 Perfect hashing 277</h4>
 
 <h3>12 Binary Search Trees 286</h3>
 

@@ -3750,12 +3750,511 @@ vector examples</li>
 
 <h4>10.4 Representing rooted trees 246</h4>
 
+<ul>
+<li>Binary trees</li>
+<li>Rooted trees with unbounded branching
+
+<ul>
+<li><strong>left-child, right-sibling representation</strong>
+
+<ol>
+<li><em>x.left-child</em> points to the leftmost child of node <em>x</em></li>
+<li><em>x.right-sibling</em> points to the sibling of <em>x</em> immediately to its right.</li>
+<li>If node <em>x</em> has no children, then <em>x.left-child</em> = NIL, and if node x is the rightmost child of its parent, then <em>x.right-sibling</em> = NIL.</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>Other tree representations. Many are possible.</li>
+</ul>
+
+
+<figure class='code'><figcaption><span>binarytree.hpp</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+<span class='line-number'>176</span>
+<span class='line-number'>177</span>
+<span class='line-number'>178</span>
+<span class='line-number'>179</span>
+<span class='line-number'>180</span>
+<span class='line-number'>181</span>
+<span class='line-number'>182</span>
+<span class='line-number'>183</span>
+<span class='line-number'>184</span>
+<span class='line-number'>185</span>
+<span class='line-number'>186</span>
+<span class='line-number'>187</span>
+<span class='line-number'>188</span>
+<span class='line-number'>189</span>
+<span class='line-number'>190</span>
+<span class='line-number'>191</span>
+<span class='line-number'>192</span>
+<span class='line-number'>193</span>
+<span class='line-number'>194</span>
+<span class='line-number'>195</span>
+<span class='line-number'>196</span>
+<span class='line-number'>197</span>
+<span class='line-number'>198</span>
+<span class='line-number'>199</span>
+<span class='line-number'>200</span>
+<span class='line-number'>201</span>
+<span class='line-number'>202</span>
+<span class='line-number'>203</span>
+<span class='line-number'>204</span>
+<span class='line-number'>205</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'>  <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="k">struct</span> <span class="n">BTNode</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="n">BTNode</span><span class="p">()</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="n">lChild</span> <span class="o">=</span> <span class="n">rChild</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="n">BTNode</span><span class="p">(</span><span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="n">element</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+</span><span class='line'>          <span class="n">lChild</span> <span class="o">=</span> <span class="n">rChild</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="n">BTNode</span><span class="p">(</span><span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">,</span> <span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;*</span> <span class="n">l</span><span class="p">,</span> <span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;*</span> <span class="n">r</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="n">element</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+</span><span class='line'>          <span class="n">lChild</span> <span class="o">=</span> <span class="n">l</span><span class="p">;</span>
+</span><span class='line'>          <span class="n">rChild</span> <span class="o">=</span> <span class="n">r</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="n">T</span> <span class="n">element</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;*</span> <span class="n">lChild</span><span class="p">,</span> <span class="o">*</span><span class="n">rChild</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">BinaryTree</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>  <span class="k">public</span><span class="o">:</span>
+</span><span class='line'>      <span class="n">BinaryTree</span><span class="p">()</span> <span class="p">{</span><span class="n">root</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;}</span>
+</span><span class='line'>      <span class="o">~</span><span class="n">BinaryTree</span><span class="p">()</span> <span class="p">{};</span>
+</span><span class='line'>      <span class="kt">bool</span> <span class="n">IsEmpty</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+</span><span class='line'>      <span class="kt">void</span> <span class="n">Clear</span><span class="p">();</span>
+</span><span class='line'>      <span class="kt">bool</span> <span class="n">Root</span><span class="p">(</span><span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+</span><span class='line'>      <span class="kt">void</span> <span class="n">MakeTree</span><span class="p">(</span><span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">,</span> <span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&amp;</span> <span class="n">left</span><span class="p">,</span> <span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&amp;</span> <span class="n">right</span><span class="p">);</span>
+</span><span class='line'>      <span class="kt">void</span> <span class="n">BreakTree</span><span class="p">(</span><span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">,</span> <span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&amp;</span> <span class="n">left</span><span class="p">,</span> <span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&amp;</span> <span class="n">right</span><span class="p">);</span>
+</span><span class='line'>      <span class="kt">void</span> <span class="n">PreOrder</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">Visit</span><span class="p">)(</span><span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">));</span>
+</span><span class='line'>      <span class="kt">void</span> <span class="n">InOrder</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">Visit</span><span class="p">)(</span><span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">));</span>
+</span><span class='line'>      <span class="kt">void</span> <span class="n">PostOrder</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">Visit</span><span class="p">)(</span><span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">));</span>
+</span><span class='line'>      <span class="kt">int</span> <span class="n">Size</span><span class="p">();</span>
+</span><span class='line'>      <span class="kt">void</span> <span class="n">Copy</span><span class="p">();</span>
+</span><span class='line'>  <span class="k">protected</span><span class="o">:</span>
+</span><span class='line'>      <span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;*</span> <span class="n">root</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">private</span><span class="o">:</span>
+</span><span class='line'>      <span class="kt">void</span> <span class="n">Clear</span><span class="p">(</span><span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;*</span> <span class="o">&amp;</span><span class="n">t</span><span class="p">);</span>
+</span><span class='line'>      <span class="kt">void</span> <span class="n">PreOrder</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">Visit</span><span class="p">)(</span><span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">),</span> <span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">t</span><span class="p">);</span>
+</span><span class='line'>      <span class="kt">void</span> <span class="n">InOrder</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">Visit</span><span class="p">)(</span><span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">),</span> <span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">t</span><span class="p">);</span>
+</span><span class='line'>      <span class="kt">void</span> <span class="n">PostOrder</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">Visit</span><span class="p">)(</span><span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">),</span> <span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">t</span><span class="p">);</span>
+</span><span class='line'>      <span class="kt">int</span> <span class="n">Size</span><span class="p">(</span><span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">t</span><span class="p">);</span>
+</span><span class='line'>      <span class="kt">void</span> <span class="n">Clear</span><span class="p">(</span><span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">t</span><span class="p">);</span>
+</span><span class='line'>      <span class="k">friend</span> <span class="k">class</span> <span class="nc">BIterator</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="kt">bool</span> <span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">Root</span><span class="p">(</span><span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">)</span><span class="k">const</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="n">x</span> <span class="o">=</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">element</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="k">else</span>
+</span><span class='line'>          <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="kt">void</span> <span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">MakeTree</span><span class="p">(</span><span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">,</span> <span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&amp;</span> <span class="n">left</span><span class="p">,</span> <span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&amp;</span> <span class="n">right</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">||</span> <span class="o">&amp;</span><span class="n">left</span> <span class="o">==</span> <span class="o">&amp;</span><span class="n">right</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">root</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">left</span><span class="p">.</span><span class="n">root</span><span class="p">,</span> <span class="n">right</span><span class="p">.</span><span class="n">root</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">left</span><span class="p">.</span><span class="n">root</span><span class="o">=</span><span class="n">right</span><span class="p">.</span><span class="n">root</span><span class="o">=</span><span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="kt">void</span> <span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">BreakTree</span><span class="p">(</span><span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">,</span> <span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&amp;</span> <span class="n">left</span><span class="p">,</span> <span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&amp;</span> <span class="n">right</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">root</span><span class="o">||&amp;</span><span class="n">left</span><span class="o">==&amp;</span><span class="n">right</span><span class="o">||</span><span class="n">left</span><span class="p">.</span><span class="n">root</span><span class="o">||</span><span class="n">left</span><span class="p">.</span><span class="n">root</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">x</span><span class="o">=</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">element</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">left</span><span class="p">.</span><span class="n">root</span><span class="o">=</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">lChild</span><span class="p">;</span> <span class="n">right</span><span class="p">.</span><span class="n">root</span><span class="o">=</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">rChild</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">delete</span> <span class="n">root</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">root</span><span class="o">=</span><span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="kt">void</span> <span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">PreOrder</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span> <span class="n">Visit</span><span class="p">)(</span><span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">))</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="n">PreOrder</span><span class="p">(</span><span class="n">Visit</span><span class="p">,</span> <span class="n">root</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="kt">void</span> <span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">PreOrder</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span> <span class="n">Visit</span><span class="p">)(</span><span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">),</span> <span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;*</span> <span class="n">t</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="n">Visit</span><span class="p">(</span><span class="n">t</span><span class="o">-&gt;</span><span class="n">element</span><span class="p">);</span>
+</span><span class='line'>          <span class="n">PreOrder</span><span class="p">(</span><span class="n">Visit</span><span class="p">,</span> <span class="n">t</span><span class="o">-&gt;</span><span class="n">lChild</span><span class="p">);</span>
+</span><span class='line'>          <span class="n">PreOrder</span><span class="p">(</span><span class="n">Visit</span><span class="p">,</span> <span class="n">t</span><span class="o">-&gt;</span><span class="n">rChild</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="kt">void</span> <span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">InOrder</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span> <span class="n">Visit</span><span class="p">)(</span><span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">))</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="n">InOrder</span><span class="p">(</span><span class="n">Visit</span><span class="p">,</span> <span class="n">root</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="kt">void</span> <span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">InOrder</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span> <span class="n">Visit</span><span class="p">)(</span><span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">),</span> <span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;*</span> <span class="n">t</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="n">InOrder</span><span class="p">(</span><span class="n">Visit</span><span class="p">,</span> <span class="n">t</span><span class="o">-&gt;</span><span class="n">lChild</span><span class="p">);</span>
+</span><span class='line'>          <span class="n">Visit</span><span class="p">(</span><span class="n">t</span><span class="o">-&gt;</span><span class="n">element</span><span class="p">);</span>
+</span><span class='line'>          <span class="n">InOrder</span><span class="p">(</span><span class="n">Visit</span><span class="p">,</span> <span class="n">t</span><span class="o">-&gt;</span><span class="n">rChild</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="kt">void</span> <span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">PostOrder</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span> <span class="n">Visit</span><span class="p">)(</span><span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">))</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="n">PostOrder</span><span class="p">(</span><span class="n">Visit</span><span class="p">,</span> <span class="n">root</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="kt">void</span> <span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">PostOrder</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span> <span class="n">Visit</span><span class="p">)(</span><span class="n">T</span><span class="o">&amp;</span><span class="n">x</span><span class="p">),</span> <span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;*</span> <span class="n">t</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="n">PostOrder</span><span class="p">(</span><span class="n">Visit</span><span class="p">,</span> <span class="n">t</span><span class="o">-&gt;</span><span class="n">lChild</span><span class="p">);</span>
+</span><span class='line'>          <span class="n">PostOrder</span><span class="p">(</span><span class="n">Visit</span><span class="p">,</span> <span class="n">t</span><span class="o">-&gt;</span><span class="n">rChild</span><span class="p">);</span>
+</span><span class='line'>          <span class="n">Visit</span><span class="p">(</span><span class="n">t</span><span class="o">-&gt;</span><span class="n">element</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">Size</span><span class="p">()</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">Size</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">Size</span><span class="p">(</span><span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">t</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">t</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">Size</span><span class="p">(</span><span class="n">t</span><span class="o">-&gt;</span><span class="n">lChild</span><span class="p">)</span> <span class="o">+</span> <span class="n">Size</span><span class="p">(</span><span class="n">t</span><span class="o">-&gt;</span><span class="n">rChild</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;*</span> <span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">Copy</span><span class="p">(</span><span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;*</span> <span class="n">t</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">t</span><span class="p">)</span> <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;*</span> <span class="n">q</span><span class="o">=</span><span class="k">new</span> <span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">t</span><span class="o">-&gt;</span><span class="n">element</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">q</span><span class="o">-&gt;</span><span class="n">lChild</span><span class="o">=</span><span class="n">Copy</span><span class="p">(</span><span class="n">t</span><span class="o">-&gt;</span><span class="n">lChild</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">q</span><span class="o">-&gt;</span><span class="n">rChild</span><span class="o">=</span><span class="n">Copy</span><span class="p">(</span><span class="n">t</span><span class="o">-&gt;</span><span class="n">rChild</span><span class="p">);</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">q</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="kt">void</span> <span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">Clear</span><span class="p">()</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="n">Clear</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="kt">void</span> <span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">Clear</span><span class="p">(</span><span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;*</span> <span class="n">t</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="n">Clear</span><span class="p">(</span><span class="n">t</span><span class="o">-&gt;</span><span class="n">lChild</span><span class="p">);</span>
+</span><span class='line'>          <span class="n">Clear</span><span class="p">(</span><span class="n">t</span><span class="o">-&gt;</span><span class="n">rChild</span><span class="p">);</span>
+</span><span class='line'>          <span class="k">delete</span> <span class="n">t</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">template</span> <span class="o">&lt;</span><span class="n">class</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">BIterator</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>  <span class="k">public</span><span class="o">:</span>
+</span><span class='line'>      <span class="k">virtual</span> <span class="n">T</span><span class="o">*</span> <span class="n">GoFirst</span><span class="p">(</span><span class="k">const</span> <span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&amp;</span> <span class="n">bt</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">virtual</span> <span class="n">T</span><span class="o">*</span> <span class="n">Next</span><span class="p">()</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">virtual</span> <span class="kt">void</span> <span class="n">Traverse</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">Visit</span><span class="p">)(</span><span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">),</span> <span class="k">const</span> <span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&amp;</span> <span class="n">bt</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">protected</span><span class="o">:</span>
+</span><span class='line'>      <span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;*</span> <span class="n">r</span><span class="p">,</span> <span class="o">*</span><span class="n">current</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="kt">void</span> <span class="n">BIterator</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">Traverse</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">Visit</span><span class="p">)(</span><span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">),</span> <span class="k">const</span> <span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&amp;</span> <span class="n">bt</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="n">T</span><span class="o">*</span> <span class="n">p</span><span class="o">=</span><span class="n">GoFirst</span><span class="p">(</span><span class="n">bt</span><span class="p">);</span>
+</span><span class='line'>      <span class="k">while</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="n">Visit</span><span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">);</span>
+</span><span class='line'>          <span class="n">p</span><span class="o">=</span><span class="n">Next</span><span class="p">();</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">IInOrder</span><span class="o">:</span><span class="k">public</span> <span class="n">BIterator</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>  <span class="k">public</span><span class="o">:</span>
+</span><span class='line'>      <span class="n">IInOrder</span><span class="p">(</span><span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&amp;</span> <span class="n">bt</span><span class="p">,</span> <span class="kt">int</span> <span class="n">mSize</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="n">r</span><span class="o">=</span><span class="n">bt</span><span class="p">.</span><span class="n">root</span><span class="p">;</span>
+</span><span class='line'>          <span class="n">current</span><span class="o">=</span><span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>          <span class="n">s</span><span class="o">=</span><span class="k">new</span> <span class="n">SeqStack</span><span class="o">&lt;</span><span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;*</span> <span class="o">&gt;</span><span class="p">(</span><span class="n">mSize</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="n">T</span><span class="o">*</span> <span class="n">GoFirst</span><span class="p">(</span><span class="k">const</span> <span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&amp;</span> <span class="n">bt</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">T</span><span class="o">*</span> <span class="n">Next</span><span class="p">();</span>
+</span><span class='line'>  <span class="k">private</span><span class="o">:</span>
+</span><span class='line'>      <span class="n">SeqStack</span><span class="o">&lt;</span><span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;*&gt;</span> <span class="o">*</span><span class="n">s</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
 <h3>11 Hash Tables 253</h3>
 
-<p>11.1 Direct-address tables 254 11.2 Hash tables 256
-11.3 Hash functions 262
-11.4 Open addressing 269
-11.5 Perfect hashing 277</p>
+<ul>
+<li>A hash table is an effective data structure for implementing dictionaries.
+
+<ul>
+<li>searching worst-case Θ(n)</li>
+<li>expected O(1)</li>
+<li>Instead of using the key as an array index directly, the array index is computed from the key.</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>11.1 Direct-address tables 254</h4>
+
+<p>Assume that universe U of keys is reasonably small, and no two elements have the same key. Store <em>x</em> at <em>T[x.key]</em> or at the place which <em>T[x.key]</em> points to. (Even storing the key is not necessary.)</p>
+
+<p><strong>slot</strong>: position in the array (direct-address table)</p>
+
+<h4>11.2 Hash tables 256</h4>
+
+<ul>
+<li>What if universe U is large? namely, K of keys stored in a dictionary is much smaller than the universe U of all possible keys?</li>
+<li>hash function! element is stored in slot <em>h(k)</em>
+
+<ul>
+<li>h: U -> {0, 1, &#8230;, m-1}</li>
+<li>An element with key <em>k</em> <strong>hashes</strong> to slot <em>h(k)</em>.</li>
+</ul>
+</li>
+<li>Problem: <strong>collision</strong>: two keys may hash to the same slot.
+
+<ul>
+<li>Collision resolution by chaining, insert at the head
+
+<ul>
+<li> Given a hash table T with m slots that stores n elements, we define the <strong><em>load factor α</em></strong> for T as n/m, that is, the average number of elements stored in a chain.</li>
+<li>Worst-case: Θ(n) + T(compute hash)</li>
+<li>Average-case: <strong>simple uniform hashing</strong> Any given element is equally likely to hash into any of the m slots, independently of where any other element has hashed to.
+
+<ul>
+<li>Unsuccessful, Θ(1+α) n个元素m个slot，期望是每个slot有n/m个元素</li>
+<li>Successful, Θ(1+α)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>11.3 Hash functions 262</h4>
+
+<ul>
+<li>What makes a good hash function? less collisions
+
+<ul>
+<li>satisfies (approximately) the assumption of simple uniform hashing.</li>
+<li>Hash values are independent of any patterns that might exist in the data.</li>
+</ul>
+</li>
+<li><p>Interpreting keys as natural numbers</p></li>
+<li><p>division method. h(k) = k mod m.</p></li>
+<li>multiplication method. h(k) = ⦏m(kA mod 1)⦎, “kA mod 1” means the fractional part of kA, that is, kA - ⦏kA⦎. (A is a constant, 0 &lt; A &lt; 1) Knuth suggests that A = 0.618</li>
+<li>universal hashing. select the hash function at random from a carefully designed class of functions.</li>
+</ul>
+
+
+<h4>11.4 Open addressing 269</h4>
+
+<h4>11.5 Perfect hashing 277</h4>
 
 <h3>12 Binary Search Trees 286</h3>
 
