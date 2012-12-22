@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "CLRS Notes"
-date: 2012-12-19 01:42
+date: 2012-12-21 09:42
 comments: true
 categories: algorithm
 ---
@@ -727,6 +727,7 @@ O(n)
 ## III Data Structures
 
 - Data structures: techniques for representing finite dynamic sets and manipulating them on a computer.
+- Dynamic-set operations: **CR(U)D 大小前后**: insert, search, delete, max, min, predecessor, successor.  
 - Dictionary: a dynamic set supporting insert, delete, and test membership.
 - 2 categories of operations
 	- queries
@@ -1666,11 +1667,10 @@ Assume that universe U of keys is reasonably small, and no two elements have the
 	- satisfies (approximately) the assumption of simple uniform hashing.
 	- Hash values are independent of any patterns that might exist in the data.
 - Interpreting keys as natural numbers
-
-
-1. division method. h(k) = k mod m.
-2. multiplication method. h(k) = ⦏m(kA mod 1)⦎, “kA mod 1” means the fractional part of kA, that is, kA - ⦏kA⦎. (A is a constant, 0 < A < 1) Knuth suggests that A = 0.618
-3. universal hashing. select the hash function at random from a carefully designed class of functions.
+- Different ways:
+	1. division method. h(k) = k mod m.
+	2. multiplication method. h(k) = ⦏m(kA mod 1)⦎, “kA mod 1” means the fractional part of kA, that is, kA - ⦏kA⦎. (A is a constant, 0 < A < 1) Knuth suggests that A = 0.618
+	3. universal hashing. select the hash function at random from a carefully designed class of functions.
 
 #### 11.4 Open addressing 269
 
@@ -1690,15 +1690,212 @@ Assume that universe U of keys is reasonably small, and no two elements have the
 
 #### 11.5 Perfect hashing 277
 
-O(1) memory accesses are required to perform a search in the worst case.
+- **Perfect hashing**: O(1) memory accesses are required to perform a search in the worst case.
+	- two levels of hashing, universal hashing at each level.
+	- use secondary hash table
 
 ### 12 Binary Search Trees 286
-12.1 What is a binary search tree? 286 12.2 Querying a binary search tree 289 12.3 Insertion and deletion 294
-12.4 Randomly built binary search trees 299
+
+- Performance
+	- Best-case Θ(lgn)
+	- Average-case Θ(lgn)
+	- Worst-case Θ(n)
+- Improve? red-black trees(height O(lg n)), B-trees(secondary storage)
+
+``` cpp bstree.hpp
+
+	#include"dynamic.h"
+	#include"binarytree.h"
+	//二叉搜索树：
+	//所有节点的关键字不同，此树要么为空，要么：
+	//1. 左不空，则左所有<根
+	//2. 右不空，则右所有>根
+	//3. 左右子树均为二叉搜索树
+	template <class T>
+	class BSTree:public DynamicSet<T>
+	{
+	public:
+	    BSTree() {root=NULL;}
+	    ResultCode Search_recursion(T& x) const;
+	    ResultCode Search_iteration(T& x) const;
+	    ResultCode Insert_recursion(T& x);
+	    ResultCode Insert_iteration(T& x);
+	    ResultCode Remove(T& x);
+
+	protected:
+	    BTNode<T>* root;
+    
+	private:
+	    ResultCode Search(BTNode<T> *p, T& x) const;
+	    ResultCode Insert(BTNode<T> *p, T& x);
+	};
+
+	template <class T>
+	ResultCode BSTree<T>::Search_recursion(T& x) const
+	{
+	    return Search(root, x);
+	}
+
+	template <class T>
+	ResultCode BSTree<T>::Search(BTNode<T> *p, T& x) const
+	{
+	    if(!p) return NotPresent;
+	    else if(x>p->element) return Search(p->rChild, x);
+	    else if(x<p->element) return Search(p->lChild, x);
+	    else return Success;
+	}
+	template <class T>
+	ResultCode BSTree<T>::Search_iteration(T& x) const
+	{
+	    BTNode<T> *p=root;
+	    while(p)
+	    {
+	        if(x<p->element) p=p->lChild;
+	        else if(x>p->element) p=p->rChild;
+	        else return Success;
+	    }
+	    return NotPresent;
+	}
+
+	template <class T>
+	ResultCode BSTree<T>::Insert_recursion(T& x)//ATTENTION: situation when root is NULL
+	{
+	    if(root) return Insert(root, x);
+	    else root=new BTNode<T>(x);
+	}
+
+	template <class T>
+	ResultCode BSTree<T>::Insert(BTNode<T>* p, T& x) //ATTENTION: situation when root is NULL
+	{
+	    if(x>p->element)
+	    {
+	       if(p->rChild==NULL)
+	       {
+	           p->rChild=new BTNode(x);
+	           return Success;
+	       }
+	       else return Insert(p->rChild, x);
+	    }
+	    else if(x<p->element)
+	    {
+	       if(p->lChild==NULL)
+	       {
+	           p->lChild=new BTNode(T);
+	           return Success;
+	       }
+	       else return Insert(p->lChild, x);
+	    }
+	    else return Duplicate;
+	}
+
+	template <class T>
+	ResultCode BSTree<T>::Insert_iteration(T& x)
+	{
+	    BTNode<T> *p=root, *q=NULL;
+	    if(!p)
+	    {
+	        q=p;
+	        if(x>p->element) p=p->rChild; 
+	        else if(x<p->element) p=p->lChild;
+	        else return Duplicate;
+	    }
+	    p=new BTNode<T>(x);
+	    if(!root) root=p;
+	    else if(x<q->element) q->lChild=p;
+	    else q->rChild=p;
+	    return Success;
+	}
+
+	template <class T>
+	ResultCode BSTree<T>::Remove(T* x)
+	{
+	   // TODO
+   	}
+```
+
+#### 12.1 What is a binary search tree? 286 
+
+**binary-search-tree property: left <= middle <= right**: Let x be a node in a binary search tree. If y is a node in the left subtree of x, then y.key <= x.key. If y is a node in the right subtree of x, then y.key >= x.key.
+
+How to print out keys in sorted order? **inorder tree walk** (other walks: **preorder**, **postorder**)
+
+``` cpp
+
+	void inorderTreeWalk(Node* r) {
+		if (r) {
+			inorderTreeWalk(r->left);
+			cout << r.key;
+			inorderTreeWalk(r->right)};
+		}
+	}
+``` 
+Θ(n)
+
+#### 12.2 Querying a binary search tree 289 
+
+- Iteration is faster in _Java, C, Python..._ Recursion is fairly expensive compared to iteration (in general) because it requires the allocation of a new stack frame.
+- Recursion _might_ be faster in _functional programming language_.
+
+##### Searching
+
+- Recursive version: Me? search left? search right?
+- Iteration version: Use pointer p. p->key? p=p->left? p=p->right?
+
+##### Min and Max
+
+left-most leaf and right-most leaf
+
+##### Successor and predecessor
+
+- Successor: If x has right subtree, return max(x.right), else find in parents.
+- Predecessor: If x has left subtree, return max(x.left), else find in parents.
+
+#### 12.3 Insertion and deletion 294
+
+
+
+#### 12.4 Randomly built binary search trees 299
+
+
+
 ### 13 Red-Black Trees 308
-13.1 Properties of red-black trees 308 13.2 Rotations 312
-13.3 Insertion 315
-13.4 Deletion 323
+#### 13.1 Properties of red-black trees 308 
+
+- A BST with one extra **color** bit of storage per node. 
+- Red-black properties:
+	1. Every node is either red or black.
+	2. The root is black.
+	3. Every leaf (NIL) is black.
+	4. If a node is red, then both its children are black.
+	5. For each node, all simple paths from the node to descendant leaves contain the same number of black nodes.
+- sentinel T.nil for all all pointers to NIL (replacing leaves and parent of root)
+- **black-height** of node x: number of black nodes on the path from (not including) x to a leaf
+- **black-height** of a tree: black-height of its root
+- A red-black tree with n **internal** nodes has height at most 2*log(n+1) 
+
+#### 13.2 Rotations 312
+
+- **Rotation**: A local operation in a search tree that preserves the binary-search-tree property.
+	- left-rotation: counter-clockwise
+		- set y
+		- turn y's left subtree into x's right subtree
+		- link x's parent to y
+		- put x on y's left
+	- right-rotation: clockwise
+
+#### 13.3 Insertion 315
+
+1. insert node **red** _z_ into tree T (Property 5)
+2. auxiliary procedure RBinsertFixup(T,z) to re-color and rotate.Ω
+	- Property 2 is violated if _z_ is the root
+	- Property 4 is violated if _z_'s parent is red.
+		- Case 1: _z_'s uncle _y_ is red: z上两层反色
+		- Case 2: _z_'s uncle _y_ is black and _z_ is a right child: around z left-rotate 
+		- Case 3: _z_'s uncle _y_ is black and _z_ is a left child: around z's parent right-rotate + z上两层反色
+	- O(lgn) 
+	
+
+#### 13.4 Deletion 323
 ### 14 Augmenting Data Structures 339
 14.1 Dynamic order statistics 339
 14.2 How to augment a data structure 345 14.3 Interval trees 348
