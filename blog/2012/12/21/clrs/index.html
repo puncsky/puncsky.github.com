@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://puncsky.github.com/blog/2012/12/19/clrs/">
+  <link rel="canonical" href="http://puncsky.github.com/blog/2012/12/21/clrs/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -83,7 +83,7 @@
   
 
 
-<time datetime="2012-12-19T01:42:00-05:00" pubdate data-updated="true">Dec 19<span>th</span>, 2012</time>
+<time datetime="2012-12-21T09:42:00-05:00" pubdate data-updated="true">Dec 21<span>st</span>, 2012</time>
         
       </p>
     
@@ -1282,6 +1282,7 @@
 
 <ul>
 <li>Data structures: techniques for representing finite dynamic sets and manipulating them on a computer.</li>
+<li>Dynamic-set operations: <strong>CR(U)D 大小前后</strong>: insert, search, delete, max, min, predecessor, successor.</li>
 <li>Dictionary: a dynamic set supporting insert, delete, and test membership.</li>
 <li>2 categories of operations
 
@@ -3078,10 +3079,15 @@
 <li>Hash values are independent of any patterns that might exist in the data.</li>
 </ul>
 </li>
-<li><p>Interpreting keys as natural numbers</p></li>
-<li><p>division method. h(k) = k mod m.</p></li>
+<li>Interpreting keys as natural numbers</li>
+<li>Different ways:
+
+<ol>
+<li>division method. h(k) = k mod m.</li>
 <li>multiplication method. h(k) = ⦏m(kA mod 1)⦎, “kA mod 1” means the fractional part of kA, that is, kA - ⦏kA⦎. (A is a constant, 0 &lt; A &lt; 1) Knuth suggests that A = 0.618</li>
 <li>universal hashing. select the hash function at random from a carefully designed class of functions.</li>
+</ol>
+</li>
 </ul>
 
 
@@ -3126,18 +3132,374 @@
 
 <h4>11.5 Perfect hashing 277</h4>
 
-<p>O(1) memory accesses are required to perform a search in the worst case.</p>
+<ul>
+<li><strong>Perfect hashing</strong>: O(1) memory accesses are required to perform a search in the worst case.
+
+<ul>
+<li>two levels of hashing, universal hashing at each level.</li>
+<li>use secondary hash table</li>
+</ul>
+</li>
+</ul>
+
 
 <h3>12 Binary Search Trees 286</h3>
 
-<p>12.1 What is a binary search tree? 286 12.2 Querying a binary search tree 289 12.3 Insertion and deletion 294
-12.4 Randomly built binary search trees 299</p>
+<ul>
+<li>Performance
+
+<ul>
+<li>Best-case Θ(lgn)</li>
+<li>Average-case Θ(lgn)</li>
+<li>Worst-case Θ(n)</li>
+</ul>
+</li>
+<li>Improve? red-black trees(height O(lg n)), B-trees(secondary storage)</li>
+</ul>
+
+
+<figure class='code'><figcaption><span>bstree.hpp</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'>  <span class="cp">#include&quot;dynamic.h&quot;</span>
+</span><span class='line'>  <span class="cp">#include&quot;binarytree.h&quot;</span>
+</span><span class='line'>  <span class="c1">//二叉搜索树：</span>
+</span><span class='line'>  <span class="c1">//所有节点的关键字不同，此树要么为空，要么：</span>
+</span><span class='line'>  <span class="c1">//1. 左不空，则左所有&lt;根</span>
+</span><span class='line'>  <span class="c1">//2. 右不空，则右所有&gt;根</span>
+</span><span class='line'>  <span class="c1">//3. 左右子树均为二叉搜索树</span>
+</span><span class='line'>  <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">BSTree</span><span class="o">:</span><span class="k">public</span> <span class="n">DynamicSet</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>  <span class="k">public</span><span class="o">:</span>
+</span><span class='line'>      <span class="n">BSTree</span><span class="p">()</span> <span class="p">{</span><span class="n">root</span><span class="o">=</span><span class="nb">NULL</span><span class="p">;}</span>
+</span><span class='line'>      <span class="n">ResultCode</span> <span class="n">Search_recursion</span><span class="p">(</span><span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">ResultCode</span> <span class="n">Search_iteration</span><span class="p">(</span><span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">ResultCode</span> <span class="n">Insert_recursion</span><span class="p">(</span><span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">ResultCode</span> <span class="n">Insert_iteration</span><span class="p">(</span><span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">ResultCode</span> <span class="n">Remove</span><span class="p">(</span><span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">protected</span><span class="o">:</span>
+</span><span class='line'>      <span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;*</span> <span class="n">root</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">private</span><span class="o">:</span>
+</span><span class='line'>      <span class="n">ResultCode</span> <span class="n">Search</span><span class="p">(</span><span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">ResultCode</span> <span class="n">Insert</span><span class="p">(</span><span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="n">ResultCode</span> <span class="n">BSTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">Search_recursion</span><span class="p">(</span><span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">)</span> <span class="k">const</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">Search</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="n">ResultCode</span> <span class="n">BSTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">Search</span><span class="p">(</span><span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">)</span> <span class="k">const</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">p</span><span class="p">)</span> <span class="k">return</span> <span class="n">NotPresent</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">&gt;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">element</span><span class="p">)</span> <span class="k">return</span> <span class="n">Search</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">rChild</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+</span><span class='line'>      <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">&lt;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">element</span><span class="p">)</span> <span class="k">return</span> <span class="n">Search</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">lChild</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+</span><span class='line'>      <span class="k">else</span> <span class="k">return</span> <span class="n">Success</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="n">ResultCode</span> <span class="n">BSTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">Search_iteration</span><span class="p">(</span><span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">)</span> <span class="k">const</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">p</span><span class="o">=</span><span class="n">root</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">while</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">&lt;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">element</span><span class="p">)</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">lChild</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">&gt;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">element</span><span class="p">)</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">rChild</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">else</span> <span class="k">return</span> <span class="n">Success</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">NotPresent</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="n">ResultCode</span> <span class="n">BSTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">Insert_recursion</span><span class="p">(</span><span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">)</span><span class="c1">//ATTENTION: situation when root is NULL</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span><span class="p">(</span><span class="n">root</span><span class="p">)</span> <span class="k">return</span> <span class="n">Insert</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+</span><span class='line'>      <span class="k">else</span> <span class="n">root</span><span class="o">=</span><span class="k">new</span> <span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="n">ResultCode</span> <span class="n">BSTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">Insert</span><span class="p">(</span><span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;*</span> <span class="n">p</span><span class="p">,</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">)</span> <span class="c1">//ATTENTION: situation when root is NULL</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">&gt;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">element</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>         <span class="k">if</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">rChild</span><span class="o">==</span><span class="nb">NULL</span><span class="p">)</span>
+</span><span class='line'>         <span class="p">{</span>
+</span><span class='line'>             <span class="n">p</span><span class="o">-&gt;</span><span class="n">rChild</span><span class="o">=</span><span class="k">new</span> <span class="n">BTNode</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+</span><span class='line'>             <span class="k">return</span> <span class="n">Success</span><span class="p">;</span>
+</span><span class='line'>         <span class="p">}</span>
+</span><span class='line'>         <span class="k">else</span> <span class="k">return</span> <span class="n">Insert</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">rChild</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">&lt;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">element</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>         <span class="k">if</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">lChild</span><span class="o">==</span><span class="nb">NULL</span><span class="p">)</span>
+</span><span class='line'>         <span class="p">{</span>
+</span><span class='line'>             <span class="n">p</span><span class="o">-&gt;</span><span class="n">lChild</span><span class="o">=</span><span class="k">new</span> <span class="n">BTNode</span><span class="p">(</span><span class="n">T</span><span class="p">);</span>
+</span><span class='line'>             <span class="k">return</span> <span class="n">Success</span><span class="p">;</span>
+</span><span class='line'>         <span class="p">}</span>
+</span><span class='line'>         <span class="k">else</span> <span class="k">return</span> <span class="n">Insert</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">lChild</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="k">else</span> <span class="k">return</span> <span class="n">Duplicate</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="n">ResultCode</span> <span class="n">BSTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">Insert_iteration</span><span class="p">(</span><span class="n">T</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">p</span><span class="o">=</span><span class="n">root</span><span class="p">,</span> <span class="o">*</span><span class="n">q</span><span class="o">=</span><span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">p</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="n">q</span><span class="o">=</span><span class="n">p</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">&gt;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">element</span><span class="p">)</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">rChild</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">&lt;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">element</span><span class="p">)</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">lChild</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">else</span> <span class="k">return</span> <span class="n">Duplicate</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="n">p</span><span class="o">=</span><span class="k">new</span> <span class="n">BTNode</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+</span><span class='line'>      <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">root</span><span class="p">)</span> <span class="n">root</span><span class="o">=</span><span class="n">p</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">&lt;</span><span class="n">q</span><span class="o">-&gt;</span><span class="n">element</span><span class="p">)</span> <span class="n">q</span><span class="o">-&gt;</span><span class="n">lChild</span><span class="o">=</span><span class="n">p</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">else</span> <span class="n">q</span><span class="o">-&gt;</span><span class="n">rChild</span><span class="o">=</span><span class="n">p</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">Success</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="n">ResultCode</span> <span class="n">BSTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">Remove</span><span class="p">(</span><span class="n">T</span><span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>     <span class="c1">// TODO</span>
+</span><span class='line'>      <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>12.1 What is a binary search tree? 286</h4>
+
+<p><strong>binary-search-tree property: left &lt;= middle &lt;= right</strong>: Let x be a node in a binary search tree. If y is a node in the left subtree of x, then y.key &lt;= x.key. If y is a node in the right subtree of x, then y.key >= x.key.</p>
+
+<p>How to print out keys in sorted order? <strong>inorder tree walk</strong> (other walks: <strong>preorder</strong>, <strong>postorder</strong>)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'>  <span class="kt">void</span> <span class="n">inorderTreeWalk</span><span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="n">inorderTreeWalk</span><span class="p">(</span><span class="n">r</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+</span><span class='line'>          <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">r</span><span class="p">.</span><span class="n">key</span><span class="p">;</span>
+</span><span class='line'>          <span class="n">inorderTreeWalk</span><span class="p">(</span><span class="n">r</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">)};</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+Θ(n)</p>
+
+<h4>12.2 Querying a binary search tree 289</h4>
+
+<ul>
+<li>Iteration is faster in <em>Java, C, Python&#8230;</em> Recursion is fairly expensive compared to iteration (in general) because it requires the allocation of a new stack frame.</li>
+<li>Recursion <em>might</em> be faster in <em>functional programming language</em>.</li>
+</ul>
+
+
+<h5>Searching</h5>
+
+<ul>
+<li>Recursive version: Me? search left? search right?</li>
+<li>Iteration version: Use pointer p. p->key? p=p->left? p=p->right?</li>
+</ul>
+
+
+<h5>Min and Max</h5>
+
+<p>left-most leaf and right-most leaf</p>
+
+<h5>Successor and predecessor</h5>
+
+<ul>
+<li>Successor: If x has right subtree, return max(x.right), else find in parents.</li>
+<li>Predecessor: If x has left subtree, return max(x.left), else find in parents.</li>
+</ul>
+
+
+<h4>12.3 Insertion and deletion 294</h4>
+
+<h4>12.4 Randomly built binary search trees 299</h4>
 
 <h3>13 Red-Black Trees 308</h3>
 
-<p>13.1 Properties of red-black trees 308 13.2 Rotations 312
-13.3 Insertion 315
-13.4 Deletion 323</p>
+<h4>13.1 Properties of red-black trees 308</h4>
+
+<ul>
+<li>A BST with one extra <strong>color</strong> bit of storage per node.</li>
+<li>Red-black properties:
+
+<ol>
+<li>Every node is either red or black.</li>
+<li>The root is black.</li>
+<li>Every leaf (NIL) is black.</li>
+<li>If a node is red, then both its children are black.</li>
+<li>For each node, all simple paths from the node to descendant leaves contain the same number of black nodes.</li>
+</ol>
+</li>
+<li>sentinel T.nil for all all pointers to NIL (replacing leaves and parent of root)</li>
+<li><strong>black-height</strong> of node x: number of black nodes on the path from (not including) x to a leaf</li>
+<li><strong>black-height</strong> of a tree: black-height of its root</li>
+<li>A red-black tree with n <strong>internal</strong> nodes has height at most 2*log(n+1)</li>
+</ul>
+
+
+<h4>13.2 Rotations 312</h4>
+
+<ul>
+<li><strong>Rotation</strong>: A local operation in a search tree that preserves the binary-search-tree property.
+
+<ul>
+<li>left-rotation: counter-clockwise
+
+<ul>
+<li>set y</li>
+<li>turn y&#8217;s left subtree into x&#8217;s right subtree</li>
+<li>link x&#8217;s parent to y</li>
+<li>put x on y&#8217;s left</li>
+</ul>
+</li>
+<li>right-rotation: clockwise</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>13.3 Insertion 315</h4>
+
+<ol>
+<li>insert node <strong>red</strong> <em>z</em> into tree T (Property 5)</li>
+<li>auxiliary procedure RBinsertFixup(T,z) to re-color and rotate.Ω
+
+<ul>
+<li>Property 2 is violated if <em>z</em> is the root</li>
+<li>Property 4 is violated if <em>z</em>&#8217;s parent is red.
+
+<ul>
+<li>Case 1: <em>z</em>&#8217;s uncle <em>y</em> is red: z上两层反色</li>
+<li>Case 2: <em>z</em>&#8217;s uncle <em>y</em> is black and <em>z</em> is a right child: around z left-rotate</li>
+<li>Case 3: <em>z</em>&#8217;s uncle <em>y</em> is black and <em>z</em> is a left child: around z&#8217;s parent right-rotate + z上两层反色</li>
+</ul>
+</li>
+<li>O(lgn)</li>
+</ul>
+</li>
+</ol>
+
+
+<h4>13.4 Deletion 323</h4>
 
 <h3>14 Augmenting Data Structures 339</h3>
 
@@ -3184,7 +3546,7 @@
   
 
 
-<time datetime="2012-12-19T01:42:00-05:00" pubdate data-updated="true">Dec 19<span>th</span>, 2012</time>
+<time datetime="2012-12-21T09:42:00-05:00" pubdate data-updated="true">Dec 21<span>st</span>, 2012</time>
       
 
 <span class="categories">
@@ -3198,7 +3560,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2012/12/19/clrs/" data-via="" data-counturl="http://puncsky.github.com/blog/2012/12/19/clrs/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2012/12/21/clrs/" data-via="" data-counturl="http://puncsky.github.com/blog/2012/12/21/clrs/" >Tweet</a>
   
   
   
@@ -3207,10 +3569,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2012/12/13/fast-crash-recovery-in-ramcloud/" title="Previous Post: Fast Crash Recovery in RAMCloud (SOSP'11)">&laquo; Fast Crash Recovery in RAMCloud (SOSP'11)</a>
+        <a class="basic-alignment left" href="/blog/2012/12/19/oop2/" title="Previous Post: OOP Final Term Notes">&laquo; OOP Final Term Notes</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2012/12/19/oop1/" title="Next Post: OOP Mid Term Notes">OOP Mid Term Notes &raquo;</a>
       
     </p>
   </footer>
@@ -3225,15 +3585,15 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/12/21/clrs/">CLRS Notes</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/12/19/oop2/">OOP Final Term Notes</a>
       </li>
     
       <li class="post">
         <a href="/blog/2012/12/19/oop1/">OOP Mid Term Notes</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/12/19/clrs/">CLRS Notes</a>
       </li>
     
       <li class="post">

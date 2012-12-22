@@ -4,7 +4,7 @@
   <title><![CDATA[Category: algorithm | CS Notebook]]></title>
   <link href="http://puncsky.github.com/blog/categories/algorithm/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2012-12-21T07:29:38-05:00</updated>
+  <updated>2012-12-22T06:11:20-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[CLRS Notes]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/19/clrs/"/>
-    <updated>2012-12-19T01:42:00-05:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/19/clrs</id>
+    <link href="http://puncsky.github.com/blog/2012/12/21/clrs/"/>
+    <updated>2012-12-21T09:42:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2012/12/21/clrs</id>
     <content type="html"><![CDATA[<h2>I Foundations</h2>
 
 <h3>1 The Role of Algorithms in Computing 5</h3>
@@ -815,6 +815,7 @@ int main() {
 
 <ul>
 <li>Data structures: techniques for representing finite dynamic sets and manipulating them on a computer.</li>
+<li>Dynamic-set operations: <strong>CR(U)D 大小前后</strong>: insert, search, delete, max, min, predecessor, successor.</li>
 <li>Dictionary: a dynamic set supporting insert, delete, and test membership.</li>
 <li>2 categories of operations
 
@@ -1832,10 +1833,15 @@ private:
 <li>Hash values are independent of any patterns that might exist in the data.</li>
 </ul>
 </li>
-<li><p>Interpreting keys as natural numbers</p></li>
-<li><p>division method. h(k) = k mod m.</p></li>
+<li>Interpreting keys as natural numbers</li>
+<li>Different ways:
+
+<ol>
+<li>division method. h(k) = k mod m.</li>
 <li>multiplication method. h(k) = ⦏m(kA mod 1)⦎, “kA mod 1” means the fractional part of kA, that is, kA - ⦏kA⦎. (A is a constant, 0 &lt; A &lt; 1) Knuth suggests that A = 0.618</li>
 <li>universal hashing. select the hash function at random from a carefully designed class of functions.</li>
+</ol>
+</li>
 </ul>
 
 
@@ -1880,18 +1886,264 @@ private:
 
 <h4>11.5 Perfect hashing 277</h4>
 
-<p>O(1) memory accesses are required to perform a search in the worst case.</p>
+<ul>
+<li><strong>Perfect hashing</strong>: O(1) memory accesses are required to perform a search in the worst case.
+
+<ul>
+<li>two levels of hashing, universal hashing at each level.</li>
+<li>use secondary hash table</li>
+</ul>
+</li>
+</ul>
+
 
 <h3>12 Binary Search Trees 286</h3>
 
-<p>12.1 What is a binary search tree? 286 12.2 Querying a binary search tree 289 12.3 Insertion and deletion 294
-12.4 Randomly built binary search trees 299</p>
+<ul>
+<li>Performance
+
+<ul>
+<li>Best-case Θ(lgn)</li>
+<li>Average-case Θ(lgn)</li>
+<li>Worst-case Θ(n)</li>
+</ul>
+</li>
+<li>Improve? red-black trees(height O(lg n)), B-trees(secondary storage)</li>
+</ul>
+
+
+<p>``` cpp bstree.hpp</p>
+
+<pre><code>#include"dynamic.h"
+#include"binarytree.h"
+//二叉搜索树：
+//所有节点的关键字不同，此树要么为空，要么：
+//1. 左不空，则左所有&lt;根
+//2. 右不空，则右所有&gt;根
+//3. 左右子树均为二叉搜索树
+template &lt;class T&gt;
+class BSTree:public DynamicSet&lt;T&gt;
+{
+public:
+    BSTree() {root=NULL;}
+    ResultCode Search_recursion(T&amp; x) const;
+    ResultCode Search_iteration(T&amp; x) const;
+    ResultCode Insert_recursion(T&amp; x);
+    ResultCode Insert_iteration(T&amp; x);
+    ResultCode Remove(T&amp; x);
+
+protected:
+    BTNode&lt;T&gt;* root;
+
+private:
+    ResultCode Search(BTNode&lt;T&gt; *p, T&amp; x) const;
+    ResultCode Insert(BTNode&lt;T&gt; *p, T&amp; x);
+};
+
+template &lt;class T&gt;
+ResultCode BSTree&lt;T&gt;::Search_recursion(T&amp; x) const
+{
+    return Search(root, x);
+}
+
+template &lt;class T&gt;
+ResultCode BSTree&lt;T&gt;::Search(BTNode&lt;T&gt; *p, T&amp; x) const
+{
+    if(!p) return NotPresent;
+    else if(x&gt;p-&gt;element) return Search(p-&gt;rChild, x);
+    else if(x&lt;p-&gt;element) return Search(p-&gt;lChild, x);
+    else return Success;
+}
+template &lt;class T&gt;
+ResultCode BSTree&lt;T&gt;::Search_iteration(T&amp; x) const
+{
+    BTNode&lt;T&gt; *p=root;
+    while(p)
+    {
+        if(x&lt;p-&gt;element) p=p-&gt;lChild;
+        else if(x&gt;p-&gt;element) p=p-&gt;rChild;
+        else return Success;
+    }
+    return NotPresent;
+}
+
+template &lt;class T&gt;
+ResultCode BSTree&lt;T&gt;::Insert_recursion(T&amp; x)//ATTENTION: situation when root is NULL
+{
+    if(root) return Insert(root, x);
+    else root=new BTNode&lt;T&gt;(x);
+}
+
+template &lt;class T&gt;
+ResultCode BSTree&lt;T&gt;::Insert(BTNode&lt;T&gt;* p, T&amp; x) //ATTENTION: situation when root is NULL
+{
+    if(x&gt;p-&gt;element)
+    {
+       if(p-&gt;rChild==NULL)
+       {
+           p-&gt;rChild=new BTNode(x);
+           return Success;
+       }
+       else return Insert(p-&gt;rChild, x);
+    }
+    else if(x&lt;p-&gt;element)
+    {
+       if(p-&gt;lChild==NULL)
+       {
+           p-&gt;lChild=new BTNode(T);
+           return Success;
+       }
+       else return Insert(p-&gt;lChild, x);
+    }
+    else return Duplicate;
+}
+
+template &lt;class T&gt;
+ResultCode BSTree&lt;T&gt;::Insert_iteration(T&amp; x)
+{
+    BTNode&lt;T&gt; *p=root, *q=NULL;
+    if(!p)
+    {
+        q=p;
+        if(x&gt;p-&gt;element) p=p-&gt;rChild; 
+        else if(x&lt;p-&gt;element) p=p-&gt;lChild;
+        else return Duplicate;
+    }
+    p=new BTNode&lt;T&gt;(x);
+    if(!root) root=p;
+    else if(x&lt;q-&gt;element) q-&gt;lChild=p;
+    else q-&gt;rChild=p;
+    return Success;
+}
+
+template &lt;class T&gt;
+ResultCode BSTree&lt;T&gt;::Remove(T* x)
+{
+   // TODO
+}
+</code></pre>
+
+<p>```</p>
+
+<h4>12.1 What is a binary search tree? 286</h4>
+
+<p><strong>binary-search-tree property: left &lt;= middle &lt;= right</strong>: Let x be a node in a binary search tree. If y is a node in the left subtree of x, then y.key &lt;= x.key. If y is a node in the right subtree of x, then y.key >= x.key.</p>
+
+<p>How to print out keys in sorted order? <strong>inorder tree walk</strong> (other walks: <strong>preorder</strong>, <strong>postorder</strong>)</p>
+
+<p>``` cpp</p>
+
+<pre><code>void inorderTreeWalk(Node* r) {
+    if (r) {
+        inorderTreeWalk(r-&gt;left);
+        cout &lt;&lt; r.key;
+        inorderTreeWalk(r-&gt;right)};
+    }
+}
+</code></pre>
+
+<p>```
+Θ(n)</p>
+
+<h4>12.2 Querying a binary search tree 289</h4>
+
+<ul>
+<li>Iteration is faster in <em>Java, C, Python...</em> Recursion is fairly expensive compared to iteration (in general) because it requires the allocation of a new stack frame.</li>
+<li>Recursion <em>might</em> be faster in <em>functional programming language</em>.</li>
+</ul>
+
+
+<h5>Searching</h5>
+
+<ul>
+<li>Recursive version: Me? search left? search right?</li>
+<li>Iteration version: Use pointer p. p->key? p=p->left? p=p->right?</li>
+</ul>
+
+
+<h5>Min and Max</h5>
+
+<p>left-most leaf and right-most leaf</p>
+
+<h5>Successor and predecessor</h5>
+
+<ul>
+<li>Successor: If x has right subtree, return max(x.right), else find in parents.</li>
+<li>Predecessor: If x has left subtree, return max(x.left), else find in parents.</li>
+</ul>
+
+
+<h4>12.3 Insertion and deletion 294</h4>
+
+<h4>12.4 Randomly built binary search trees 299</h4>
 
 <h3>13 Red-Black Trees 308</h3>
 
-<p>13.1 Properties of red-black trees 308 13.2 Rotations 312
-13.3 Insertion 315
-13.4 Deletion 323</p>
+<h4>13.1 Properties of red-black trees 308</h4>
+
+<ul>
+<li>A BST with one extra <strong>color</strong> bit of storage per node.</li>
+<li>Red-black properties:
+
+<ol>
+<li>Every node is either red or black.</li>
+<li>The root is black.</li>
+<li>Every leaf (NIL) is black.</li>
+<li>If a node is red, then both its children are black.</li>
+<li>For each node, all simple paths from the node to descendant leaves contain the same number of black nodes.</li>
+</ol>
+</li>
+<li>sentinel T.nil for all all pointers to NIL (replacing leaves and parent of root)</li>
+<li><strong>black-height</strong> of node x: number of black nodes on the path from (not including) x to a leaf</li>
+<li><strong>black-height</strong> of a tree: black-height of its root</li>
+<li>A red-black tree with n <strong>internal</strong> nodes has height at most 2*log(n+1)</li>
+</ul>
+
+
+<h4>13.2 Rotations 312</h4>
+
+<ul>
+<li><strong>Rotation</strong>: A local operation in a search tree that preserves the binary-search-tree property.
+
+<ul>
+<li>left-rotation: counter-clockwise
+
+<ul>
+<li>set y</li>
+<li>turn y's left subtree into x's right subtree</li>
+<li>link x's parent to y</li>
+<li>put x on y's left</li>
+</ul>
+</li>
+<li>right-rotation: clockwise</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>13.3 Insertion 315</h4>
+
+<ol>
+<li>insert node <strong>red</strong> <em>z</em> into tree T (Property 5)</li>
+<li>auxiliary procedure RBinsertFixup(T,z) to re-color and rotate.Ω
+
+<ul>
+<li>Property 2 is violated if <em>z</em> is the root</li>
+<li>Property 4 is violated if <em>z</em>'s parent is red.
+
+<ul>
+<li>Case 1: <em>z</em>'s uncle <em>y</em> is red: z上两层反色</li>
+<li>Case 2: <em>z</em>'s uncle <em>y</em> is black and <em>z</em> is a right child: around z left-rotate</li>
+<li>Case 3: <em>z</em>'s uncle <em>y</em> is black and <em>z</em> is a left child: around z's parent right-rotate + z上两层反色</li>
+</ul>
+</li>
+<li>O(lgn)</li>
+</ul>
+</li>
+</ol>
+
+
+<h4>13.4 Deletion 323</h4>
 
 <h3>14 Augmenting Data Structures 339</h3>
 
