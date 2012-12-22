@@ -4,7 +4,7 @@
   <title><![CDATA[CS Notebook]]></title>
   <link href="http://puncsky.github.com/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2012-12-22T06:11:20-05:00</updated>
+  <updated>2012-12-22T07:53:36-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -1079,7 +1079,7 @@
 
 <h3>9 Medians and Order Statistics 213</h3>
 
-<p><strong>Selection problem</strong> selects <em>i-st</em> largest number among a set <em>A</em> of <em>n</em> (distinct) numbers</p>
+<p><strong>Selection problem</strong> selects <em>i-st</em> smallest number among a set <em>A</em> of <em>n</em> (distinct) numbers</p>
 
 <h4>9.1 Minimum and maximum 214</h4>
 
@@ -3429,29 +3429,130 @@
 
 <h4>13.4 Deletion 323</h4>
 
+<ul>
+<li>RBTransplant(T, u, v): replace subtree u with subtree v. mind NIL node as parent and leaves</li>
+</ul>
+
+
+<p>TODO</p>
+
 <h3>14 Augmenting Data Structures 339</h3>
 
-<p>14.1 Dynamic order statistics 339
-14.2 How to augment a data structure 345 14.3 Interval trees 348</p>
+<h4>14.1 Dynamic order statistics 339</h4>
+
+<ul>
+<li><strong>Rank of an element</strong>: its position in the linear order of the set</li>
+<li><strong>Order-statistic tree</strong>: RBT + every node has <em>x.size</em> = number of nodes in its subtree, including the NIL sentinel
+
+<ul>
+<li><em>x.size</em> = <em>x.left.size</em> + <em>x.right.size</em> + 1</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>14.2 How to augment a data structure 345</h4>
+
+<ol>
+<li>Choose an underlying data structure.</li>
+<li>Determine additional information to maintain in the underlying data structure.</li>
+<li>Verify that we can maintain the additional information for the basic modifying operations on the underlying data structure.</li>
+<li>Develop new operations.</li>
+</ol>
+
+
+<h4>14.3 Interval trees 348</h4>
+
+<p>RBT + operations on dynamic sets of intervals.</p>
 
 <h2>IV Advanced Design and Analysis Techniques Introduction 357</h2>
 
+<ul>
+<li>Three important but more sophisticated techniques used in designing and analyzing efficient algorithms:
+
+<ol>
+<li>dynamic programming
+
+<ul>
+<li>used to optimize problems in which we make a set of choices to get optimal solution</li>
+<li>store the solution to each such subproblem in case it should reappear.</li>
+</ul>
+</li>
+<li>greedy algorithms
+
+<ul>
+<li>used to optimize problems in which we make a set of choices to get optimal solution</li>
+<li>make each choice in a locally optimal manner. e.g. 买东西找钱算法</li>
+<li>matroid theory as a mathematical basis</li>
+</ul>
+</li>
+<li>amortized analysis
+
+<ul>
+<li>used to analyze certain algorithms that perform a sequence of similar operations.</li>
+<li>Bound the cost of the entire sequence s.t. although some operations might be expensive, many others might be cheap.</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>We have covered before:
+
+<ol>
+<li>Divide-and-conquer</li>
+<li>Randomization</li>
+<li>Recurrence</li>
+</ol>
+</li>
+</ul>
+
+
 <h3>15 Dynamic Programming 359</h3>
 
-<p>15.1 Rod cutting 360
-15.2 Matrix-chain multiplication 370
-15.3 Elements of dynamic programming 378 15.4 Longest common subsequence 390 15.5 Optimal binary search trees 397</p>
+<ul>
+<li>Divide-and-conquer: subproblems are disjoint</li>
+<li>Dynamic Programming: subproblems overlap.
+
+<ul>
+<li>solve subproblems just once and save it in a table, avoiding recomputing</li>
+<li>applied to <strong>optimization problems</strong>: find <strong><em>a</em></strong> solution with the optimal (min/max) value</li>
+<li>four steps:
+
+<ol>
+<li>Characterize the structure of an optimal solution.</li>
+<li>Recursively define the value of an optimal solution.</li>
+<li>Compute the value of an optimal solution, typically in a bottom-up fashion (get the result)</li>
+<li>Construct an optimal solution from computed information (get how to compute the result)</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>15.1 Rod cutting 360</h4>
+
+<h4>15.2 Matrix-chain multiplication 370</h4>
+
+<h4>15.3 Elements of dynamic programming 378</h4>
+
+<h4>15.4 Longest common subsequence 390</h4>
+
+<h4>15.5 Optimal binary search trees 397</h4>
 
 <h3>16 Greedy Algorithms 414</h3>
 
-<p>16.1 An activity-selection problem
-16.2 Elements of the greedy strategy 423 16.3 Huffman codes 428
-415 ? 16.4 Matroids and greedy methods 437
+<p>16.1 An activity-selection problem 415
+16.2 Elements of the greedy strategy 423
+16.3 Huffman codes 428
+16.4 Matroids and greedy methods 437
 16.5 A task-scheduling problem as a matroid 443</p>
 
 <h3>17 Amortized Analysis 451</h3>
 
-<p>17.1 Aggregate analysis 452 17.2 The accounting method 456 17.3 The potential method 459 17.4 Dynamic tables 463</p>
+<p>17.1 Aggregate analysis 452
+17.2 The accounting method 456
+17.3 The potential method 459
+17.4 Dynamic tables 463</p>
 ]]></content>
   </entry>
   
