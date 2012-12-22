@@ -648,7 +648,7 @@ Bucket sort divides the interval [0, 1) into n equal-sized subintervals, or buck
 
 ### 9 Medians and Order Statistics 213
 
-**Selection problem** selects _i-st_ largest number among a set _A_ of _n_ (distinct) numbers
+**Selection problem** selects _i-st_ smallest number among a set _A_ of _n_ (distinct) numbers
 
 #### 9.1 Minimum and maximum 214
 
@@ -1896,18 +1896,77 @@ left-most leaf and right-most leaf
 	
 
 #### 13.4 Deletion 323
+
+- RBTransplant(T, u, v): replace subtree u with subtree v. mind NIL node as parent and leaves
+
+TODO
+
 ### 14 Augmenting Data Structures 339
-14.1 Dynamic order statistics 339
-14.2 How to augment a data structure 345 14.3 Interval trees 348
+
+#### 14.1 Dynamic order statistics 339
+
+- **Rank of an element**: its position in the linear order of the set
+- **Order-statistic tree**: RBT + every node has _x.size_ = number of nodes in its subtree, including the NIL sentinel
+	- _x.size_ = _x.left.size_ + _x.right.size_ + 1
+
+ 
+#### 14.2 How to augment a data structure 345 
+
+1. Choose an underlying data structure.
+2. Determine additional information to maintain in the underlying data structure.
+3. Verify that we can maintain the additional information for the basic modifying operations on the underlying data structure.
+4. Develop new operations.
+
+#### 14.3 Interval trees 348
+
+RBT + operations on dynamic sets of intervals.
+
 ## IV Advanced Design and Analysis Techniques Introduction 357
+
+- Three important but more sophisticated techniques used in designing and analyzing efficient algorithms:
+	1. dynamic programming
+		- used to optimize problems in which we make a set of choices to get optimal solution
+		- store the solution to each such subproblem in case it should reappear.
+	2. greedy algorithms
+		- used to optimize problems in which we make a set of choices to get optimal solution
+		- make each choice in a locally optimal manner. e.g. 买东西找钱算法
+		- matroid theory as a mathematical basis
+	3. amortized analysis
+		- used to analyze certain algorithms that perform a sequence of similar operations.
+		- Bound the cost of the entire sequence s.t. although some operations might be expensive, many others might be cheap. 
+- We have covered before:
+	1. Divide-and-conquer
+	2. Randomization
+	3. Recurrence
+
 ### 15 Dynamic Programming 359
-15.1 Rod cutting 360
-15.2 Matrix-chain multiplication 370
-15.3 Elements of dynamic programming 378 15.4 Longest common subsequence 390 15.5 Optimal binary search trees 397
+
+- Divide-and-conquer: subproblems are disjoint
+- Dynamic Programming: subproblems overlap. 
+	- solve subproblems just once and save it in a table, avoiding recomputing
+	- applied to **optimization problems**: find ***a*** solution with the optimal (min/max) value
+	- four steps:
+		1. Characterize the structure of an optimal solution.
+		2. Recursively define the value of an optimal solution.
+		3. Compute the value of an optimal solution, typically in a bottom-up fashion (get the result)
+		4. Construct an optimal solution from computed information (get how to compute the result)
+	
+#### 15.1 Rod cutting 360
+#### 15.2 Matrix-chain multiplication 370
+####15.3 Elements of dynamic programming 378 
+#### 15.4 Longest common subsequence 390 
+#### 15.5 Optimal binary search trees 397
+
 ### 16 Greedy Algorithms 414
-16.1 An activity-selection problem
-16.2 Elements of the greedy strategy 423 16.3 Huffman codes 428
-415 ? 16.4 Matroids and greedy methods 437
+
+
+16.1 An activity-selection problem 415
+16.2 Elements of the greedy strategy 423 
+16.3 Huffman codes 428
+16.4 Matroids and greedy methods 437
 16.5 A task-scheduling problem as a matroid 443
 ### 17 Amortized Analysis 451
-17.1 Aggregate analysis 452 17.2 The accounting method 456 17.3 The potential method 459 17.4 Dynamic tables 463
+17.1 Aggregate analysis 452 
+17.2 The accounting method 456 
+17.3 The potential method 459 
+17.4 Dynamic tables 463
