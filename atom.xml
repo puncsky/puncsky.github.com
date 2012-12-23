@@ -4,7 +4,7 @@
   <title><![CDATA[CS Notebook]]></title>
   <link href="http://puncsky.github.com/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2012-12-22T07:53:36-05:00</updated>
+  <updated>2012-12-22T19:00:06-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -3531,6 +3531,12 @@
 
 <h4>15.1 Rod cutting 360</h4>
 
+<ul>
+<li>Input: a rod of length <em>n</em> inches. a table of prices <em>pi</em> for i = 1,2,&#8230;,n</li>
+<li>Output: max revenue rn</li>
+</ul>
+
+
 <h4>15.2 Matrix-chain multiplication 370</h4>
 
 <h4>15.3 Elements of dynamic programming 378</h4>
@@ -3541,18 +3547,165 @@
 
 <h3>16 Greedy Algorithms 414</h3>
 
-<p>16.1 An activity-selection problem 415
-16.2 Elements of the greedy strategy 423
-16.3 Huffman codes 428
-16.4 Matroids and greedy methods 437
-16.5 A task-scheduling problem as a matroid 443</p>
+<h4>16.1 An activity-selection problem 415</h4>
+
+<h4>16.2 Elements of the greedy strategy 423</h4>
+
+<h4>16.3 Huffman codes 428</h4>
+
+<h4>16.4 Matroids and greedy methods 437</h4>
+
+<h4>16.5 A task-scheduling problem as a matroid 443</h4>
 
 <h3>17 Amortized Analysis 451</h3>
 
-<p>17.1 Aggregate analysis 452
-17.2 The accounting method 456
-17.3 The potential method 459
-17.4 Dynamic tables 463</p>
+<h4>17.1 Aggregate analysis 452</h4>
+
+<h4>17.2 The accounting method 456</h4>
+
+<h4>17.3 The potential method 459</h4>
+
+<h4>17.4 Dynamic tables 463</h4>
+
+<h2>V Advanced Data Structures Introduction 481</h2>
+
+<h3>18 B-Trees 484</h3>
+
+<p>18.1 Definition of B-trees 488
+18.2 Basic operations on B-trees 491 18.3 Deleting a key from a B-tree 499</p>
+
+<h3>19 Fibonacci Heaps 505</h3>
+
+<p>19.1 Structure of Fibonacci heaps 507
+19.2 Mergeable-heap operations 510
+19.3 Decreasing a key and deleting a node 518 19.4 Bounding the maximum degree 523</p>
+
+<h3>20 van Emde Boas Trees 531</h3>
+
+<p>20.1 Preliminary approaches 532 20.2 A recursive structure 536 20.3 The van Emde Boas tree 545</p>
+
+<h3>21 Data Structures for Disjoint Sets 561</h3>
+
+<p>21.1 Disjoint-set operations 561
+21.2 Linked-list representation of disjoint sets 564 21.3 Disjoint-set forests 568
+21.4 Analysis of union by rank with path compression 573</p>
+
+<h2>VI Graph Algorithms</h2>
+
+<p>￼Introduction 587</p>
+
+<h3>22 Elementary Graph Algorithms 589</h3>
+
+<p>22.1 Representations of graphs 589 22.2 Breadth-first search 594
+22.3 Depth-first search
+22.4 Topological sort 612
+22.5 Strongly connected components 615</p>
+
+<h3>23 Minimum Spanning Trees 624</h3>
+
+<p>23.1 Growing a minimum spanning tree 625 23.2 The algorithms of Kruskal and Prim 631</p>
+
+<h3>24 Single-Source Shortest Paths 643</h3>
+
+<p>24.1 The Bellman-Ford algorithm 651
+24.2 Single-source shortest paths in directed acyclic graphs 24.3 Dijkstra’s algorithm 658
+24.4 Difference constraints and shortest paths 664
+24.5 Proofs of shortest-paths properties 671
+655</p>
+
+<h3>25 All-Pairs Shortest Paths 684</h3>
+
+<p>25.1 Shortest paths and matrix multiplication 25.2 The Floyd-Warshall algorithm 693 25.3 Johnson’s algorithm for sparse graphs
+686 700</p>
+
+<h3>26 Maximum Flow 708</h3>
+
+<p>26.1 Flow networks 709
+26.2 The Ford-Fulkerson method 714 26.3 Maximum bipartite matching 732
+? 26.4 Push-relabel algorithms 736
+? 26.5 The relabel-to-front algorithm 748</p>
+
+<h2>VII Selected Topics</h2>
+
+<p>Introduction 769</p>
+
+<h3>27 Multithreaded Algorithms 772</h3>
+
+<p>27.1 The basics of dynamic multithreading 27.2 Multithreaded matrix multiplication 792 27.3 Multithreaded merge sort 797</p>
+
+<h3>28 Matrix Operations 813</h3>
+
+<p>28.1 Solving systems of linear equations 813
+28.2 Inverting matrices 827
+28.3 Symmetric positive-definite matrices and least-squares approximation
+832</p>
+
+<h3>29 Linear Programming 843</h3>
+
+<p>29.1 Standard and slack forms 850
+29.2 Formulating problems as linear programs 859 29.3 The simplex algorithm 864
+29.4 Duality 879
+29.5 The initial basic feasible solution 886</p>
+
+<h3>30 Polynomials and the FFT 898</h3>
+
+<p>30.1 Representing polynomials 900 30.2 The DFT and FFT 906
+30.3 Efficient FFT implementations 915</p>
+
+<h3>31 Number-Theoretic Algorithms 926</h3>
+
+<p>31.1 Elementary number-theoretic notions 927 31.2 Greatest common divisor 933
+31.3 Modular arithmetic 939
+31.4 Solving modular linear equations 946 31.5 The Chinese remainder theorem 950
+31.6 Powers of an element 954
+31.7 The RSA public-key cryptosystem
+? 31.8 Primality testing 965
+? 31.9 Integer factorization 975
+958</p>
+
+<h3>32 String Matching 985</h3>
+
+<p>32.1 The naive string-matching algorithm 988 32.2 The Rabin-Karp algorithm 990
+32.3 String matching with finite automata 995
+? 32.4 The Knuth-Morris-Pratt algorithm 1002</p>
+
+<h3>33 Computational Geometry 1014</h3>
+
+<p>33.1 Line-segment properties 1015
+33.2 Determining whether any pair of segments intersects 1021 33.3 Finding the convex hull 1029
+33.4 Finding the closest pair of points 1039</p>
+
+<h3>34 NP-Completeness 1048</h3>
+
+<ul>
+<li>Problems which can be solved by polynomial-time algorithms are <strong>tractable/easy</strong>. Otherwise, <strong>intractable/hard</strong></li>
+<li>Three classes of problems:
+
+<ol>
+<li>P.   solvable in O(n<sup>k)</sup></li>
+<li>NP.  verifiable in polynomial time.</li>
+<li>NPC. NP-complete
+
+<ul>
+<li>If any NP-complete problem can be solved in polynomial time, then every problem in NP has a polynomial-time algorithm.</li>
+<li>Many CS scientists believe NP-complete problems are intractable.
+34.1 Polynomial time 1053
+34.2 Polynomial-time verification 1061
+34.3 NP-completeness and reducibility 1067 34.4 NP-completeness proofs 1078
+34.5 NP-complete problems 1086
+
+<h3>35 Approximation Algorithms 1106</h3>
+
+<p>35.1 The vertex-cover problem 1108
+35.2 The traveling-salesman problem 1111
+35.3 The set-covering problem 1117
+35.4 Randomization and linear programming 1123 35.5 The subset-sum problem 1128</p></li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+
 ]]></content>
   </entry>
   
