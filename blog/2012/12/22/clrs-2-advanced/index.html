@@ -1,0 +1,371 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>CLRS 2: Advanced - CS Notebook</title>
+  <meta name="author" content="Tian">
+
+  
+  <meta name="description" content="IV Advanced Design and Analysis Techniques Introduction 357 Three important but more sophisticated techniques used in designing and analyzing &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://puncsky.github.com/blog/2012/12/22/clrs-2-advanced/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="CS Notebook" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">CS Notebook</a></h1>
+  
+    <h2>Just a notebook about life and computer</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:puncsky.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">CLRS 2: Advanced</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-22T19:11:00-05:00" pubdate data-updated="true">Dec 22<span>nd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>IV Advanced Design and Analysis Techniques Introduction 357</h2>
+
+<ul>
+<li>Three important but more sophisticated techniques used in designing and analyzing efficient algorithms:
+
+<ol>
+<li>dynamic programming
+
+<ul>
+<li>used to optimize problems in which we make a set of choices to get optimal solution</li>
+<li>store the solution to each such subproblem in case it should reappear.</li>
+</ul>
+</li>
+<li>greedy algorithms
+
+<ul>
+<li>used to optimize problems in which we make a set of choices to get optimal solution</li>
+<li>make each choice in a locally optimal manner. e.g. 买东西找钱算法</li>
+<li>matroid theory as a mathematical basis</li>
+</ul>
+</li>
+<li>amortized analysis
+
+<ul>
+<li>used to analyze certain algorithms that perform a sequence of similar operations.</li>
+<li>Bound the cost of the entire sequence s.t. although some operations might be expensive, many others might be cheap.</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>We have covered before:
+
+<ol>
+<li>Divide-and-conquer</li>
+<li>Randomization</li>
+<li>Recurrence</li>
+</ol>
+</li>
+</ul>
+
+
+<h3>15 Dynamic Programming 359</h3>
+
+<ul>
+<li>Divide-and-conquer: subproblems are disjoint</li>
+<li>Dynamic Programming: subproblems overlap.
+
+<ul>
+<li>solve subproblems just once and save it in a table, avoiding recomputing</li>
+<li>applied to <strong>optimization problems</strong>: find <strong><em>a</em></strong> solution with the optimal (min/max) value</li>
+<li>four steps:
+
+<ol>
+<li>Characterize the structure of an optimal solution.</li>
+<li>Recursively define the value of an optimal solution.</li>
+<li>Compute the value of an optimal solution, typically in a bottom-up fashion (get the result)</li>
+<li>Construct an optimal solution from computed information (get how to compute the result)</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>15.1 Rod cutting 360</h4>
+
+<ul>
+<li>Input: a rod of length <em>n</em> inches. a table of prices <em>pi</em> for i = 1,2,&#8230;,n</li>
+<li>Output: max revenue rn</li>
+</ul>
+
+
+<h4>15.2 Matrix-chain multiplication 370</h4>
+
+<h4>15.3 Elements of dynamic programming 378</h4>
+
+<h4>15.4 Longest common subsequence 390</h4>
+
+<h4>15.5 Optimal binary search trees 397</h4>
+
+<h3>16 Greedy Algorithms 414</h3>
+
+<h4>16.1 An activity-selection problem 415</h4>
+
+<h4>16.2 Elements of the greedy strategy 423</h4>
+
+<h4>16.3 Huffman codes 428</h4>
+
+<h4>16.4 Matroids and greedy methods 437</h4>
+
+<h4>16.5 A task-scheduling problem as a matroid 443</h4>
+
+<h3>17 Amortized Analysis 451</h3>
+
+<h4>17.1 Aggregate analysis 452</h4>
+
+<h4>17.2 The accounting method 456</h4>
+
+<h4>17.3 The potential method 459</h4>
+
+<h4>17.4 Dynamic tables 463</h4>
+
+<h2>V Advanced Data Structures Introduction 481</h2>
+
+<h3>18 B-Trees 484</h3>
+
+<p>18.1 Definition of B-trees 488
+18.2 Basic operations on B-trees 491 18.3 Deleting a key from a B-tree 499</p>
+
+<h3>19 Fibonacci Heaps 505</h3>
+
+<p>19.1 Structure of Fibonacci heaps 507
+19.2 Mergeable-heap operations 510
+19.3 Decreasing a key and deleting a node 518 19.4 Bounding the maximum degree 523</p>
+
+<h3>20 van Emde Boas Trees 531</h3>
+
+<p>20.1 Preliminary approaches 532 20.2 A recursive structure 536 20.3 The van Emde Boas tree 545</p>
+
+<h3>21 Data Structures for Disjoint Sets 561</h3>
+
+<p>21.1 Disjoint-set operations 561
+21.2 Linked-list representation of disjoint sets 564 21.3 Disjoint-set forests 568
+21.4 Analysis of union by rank with path compression 573</p>
+
+<h2>VI Graph Algorithms</h2>
+
+<p>￼Introduction 587</p>
+
+<h3>22 Elementary Graph Algorithms 589</h3>
+
+<p>22.1 Representations of graphs 589 22.2 Breadth-first search 594
+22.3 Depth-first search
+22.4 Topological sort 612
+22.5 Strongly connected components 615</p>
+
+<h3>23 Minimum Spanning Trees 624</h3>
+
+<p>23.1 Growing a minimum spanning tree 625 23.2 The algorithms of Kruskal and Prim 631</p>
+
+<h3>24 Single-Source Shortest Paths 643</h3>
+
+<p>24.1 The Bellman-Ford algorithm 651
+24.2 Single-source shortest paths in directed acyclic graphs 24.3 Dijkstra’s algorithm 658
+24.4 Difference constraints and shortest paths 664
+24.5 Proofs of shortest-paths properties 671
+655</p>
+
+<h3>25 All-Pairs Shortest Paths 684</h3>
+
+<p>25.1 Shortest paths and matrix multiplication 25.2 The Floyd-Warshall algorithm 693 25.3 Johnson’s algorithm for sparse graphs
+686 700</p>
+
+<h3>26 Maximum Flow 708</h3>
+
+<p>26.1 Flow networks 709
+26.2 The Ford-Fulkerson method 714 26.3 Maximum bipartite matching 732
+? 26.4 Push-relabel algorithms 736
+? 26.5 The relabel-to-front algorithm 748</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Tian</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-22T19:11:00-05:00" pubdate data-updated="true">Dec 22<span>nd</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2012/12/22/clrs-2-advanced/" data-via="" data-counturl="http://puncsky.github.com/blog/2012/12/22/clrs-2-advanced/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/12/22/clrs-1-basics/" title="Previous Post: CLRS 1: Basics">&laquo; CLRS 1: Basics</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/12/22/clrs-3-selected/" title="Next Post: CLRS 3: Selected">CLRS 3: Selected &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/12/22/clrs-3-selected/">CLRS 3: Selected</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/22/clrs-2-advanced/">CLRS 2: Advanced</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/22/clrs-1-basics/">CLRS 1: Basics</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/19/oop2/">OOP Final Term Notes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/19/oop1/">OOP Mid Term Notes</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Tian -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,328 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>CLRS 3: Selected - CS Notebook</title>
+  <meta name="author" content="Tian">
+
+  
+  <meta name="description" content="VII Selected Topics Introduction 769 27 Multithreaded Algorithms 772 serial algorithms
+parallel algorithms No agreement on a single architectural &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://puncsky.github.com/blog/2012/12/22/clrs-3-selected/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="CS Notebook" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">CS Notebook</a></h1>
+  
+    <h2>Just a notebook about life and computer</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:puncsky.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">CLRS 3: Selected</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-22T19:12:00-05:00" pubdate data-updated="true">Dec 22<span>nd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>VII Selected Topics</h2>
+
+<p>Introduction 769</p>
+
+<h3>27 Multithreaded Algorithms 772</h3>
+
+<ul>
+<li>serial algorithms</li>
+<li>parallel algorithms
+
+<ul>
+<li>No agreement on a single architectural model for parallel computers
+
+<ul>
+<li>shared memory (multicore)
+
+<ul>
+<li><strong><em>static threads</em></strong> -> complex schedule and load-balance -> concurrency platforms
+
+<ul>
+<li><strong>dynamic multithreading platform</strong>
+
+<ul>
+<li>2 features: 1. nested parallelism. Subroutine can be spawned. (divide-and-conquer) 2. parallel loops.</li>
+<li>3 keywords: parallel, spawn, sync.</li>
+<li>Platforms: Cilk, Cilk++, OpenMP, Task Parallel Library, Threading Building Blocks, Intel TBB.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>distributed memory</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<p>27.1 The basics of dynamic multithreading
+27.2 Multithreaded matrix multiplication 792
+27.3 Multithreaded merge sort 797</p>
+
+<h3>28 Matrix Operations 813</h3>
+
+<p>28.1 Solving systems of linear equations 813
+28.2 Inverting matrices 827
+28.3 Symmetric positive-definite matrices and least-squares approximation
+832</p>
+
+<h3>29 Linear Programming 843</h3>
+
+<p>29.1 Standard and slack forms 850
+29.2 Formulating problems as linear programs 859 29.3 The simplex algorithm 864
+29.4 Duality 879
+29.5 The initial basic feasible solution 886</p>
+
+<h3>30 Polynomials and the FFT 898</h3>
+
+<p>30.1 Representing polynomials 900 30.2 The DFT and FFT 906
+30.3 Efficient FFT implementations 915</p>
+
+<h3>31 Number-Theoretic Algorithms 926</h3>
+
+<p>31.1 Elementary number-theoretic notions 927 31.2 Greatest common divisor 933
+31.3 Modular arithmetic 939
+31.4 Solving modular linear equations 946 31.5 The Chinese remainder theorem 950
+31.6 Powers of an element 954
+31.7 The RSA public-key cryptosystem
+? 31.8 Primality testing 965
+? 31.9 Integer factorization 975
+958</p>
+
+<h3>32 String Matching 985</h3>
+
+<p>32.1 The naive string-matching algorithm 988 32.2 The Rabin-Karp algorithm 990
+32.3 String matching with finite automata 995
+? 32.4 The Knuth-Morris-Pratt algorithm 1002</p>
+
+<h3>33 Computational Geometry 1014</h3>
+
+<p>33.1 Line-segment properties 1015
+33.2 Determining whether any pair of segments intersects 1021 33.3 Finding the convex hull 1029
+33.4 Finding the closest pair of points 1039</p>
+
+<h3>34 NP-Completeness 1048</h3>
+
+<ul>
+<li>Problems which can be solved by polynomial-time algorithms are <strong>tractable/easy</strong>. Otherwise, <strong>intractable/hard</strong></li>
+<li>Three classes of problems:
+
+<ol>
+<li>P.   solvable in O(n<sup>k)</sup></li>
+<li>NP.  verifiable in polynomial time.</li>
+<li>NPC. NP-complete
+
+<ul>
+<li>If any NP-complete problem can be solved in polynomial time, then every problem in NP has a polynomial-time algorithm.</li>
+<li>Many CS scientists believe NP-complete problems are intractable.
+34.1 Polynomial time 1053
+34.2 Polynomial-time verification 1061
+34.3 NP-completeness and reducibility 1067 34.4 NP-completeness proofs 1078
+34.5 NP-complete problems 1086
+
+<h3>35 Approximation Algorithms 1106</h3>
+
+<p>35.1 The vertex-cover problem 1108
+35.2 The traveling-salesman problem 1111
+35.3 The set-covering problem 1117
+35.4 Randomization and linear programming 1123 35.5 The subset-sum problem 1128</p></li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Tian</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-22T19:12:00-05:00" pubdate data-updated="true">Dec 22<span>nd</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2012/12/22/clrs-3-selected/" data-via="" data-counturl="http://puncsky.github.com/blog/2012/12/22/clrs-3-selected/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/12/22/clrs-2-advanced/" title="Previous Post: CLRS 2: Advanced">&laquo; CLRS 2: Advanced</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/12/22/clrs-3-selected/">CLRS 3: Selected</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/22/clrs-2-advanced/">CLRS 2: Advanced</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/22/clrs-1-basics/">CLRS 1: Basics</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/19/oop2/">OOP Final Term Notes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/19/oop1/">OOP Mid Term Notes</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Tian -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
