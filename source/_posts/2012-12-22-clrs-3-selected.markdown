@@ -21,14 +21,21 @@ Introduction 769
 					- Platforms: Cilk, Cilk++, OpenMP, Task Parallel Library, Threading Building Blocks, Intel TBB.
 		- distributed memory
 
-27.1 The basics of dynamic multithreading 
+#### 27.1 The basics of dynamic multithreading 
+
+- The keyword **spawn** does not say, however, that a procedure must execute concurrently with its spawned children, only that it _may_. It is up to a scheduler at run time.
+- A procedure cannot safely use the values returned by its spawned children until after it executes a sync statement
+
+算Fibonacci，recursion 的时候，spawn一个，自己算一个，sync，对这两个结果求和。
+
+
+
 27.2 Multithreaded matrix multiplication 792 
 27.3 Multithreaded merge sort 797
 ### 28 Matrix Operations 813
 28.1 Solving systems of linear equations 813
 28.2 Inverting matrices 827
-28.3 Symmetric positive-definite matrices and least-squares approximation
-832
+28.3 Symmetric positive-definite matrices and least-squares approximation 832
 ### 29 Linear Programming 843
 29.1 Standard and slack forms 850
 29.2 Formulating problems as linear programs 859 29.3 The simplex algorithm 864
