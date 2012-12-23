@@ -131,16 +131,24 @@ parallel algorithms No agreement on a single architectural &hellip;">
 </ul>
 
 
-<p>27.1 The basics of dynamic multithreading
-27.2 Multithreaded matrix multiplication 792
+<h4>27.1 The basics of dynamic multithreading</h4>
+
+<ul>
+<li>The keyword <strong>spawn</strong> does not say, however, that a procedure must execute concurrently with its spawned children, only that it <em>may</em>. It is up to a scheduler at run time.</li>
+<li>A procedure cannot safely use the values returned by its spawned children until after it executes a sync statement</li>
+</ul>
+
+
+<p>算Fibonacci，recursion 的时候，spawn一个，自己算一个，sync，对这两个结果求和。</p>
+
+<p>27.2 Multithreaded matrix multiplication 792
 27.3 Multithreaded merge sort 797</p>
 
 <h3>28 Matrix Operations 813</h3>
 
 <p>28.1 Solving systems of linear equations 813
 28.2 Inverting matrices 827
-28.3 Symmetric positive-definite matrices and least-squares approximation
-832</p>
+28.3 Symmetric positive-definite matrices and least-squares approximation 832</p>
 
 <h3>29 Linear Programming 843</h3>
 
