@@ -141,10 +141,23 @@ parallel algorithms No agreement on a single architectural &hellip;">
 
 <p>算Fibonacci，recursion 的时候，spawn一个，自己算一个，sync，对这两个结果求和。</p>
 
+<h5>A model for multithreaded execution</h5>
+
+<ul>
+<li>Linear speedup: T1/Tp = Θ(P); Perfect linear speedup: T1/Tp = P</li>
+</ul>
+
+
 <p>27.2 Multithreaded matrix multiplication 792
 27.3 Multithreaded merge sort 797</p>
 
 <h3>28 Matrix Operations 813</h3>
+
+<ul>
+<li>numerical stability: limited precision</li>
+<li>numerically unstable</li>
+</ul>
+
 
 <p>28.1 Solving systems of linear equations 813
 28.2 Inverting matrices 827
@@ -159,25 +172,61 @@ parallel algorithms No agreement on a single architectural &hellip;">
 
 <h3>30 Polynomials and the FFT 898</h3>
 
+<ul>
+<li>Fast Fourier transform, or FFT, can reduce the time to multiply polynomials to Θ(n lg n).</li>
+</ul>
+
+
 <p>30.1 Representing polynomials 900 30.2 The DFT and FFT 906
 30.3 Efficient FFT implementations 915</p>
 
 <h3>31 Number-Theoretic Algorithms 926</h3>
 
-<p>31.1 Elementary number-theoretic notions 927 31.2 Greatest common divisor 933
+<ul>
+<li>Cryptographic schemes based on large prime numbers.</li>
+</ul>
+
+
+<p>31.1 Elementary number-theoretic notions 927
+31.2 Greatest common divisor 933
 31.3 Modular arithmetic 939
-31.4 Solving modular linear equations 946 31.5 The Chinese remainder theorem 950
+31.4 Solving modular linear equations 946
+31.5 The Chinese remainder theorem 950
 31.6 Powers of an element 954
-31.7 The RSA public-key cryptosystem
-? 31.8 Primality testing 965
-? 31.9 Integer factorization 975
-958</p>
+31.7 The RSA public-key cryptosystem 958
+31.8 Primality testing 965
+31.9 Integer factorization 975</p>
 
 <h3>32 String Matching 985</h3>
 
-<p>32.1 The naive string-matching algorithm 988 32.2 The Rabin-Karp algorithm 990
-32.3 String matching with finite automata 995
-? 32.4 The Knuth-Morris-Pratt algorithm 1002</p>
+<ul>
+<li>T[n]: text</li>
+<li>P[m]: pattern (m &lt;= n)</li>
+<li>s: shift - pattern P occurs beginning at position <em>s+1</em> in text T
+
+<ul>
+<li>valid shift</li>
+<li>invalid shift</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>32.1 The naive string-matching algorithm 988</h4>
+
+<p>O((n-m+1)*m)</p>
+
+<h4>32.2 The Rabin-Karp algorithm 990</h4>
+
+<ul>
+<li>Θ(m) preprocessing, worst-case Θ((n-m+1)*m)</li>
+<li>used to detect plagiarism</li>
+</ul>
+
+
+<h4>32.3 String matching with finite automata 995</h4>
+
+<h4>32.4 The Knuth-Morris-Pratt algorithm 1002</h4>
 
 <h3>33 Computational Geometry 1014</h3>
 
@@ -258,6 +307,8 @@ parallel algorithms No agreement on a single architectural &hellip;">
         <a class="basic-alignment left" href="/blog/2012/12/22/clrs-2-advanced/" title="Previous Post: CLRS 2: Advanced">&laquo; CLRS 2: Advanced</a>
       
       
+        <a class="basic-alignment right" href="/blog/2012/12/23/careercup150/" title="Next Post: Cracking the Coding Interview">Cracking the Coding Interview &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -269,6 +320,10 @@ parallel algorithms No agreement on a single architectural &hellip;">
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/12/23/careercup150/">Cracking the Coding Interview</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/12/22/clrs-3-selected/">CLRS 3: Selected</a>
@@ -284,10 +339,6 @@ parallel algorithms No agreement on a single architectural &hellip;">
     
       <li class="post">
         <a href="/blog/2012/12/19/oop2/">OOP Final Term Notes</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/12/19/oop1/">OOP Mid Term Notes</a>
       </li>
     
   </ul>

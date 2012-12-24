@@ -4,7 +4,7 @@
   <title><![CDATA[CS Notebook]]></title>
   <link href="http://puncsky.github.com/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2012-12-23T00:47:21-05:00</updated>
+  <updated>2012-12-23T22:36:11-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -12,6 +12,29 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Cracking the Coding Interview]]></title>
+    <link href="http://puncsky.github.com/blog/2012/12/23/careercup150/"/>
+    <updated>2012-12-23T21:57:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2012/12/23/careercup150</id>
+    <content type="html"><![CDATA[<h2>Interview Overview</h2>
+
+<p>1.不求无错，但求比人好</p>
+
+<p>2.真实的面试题和学术算法书上的很不一样</p>
+
+<p>3.algorithm questions, behavioral questions, trivia questions.</p>
+
+<p>6.screening interview(phone): write on paper and read it back over the phone. on-site: 4~6 in-person interviews (one lunch interview, not technical)</p>
+
+<p>7.prior experience(留下好印象 interviewer 会认为你聪明而忽略小错误), culture fit, coding skills, analytical ability</p>
+
+<h2>- 做一个好相处的人</h2>
+
+<h2>Interview Questions</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[CLRS 3: Selected]]></title>
@@ -68,10 +91,23 @@
 
 <p>算Fibonacci，recursion 的时候，spawn一个，自己算一个，sync，对这两个结果求和。</p>
 
+<h5>A model for multithreaded execution</h5>
+
+<ul>
+<li>Linear speedup: T1/Tp = Θ(P); Perfect linear speedup: T1/Tp = P</li>
+</ul>
+
+
 <p>27.2 Multithreaded matrix multiplication 792
 27.3 Multithreaded merge sort 797</p>
 
 <h3>28 Matrix Operations 813</h3>
+
+<ul>
+<li>numerical stability: limited precision</li>
+<li>numerically unstable</li>
+</ul>
+
 
 <p>28.1 Solving systems of linear equations 813
 28.2 Inverting matrices 827
@@ -86,25 +122,61 @@
 
 <h3>30 Polynomials and the FFT 898</h3>
 
+<ul>
+<li>Fast Fourier transform, or FFT, can reduce the time to multiply polynomials to Θ(n lg n).</li>
+</ul>
+
+
 <p>30.1 Representing polynomials 900 30.2 The DFT and FFT 906
 30.3 Efficient FFT implementations 915</p>
 
 <h3>31 Number-Theoretic Algorithms 926</h3>
 
-<p>31.1 Elementary number-theoretic notions 927 31.2 Greatest common divisor 933
+<ul>
+<li>Cryptographic schemes based on large prime numbers.</li>
+</ul>
+
+
+<p>31.1 Elementary number-theoretic notions 927
+31.2 Greatest common divisor 933
 31.3 Modular arithmetic 939
-31.4 Solving modular linear equations 946 31.5 The Chinese remainder theorem 950
+31.4 Solving modular linear equations 946
+31.5 The Chinese remainder theorem 950
 31.6 Powers of an element 954
-31.7 The RSA public-key cryptosystem
-? 31.8 Primality testing 965
-? 31.9 Integer factorization 975
-958</p>
+31.7 The RSA public-key cryptosystem 958
+31.8 Primality testing 965
+31.9 Integer factorization 975</p>
 
 <h3>32 String Matching 985</h3>
 
-<p>32.1 The naive string-matching algorithm 988 32.2 The Rabin-Karp algorithm 990
-32.3 String matching with finite automata 995
-? 32.4 The Knuth-Morris-Pratt algorithm 1002</p>
+<ul>
+<li>T[n]: text</li>
+<li>P[m]: pattern (m &lt;= n)</li>
+<li>s: shift - pattern P occurs beginning at position <em>s+1</em> in text T
+
+<ul>
+<li>valid shift</li>
+<li>invalid shift</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>32.1 The naive string-matching algorithm 988</h4>
+
+<p>O((n-m+1)*m)</p>
+
+<h4>32.2 The Rabin-Karp algorithm 990</h4>
+
+<ul>
+<li>Θ(m) preprocessing, worst-case Θ((n-m+1)*m)</li>
+<li>used to detect plagiarism</li>
+</ul>
+
+
+<h4>32.3 String matching with finite automata 995</h4>
+
+<h4>32.4 The Knuth-Morris-Pratt algorithm 1002</h4>
 
 <h3>33 Computational Geometry 1014</h3>
 
@@ -6295,167 +6367,6 @@ retrieve fields, determine partition keys</li>
 <h3>4. Conclusion</h3>
 
 <p>Bad abstractions in &#8220;smart home&#8221; result in high overhead of managing and extending network devices, which are in increasing number and mostly not compatible with each other. Traditionally, appliance abstraction provides a huge system with no potential for customization and extension. Meanwhile, decentralized network-of-devices provide little portability. So the authors present a new abstraction &#8211; HomeOS, a PC-like abstraction for network devices. The new abstraction architecture consists of four layers. Lower layers interact with heterogenous devices and protocols. Upper layers simplify development and use of applications. HomeOS is implemented with C# and its experience shows a satisfying manageability and extensibility.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Fast and Parallel Webpage Layout (WWW '10)]]></title>
-    <link href="http://puncsky.github.com/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10/"/>
-    <updated>2012-11-16T15:56:00-05:00</updated>
-    <id>http://puncsky.github.com/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10</id>
-    <content type="html"><![CDATA[<iframe src="http://www.slideshare.net/slideshow/embed_code/15270792" width="427" height="356" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen webkitallowfullscreen mozallowfullscreen> </iframe>
-
-
-<p></p>
-
-<p><a href="http://www.eecs.berkeley.edu/~lmeyerov/">UCB</a>, <a href="http://www.eecs.berkeley.edu/~lmeyerov/projects/pbrowser/pubfiles/playout.pdf">paper</a></p>
-
-<h2>1. Problem</h2>
-
-<p>The browsing of webpages is slow on smartphones for their limited CPU computational resources. The <em>power wall</em> forces hardware architects to apply increases in transistor counts towards improving parallel performance, not sequential performance. So the authors introduce the <strong>parallel</strong> mobile browser.</p>
-
-<h2>2. Challenges</h2>
-
-<!--more-->
-
-
-<p>In the analysis,  three core limitations of the rendering speed are:</p>
-
-<ol>
-<li>CSS selector matching</li>
-<li>Box and text layout</li>
-<li>Glyph rendering</li>
-</ol>
-
-
-<h2>3. Solution</h2>
-
-<p>Overall Input and Output</p>
-
-<ul>
-<li>Input: an HTML tree of content, CSS style rules, font files.</li>
-<li>Output: absolute element positions.</li>
-</ul>
-
-
-<h3>3.1 Algo1: CSS Selector Matching</h3>
-
-<p><em>Rule matcher</em> associates CSS rule set with HTML node tree.</p>
-
-<p>Two assumptions:</p>
-
-<ol>
-<li>In general, selector language is an exact subset of regular expression.</li>
-<li>Disjunctions are split into separate selectors</li>
-</ol>
-
-
-<p>Algorithm paraphrase:</p>
-
-<ol>
-<li>sequentially read rules and correspondingly build hash maps</li>
-<li>parallelly <strong>map</strong> nodes to different kinds of rules</li>
-<li>parallelly <strong>reduce</strong> several rules to each node</li>
-</ol>
-
-
-<p>Optimizations from WebKit:</p>
-
-<ol>
-<li>Hashtables. [×] check CSS for every node [√] read once, build hashmap, and check hash</li>
-<li>Right-to-left matching.</li>
-</ol>
-
-
-<p>New Optimization:</p>
-
-<ol>
-<li>Redundant selector elimination.</li>
-<li>Hash Tiling. partition the hashtable. reduce cache misses.</li>
-<li>Tokenization. store attributes as int instead of string to save cache.</li>
-<li>Parallel document traversal.</li>
-<li>Random load balancing. If in sequence, neighboring nodes will cause load imbalance.</li>
-<li>Result pre-allocation.</li>
-<li>Delayed set insertion.</li>
-<li>Non-STL sets.preallocate a vector with a size of potential matches.</li>
-</ol>
-
-
-<p>Overall Speedup = 60x: 204ms->3.5ms, 3s->50ms</p>
-
-<h3>3.2 Algo2:</h3>
-
-<ul>
-<li>Input: HTML tree nodes with symbolic constraint attributes</li>
-<li>Output: layout actual details (size, shape, position)</li>
-</ul>
-
-
-<p>Because CSS is confusing and informally-writtened, we create a new simple, concise, uniform, and intermediate language, Berkeley Style Sheets (BBS), which is transformed from CSS and will be specified with an attribute grammar (which shows potential for parallelization).</p>
-
-<p>Three contributions:</p>
-
-<ol>
-<li>Increase performance. decompse the tasks.</li>
-<li>Uniform a correct, concise specification.</li>
-<li>Prove it is at most linear in the size of HTML tree.</li>
-</ol>
-
-
-<p><strong>PARALLELIZATION</strong></p>
-
-<p>Two steps recursively for every node in the DOM tree</p>
-
-<ol>
-<li>calculate inherited attributes (top-down). Every level of childs in the tree enjoyes the parallelization.</li>
-<li>calculate synthesized attributes (node&#8217;s own attributes) (bottom-up). Every level of parents in the tree enjoys the parallelization.</li>
-</ol>
-
-
-<p>2 is dependent on 1.</p>
-
-<p>Complexity: O(log)</p>
-
-<p>Speedup of box + text layout = 2-3x</p>
-
-<p>Advanced layouts: floats</p>
-
-<h3>3.3 Algo3: Font Handling</h3>
-
-<ol>
-<li>create a pool of necessary font library request</li>
-<li>group the requests</li>
-<li>make parallel calls to process each group</li>
-</ol>
-
-
-<h2>4. Conclusions</h2>
-
-<p>Address three bottlenecks of loading a page</p>
-
-<ol>
-<li>CSS selector matching
-
-<ul>
-<li>Pre-built hash tables, map-reduce</li>
-</ul>
-</li>
-<li>Box and text layout solving
-
-<ul>
-<li>Specify layout as attribute grammars</li>
-</ul>
-</li>
-<li>Glyph rendering
-
-<ul>
-<li>Combine requests to groups and render in parallel</li>
-</ul>
-</li>
-</ol>
-
-
-<p>Milestone in building a parallel and mobile browser</p>
 ]]></content>
   </entry>
   

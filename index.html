@@ -9,8 +9,7 @@
   <meta name="author" content="Tian">
 
   
-  <meta name="description" content="VII Selected Topics Introduction 769 27 Multithreaded Algorithms 772 serial algorithms
-parallel algorithms No agreement on a single architectural &hellip;">
+  <meta name="description" content="Interview Overview 1.不求无错，但求比人好 2.真实的面试题和学术算法书上的很不一样 3.algorithm questions, behavioral questions, trivia questions. 6.screening interview(phone): &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +64,56 @@ parallel algorithms No agreement on a single architectural &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/12/23/careercup150/">Cracking the Coding Interview</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-23T21:57:00-05:00" pubdate data-updated="true">Dec 23<span>rd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Interview Overview</h2>
+
+<p>1.不求无错，但求比人好</p>
+
+<p>2.真实的面试题和学术算法书上的很不一样</p>
+
+<p>3.algorithm questions, behavioral questions, trivia questions.</p>
+
+<p>6.screening interview(phone): write on paper and read it back over the phone. on-site: 4~6 in-person interviews (one lunch interview, not technical)</p>
+
+<p>7.prior experience(留下好印象 interviewer 会认为你聪明而忽略小错误), culture fit, coding skills, analytical ability</p>
+
+<h2>- 做一个好相处的人</h2>
+
+<h2>Interview Questions</h2>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -144,10 +193,23 @@ parallel algorithms No agreement on a single architectural &hellip;">
 
 <p>算Fibonacci，recursion 的时候，spawn一个，自己算一个，sync，对这两个结果求和。</p>
 
+<h5>A model for multithreaded execution</h5>
+
+<ul>
+<li>Linear speedup: T1/Tp = Θ(P); Perfect linear speedup: T1/Tp = P</li>
+</ul>
+
+
 <p>27.2 Multithreaded matrix multiplication 792
 27.3 Multithreaded merge sort 797</p>
 
 <h3>28 Matrix Operations 813</h3>
+
+<ul>
+<li>numerical stability: limited precision</li>
+<li>numerically unstable</li>
+</ul>
+
 
 <p>28.1 Solving systems of linear equations 813
 28.2 Inverting matrices 827
@@ -162,25 +224,61 @@ parallel algorithms No agreement on a single architectural &hellip;">
 
 <h3>30 Polynomials and the FFT 898</h3>
 
+<ul>
+<li>Fast Fourier transform, or FFT, can reduce the time to multiply polynomials to Θ(n lg n).</li>
+</ul>
+
+
 <p>30.1 Representing polynomials 900 30.2 The DFT and FFT 906
 30.3 Efficient FFT implementations 915</p>
 
 <h3>31 Number-Theoretic Algorithms 926</h3>
 
-<p>31.1 Elementary number-theoretic notions 927 31.2 Greatest common divisor 933
+<ul>
+<li>Cryptographic schemes based on large prime numbers.</li>
+</ul>
+
+
+<p>31.1 Elementary number-theoretic notions 927
+31.2 Greatest common divisor 933
 31.3 Modular arithmetic 939
-31.4 Solving modular linear equations 946 31.5 The Chinese remainder theorem 950
+31.4 Solving modular linear equations 946
+31.5 The Chinese remainder theorem 950
 31.6 Powers of an element 954
-31.7 The RSA public-key cryptosystem
-? 31.8 Primality testing 965
-? 31.9 Integer factorization 975
-958</p>
+31.7 The RSA public-key cryptosystem 958
+31.8 Primality testing 965
+31.9 Integer factorization 975</p>
 
 <h3>32 String Matching 985</h3>
 
-<p>32.1 The naive string-matching algorithm 988 32.2 The Rabin-Karp algorithm 990
-32.3 String matching with finite automata 995
-? 32.4 The Knuth-Morris-Pratt algorithm 1002</p>
+<ul>
+<li>T[n]: text</li>
+<li>P[m]: pattern (m &lt;= n)</li>
+<li>s: shift - pattern P occurs beginning at position <em>s+1</em> in text T
+
+<ul>
+<li>valid shift</li>
+<li>invalid shift</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>32.1 The naive string-matching algorithm 988</h4>
+
+<p>O((n-m+1)*m)</p>
+
+<h4>32.2 The Rabin-Karp algorithm 990</h4>
+
+<ul>
+<li>Θ(m) preprocessing, worst-case Θ((n-m+1)*m)</li>
+<li>used to detect plagiarism</li>
+</ul>
+
+
+<h4>32.3 String matching with finite automata 995</h4>
+
+<h4>32.4 The Knuth-Morris-Pratt algorithm 1002</h4>
 
 <h3>33 Computational Geometry 1014</h3>
 
@@ -5261,67 +5359,6 @@ vector examples</li>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/11/27/wang-gong-quan-jiang-zuo/">王功权先生给年轻人的四点建议</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-27T16:34:00-05:00" pubdate data-updated="true">Nov 27<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>概述</h3>
-
-<p>方才在和朋友们一起去管理学院参加了王功权先生的讲座，期间做了一些笔记，稍作整理记录在此。王功权先生似乎并没有为这次演讲做过多的准备，也不愿意表现地太过正式，毕竟谈人生这种事情，还是需要明月夜短松冈这种微醺的情怀的。实际的情况可能是，他在从哥伦比亚大学过来的路上稍微用iPhone写了个提纲，讲述之前看了几眼，便开始侃侃而谈，当然，情到深处之时，还是让人颇有触动的，不愧为一位诗人。以下的记录纯属个人笔记，有我个人理解的偏差，并不能确保准确地反映王功权先生的观点，也不反映我自己的观点。</p>
-
-<p>他讲述的这四点建议分别是：</p>
-
-<ol>
-<li>规划未来不如调整现在</li>
-<li>志存高远</li>
-<li>选择意味着放弃</li>
-<li>在美国就业，在中国创业</li>
-</ol>
-
-
-<p>在其后的问答环节中，他回答同学们提出的两个问题：</p>
-
-<ol>
-<li>简要介绍您现在在哥伦比亚大学东亚研究所研究的“公民社会”这一议题？</li>
-<li>对经济管理类毕业生就业领域选择有那些建议？</li>
-</ol>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/11/27/wang-gong-quan-jiang-zuo/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -5337,6 +5374,10 @@ vector examples</li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/12/23/careercup150/">Cracking the Coding Interview</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/12/22/clrs-3-selected/">CLRS 3: Selected</a>
       </li>
     
@@ -5350,10 +5391,6 @@ vector examples</li>
     
       <li class="post">
         <a href="/blog/2012/12/19/oop2/">OOP Final Term Notes</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/12/19/oop1/">OOP Mid Term Notes</a>
       </li>
     
   </ul>
