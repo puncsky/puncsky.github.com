@@ -35,4 +35,4 @@ categories:
 
 ## Interview Questions
 
-![Solutions with C++ at github.com](https://github.com/puncsky/playground/tree/master/careercup)
+[Solutions with C++ at github.com](https://github.com/puncsky/playground/tree/master/careercup)
