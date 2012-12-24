@@ -4,7 +4,7 @@
   <title><![CDATA[CS Notebook]]></title>
   <link href="http://puncsky.github.com/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2012-12-24T00:01:06-05:00</updated>
+  <updated>2012-12-24T01:34:18-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -49,6 +49,8 @@
 
 
 <h2>Interview Questions</h2>
+
+<p><img src="https://github.com/puncsky/playground/tree/master/careercup" alt="Solutions with C++ at github.com" /></p>
 ]]></content>
   </entry>
   
