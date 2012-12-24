@@ -1,0 +1,36 @@
+---
+layout: post
+title: "Cracking the Coding Interview"
+date: 2012-12-23 21:57
+comments: true
+categories: 
+---
+
+## Interview Overview
+
+1.**不求无错，但求比人好**
+
+2.真实的面试题和学术算法书上的很不一样
+
+3.algorithm questions, behavioral questions, trivia questions.
+
+6.screening interview(phone): write on paper and read it back over the phone. on-site: 4~6 in-person interviews (one lunch interview, not technical)
+
+7.prior experience(留下好印象 interviewer 会认为你聪明而忽略小错误), culture fit, coding skills, analytical ability
+
+- 做一个好相处的人
+- 关于简历的问题必须准备
+- 主要关注算法题
+- Practicing without a compiler
+- Behavior questions really matters: impression! 
+- Mock interview
+- Don't memorize solutions. Solve problems all by yourself. Quality beats quantity.
+- 把脑海中的想法说出来，不沟通=没进展
+- take your time
+- 编程好风格
+- 测试
+- 仔细改错
+- 不害怕
+- TODO??告诉面试官这题我见过
+
+## Interview Questions

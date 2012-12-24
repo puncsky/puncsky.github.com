@@ -28,11 +28,17 @@ Introduction 769
 
 算Fibonacci，recursion 的时候，spawn一个，自己算一个，sync，对这两个结果求和。
 
+##### A model for multithreaded execution
 
+- Linear speedup: T1/Tp = Θ(P); Perfect linear speedup: T1/Tp = P
 
 27.2 Multithreaded matrix multiplication 792 
 27.3 Multithreaded merge sort 797
 ### 28 Matrix Operations 813
+
+- numerical stability: limited precision
+- numerically unstable
+
 28.1 Solving systems of linear equations 813
 28.2 Inverting matrices 827
 28.3 Symmetric positive-definite matrices and least-squares approximation 832
@@ -42,21 +48,45 @@ Introduction 769
 29.4 Duality 879
 29.5 The initial basic feasible solution 886
 ### 30 Polynomials and the FFT 898
+
+- Fast Fourier transform, or FFT, can reduce the time to multiply polynomials to Θ(n lg n).
+
 30.1 Representing polynomials 900 30.2 The DFT and FFT 906
 30.3 Efficient FFT implementations 915
 ### 31 Number-Theoretic Algorithms 926
-31.1 Elementary number-theoretic notions 927 31.2 Greatest common divisor 933
+
+- Cryptographic schemes based on large prime numbers.
+
+31.1 Elementary number-theoretic notions 927 
+31.2 Greatest common divisor 933
 31.3 Modular arithmetic 939
-31.4 Solving modular linear equations 946 31.5 The Chinese remainder theorem 950
+31.4 Solving modular linear equations 946 
+31.5 The Chinese remainder theorem 950
 31.6 Powers of an element 954
-31.7 The RSA public-key cryptosystem
-? 31.8 Primality testing 965
-? 31.9 Integer factorization 975
-958
+31.7 The RSA public-key cryptosystem 958
+31.8 Primality testing 965
+31.9 Integer factorization 975
+
 ### 32 String Matching 985
-32.1 The naive string-matching algorithm 988 32.2 The Rabin-Karp algorithm 990
-32.3 String matching with finite automata 995
-? 32.4 The Knuth-Morris-Pratt algorithm 1002
+
+- T[n]: text
+- P[m]: pattern (m <= n)
+- s: shift - pattern P occurs beginning at position _s+1_ in text T
+	- valid shift
+	- invalid shift
+
+#### 32.1 The naive string-matching algorithm 988 
+
+O((n-m+1)*m)
+
+#### 32.2 The Rabin-Karp algorithm 990
+
+- 把字符串转换成一位一位的数字，用霍纳法则
+- Θ(m) preprocessing, worst-case Θ((n-m+1)*m)
+- used to detect plagiarism 
+
+#### 32.3 String matching with finite automata 995
+#### 32.4 The Knuth-Morris-Pratt algorithm 1002
 ### 33 Computational Geometry 1014
 33.1 Line-segment properties 1015
 33.2 Determining whether any pair of segments intersects 1021 33.3 Finding the convex hull 1029
