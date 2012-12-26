@@ -4,7 +4,7 @@
   <title><![CDATA[CS Notebook]]></title>
   <link href="http://puncsky.github.com/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2012-12-24T01:35:12-05:00</updated>
+  <updated>2012-12-26T07:52:21-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -51,6 +51,12 @@
 <h2>Interview Questions</h2>
 
 <p><a href="https://github.com/puncsky/playground/tree/master/careercup">Solutions with C++ at github.com</a></p>
+
+<ul>
+<li>Runner technique for linked list: iterate through the linked list with two (fast and slow) pointers simultaneously.</li>
+<li>All recursive algorithms can be implemented iteratively.</li>
+</ul>
+
 ]]></content>
   </entry>
   
@@ -3859,6 +3865,21 @@
   </entry>
   
   <entry>
+    <title type="html"><![CDATA[不要和我谈生活，我没有生活]]></title>
+    <link href="http://puncsky.github.com/blog/2012/12/21/ru-guo-da-xue-zai-lai-guo/"/>
+    <updated>2012-12-21T00:38:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2012/12/21/ru-guo-da-xue-zai-lai-guo</id>
+    <content type="html"><![CDATA[<p>隔壁的Bryant老兄每次和我打招呼说 how&#8217;s it going? 的时候他也许会感到很奇怪，为啥对面这小兄弟怎么连招呼都打得一愣一愣的。而对面的小兄弟我，每次都本能地将其反应成“最近过得怎样？”，然后进一步考虑，该如何回答各个”特殊疑问句“，总不能每次都说&#8221;Not bad&#8221;吧；但实际的情况是，还真没有什么好说的，而且这句话本来就是“how are you?”类型的句子，是不需要认真回答的，一个hi/hello/hey 足矣。</p>
+
+<p>每次父母找我聊天，问东问西，总以为我在国外的生活应该是丰富多彩的，如果我问题回答地不够给力，他们就会反复感叹类似于好桑心啊好桑心，都没有共同语言啊，老了啦，之类的感叹。这让我十分汗颜，不是我不跟你们讲，而是我真没有什么好讲的，我不是在看书就是在刷微博就是在吃东西就是在去吃东西的路上就是梦里面吃东西，但这些事务并不是什么可以可以诉说甚至引以为豪的事情。大家往往以旅游、靓照、趴踢、大餐为乐为豪，是，确实很欢乐，我也超级喜欢，但是，我只是觉得，这些对我来说不重要，至少对于现在的我说不重要。</p>
+
+<p>我也知道我眼界不甚开阔，很狭隘。雅礼是一所非常好的学校，我在这里遇到了无数精英，这群精英不是来自Ivy就是来自Stanford, Berkeley, 就是Oxford, Cambridge, 就是清北浙上交复旦等大牛校的帅哥靓女。是，他们寒暑假可以上到青藏高原下到日本海沟，南到极地游轮抢拍鲸鱼北到阿拉斯加入住爱斯基摩的雪屋。是，他们博闻广志风流倜傥，有太多太多值得我学习的地方，我对他们、对这个世界敬畏有加。但这丝毫不妨碍我作为国关人的自豪与自嘲，但这并不妨碍我这辈子对家乡的思念和出逃，但这丝毫不妨碍我对我所热爱的选择的偏执与傲娇。</p>
+
+<p>我从来就不曾想过出国是一件舒舒服服安享幸福生活的事情，过去没有，现在没有，将来也不会有！不要和我谈生活，我没有生活。不要问我后不后悔，我只怕我不能够爱得深，我只怕我不能够屁颠屁颠地、但却矢志不渝地自鸣得意地自命不凡地把我自己选择的路，充盈地，走下去。</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[OOP Final Term Notes]]></title>
     <link href="http://puncsky.github.com/blog/2012/12/19/oop2/"/>
     <updated>2012-12-19T02:01:00-05:00</updated>
@@ -6277,115 +6298,6 @@ retrieve fields, determine partition keys</li>
 <p>春天在那青翠的山林里</p>
 
 <p>春天在那小朋友的眼睛里</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[HomeOS: An Operating System for the Home (NSDI '12)]]></title>
-    <link href="http://puncsky.github.com/blog/2012/11/16/homeos-an-operating-system-for-the-home-nsdi-12/"/>
-    <updated>2012-11-16T22:06:00-05:00</updated>
-    <id>http://puncsky.github.com/blog/2012/11/16/homeos-an-operating-system-for-the-home-nsdi-12</id>
-    <content type="html"><![CDATA[<p><a href="http://researcher.watson.ibm.com/researcher/view.php?person=us-ckd">IBM</a>, <a href="http://research.microsoft.com/en-us/projects/homeos/">MS</a>, <a href="https://www.usenix.org/system/files/conference/nsdi12/nsdi12-final149.pdf">paper</a>,  <a href="https://www.usenix.org/conference/nsdi12/towards-commodity-smarthomes-homeos">Video</a>, <a href="https://www.usenix.org/sites/default/files/conference/protected-files/homeos-nsdi-talk-given-clean.pdf">Slides</a></p>
-
-<h3>1. Problem</h3>
-
-<p>High overhead of managing and extending network devices for <strong>smart home</strong>: 1) growing number of devices 2) heterogeneity 3) hardware/software incompatible.</p>
-
-<h3>2. Challenges</h3>
-
-<ul>
-<li>Appliance abstraction: a closed, monolithic system. (manageability)</li>
-<li>Decentralized network-of-devices: bad portability. (extensibility: both software and hardware)</li>
-</ul>
-
-
-<!--more-->
-
-
-<h3>3. Solution</h3>
-
-<p>HomeOS: a PC-like abstraction for network devices</p>
-
-<h4>3.1 Overview</h4>
-
-<table>
-    <tr>
-        <td>Application layer</td><td>Tasks</td>
-    </tr>
-    <tr>
-        <td>Management layer</td><td>Control</td>
-    </tr>
-    <tr>
-        <td>Device functionality layer (DFL)</td><td>Device</td>
-    </tr>
-    <tr>
-        <td>Device connectivity layer (DCL)</td><td>Topological</td>
-    </tr>
-    <tr>
-        <td>PCs, XBox, Smartphones, TVs, &#8230;</td><td>Heterogeneity source handled</td>
-    </tr>
-</table>
-
-
-<h4>3.2 Application Layer</h4>
-
-<p>Environment for develop-written codes. An application should have a manifest {rules} to specify what devices it needs.</p>
-
-<h4>3.3 Management Layer</h4>
-
-<ol>
-<li><p>Application manager with access control</p>
-
-<ul>
-<li>Time-based access control.</li>
-<li>Applications as security principals</li>
-<li>Settings should be querable</li>
-<li>Sensitive devices need extra attention</li>
-</ul>
-</li>
-<li><p>Mediate conflicting accesses</p>
-
-<ul>
-<li>Datalog access control rules: (r, g, m, Ts, Te, d, pri, a): Resource r can be accessed by users in group g, using module m, in the time window from Ts to Te, on day of the week d, with priority pri and access mode a.</li>
-<li>Simplicity. User account works within a given time. Groups are in a tree hierarchy.</li>
-</ul>
-</li>
-</ol>
-
-
-<h4>3.4 Device Functionality Layer</h4>
-
-<p>Provide APIs for higher layers by using handles.</p>
-
-<p>Service interfaces = roles{operations()} (&#8220;lightswitch&#8221; role = turnOn()+turnOff())</p>
-
-<ul>
-<li>A new device can either use an existing role or register new roles</li>
-<li>OS is agnostic to the services</li>
-</ul>
-
-
-<h4>3.5 Device Connectivity Layer</h4>
-
-<p>Provide handles for higher layers.</p>
-
-<ul>
-<li>No understanding of device semantics</li>
-<li>A uniform interaction with different kinds of devices</li>
-</ul>
-
-
-<h4>3.6 Implementation and Evaluation</h4>
-
-<p>C#</p>
-
-<p>Developer: &#8220;music follows the lights&#8221;/&#8221;custom lights per user&#8221;. 8/10 of them finished in 2h</p>
-
-<p>User: 77% completion rate</p>
-
-<h3>4. Conclusion</h3>
-
-<p>Bad abstractions in &#8220;smart home&#8221; result in high overhead of managing and extending network devices, which are in increasing number and mostly not compatible with each other. Traditionally, appliance abstraction provides a huge system with no potential for customization and extension. Meanwhile, decentralized network-of-devices provide little portability. So the authors present a new abstraction &#8211; HomeOS, a PC-like abstraction for network devices. The new abstraction architecture consists of four layers. Lower layers interact with heterogenous devices and protocols. Upper layers simplify development and use of applications. HomeOS is implemented with C# and its experience shows a satisfying manageability and extensibility.</p>
 ]]></content>
   </entry>
   
