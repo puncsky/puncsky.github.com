@@ -36,3 +36,6 @@ categories:
 ## Interview Questions
 
 [Solutions with C++ at github.com](https://github.com/puncsky/playground/tree/master/careercup)
+
+- Runner technique for linked list: iterate through the linked list with two (fast and slow) pointers simultaneously. 
+- All recursive algorithms can be implemented iteratively.
