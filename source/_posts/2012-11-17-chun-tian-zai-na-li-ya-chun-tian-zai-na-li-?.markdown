@@ -3,7 +3,7 @@ layout: post
 title: "春天在哪里呀春天在哪里？"
 date: 2012-11-17 15:51
 comments: true
-categories: Life 
+categories: life 
 ---
 
 ### 一 大叔
