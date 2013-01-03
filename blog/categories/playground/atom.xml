@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: playground | CS Notebook]]></title>
+  <link href="http://puncsky.github.com/blog/categories/playground/atom.xml" rel="self"/>
+  <link href="http://puncsky.github.com/"/>
+  <updated>2013-01-03T17:00:07-05:00</updated>
+  <id>http://puncsky.github.com/</id>
+  <author>
+    <name><![CDATA[Tian]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Cracking the Coding Interview]]></title>
+    <link href="http://puncsky.github.com/blog/2012/12/23/careercup150/"/>
+    <updated>2012-12-23T21:57:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2012/12/23/careercup150</id>
+    <content type="html"><![CDATA[<h2>Interview Overview</h2>
+
+<p>1.<strong>不求无错，但求比人好</strong></p>
+
+<p>2.真实的面试题和学术算法书上的很不一样</p>
+
+<p>3.algorithm questions, behavioral questions, trivia questions.</p>
+
+<p>6.screening interview(phone): write on paper and read it back over the phone. on-site: 4~6 in-person interviews (one lunch interview, not technical)</p>
+
+<p>7.prior experience(留下好印象 interviewer 会认为你聪明而忽略小错误), culture fit, coding skills, analytical ability</p>
+
+<ul>
+<li>做一个好相处的人</li>
+<li>关于简历的问题必须准备</li>
+<li>主要关注算法题</li>
+<li>Practicing without a compiler</li>
+<li>Behavior questions really matters: impression!</li>
+<li>Mock interview</li>
+<li>Don't memorize solutions. Solve problems all by yourself. Quality beats quantity.</li>
+<li>把脑海中的想法说出来，不沟通=没进展</li>
+<li>take your time</li>
+<li>编程好风格</li>
+<li>测试</li>
+<li>仔细改错</li>
+<li>不害怕</li>
+<li>TODO??告诉面试官这题我见过</li>
+</ul>
+
+
+<h2>Interview Questions</h2>
+
+<p><a href="https://github.com/puncsky/playground/tree/master/careercup">Solutions with C++ at github.com</a></p>
+
+<ul>
+<li>Runner technique for linked list: iterate through the linked list with two (fast and slow) pointers simultaneously.</li>
+<li>All recursive algorithms can be implemented iteratively.</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

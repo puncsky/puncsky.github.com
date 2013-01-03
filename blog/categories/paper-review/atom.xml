@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: paper_review | CS Notebook]]></title>
+  <link href="http://puncsky.github.com/blog/categories/paper-review/atom.xml" rel="self"/>
+  <link href="http://puncsky.github.com/"/>
+  <updated>2013-01-03T17:00:07-05:00</updated>
+  <id>http://puncsky.github.com/</id>
+  <author>
+    <name><![CDATA[Tian]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[HadoopDB: an architectural hybrid of MapReduce and DBMS technologies for analytical workloads (VLDB '09)]]></title>
+    <link href="http://puncsky.github.com/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/"/>
+    <updated>2012-11-20T16:20:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09</id>
+    <content type="html"><![CDATA[<p><a href="http://db.cs.yale.edu/hadoopdb/">Yale DB</a></p>
+
+<h3>1. Problem</h3>
+
+<p>Large analytical data management (OLAP) with commodity clusters</p>
+
+<h3>2. Challenges</h3>
+
+<ul>
+<li>Performance and efficiency
+
+<ul>
+<li>hadoop
+
+<ul>
+<li>is not for structured data analysis</li>
+<li>scale well</li>
+<li>open source, without cost</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>scalability, fault-tolerance, and flexibility
+
+<ul>
+<li>Previous parallel db fit into tens of nodes, not thousand of nodes.</li>
+<li>not scale well for failures, heterogeneous machines, performance untested</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>3. Solutions</h3>
+
+<ul>
+<li>MapReduce (Hadoop) + parallel db (or single-node DBs) = HadoopDB<!--more-->
+
+<ul>
+<li>Translation layer: Hive</li>
+<li>Communication layer: Hadoop</li>
+<li>Database layer: PostgreSQL (or MySQL, ... JDBC)</li>
+</ul>
+</li>
+<li><p>Components</p>
+
+<ol>
+<li>Database Connector
+
+<ul>
+<li>Interface among dbs on nodes</li>
+<li>extends InputFormat class -> InputFormat Implementation lib</li>
+<li>JDBC-complaint</li>
+</ul>
+</li>
+<li>Catalog
+
+<ul>
+<li>metainformation as XML = connection para + metadata</li>
+</ul>
+</li>
+<li>Data Loader
+
+<ul>
+<li>Global Hasher: MR, repartition raw data from HDFS to NO. of nodes</li>
+<li>Local Hasher: copy from HDFS, repartition the partition into chunks</li>
+<li>Better load balance than Hadoop</li>
+</ul>
+</li>
+<li>SQL - MR - SQL (SMS) Planner
+
+<ul>
+<li>extend Hive for</li>
+<li>open and low cost</li>
+<li>each table stored separately in HDFS, low performance in multi-table trans.
+intercept normal Hive flow in</li>
+<li>update MetaStore before query execution</li>
+<li>between query plan generation and MR jobs
+retrieve fields, determine partition keys</li>
+</ul>
+
+
+<p>   traverse DAG bottom-up</p>
+
+<p> only support filter, select, aggregation</p></li>
+</ol>
+</li>
+<li><p>Extend performance [23] with fault tolerance and heterogeneous node exp</p>
+
+<p>  TODO: modify the current task scheduler, connect not straggler node but the replicas.</p>
+
+<p>  Exp on EC2, Hadoop, HadoopDB, Vertica, DBMS-X</p></li>
+</ul>
+
+
+<h3>4. Conclusion</h3>
+
+<ul>
+<li>HadoopDB's performance &lt; parallel db for
+
+<ul>
+<li>PostgreSQL (not column-store, not compression)</li>
+<li>Hadoop and Hive are young</li>
+</ul>
+</li>
+<li>performance, heterogeneous environ., fault tolerance, flexibility</li>
+</ul>
+
+
+<h3>Related Readings</h3>
+
+<p>[23] A Comparison of Approaches to Large Scale Data Analysis</p>
+
+<p>[6] Scope [11] Hive [24] C-store [4] What is the right way to measure scale?</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Quincy: Fair Scheduling for Distributed Computing Clusters (SOSP '09)]]></title>
+    <link href="http://puncsky.github.com/blog/2012/11/20/quincy-fair-scheduling-for-distributed-computing-clusters-sosp-09/"/>
+    <updated>2012-11-20T16:08:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2012/11/20/quincy-fair-scheduling-for-distributed-computing-clusters-sosp-09</id>
+    <content type="html"><![CDATA[<p><a href="http://research.microsoft.com/en-us/people/misard/">Microsoft</a>, <a href="http://www.sigops.org/sosp/sosp09/papers/isard-sosp09.pdf">paper</a>, <a href="http://www.sigops.org/sosp/sosp09/videos/19_michael_isard.mov">video</a>, <a href="http://www.sigops.org/sosp/sosp09/slides/quincy/QuincyTestPage.html">slides</a></p>
+
+<h2>1. Problem</h2>
+
+<p>How to achieve fair scheduling? In other words, a guy who gets up early and performs huge tasks on a cluster should not always monopolize most computing resource, and someone else's assignments should not be ignored. Otherwise, it is unfair for all the cluster users.</p>
+
+<p><strong>Fair sharing</strong> of the cluster resources</p>
+
+<p>Job x takes <em>t</em> seconds, when running exclusively on the cluster. When the cluster has <em>J</em> jobs, x should take &lt;= <em>Jt</em> seconds.</p>
+
+<p><em>N</em> computers and <em>J</em> jobs: each job gets at least N/J computers.</p>
+
+<h2>2. Challenges</h2>
+
+<p>Traditionally,</p>
+
+<!--more-->
+
+
+<p>MPI Model, tasks are in a pipeline and then assigned to a part of cluster.</p>
+
+<ul>
+<li>If one node is down, all the processes should be killed and the user have to start at a new checkpoint.</li>
+<li>Coarse grain allocation. Allocation is static.</li>
+<li>Off cluster data strage, e.g. SAN</li>
+</ul>
+
+
+<p>Dryad MapReduce Model</p>
+
+<ul>
+<li>No communication between slaves.</li>
+<li>No fine grain sharing for resource competence. Many Idle nodes.</li>
+</ul>
+
+
+<p><strong>Fine-grain sharing model</strong></p>
+
+<ul>
+<li>Multiplex all computers in cluster between jobs.</li>
+<li>When a task completes, computer may be assigned to another job.</li>
+<li>Jobs uses <em>N/J</em> computers at a time but set in use varies over lifetime.</li>
+</ul>
+
+
+<h2>3. Solution</h2>
+
+<p>The solution is intended for data-intensive computing with locality. There is no SAN. However, data locality conflicts with fairness. So they present Quincy: a new, graph-based framework for cluster scheduling under a fine grain cluster resource-sharing model with locality constrains. 2 basic ideas:</p>
+
+<ol>
+<li>sub-optimal assignment of a job's tasks.</li>
+<li>kill running tasks to free resources</li>
+</ol>
+
+
+<h3>3.1 Queue-based Scheduling</h3>
+
+<p>Architecture: A core switch (CS) manages rack switches (RC). A rack switch (RC) manages computers (C). For example, C1, C2 and C3 in a rack have their own queues, and share a same rack queue. R1 R2 managed by the same core switch have their own queues above, and share a same core queue. Every time a task X is finished, X will be deleted from all the queues, no matter what hierarchy it is in.</p>
+
+<p>So how to get fairness?</p>
+
+<h3>3.2 Flow-based Scheduling</h3>
+
+<p>Simplify a scheduling problem to a matching problem.</p>
+
+<ul>
+<li>each task is either scheduled or unscheduled.</li>
+<li>can assign a cost to any matching</li>
+<li>fairness constrains number of tasks that are scheduled</li>
+</ul>
+
+
+<p>How to minimize matching cost while still maintaining fairness?</p>
+
+<p>Min-cost network flow.</p>
+
+<p>There are U (unscheduled nodes), X (cluster aggregator nodes), R (rack aggregator nodes), C (computing nodes). In addition to queue-based scheduling, the edges connecting tasks to these nodes have weights showing the cost of the matching. The capacities on the outgoing edge of job <em>j</em>'s unscheduled node <em>Uj</em> control the number of running tasks that the job will be allocated.</p>
+
+<h2>4. Conclusion</h2>
+
+<p>The authors advance a new fair schedule modeling for Dryad/MapReduce/Hadoop by min-cost network flow, achieving much better performance and effectiveness than traditional ways.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[HomeOS: An Operating System for the Home (NSDI '12)]]></title>
+    <link href="http://puncsky.github.com/blog/2012/11/16/homeos-an-operating-system-for-the-home-nsdi-12/"/>
+    <updated>2012-11-16T22:06:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2012/11/16/homeos-an-operating-system-for-the-home-nsdi-12</id>
+    <content type="html"><![CDATA[<p><a href="http://researcher.watson.ibm.com/researcher/view.php?person=us-ckd">IBM</a>, <a href="http://research.microsoft.com/en-us/projects/homeos/">MS</a>, <a href="https://www.usenix.org/system/files/conference/nsdi12/nsdi12-final149.pdf">paper</a>,  <a href="https://www.usenix.org/conference/nsdi12/towards-commodity-smarthomes-homeos">Video</a>, <a href="https://www.usenix.org/sites/default/files/conference/protected-files/homeos-nsdi-talk-given-clean.pdf">Slides</a></p>
+
+<h3>1. Problem</h3>
+
+<p>High overhead of managing and extending network devices for <strong>smart home</strong>: 1) growing number of devices 2) heterogeneity 3) hardware/software incompatible.</p>
+
+<h3>2. Challenges</h3>
+
+<ul>
+<li>Appliance abstraction: a closed, monolithic system. (manageability)</li>
+<li>Decentralized network-of-devices: bad portability. (extensibility: both software and hardware)</li>
+</ul>
+
+
+<!--more-->
+
+
+<h3>3. Solution</h3>
+
+<p>HomeOS: a PC-like abstraction for network devices</p>
+
+<h4>3.1 Overview</h4>
+
+<table>
+    <tr>
+        <td>Application layer</td><td>Tasks</td>
+    </tr>
+    <tr>
+        <td>Management layer</td><td>Control</td>
+    </tr>
+    <tr>
+        <td>Device functionality layer (DFL)</td><td>Device</td>
+    </tr>
+    <tr>
+        <td>Device connectivity layer (DCL)</td><td>Topological</td>
+    </tr>
+    <tr>
+        <td>PCs, XBox, Smartphones, TVs, ...</td><td>Heterogeneity source handled</td>
+    </tr>
+</table>
+
+
+<h4>3.2 Application Layer</h4>
+
+<p>Environment for develop-written codes. An application should have a manifest {rules} to specify what devices it needs.</p>
+
+<h4>3.3 Management Layer</h4>
+
+<ol>
+<li><p>Application manager with access control</p>
+
+<ul>
+<li>Time-based access control.</li>
+<li>Applications as security principals</li>
+<li>Settings should be querable</li>
+<li>Sensitive devices need extra attention</li>
+</ul>
+</li>
+<li><p>Mediate conflicting accesses</p>
+
+<ul>
+<li>Datalog access control rules: (r, g, m, Ts, Te, d, pri, a): Resource r can be accessed by users in group g, using module m, in the time window from Ts to Te, on day of the week d, with priority pri and access mode a.</li>
+<li>Simplicity. User account works within a given time. Groups are in a tree hierarchy.</li>
+</ul>
+</li>
+</ol>
+
+
+<h4>3.4 Device Functionality Layer</h4>
+
+<p>Provide APIs for higher layers by using handles.</p>
+
+<p>Service interfaces = roles{operations()} ("lightswitch" role = turnOn()+turnOff())</p>
+
+<ul>
+<li>A new device can either use an existing role or register new roles</li>
+<li>OS is agnostic to the services</li>
+</ul>
+
+
+<h4>3.5 Device Connectivity Layer</h4>
+
+<p>Provide handles for higher layers.</p>
+
+<ul>
+<li>No understanding of device semantics</li>
+<li>A uniform interaction with different kinds of devices</li>
+</ul>
+
+
+<h4>3.6 Implementation and Evaluation</h4>
+
+<p>C#</p>
+
+<p>Developer: "music follows the lights"/"custom lights per user". 8/10 of them finished in 2h</p>
+
+<p>User: 77% completion rate</p>
+
+<h3>4. Conclusion</h3>
+
+<p>Bad abstractions in "smart home" result in high overhead of managing and extending network devices, which are in increasing number and mostly not compatible with each other. Traditionally, appliance abstraction provides a huge system with no potential for customization and extension. Meanwhile, decentralized network-of-devices provide little portability. So the authors present a new abstraction -- HomeOS, a PC-like abstraction for network devices. The new abstraction architecture consists of four layers. Lower layers interact with heterogenous devices and protocols. Upper layers simplify development and use of applications. HomeOS is implemented with C# and its experience shows a satisfying manageability and extensibility.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Fast and Parallel Webpage Layout (WWW '10)]]></title>
+    <link href="http://puncsky.github.com/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10/"/>
+    <updated>2012-11-16T15:56:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10</id>
+    <content type="html"><![CDATA[<iframe src="http://www.slideshare.net/slideshow/embed_code/15270792" width="427" height="356" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen webkitallowfullscreen mozallowfullscreen> </iframe>
+
+
+<p></p>
+
+<p><a href="http://www.eecs.berkeley.edu/~lmeyerov/">UCB</a>, <a href="http://www.eecs.berkeley.edu/~lmeyerov/projects/pbrowser/pubfiles/playout.pdf">paper</a></p>
+
+<h2>1. Problem</h2>
+
+<p>The browsing of webpages is slow on smartphones for their limited CPU computational resources. The <em>power wall</em> forces hardware architects to apply increases in transistor counts towards improving parallel performance, not sequential performance. So the authors introduce the <strong>parallel</strong> mobile browser.</p>
+
+<h2>2. Challenges</h2>
+
+<!--more-->
+
+
+<p>In the analysis,  three core limitations of the rendering speed are:</p>
+
+<ol>
+<li>CSS selector matching</li>
+<li>Box and text layout</li>
+<li>Glyph rendering</li>
+</ol>
+
+
+<h2>3. Solution</h2>
+
+<p>Overall Input and Output</p>
+
+<ul>
+<li>Input: an HTML tree of content, CSS style rules, font files.</li>
+<li>Output: absolute element positions.</li>
+</ul>
+
+
+<h3>3.1 Algo1: CSS Selector Matching</h3>
+
+<p><em>Rule matcher</em> associates CSS rule set with HTML node tree.</p>
+
+<p>Two assumptions:</p>
+
+<ol>
+<li>In general, selector language is an exact subset of regular expression.</li>
+<li>Disjunctions are split into separate selectors</li>
+</ol>
+
+
+<p>Algorithm paraphrase:</p>
+
+<ol>
+<li>sequentially read rules and correspondingly build hash maps</li>
+<li>parallelly <strong>map</strong> nodes to different kinds of rules</li>
+<li>parallelly <strong>reduce</strong> several rules to each node</li>
+</ol>
+
+
+<p>Optimizations from WebKit:</p>
+
+<ol>
+<li>Hashtables. [×] check CSS for every node [√] read once, build hashmap, and check hash</li>
+<li>Right-to-left matching.</li>
+</ol>
+
+
+<p>New Optimization:</p>
+
+<ol>
+<li>Redundant selector elimination.</li>
+<li>Hash Tiling. partition the hashtable. reduce cache misses.</li>
+<li>Tokenization. store attributes as int instead of string to save cache.</li>
+<li>Parallel document traversal.</li>
+<li>Random load balancing. If in sequence, neighboring nodes will cause load imbalance.</li>
+<li>Result pre-allocation.</li>
+<li>Delayed set insertion.</li>
+<li>Non-STL sets.preallocate a vector with a size of potential matches.</li>
+</ol>
+
+
+<p>Overall Speedup = 60x: 204ms->3.5ms, 3s->50ms</p>
+
+<h3>3.2 Algo2:</h3>
+
+<ul>
+<li>Input: HTML tree nodes with symbolic constraint attributes</li>
+<li>Output: layout actual details (size, shape, position)</li>
+</ul>
+
+
+<p>Because CSS is confusing and informally-writtened, we create a new simple, concise, uniform, and intermediate language, Berkeley Style Sheets (BBS), which is transformed from CSS and will be specified with an attribute grammar (which shows potential for parallelization).</p>
+
+<p>Three contributions:</p>
+
+<ol>
+<li>Increase performance. decompse the tasks.</li>
+<li>Uniform a correct, concise specification.</li>
+<li>Prove it is at most linear in the size of HTML tree.</li>
+</ol>
+
+
+<p><strong>PARALLELIZATION</strong></p>
+
+<p>Two steps recursively for every node in the DOM tree</p>
+
+<ol>
+<li>calculate inherited attributes (top-down). Every level of childs in the tree enjoyes the parallelization.</li>
+<li>calculate synthesized attributes (node's own attributes) (bottom-up). Every level of parents in the tree enjoys the parallelization.</li>
+</ol>
+
+
+<p>2 is dependent on 1.</p>
+
+<p>Complexity: O(log)</p>
+
+<p>Speedup of box + text layout = 2-3x</p>
+
+<p>Advanced layouts: floats</p>
+
+<h3>3.3 Algo3: Font Handling</h3>
+
+<ol>
+<li>create a pool of necessary font library request</li>
+<li>group the requests</li>
+<li>make parallel calls to process each group</li>
+</ol>
+
+
+<h2>4. Conclusions</h2>
+
+<p>Address three bottlenecks of loading a page</p>
+
+<ol>
+<li>CSS selector matching
+
+<ul>
+<li>Pre-built hash tables, map-reduce</li>
+</ul>
+</li>
+<li>Box and text layout solving
+
+<ul>
+<li>Specify layout as attribute grammars</li>
+</ul>
+</li>
+<li>Glyph rendering
+
+<ul>
+<li>Combine requests to groups and render in parallel</li>
+</ul>
+</li>
+</ol>
+
+
+<p>Milestone in building a parallel and mobile browser</p>
+]]></content>
+  </entry>
+  
+</feed>
