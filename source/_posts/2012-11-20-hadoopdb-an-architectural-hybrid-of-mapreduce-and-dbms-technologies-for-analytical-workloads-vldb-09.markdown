@@ -3,7 +3,7 @@ layout: post
 title: "HadoopDB: an architectural hybrid of MapReduce and DBMS technologies for analytical workloads (VLDB '09)"
 date: 2012-11-20 16:20
 comments: true
-categories: Paper Review
+categories: paper_review
 ---
 
 [Yale DB](http://db.cs.yale.edu/hadoopdb/)
