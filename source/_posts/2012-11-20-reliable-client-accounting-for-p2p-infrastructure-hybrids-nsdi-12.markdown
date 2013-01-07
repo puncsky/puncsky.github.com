@@ -3,7 +3,7 @@ layout: post
 title: "Reliable Client Accounting for P2P-Infrastructure Hybrids (NSDI '12)"
 date: 2012-11-20 16:16
 comments: true
-categories: Paper Review
+categories: paper_review
 ---
 [MPI-SWS](http://www.mpi-sws.org/~paditya/), UPenn, Duke, Akamai, [paper](http://www.mpi-sws.org/~paditya/papers/rca-nsdi2012.pdf), [slides](https://www.usenix.org/sites/default/files/conference/protected-files/nsdi12_reliable_client_accounting_for_p2p-infrastructure_hybrids.pdf), [video](https://www.usenix.org/conference/nsdi12/reliable-client-accounting-hybrid-content-distribution-networks)
 

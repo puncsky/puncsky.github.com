@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "CLRS 1: Basics"
-date: 2012-12-22 09:42
+date: 2013-01-07 14:55
 comments: true
 categories: algorithm
 ---
@@ -1650,12 +1650,12 @@ Assume that universe U of keys is reasonably small, and no two elements have the
 #### 11.2 Hash tables 256
 
 - What if universe U is large? namely, K of keys stored in a dictionary is much smaller than the universe U of all possible keys?
-- hash function! element is stored in slot _h(k)_
+- hash function! element is stored in slot _h(k)_ instead of _key_ directly
 	- h: U -> {0, 1, ..., m-1}
 	- An element with key _k_ **hashes** to slot _h(k)_. 
 - Problem: **collision**: two keys may hash to the same slot.
 	- Collision resolution by chaining, insert at the head
-		-  Given a hash table T with m slots that stores n elements, we define the ***load factor α*** for T as n/m, that is, the average number of elements stored in a chain.
+		-  Given a hash table T with m slots that stores n elements, we define the ***load factor α*** for T as n/m, that is, ***the average number of elements stored in a chain***.
 		- Worst-case: Θ(n) + T(compute hash)
 		- Average-case: **simple uniform hashing** Any given element is equally likely to hash into any of the m slots, independently of where any other element has hashed to.
 			- Unsuccessful, Θ(1+α) n个元素m个slot，期望是每个slot有n/m个元素
@@ -1668,19 +1668,19 @@ Assume that universe U of keys is reasonably small, and no two elements have the
 	- Hash values are independent of any patterns that might exist in the data.
 - Interpreting keys as natural numbers
 - Different ways:
-	1. division method. h(k) = k mod m.
-	2. multiplication method. h(k) = ⦏m(kA mod 1)⦎, “kA mod 1” means the fractional part of kA, that is, kA - ⦏kA⦎. (A is a constant, 0 < A < 1) Knuth suggests that A = 0.618
-	3. universal hashing. select the hash function at random from a carefully designed class of functions.
+	1. **division method**. h(k) = k mod m.
+	2. **multiplication method**. h(k) = ⦏m(kA mod 1)⦎, “kA mod 1” means the fractional part of kA, that is, kA - ⦏kA⦎. (A is a constant, 0 < A < 1) Knuth suggests that A = 0.618
+	3. **universal hashing**. select the hash function at random from a carefully designed class of functions.
 
 #### 11.4 Open addressing 269
 
-- **Open addressing**: all elements occupy the hash table itself. No chaining. load factor α can never exceed 1. 
-	- We compute the sequence of slots to be examined by probing until we find an empty slot. The probing sequence has not to be < 0, 1, ..., m-1 > with Θ(n), but **depends upon the key being inserted**. To determine which slots to probe, we extend the hash function to include the probe number (starting from 0) as a second input.  < h(k,0), h(k,1), ..., h(k,m-1) >. 
+- **Open addressing**: all elements occupy the hash table itself. **No chaining**. load factor α can never exceed 1. 
+	- We **compute the sequence of slots to be examined by probing until we find an empty slot**. The probing sequence has not to be < 0, 1, ..., m-1 > with Θ(n), but **depends upon the key being inserted**. To determine which slots to probe, we extend the hash function to include the probe number (starting from 0) as a second input.  < h(k,0), h(k,1), ..., h(k,m-1) >. 
 	- 注意，此处不能标记删除的slot为NIL，因为这样一来就无法读到存在其后面部分的散列 值了。解决方法是，用DELETED取代NIL.
 	- ***uniform hashing***: the probe sequence of each key is equally likely to be any of the m! permutations of < 0, 1, ..., m-1 >.
 		- linear probing
 			- h(k,i) = (h'(k)+i) mod m
-			- problem: primary clustering
+			- problem: primary **clustering**
 		- quadratic probing
 			- h(k,i) = (h'(k) + c1\*i + c2\*i^2) mod m
 			- problem: secondary clustering
@@ -1691,8 +1691,9 @@ Assume that universe U of keys is reasonably small, and no two elements have the
 #### 11.5 Perfect hashing 277
 
 - **Perfect hashing**: O(1) memory accesses are required to perform a search in the worst case.
-	- two levels of hashing, universal hashing at each level.
-	- use secondary hash table
+	- two levels of hashing with universal hashing at each level.
+	- By choosing the first-level hash function well, we can limit the expected total amount of space used to O(n)
+	- TODO 证明很复杂的样子
 
 ### 12 Binary Search Trees 286
 

@@ -3,7 +3,7 @@ layout: post
 title: "如何阅读一篇论文？"
 date: 2012-11-21 16:15
 comments: true
-categories: Paper Review
+categories: paper_review
 ---
 
 阅读是人生的终极命题之一。人生苦短，我们需要阅读来继承前人的衣钵，我们需要笔记来对抗过往的遗忘，我们需要写作来连接自我和人世沧桑。
