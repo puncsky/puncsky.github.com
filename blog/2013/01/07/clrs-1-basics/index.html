@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://puncsky.github.com/blog/2012/12/22/clrs-1-basics/">
+  <link rel="canonical" href="http://puncsky.github.com/blog/2013/01/07/clrs-1-basics/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -83,7 +83,7 @@
   
 
 
-<time datetime="2012-12-22T09:42:00-05:00" pubdate data-updated="true">Dec 22<span>nd</span>, 2012</time>
+<time datetime="2013-01-07T14:55:00-05:00" pubdate data-updated="true">Jan 7<span>th</span>, 2013</time>
         
       </p>
     
@@ -3040,7 +3040,7 @@
 
 <ul>
 <li>What if universe U is large? namely, K of keys stored in a dictionary is much smaller than the universe U of all possible keys?</li>
-<li>hash function! element is stored in slot <em>h(k)</em>
+<li>hash function! element is stored in slot <em>h(k)</em> instead of <em>key</em> directly
 
 <ul>
 <li>h: U -> {0, 1, &#8230;, m-1}</li>
@@ -3053,7 +3053,7 @@
 <li>Collision resolution by chaining, insert at the head
 
 <ul>
-<li> Given a hash table T with m slots that stores n elements, we define the <strong><em>load factor α</em></strong> for T as n/m, that is, the average number of elements stored in a chain.</li>
+<li> Given a hash table T with m slots that stores n elements, we define the <strong><em>load factor α</em></strong> for T as n/m, that is, <strong><em>the average number of elements stored in a chain</em></strong>.</li>
 <li>Worst-case: Θ(n) + T(compute hash)</li>
 <li>Average-case: <strong>simple uniform hashing</strong> Any given element is equally likely to hash into any of the m slots, independently of where any other element has hashed to.
 
@@ -3083,9 +3083,9 @@
 <li>Different ways:
 
 <ol>
-<li>division method. h(k) = k mod m.</li>
-<li>multiplication method. h(k) = ⦏m(kA mod 1)⦎, “kA mod 1” means the fractional part of kA, that is, kA - ⦏kA⦎. (A is a constant, 0 &lt; A &lt; 1) Knuth suggests that A = 0.618</li>
-<li>universal hashing. select the hash function at random from a carefully designed class of functions.</li>
+<li><strong>division method</strong>. h(k) = k mod m.</li>
+<li><strong>multiplication method</strong>. h(k) = ⦏m(kA mod 1)⦎, “kA mod 1” means the fractional part of kA, that is, kA - ⦏kA⦎. (A is a constant, 0 &lt; A &lt; 1) Knuth suggests that A = 0.618</li>
+<li><strong>universal hashing</strong>. select the hash function at random from a carefully designed class of functions.</li>
 </ol>
 </li>
 </ul>
@@ -3094,10 +3094,10 @@
 <h4>11.4 Open addressing 269</h4>
 
 <ul>
-<li><strong>Open addressing</strong>: all elements occupy the hash table itself. No chaining. load factor α can never exceed 1.
+<li><strong>Open addressing</strong>: all elements occupy the hash table itself. <strong>No chaining</strong>. load factor α can never exceed 1.
 
 <ul>
-<li>We compute the sequence of slots to be examined by probing until we find an empty slot. The probing sequence has not to be &lt; 0, 1, &#8230;, m-1 > with Θ(n), but <strong>depends upon the key being inserted</strong>. To determine which slots to probe, we extend the hash function to include the probe number (starting from 0) as a second input.  &lt; h(k,0), h(k,1), &#8230;, h(k,m-1) >.</li>
+<li>We <strong>compute the sequence of slots to be examined by probing until we find an empty slot</strong>. The probing sequence has not to be &lt; 0, 1, &#8230;, m-1 > with Θ(n), but <strong>depends upon the key being inserted</strong>. To determine which slots to probe, we extend the hash function to include the probe number (starting from 0) as a second input.  &lt; h(k,0), h(k,1), &#8230;, h(k,m-1) >.</li>
 <li>注意，此处不能标记删除的slot为NIL，因为这样一来就无法读到存在其后面部分的散列 值了。解决方法是，用DELETED取代NIL.</li>
 <li><strong><em>uniform hashing</em></strong>: the probe sequence of each key is equally likely to be any of the m! permutations of &lt; 0, 1, &#8230;, m-1 >.
 
@@ -3106,7 +3106,7 @@
 
 <ul>
 <li>h(k,i) = (h&#8217;(k)+i) mod m</li>
-<li>problem: primary clustering</li>
+<li>problem: primary <strong>clustering</strong></li>
 </ul>
 </li>
 <li>quadratic probing
@@ -3136,8 +3136,9 @@
 <li><strong>Perfect hashing</strong>: O(1) memory accesses are required to perform a search in the worst case.
 
 <ul>
-<li>two levels of hashing, universal hashing at each level.</li>
-<li>use secondary hash table</li>
+<li>two levels of hashing with universal hashing at each level.</li>
+<li>By choosing the first-level hash function well, we can limit the expected total amount of space used to O(n)</li>
+<li>TODO 证明很复杂的样子</li>
 </ul>
 </li>
 </ul>
@@ -3558,7 +3559,7 @@
   
 
 
-<time datetime="2012-12-22T09:42:00-05:00" pubdate data-updated="true">Dec 22<span>nd</span>, 2012</time>
+<time datetime="2013-01-07T14:55:00-05:00" pubdate data-updated="true">Jan 7<span>th</span>, 2013</time>
       
 
 <span class="categories">
@@ -3572,7 +3573,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2012/12/22/clrs-1-basics/" data-via="" data-counturl="http://puncsky.github.com/blog/2012/12/22/clrs-1-basics/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2013/01/07/clrs-1-basics/" data-via="" data-counturl="http://puncsky.github.com/blog/2013/01/07/clrs-1-basics/" >Tweet</a>
   
   
   
@@ -3581,10 +3582,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2012/12/19/oop2/" title="Previous Post: OOP Final Term Notes">&laquo; OOP Final Term Notes</a>
+        <a class="basic-alignment left" href="/blog/2012/12/26/xie-zai-2012shi-jie-mo-ri-zhi-hou/" title="Previous Post: 迟到的世界末日">&laquo; 迟到的世界末日</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2012/12/22/clrs-2-advanced/" title="Next Post: CLRS 2: Advanced">CLRS 2: Advanced &raquo;</a>
       
     </p>
   </footer>
@@ -3597,6 +3596,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/01/07/clrs-1-basics/">CLRS 1: Basics</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/12/26/xie-zai-2012shi-jie-mo-ri-zhi-hou/">迟到的世界末日</a>
@@ -3612,10 +3615,6 @@
     
       <li class="post">
         <a href="/blog/2012/12/22/clrs-3-selected/">CLRS 3: Selected</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/12/22/clrs-2-advanced/">CLRS 2: Advanced</a>
       </li>
     
   </ul>

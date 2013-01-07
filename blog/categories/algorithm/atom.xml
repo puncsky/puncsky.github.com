@@ -4,7 +4,7 @@
   <title><![CDATA[Category: algorithm | CS Notebook]]></title>
   <link href="http://puncsky.github.com/blog/categories/algorithm/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2013-01-03T17:00:07-05:00</updated>
+  <updated>2013-01-07T14:56:07-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[CLRS 1: Basics]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/22/clrs-1-basics/"/>
-    <updated>2012-12-22T09:42:00-05:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/22/clrs-1-basics</id>
+    <link href="http://puncsky.github.com/blog/2013/01/07/clrs-1-basics/"/>
+    <updated>2013-01-07T14:55:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2013/01/07/clrs-1-basics</id>
     <content type="html"><![CDATA[<h2>I Foundations</h2>
 
 <h3>1 The Role of Algorithms in Computing 5</h3>
@@ -1794,7 +1794,7 @@ private:
 
 <ul>
 <li>What if universe U is large? namely, K of keys stored in a dictionary is much smaller than the universe U of all possible keys?</li>
-<li>hash function! element is stored in slot <em>h(k)</em>
+<li>hash function! element is stored in slot <em>h(k)</em> instead of <em>key</em> directly
 
 <ul>
 <li>h: U -> {0, 1, ..., m-1}</li>
@@ -1807,7 +1807,7 @@ private:
 <li>Collision resolution by chaining, insert at the head
 
 <ul>
-<li> Given a hash table T with m slots that stores n elements, we define the <strong><em>load factor α</em></strong> for T as n/m, that is, the average number of elements stored in a chain.</li>
+<li> Given a hash table T with m slots that stores n elements, we define the <strong><em>load factor α</em></strong> for T as n/m, that is, <strong><em>the average number of elements stored in a chain</em></strong>.</li>
 <li>Worst-case: Θ(n) + T(compute hash)</li>
 <li>Average-case: <strong>simple uniform hashing</strong> Any given element is equally likely to hash into any of the m slots, independently of where any other element has hashed to.
 
@@ -1837,9 +1837,9 @@ private:
 <li>Different ways:
 
 <ol>
-<li>division method. h(k) = k mod m.</li>
-<li>multiplication method. h(k) = ⦏m(kA mod 1)⦎, “kA mod 1” means the fractional part of kA, that is, kA - ⦏kA⦎. (A is a constant, 0 &lt; A &lt; 1) Knuth suggests that A = 0.618</li>
-<li>universal hashing. select the hash function at random from a carefully designed class of functions.</li>
+<li><strong>division method</strong>. h(k) = k mod m.</li>
+<li><strong>multiplication method</strong>. h(k) = ⦏m(kA mod 1)⦎, “kA mod 1” means the fractional part of kA, that is, kA - ⦏kA⦎. (A is a constant, 0 &lt; A &lt; 1) Knuth suggests that A = 0.618</li>
+<li><strong>universal hashing</strong>. select the hash function at random from a carefully designed class of functions.</li>
 </ol>
 </li>
 </ul>
@@ -1848,10 +1848,10 @@ private:
 <h4>11.4 Open addressing 269</h4>
 
 <ul>
-<li><strong>Open addressing</strong>: all elements occupy the hash table itself. No chaining. load factor α can never exceed 1.
+<li><strong>Open addressing</strong>: all elements occupy the hash table itself. <strong>No chaining</strong>. load factor α can never exceed 1.
 
 <ul>
-<li>We compute the sequence of slots to be examined by probing until we find an empty slot. The probing sequence has not to be &lt; 0, 1, ..., m-1 > with Θ(n), but <strong>depends upon the key being inserted</strong>. To determine which slots to probe, we extend the hash function to include the probe number (starting from 0) as a second input.  &lt; h(k,0), h(k,1), ..., h(k,m-1) >.</li>
+<li>We <strong>compute the sequence of slots to be examined by probing until we find an empty slot</strong>. The probing sequence has not to be &lt; 0, 1, ..., m-1 > with Θ(n), but <strong>depends upon the key being inserted</strong>. To determine which slots to probe, we extend the hash function to include the probe number (starting from 0) as a second input.  &lt; h(k,0), h(k,1), ..., h(k,m-1) >.</li>
 <li>注意，此处不能标记删除的slot为NIL，因为这样一来就无法读到存在其后面部分的散列 值了。解决方法是，用DELETED取代NIL.</li>
 <li><strong><em>uniform hashing</em></strong>: the probe sequence of each key is equally likely to be any of the m! permutations of &lt; 0, 1, ..., m-1 >.
 
@@ -1860,7 +1860,7 @@ private:
 
 <ul>
 <li>h(k,i) = (h'(k)+i) mod m</li>
-<li>problem: primary clustering</li>
+<li>problem: primary <strong>clustering</strong></li>
 </ul>
 </li>
 <li>quadratic probing
@@ -1890,8 +1890,9 @@ private:
 <li><strong>Perfect hashing</strong>: O(1) memory accesses are required to perform a search in the worst case.
 
 <ul>
-<li>two levels of hashing, universal hashing at each level.</li>
-<li>use secondary hash table</li>
+<li>two levels of hashing with universal hashing at each level.</li>
+<li>By choosing the first-level hash function well, we can limit the expected total amount of space used to O(n)</li>
+<li>TODO 证明很复杂的样子</li>
 </ul>
 </li>
 </ul>
