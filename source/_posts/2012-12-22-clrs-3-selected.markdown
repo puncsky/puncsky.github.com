@@ -95,14 +95,33 @@ O((n-m+1)*m)
 
 - Problems which can be solved by polynomial-time algorithms are **tractable/easy**. Otherwise, **intractable/hard**
 - Three classes of problems:
-	1. P.	solvable in O(n^k)
-	2. NP.	verifiable in polynomial time.
+	1. P.	solvable in polynomial time O(n^k)
+	2. NP.	verifiable (there exists a certifier) in polynomial time. (NP: nondeterministic polynomial-time)
 	3. NPC.	NP-complete 
 		- If any NP-complete problem can be solved in polynomial time, then every problem in NP has a polynomial-time algorithm.
 		- Many CS scientists believe NP-complete problems are intractable.
-34.1 Polynomial time 1053
-34.2 Polynomial-time verification 1061
-34.3 NP-completeness and reducibility 1067 34.4 NP-completeness proofs 1078
+#### 34.1 Polynomial time 1053
+#### 34.2 Polynomial-time verification 1061
+
+- Certifiers and Certificates:  Hamiltonian Cycle
+	- **HAM-CYCLE**.  Given an undirected graph G = (V, E), does there exist a simple cycle C that visits every node?
+	- **Certificate**.  A permutation of the n nodes.
+	- **Certifier**.  Check that the permutation contains each node in V exactly once, and that there is an edge between each pair of adjacent nodes in the permutation.
+	- **Conclusion**.  HAM-CYCLE is in NP.
+- P,NP,EXP
+	- P. Decision problems for which there is a poly-time algorithm.
+	- EXP.  Decision problems for which there is an exponential-time algorithm.
+	- NP.  Decision problems for which there is a poly-time certifier.
+- P ⊆ NP, NP ⊆ EXP
+- ***Does P = NP?***
+	- **If yes**, Efficient algorithms for 3-COLOR, TSP, FACTOR, SAT...
+	- **If no**, No efficient algorithms for 3-COLOR, TSP, FACTOR, SAT...
+
+![P?=NP](http://upload.wikimedia.org/wikipedia/commons/a/a0/P_np_np-complete_np-hard.svg)
+
+
+#### 34.3 NP-completeness and reducibility 1067 
+34.4 NP-completeness proofs 1078
 34.5 NP-complete problems 1086
 ### 35 Approximation Algorithms 1106
 35.1 The vertex-cover problem 1108

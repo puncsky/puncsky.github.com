@@ -1694,6 +1694,8 @@ Assume that universe U of keys is reasonably small, and no two elements have the
 	- two levels of hashing with universal hashing at each level.
 	- By choosing the first-level hash function well, we can limit the expected total amount of space used to O(n)
 	- TODO 证明很复杂的样子
+	
+[C++ std::map的使用](http://www.cplusplus.com/reference/map/map/)
 
 ### 12 Binary Search Trees 286
 

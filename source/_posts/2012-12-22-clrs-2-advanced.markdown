@@ -93,8 +93,23 @@ categories:
 25.1 Shortest paths and matrix multiplication 25.2 The Floyd-Warshall algorithm 693 25.3 Johnson’s algorithm for sparse graphs
 686 700
 ### 26 Maximum Flow 708
-26.1 Flow networks 709
-26.2 The Ford-Fulkerson method 714 26.3 Maximum bipartite matching 732
-? 26.4 Push-relabel algorithms 736
-? 26.5 The relabel-to-front algorithm 748
+#### 26.1 Flow networks 709
+
+- **Flow networks**. Let directed graph G = (V, E) be a flow network with a capacity function c. Let s be the source of the network, and let t be the sink. A flow in G is a real-valued function f: V*V -> R that satisfies:
+	1. **Capacity constraint**. For all u,v in V, we require 0 <= f(u,v) <= c(u,v)
+	2. **Flow conservation**. The rate at which material enters a ver- tex must equal the rate at which it leaves the vertex.
+- Value |f| of a flow f is the total flow out of the source minus the flow into the source. **maximum-flow problem**: we are given a flow network G with source s and sink t, and we wish to find a flow of maximum value.
+
+
+#### 26.2 The Ford-Fulkerson method 714 
+
+- dependent on
+	1. residual networks
+	2. augmenting path
+	3. cuts
+- We repeatedly augment the flow until the residual network has no more augmenting paths.
+
+26.3 Maximum bipartite matching 732
+26.4 Push-relabel algorithms 736
+26.5 The relabel-to-front algorithm 748
 
