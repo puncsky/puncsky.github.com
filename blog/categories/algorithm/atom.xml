@@ -4,7 +4,7 @@
   <title><![CDATA[Category: algorithm | CS Notebook]]></title>
   <link href="http://puncsky.github.com/blog/categories/algorithm/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2013-01-08T15:24:28-05:00</updated>
+  <updated>2013-01-08T16:03:35-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -12,6 +12,294 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[CLRS 2: Advanced]]></title>
+    <link href="http://puncsky.github.com/blog/2013/01/08/clrs-2-advanced/"/>
+    <updated>2013-01-08T19:11:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2013/01/08/clrs-2-advanced</id>
+    <content type="html"><![CDATA[<h2>IV Advanced Design and Analysis Techniques Introduction 357</h2>
+
+<ul>
+<li>Three important but more sophisticated techniques used in designing and analyzing efficient algorithms:
+
+<ol>
+<li>dynamic programming
+
+<ul>
+<li>used to optimize problems in which we make a set of choices to get optimal solution</li>
+<li>store the solution to each such subproblem in case it should reappear.</li>
+</ul>
+</li>
+<li>greedy algorithms
+
+<ul>
+<li>used to optimize problems in which we make a set of choices to get optimal solution</li>
+<li>make each choice in a locally optimal manner. e.g. 买东西找钱算法</li>
+<li>matroid theory as a mathematical basis</li>
+</ul>
+</li>
+<li>amortized analysis
+
+<ul>
+<li>used to analyze certain algorithms that perform a sequence of similar operations.</li>
+<li>Bound the cost of the entire sequence s.t. although some operations might be expensive, many others might be cheap.</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>We have covered before:
+
+<ol>
+<li>Divide-and-conquer</li>
+<li>Randomization</li>
+<li>Recurrence</li>
+</ol>
+</li>
+</ul>
+
+
+<h3>15 Dynamic Programming 359</h3>
+
+<ul>
+<li>Divide-and-conquer: subproblems are disjoint</li>
+<li>Dynamic Programming: subproblems overlap.
+
+<ul>
+<li>solve subproblems just once and save it in a table, avoiding recomputing</li>
+<li>applied to <strong>optimization problems</strong>: find <strong><em>a</em></strong> solution with the optimal (min/max) value</li>
+<li>four steps:
+
+<ol>
+<li>Characterize the structure of an optimal solution.</li>
+<li>Recursively define the value of an optimal solution.</li>
+<li>Compute the value of an optimal solution, typically in a bottom-up fashion (get the result)</li>
+<li>Construct an optimal solution from computed information (get how to compute the result)</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>15.1 Rod cutting 360</h4>
+
+<ul>
+<li>Input: a rod of length <em>n</em> inches. a table of prices <em>pi</em> for i = 1,2,...,n</li>
+<li>Output: max revenue rn</li>
+</ul>
+
+
+<h4>15.2 Matrix-chain multiplication 370</h4>
+
+<h4>15.3 Elements of dynamic programming 378</h4>
+
+<h4>15.4 Longest common subsequence 390</h4>
+
+<h4>15.5 Optimal binary search trees 397</h4>
+
+<h3>16 Greedy Algorithms 414</h3>
+
+<h4>16.1 An activity-selection problem 415</h4>
+
+<h4>16.2 Elements of the greedy strategy 423</h4>
+
+<h4>16.3 Huffman codes 428</h4>
+
+<h4>16.4 Matroids and greedy methods 437</h4>
+
+<h4>16.5 A task-scheduling problem as a matroid 443</h4>
+
+<h3>17 Amortized Analysis 451</h3>
+
+<h4>17.1 Aggregate analysis 452</h4>
+
+<h4>17.2 The accounting method 456</h4>
+
+<h4>17.3 The potential method 459</h4>
+
+<h4>17.4 Dynamic tables 463</h4>
+
+<h2>V Advanced Data Structures Introduction 481</h2>
+
+<h3>18 B-Trees 484</h3>
+
+<p>18.1 Definition of B-trees 488
+18.2 Basic operations on B-trees 491 18.3 Deleting a key from a B-tree 499</p>
+
+<h3>19 Fibonacci Heaps 505</h3>
+
+<p>19.1 Structure of Fibonacci heaps 507
+19.2 Mergeable-heap operations 510
+19.3 Decreasing a key and deleting a node 518 19.4 Bounding the maximum degree 523</p>
+
+<h3>20 van Emde Boas Trees 531</h3>
+
+<p>20.1 Preliminary approaches 532 20.2 A recursive structure 536 20.3 The van Emde Boas tree 545</p>
+
+<h3>21 Data Structures for Disjoint Sets 561</h3>
+
+<p>21.1 Disjoint-set operations 561
+21.2 Linked-list representation of disjoint sets 564 21.3 Disjoint-set forests 568
+21.4 Analysis of union by rank with path compression 573</p>
+
+<h2>VI Graph Algorithms</h2>
+
+<p>￼Introduction 587</p>
+
+<h3>22 Elementary Graph Algorithms 589</h3>
+
+<h4>22.1 Representations of graphs 589</h4>
+
+<ul>
+<li>Sparse graphs: |E| is much less than |V|<sup>2</sup>
+
+<ul>
+<li>adjacency list Θ(V+E)</li>
+</ul>
+</li>
+<li>Dense graphs: |E| is close to |V|<sup>2</sup> or when we need to be able to tell quickly if there is an edge connecting two given vertices.
+
+<ul>
+<li>adjacency matrices Θ(V<sup>2)</sup></li>
+</ul>
+</li>
+<li>edge (u,v) has attribute ƒ</li>
+</ul>
+
+
+<h4>22.2 Breadth-first search 594</h4>
+
+<ul>
+<li>BFS with queue
+
+<ul>
+<li><em>u.color</em> (WHITE for ones having not been to, GRAY for ones in the queue, BLACK for ones having been dequeued and enqueued their white neighbors), <em>u.π</em> the predecessor, <em>u.d</em> distance</li>
+</ul>
+</li>
+</ul>
+
+
+<p>``` BFS pseudo code</p>
+
+<pre><code>BFS(G, s)
+    initialize vertices except source
+    initialize the source vertex
+    enqueue the source
+    while (queue) {
+        dequeue u
+        for each white neigbor 
+            mark attributes
+            enqueue
+        u.color = BLACK
+    }
+</code></pre>
+
+<p>```</p>
+
+<h4>22.3 Depth-first search</h4>
+
+<ul>
+<li>DFS with recursion (stack)
+
+<ul>
+<li> timestamps are integers between 1 and 2 jV j, since there is one discovery event and one finishing event for each of the jV j vertices.</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>22.4 Topological sort 612</h4>
+
+<ul>
+<li>topological sort <strong>with DFS</strong></li>
+<li>DAG(directed acyclic graph)</li>
+<li>a <strong>topological sort</strong> of a graph as an ordering of its vertices along a horizontal line so that all directed edges go from left to right.</li>
+<li>to indicate precedence among events.</li>
+<li>TODO 有多个入度为0的</li>
+</ul>
+
+
+<p>``` Toplogical sort pseudo code</p>
+
+<pre><code>toplogicalSort(G) {
+    call DFS(G) to compute finishing times v.f for each vertex v
+    as each vertex is finished, insert it onto the front of a linked list
+    return the linked list of vertices
+}
+</code></pre>
+
+<p>```</p>
+
+<h4>22.5 Strongly connected components 615</h4>
+
+<ul>
+<li>decomposing a directed graph into its strongly connected components <strong>with DFS</strong></li>
+</ul>
+
+
+<h3>23 Minimum Spanning Trees 624</h3>
+
+<p>23.1 Growing a minimum spanning tree 625 23.2 The algorithms of Kruskal and Prim 631</p>
+
+<h3>24 Single-Source Shortest Paths 643</h3>
+
+<h4>24.1 The Bellman-Ford algorithm 651</h4>
+
+<p>24.2 Single-source shortest paths in directed acyclic graphs</p>
+
+<h4>24.3 Dijkstra’s algorithm 658</h4>
+
+<ul>
+<li>faster than Bellmen-Ford algorithm</li>
+</ul>
+
+
+<p>24.4 Difference constraints and shortest paths 664
+24.5 Proofs of shortest-paths properties 671
+655</p>
+
+<h3>25 All-Pairs Shortest Paths 684</h3>
+
+<p>25.1 Shortest paths and matrix multiplication 25.2 The Floyd-Warshall algorithm 693 25.3 Johnson’s algorithm for sparse graphs
+686 700</p>
+
+<h3>26 Maximum Flow 708</h3>
+
+<h4>26.1 Flow networks 709</h4>
+
+<ul>
+<li><strong>Flow networks</strong>. Let directed graph G = (V, E) be a flow network with a capacity function c. Let s be the source of the network, and let t be the sink. A flow in G is a real-valued function f: V*V -> R that satisfies:
+
+<ol>
+<li><strong>Capacity constraint</strong>. For all u,v in V, we require 0 &lt;= f(u,v) &lt;= c(u,v)</li>
+<li><strong>Flow conservation</strong>. The rate at which material enters a ver- tex must equal the rate at which it leaves the vertex.</li>
+</ol>
+</li>
+<li>Value |f| of a flow f is the total flow out of the source minus the flow into the source. <strong>maximum-flow problem</strong>: we are given a flow network G with source s and sink t, and we wish to find a flow of maximum value.</li>
+</ul>
+
+
+<h4>26.2 The Ford-Fulkerson method 714</h4>
+
+<ul>
+<li>dependent on
+
+<ol>
+<li>residual networks</li>
+<li>augmenting path</li>
+<li>cuts</li>
+</ol>
+</li>
+<li>We repeatedly augment the flow until the residual network has no more augmenting paths.</li>
+</ul>
+
+
+<p>26.3 Maximum bipartite matching 732
+26.4 Push-relabel algorithms 736
+26.5 The relabel-to-front algorithm 748</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[CLRS 1: Basics]]></title>
