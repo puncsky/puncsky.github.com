@@ -8,11 +8,12 @@ published: false
 ---
 
 ## 1 Introduction: Some Representative Problems 1
-#### 1.1 A First Problem: Stable Matching 1
-#### 1.2 Five Representative Problems 12
-##### Solved Exercises 19
-##### Exercises 22
-##### Notes and Further Reading 28
+
+1.1 A First Problem: Stable Matching 1
+1.2 Five Representative Problems 12
+Solved Exercises 19
+Exercises 22
+Notes and Further Reading 28
 
 ## 2 Basics of Algorithm Analysis
 2.1 Computational Tractability 29
@@ -25,8 +26,7 @@ Solved Exercises 65
 Exercises 67
 Notes and Further Reading 70
 
-## 3 Graphs
-29
+## 3 Graphs 29
 3.1 Basic Definitions and Applications 73
 3.2 Graph Connectivity and Graph Traversal 78
 3.3 Implementing Graph Traversal Using Queues and Stacks 87
@@ -38,7 +38,8 @@ Notes and Further Reading 112
 
 ## 4 Greedy Algorithms 115
 
-4.1 Interval Scheduling: The Greedy Algorithm Stays Ahead 116 4.2 Scheduling to Minimize Lateness: An Exchange Argument 125 4.3 Optimal Caching: A More Complex Exchange Argument 131 4.4 Shortest Paths in a Graph 137
+4.1 Interval Scheduling: The Greedy Algorithm Stays Ahead 116 4.2 Scheduling to Minimize Lateness: An Exchange Argument 125 4.3 Optimal Caching: A More Complex Exchange Argument 131 
+### 4.4 Shortest Paths in a Graph 137
 4.5 The Minimum Spanning Tree Problem 142
 4.6 Implementing Kruskal’s Algorithm: The Union-Find Data
 Structure 151 4.7 Clustering 157
@@ -95,8 +96,53 @@ Notes and Further Reading 448
 ## 8 NP and Computational Intractability 451
 8.1 Polynomial-Time Reductions 452
 8.2 Reductions via “Gadgets”: The Satisfiability Problem
-8.3 Efficient Certification and the Definition of NP 463
+### 8.3 Efficient Certification and the Definition of NP 463
+
 8.4 NP-Complete Problems 466
 8.5 Sequencing Problems 473
 8.6 Partitioning Problems 481
 8.7 Graph Coloring 485
+8.8 Numerical Problems 490
+8.9 Co-NP and the Asymmetry of NP 495
+8.10 A Partial Taxonomy of Hard Problems 497
+Solved Exercises 500
+Exercises 505
+Notes and Further Reading 529
+
+## 9 PSPACE: A Class of Problems beyond NP
+9.1 PSPACE 531
+9.2 Some Hard Problems in PSPACE 533
+9.3 Solving Quantified Problems and Games in Polynomial
+531
+Space 536
+9.4 Solving the Planning Problem in Polynomial Space
+9.5 Proving Problems PSPACE-Complete 543
+Solved Exercises 547
+Exercises 550
+Notes and Further Reading 551
+
+## 10 Extending the Limits of Tractability
+10.1 Finding Small Vertex Covers 554
+10.2 Solving NP-Hard Problems on Trees 558
+10.3 Coloring a Set of Circular Arcs 563
+538
+∗ 10.4 ∗ 10.5
+Tree Decompositions of Graphs 572 Constructing a Tree Decomposition 584 Solved Exercises 591
+Exercises 594
+Notes and Further Reading 598
+
+## 11 Approximation Algorithms
+599
+11.1 Greedy Algorithms and Bounds on the Optimum: A Load Balancing Problem 600
+11.2 The Center Selection Problem 606
+11.3 Set Cover: A General Greedy Heuristic 612
+11.4 The Pricing Method: Vertex Cover 618
+11.5 Maximization via the Pricing Method: The Disjoint Paths
+Problem 624
+11.6 Linear Programming and Rounding: An Application to Vertex
+∗ 11.7
+Cover 630
+Load Balancing Revisited: A More Advanced LP Application 637
+11.8 Arbitrarily Good Approximations: The Knapsack Problem 644 Solved Exercises 649
+Exercises 651
+Notes and Further Reading 659

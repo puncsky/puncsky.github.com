@@ -100,6 +100,8 @@ O((n-m+1)*m)
 	3. NPC.	NP-complete 
 		- If any NP-complete problem can be solved in polynomial time, then every problem in NP has a polynomial-time algorithm.
 		- Many CS scientists believe NP-complete problems are intractable.
+		- e.g. circuit-satisfiability problem
+		
 #### 34.1 Polynomial time 1053
 #### 34.2 Polynomial-time verification 1061
 
@@ -123,6 +125,7 @@ O((n-m+1)*m)
 #### 34.3 NP-completeness and reducibility 1067 
 34.4 NP-completeness proofs 1078
 34.5 NP-complete problems 1086
+
 ### 35 Approximation Algorithms 1106
 35.1 The vertex-cover problem 1108
 35.2 The traveling-salesman problem 1111

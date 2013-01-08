@@ -77,15 +77,71 @@ categories:
 ## VI Graph Algorithms
 ￼Introduction 587
 ### 22 Elementary Graph Algorithms 589 
-22.1 Representations of graphs 589 22.2 Breadth-first search 594
-22.3 Depth-first search
-22.4 Topological sort 612
-22.5 Strongly connected components 615
+#### 22.1 Representations of graphs 589 
+
+- Sparse graphs: |E| is much less than |V|^2
+	- adjacency list Θ(V+E)
+- Dense graphs: |E| is close to |V|^2 or when we need to be able to tell quickly if there is an edge connecting two given vertices.
+	- adjacency matrices Θ(V^2)
+- edge (u,v) has attribute ƒ
+	
+#### 22.2 Breadth-first search 594
+
+- BFS with queue
+	- *u.color* (WHITE for ones having not been to, GRAY for ones in the queue, BLACK for ones having been dequeued and enqueued their white neighbors), *u.π* the predecessor, *u.d* distance
+
+``` BFS pseudo code
+
+	BFS(G, s)
+		initialize vertices except source
+		initialize the source vertex
+		enqueue the source
+		while (queue) {
+			dequeue u
+			for each white neigbor 
+				mark attributes
+				enqueue
+			u.color = BLACK
+		}
+
+```
+
+#### 22.3 Depth-first search
+
+- DFS with recursion (stack)
+	-  timestamps are integers between 1 and 2 jV j, since there is one discovery event and one finishing event for each of the jV j vertices. 
+
+#### 22.4 Topological sort 612
+
+- topological sort **with DFS**
+- DAG(directed acyclic graph)
+- a **topological sort** of a graph as an ordering of its vertices along a horizontal line so that all directed edges go from left to right.
+- to indicate precedence among events.
+- TODO 有多个入度为0的
+
+``` Toplogical sort pseudo code
+
+	toplogicalSort(G) {
+		call DFS(G) to compute finishing times v.f for each vertex v
+		as each vertex is finished, insert it onto the front of a linked list
+		return the linked list of vertices
+	}
+```
+
+#### 22.5 Strongly connected components 615
+
+- decomposing a directed graph into its strongly connected components **with DFS**
+
 ### 23 Minimum Spanning Trees 624
 23.1 Growing a minimum spanning tree 625 23.2 The algorithms of Kruskal and Prim 631
 ### 24 Single-Source Shortest Paths 643
-24.1 The Bellman-Ford algorithm 651
-24.2 Single-source shortest paths in directed acyclic graphs 24.3 Dijkstra’s algorithm 658
+#### 24.1 The Bellman-Ford algorithm 651
+24.2 Single-source shortest paths in directed acyclic graphs 
+#### 24.3 Dijkstra’s algorithm 658
+
+- faster than Bellmen-Ford algorithm
+
+
 24.4 Difference constraints and shortest paths 664
 24.5 Proofs of shortest-paths properties 671
 655
