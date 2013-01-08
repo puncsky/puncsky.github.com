@@ -9,7 +9,8 @@
   <meta name="author" content="Tian">
 
   
-  <meta name="description" content="I Foundations 1 The Role of Algorithms in Computing 5 1.1 Algorithms 5 An algorithm is thus a sequence of computational steps that transform the &hellip;">
+  <meta name="description" content="LEC 2: UseNet and Gossip Messaging: UseNet Message RFC 1036 Every node is not connected directly to each other.
+gossip protocol (= epidemic protocol &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +65,728 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/08/building-decentralized-systems/">Building Decentralized Systems</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-08T07:43:00-05:00" pubdate data-updated="true">Jan 8<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>LEC 2: UseNet and Gossip Messaging: UseNet Message <a href="http://www.ietf.org/rfc/rfc1036.txt">RFC 1036</a></h2>
+
+<ol>
+<li><p>Every node is not connected directly to each other.</p></li>
+<li><p>gossip protocol (= epidemic protocol)</p></li>
+<li><p><strong>Message-ID</strong>: unique, avoid infinite loop forwarding</p></li>
+<li><p>Every node picks up one random neighbor and forward the message: have you ever seen this message? And the next.</p></li>
+<li><p>TCP time&#8217;s up in 20s, but how about a node is down for 2 hours?</p></li>
+<li><p>Anti entropy (classic): Nodes periodically wake up and compare Message-ID lists. <em>not very effective</em>: have to remember IDs. doesn&#8217;t care who send the message, only Message-ID (vulnerable).</p></li>
+</ol>
+
+
+<p><a href="">lab</a>: TODO make sequence explicit.</p>
+
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Gossip_protocol">rumor-mongering</a></li>
+</ul>
+
+
+<p>easy to spread, hard to eliminate
+How? -> &#8220;Kill message&#8221;: rumor a new message to a delete certain message, a polite optional request</p>
+
+<p>censorship resistant, so much noise</p>
+
+<h2>Lab 1: Gossip Messaging</h2>
+
+<h3>User Datagram Protocol</h3>
+
+<p>Simple, stateless, no handshaking, unreliable</p>
+
+<p>Checksums</p>
+
+<p>Port: numbers for addressing different functions</p>
+
+<p>avoid overhead at network interface level (error checking, correction)</p>
+
+<p>Suitable for realtime system, lack of retransmission delays
+for unidirectional</p>
+
+<p>For error correction, use TCP, SCTP</p>
+
+<h4>Service Ports</h4>
+
+<p>port number 16 bit int (0 ~ 65535) -> <strong>multiplexing</strong>
+1. 0 ~ 1023: common, well-known services
+2. 1024 ~ 49151: IANA-registered services
+3. 49152 ~ 65535: any purpose: <em>ephemeral ports</em></p>
+
+<h4>Packet Structure</h4>
+
+<p>from <a href="http://en.wikipedia.org/wiki/user_datagram_protocol">wikipedia</a></p>
+
+<p>Header contains 4 fields (4*16 bit).
+- IPv4: source port number and checksum are optional
+- IPv6: source port number is optional</p>
+
+<ol>
+<li>Source Port Number</li>
+<li>Zero if not used</li>
+<li>Client: ephemeral</li>
+<li>Server: well-known</li>
+<li>Destination Port Number</li>
+<li>Client: ephemeral</li>
+<li>Server: well-known</li>
+<li>Length</li>
+<li>Length of the entire datagram = header + data</li>
+<li>8 bytes &lt;= length &lt;= 65535 bytes (8 bytes + 65527 bytes)</li>
+<li>IPv4 data length = 65507 bytes (65535 - 8 UDP header - 20 IP header)</li>
+<li>Checksum</li>
+<li>All zero if not used</li>
+<li>All 16-bit words are summed using one&#8217;s complement</li>
+<li>IPv4: <em>pseudo header</em></li>
+<li>IPv6: mandatory and <em>pseudo header</em></li>
+</ol>
+
+
+<h2>Lab 1 Notes</h2>
+
+<p>message = serialized instance of QVariantMap = key/value dict
+keys=QSTring, values=QVariant(wrapper)
+QDataStream serialize QVariantMap to QByteArray
+send it via QUdpSocket::writeDatagram() to each of the ports
+receive: connect readyRead() signal in QUdpSocket to a new slot; QDataStream deserialize QByteArray to QVariant</p>
+
+<h3>Part 3 A Simple Gossip Protocol</h3>
+
+<p>2 Problems
+- unreliability results in loss, duplication
+- <em>asymetric: indirect communication</em></p>
+
+<p>Got copies of whatever messages</p>
+
+<h4>Gossip in Peerster</h4>
+
+<p>2 things to do
+- Acknowledge messages they have received. If sender does not receive an acknowledgment, resend.
+- no loop
+<strong>Unique ID</strong></p>
+
+<p>pair of values: origin, sequence number (1:),
+vector clock</p>
+
+<ol>
+<li><p>Rumor Message
+QVariantMap containting 3 keys:
+QVariantMap&lt;QString, QString>, QVariantMap&lt;QString, QString>, QVariantMap&lt;QString, quint32>
+&lt;&#8221;ChatText&#8221;, &#8220;Hi&#8221;>, &lt;&#8221;Origin&#8221;, &#8220;tiger.zoo.cs.yale.edu&#8221;>, &lt;&#8221;SeqNo&#8221;, 23></p></li>
+<li><p>Status Message
+QVariantMap <QString "want", <"tiger.zoo.cs.yale.edu", 4>>
+表示看过4以前的，没看过4</p></li>
+</ol>
+
+
+<h4>Rumormongering</h4>
+
+<p>receive and pick up a random neighbor
+wait for a response as <em>status message</em>
+  if receive acknoledgment, compare the status message, if there are messages remote peer has not seen, then send the messages
+  if remote peer has new messages, send my status message (remote peers send the messages <em>one at a time</em>)
+  if sync, the starter <em>qrand()%2</em>, <em>either</em> to pick up a new random neighbor, <em>or</em> cease.
+or timeout</p>
+
+<p>keep order from (1:)</p>
+
+<p>Temp: 4 ports as a line topology, (1)-(2)-(3)-(4)</p>
+
+<p>ID: QHostInfo::localHostName() + qrandom()</p>
+
+<p>QTimer to have a handler reinvoked after a time span no receive (1 or 2 s)</p>
+
+<h4>Anti-entropy</h4>
+
+<p>QTimer, 10s to send a status messagge to randomly chosen neighbor</p>
+
+<h2>LEC3: Location, Identity, and Routing</h2>
+
+<h3>Postel&#8217;s (Robustness) Principle 严于律己，宽以待人</h3>
+
+<ul>
+<li>Be liberal in what you accept</li>
+<li>Be conservative in what you produce</li>
+</ul>
+
+
+<p>How to create a one2one reliable connection?
+Chanllenges:</p>
+
+<h4>routing(identity vs. location)</h4>
+
+<p>Location: IP addr., hostname.domain name,
+(-) portability</p>
+
+<h5>Source Routing</h5>
+
+<p>Path: a|b|C|d|e|user
+(-) loop, inefficiency, broken,</p>
+
+<h5>Routing Table</h5>
+
+<p>identifier</p>
+
+<ol>
+<li><p>Master Router Node</p></li>
+<li><p>Every node keeps the map (K-Value)</p></li>
+</ol>
+
+
+<p>(-)Scale, malicious, loop
+Latency detect, good/bad namelist,</p>
+
+<h2>Firewalls, NATs, and Getting Through Them</h2>
+
+<h2>Crypto</h2>
+
+<p>Black box</p>
+
+<h3>Concepts</h3>
+
+<ol>
+<li>Hash</li>
+</ol>
+
+
+<p>Crypto Hash:</p>
+
+<ul>
+<li>hard to find collision</li>
+<li>One way</li>
+</ul>
+
+
+<p>(+)</p>
+
+<ul>
+<li>efficient communication</li>
+<li><p>verification: hashes for files</p></li>
+<li><p>Symmetric cipher</p></li>
+</ul>
+
+
+<p>ceasar cipher: + 13</p>
+
+<p>AES, CBC, CTR</p>
+
+<ol>
+<li>PKE (PUBLIC KEY ENCRYPTION)</li>
+</ol>
+
+
+<p><a href="http://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange">Diffie-Hellman Key Exchange</a></p>
+
+<pre><code>K.public -- k.private
+  \/              \/
+"foo" -&gt; PKE -&gt; "xxz"
+
++---+---+           +---+---+
+|foo|sig| &lt;- PKE -&lt; |foo|sig|
++---+---+           +---+---+
+   /\                  /\
+</code></pre>
+
+<p>Alice: A = g<sup>a,</sup> give it to B</p>
+
+<p>Bob: B = g<sup>b,</sup> give it to A</p>
+
+<p>then, they got mutual g<sup>(a*b)</sup></p>
+
+<p>basis: hard decomposition of large prime numbers</p>
+
+<ol>
+<li>Signatures</li>
+</ol>
+
+
+<p>Alice:</p>
+
+<p>R = g<sup>r</sup> &#8212;&#8212;&#8212;- (R, &#8220;foo&#8221;) &#8212;&#8212;&#8212;&#8212;&#8211;></p>
+
+<h1>Decentralized Identities</h1>
+
+<p>Man-in-the-middle attack</p>
+
+<p>How to solve the problem?</p>
+
+<p><a href="http://en.wikipedia.org/wiki/Public_key_infrastructure">PKI</a></p>
+
+<p>A public-key infrastructure (PKI) is a set of hardware, software, people, policies, and procedures needed to create, manage, distribute, use, store, and revoke digital certificates.</p>
+
+<ol>
+<li>Traditional CAs</li>
+</ol>
+
+
+<p><a href="http://en.wikipedia.org/wiki/Certificate_authority">Certificate authority</a></p>
+
+<p>Web Browser: Root CertsA -> subCA -> subCA ->&#8230;</p>
+
+<p>PGP = Pretty Good Privacy</p>
+
+<ol>
+<li>&#8220;Web of Trust&#8221;</li>
+</ol>
+
+
+<p>Alice (B says A=&#8221;A&#8221;) &#8212;- Bob (A says B=&#8221;B&#8221; | C says B=&#8221;B&#8221;) &#8212;- Charlie (B says C=&#8221;C&#8221;)</p>
+
+<p>Vulnerable:</p>
+
+<ol>
+<li>Self-Certifying ID</li>
+</ol>
+
+
+<p>URL: http://doodle.com/jsadl332pt24p</p>
+
+<p>pub key + &#8220;I am Bryan&#8221; -> hash as Name</p>
+
+<h1>Unstructured Search</h1>
+
+<p>Approaches</p>
+
+<ol>
+<li><p>Hooding</p></li>
+<li><p>Index nodes / Super peers</p></li>
+<li><p>Expanding Horizon</p></li>
+</ol>
+
+
+<p>(-) Tragedy of commons</p>
+
+<ol>
+<li><p>Freenet</p></li>
+<li><p>Bubble Storm</p></li>
+</ol>
+
+
+<p>Birthday paradox</p>
+
+<p>================================</p>
+
+<p>NFS (Sun Network FS), AFS (Andrew FS), Coda (disconnected operation), LOCUS, Bayou</p>
+
+<h2>NFS</h2>
+
+<p>Cilent: mount foo:vol/vol  \|  fd *open(&#8220;filename&#8221;); read(fd, buffer); write(&#8230;)</p>
+
+<p>file discriptor</p>
+
+<p>open(O_create| 0_EXA) to create &#8220;mydata.txt&#8221; &#8220;mydata.txt.lock&#8221;</p>
+
+<p>three way diff</p>
+
+<h1>Content Distribution</h1>
+
+<h3>1. Akamai</h3>
+
+<p>NY Times has a lot of webpages. Akamai makes deals with ISPs to cache the pages. Akamai redirect the quest to the local ISP.</p>
+
+<p>(+) faster, good for ISP/Server/Client</p>
+
+<h3>2. CoralCDN</h3>
+
+<p>More open than akamai</p>
+
+<p>bford.info.nyud.net</p>
+
+<ol>
+<li>DNS reg -> Coral DNS server</li>
+<li>Ping the user, estimate the location</li>
+<li>select coral proxy, respond to DNS</li>
+<li>HTTP reg -> proxy</li>
+</ol>
+
+
+<p>Coral proxy DSHT (D Sloppy HT)</p>
+
+<p>slop: If no cache is found and the last one proxy in the DHT is full, then the new cache would be stored into the near ones. It violates DHS&#8217;s principles.</p>
+
+<p>(-) latency, security,</p>
+
+<h3>3. BitTorrent</h3>
+
+<p>instruction count</p>
+
+<p>e.g. PlanetLab</p>
+
+<h1>Recommendation System</h1>
+
+<h3>1. Credendce</h3>
+
+<p>Facotrs</p>
+
+<ul>
+<li>popularity</li>
+<li>lifetime</li>
+<li>other user&#8217;s behavior</li>
+<li>other user&#8217;s rating</li>
+</ul>
+
+
+<p>Issuses</p>
+
+<ul>
+<li>misleading info</li>
+<li>absolute vs. relative ratings</li>
+<li>Anchoring effect</li>
+<li>Sybil attacks -> ballot shuffing</li>
+</ul>
+
+
+<p>Figre</p>
+
+<pre><code>------+-------+-------+-------+-------+ 
+Files | UserA | UserB | UserC | UserD |
+------+-------+-------+-------+-------+ 
+F1    |  -1   |  ?    |  +1   |  +1   |
+F2    |  +1   |       |  +1   |       |
+F3    |       |  +1   |  -1   |  -1   |
+F4    |  +1   |  +1   |  -1   |  +1   |
+F5    |  -1   |       |       |       |
+------+-------+-------+-------+-------+ 
+wight |  w1   |  w2   |  w3   |  w4   |
+------+-------+-------+-------+-------+ 
+</code></pre>
+
+<p>compute weights according to similarity of me and corresponding user.</p>
+
+<pre><code>     0.5
+ (A)-------(B)
+  | \       |
+.2|   \ .7  | 1
+  |     \   |
+  |       \ |
+ (D)-------(C)
+      .5
+</code></pre>
+
+<h3>2. SumUP</h3>
+
+<p>Two regions of a graph, honest and Sybil. A in honest starts a vote. How to go on?</p>
+
+<p>A generates 10 tickets. Spread tickets in the graph randomly.</p>
+
+<p>Graph with N nodes, then:
+- 2 tickets -> ~2 nodes
+- 4 tickets -> ~4 nodes
+- &#8230;
+- N tickets -> ~N nodes
+- 2N tickets -> ~NlogN nodes</p>
+
+<h3>3. dSybil</h3>
+
+<p>Small fraction of good nodes.</p>
+
+<h1>Digital Preservation</h1>
+
+<ol>
+<li><p>Media</p></li>
+<li><p>format dosdescence</p></li>
+<li>physical deterioration</li>
+<li>power spikes, floods,</li>
+</ol>
+
+
+<p>physical bit-rot</p>
+
+<ol>
+<li><p>Logical</p></li>
+<li><p>old file formats</p></li>
+<li>unix string</li>
+<li>run old software</li>
+<li><p>run old OS on a virtual machine or an old machine</p></li>
+<li><p>&#8220;Intentional&#8221; bit-rot</p></li>
+<li><p>Dongles</p></li>
+<li>copy-protect disks</li>
+</ol>
+
+
+<h1>Anonymous communication</h1>
+
+<p>Anonymity vs. Accountability</p>
+
+<ol>
+<li><p>assume it</p></li>
+<li><p>good? depends</p></li>
+<li><p>use &#8220;public&#8221; machine</p></li>
+<li><p>[+] physical info cached</p></li>
+<li>[-] private info cached/cookies</li>
+<li><p>[-] malware/viruses</p></li>
+<li><p>use proxy</p></li>
+<li><p>multihop relays</p></li>
+<li><p>email: mixmaster/mixminior</p></li>
+<li>Tor: interactive web. Basic version: a path transferring onion messages. Advanced version: onion tunnels.</li>
+</ol>
+
+
+<h1>Accounting</h1>
+
+<p>Counter-Strike Game</p>
+
+<pre><code>    fireButtonPressed() {
+        if (bullets_in_clip &gt; 0) {
+            bullets_in_clip--;
+            fire();
+        } else          
+            reload;
+    }
+
+Server---+-----clientA
+         |
+         +-----clientB
+         |
+         +-----clientC
+</code></pre>
+
+<p>Peer Review</p>
+
+<p>Tamper-evident log, hash chain (hashes all previous logs)</p>
+
+<p>Msg with signature</p>
+
+<p>Match msg in logs</p>
+
+<h1>Free Last Lecture</h1>
+
+<ul>
+<li>StegoTorus</li>
+<li>SkypeMorph</li>
+<li>FreeFlow</li>
+<li>Curveball / Decoy routing</li>
+</ul>
+
+
+<h1>Fault tolerance</h1>
+
+<p>RSM</p>
+
+<p>Primary/backup to ensure a single order of ops</p>
+
+<p>Paxos</p>
+
+<p>lets all nodes agree on the same value despite node failures, network failures, and delays.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/07/algorithm-design/">Algorithm Design</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-07T16:52:00-05:00" pubdate data-updated="true">Jan 7<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>1 Introduction: Some Representative Problems 1</h2>
+
+<p>1.1 A First Problem: Stable Matching 1
+1.2 Five Representative Problems 12
+Solved Exercises 19
+Exercises 22
+Notes and Further Reading 28</p>
+
+<h2>2 Basics of Algorithm Analysis</h2>
+
+<p>2.1 Computational Tractability 29
+2.2 Asymptotic Order of Growth 35
+2.3 Implementing the Stable Matching Algorithm Using Lists and
+Arrays 42
+2.4 A Survey of Common Running Times 47
+2.5 A More Complex Data Structure: Priority Queues 57
+Solved Exercises 65
+Exercises 67
+Notes and Further Reading 70</p>
+
+<h2>3 Graphs 29</h2>
+
+<p>3.1 Basic Definitions and Applications 73
+3.2 Graph Connectivity and Graph Traversal 78
+3.3 Implementing Graph Traversal Using Queues and Stacks 87
+3.4 Testing Bipartiteness: An Application of Breadth-First Search 94
+3.5 Connectivity in Directed Graphs 97
+3.6 Directed Acyclic Graphs and Topological Ordering Solved Exercises 104
+Exercises 107
+Notes and Further Reading 112</p>
+
+<h2>4 Greedy Algorithms 115</h2>
+
+<p>4.1 Interval Scheduling: The Greedy Algorithm Stays Ahead 116 4.2 Scheduling to Minimize Lateness: An Exchange Argument 125 4.3 Optimal Caching: A More Complex Exchange Argument 131</p>
+
+<h3>4.4 Shortest Paths in a Graph 137</h3>
+
+<p>4.5 The Minimum Spanning Tree Problem 142
+4.6 Implementing Kruskal’s Algorithm: The Union-Find Data
+Structure 151 4.7 Clustering 157
+4.8 Huffman Codes and Data Compression 161
+∗ 4.9 Minimum-Cost Arborescences: A Multi-Phase Greedy</p>
+
+<h2>5 Divide and Conquer 209</h2>
+
+<p>5.1 A First Recurrence: The Mergesort Algorithm
+5.2 Further Recurrence Relations 214
+5.3 Counting Inversions 221
+5.4 Finding the Closest Pair of Points 225
+5.5 Integer Multiplication 231
+5.6 Convolutions and the Fast Fourier Transform
+Solved Exercises 242
+Exercises 246
+Notes and Further Reading 249</p>
+
+<h2>6 Dynamic Programming 251</h2>
+
+<p>6.1 Weighted Interval Scheduling: A Recursive Procedure
+6.2 Principles of Dynamic Programming: Memoization or Iteration
+over Subproblems 258
+6.3 Segmented Least Squares: Multi-way Choices 261
+6.4 Subset Sums and Knapsacks: Adding a Variable 266
+6.5 RNA Secondary Structure: Dynamic Programming over
+Intervals 272
+6.6 Sequence Alignment 278
+6.7 Sequence Alignment in Linear Space via Divide and
+Conquer 284
+6.8 Shortest Paths in a Graph 290
+6.9 Shortest Paths and Distance Vector Protocols
+297
+∗ 6.10
+Negative Cycles in a Graph Solved Exercises 307 Exercises 312
+Notes and Further Reading
+301
+335</p>
+
+<h2>7 Network Flow 337</h2>
+
+<p>7.1 The Maximum-Flow Problem and the Ford-Fulkerson Algorithm 338
+7.2 Maximum Flows and Minimum Cuts in a Network 346
+7.3 Choosing Good Augmenting Paths 352
+∗ 7.4 The Preflow-Push Maximum-Flow Algorithm 357
+7.5 A First Application: The Bipartite Matching Problem 367 7.6 Disjoint Paths in Directed and Undirected Graphs 373 7.7 Extensions to the Maximum-Flow Problem 378
+7.8 Survey Design 384
+7.9 Airline Scheduling 387
+7.10 Image Segmentation
+7.11 Project Selection 396 7.12 Baseball Elimination 400
+391
+∗ 7.13 A Further Direction: Adding Costs to the Matching Problem 404 Solved Exercises 411
+Exercises 415
+Notes and Further Reading 448</p>
+
+<h2>8 NP and Computational Intractability 451</h2>
+
+<p>8.1 Polynomial-Time Reductions 452
+8.2 Reductions via “Gadgets”: The Satisfiability Problem</p>
+
+<h3>8.3 Efficient Certification and the Definition of NP 463</h3>
+
+<p>8.4 NP-Complete Problems 466
+8.5 Sequencing Problems 473
+8.6 Partitioning Problems 481
+8.7 Graph Coloring 485
+8.8 Numerical Problems 490
+8.9 Co-NP and the Asymmetry of NP 495
+8.10 A Partial Taxonomy of Hard Problems 497
+Solved Exercises 500
+Exercises 505
+Notes and Further Reading 529</p>
+
+<h2>9 PSPACE: A Class of Problems beyond NP</h2>
+
+<p>9.1 PSPACE 531
+9.2 Some Hard Problems in PSPACE 533
+9.3 Solving Quantified Problems and Games in Polynomial
+531
+Space 536
+9.4 Solving the Planning Problem in Polynomial Space
+9.5 Proving Problems PSPACE-Complete 543
+Solved Exercises 547
+Exercises 550
+Notes and Further Reading 551</p>
+
+<h2>10 Extending the Limits of Tractability</h2>
+
+<p>10.1 Finding Small Vertex Covers 554
+10.2 Solving NP-Hard Problems on Trees 558
+10.3 Coloring a Set of Circular Arcs 563
+538
+∗ 10.4 ∗ 10.5
+Tree Decompositions of Graphs 572 Constructing a Tree Decomposition 584 Solved Exercises 591
+Exercises 594
+Notes and Further Reading 598</p>
+
+<h2>11 Approximation Algorithms</h2>
+
+<p>599
+11.1 Greedy Algorithms and Bounds on the Optimum: A Load Balancing Problem 600
+11.2 The Center Selection Problem 606
+11.3 Set Cover: A General Greedy Heuristic 612
+11.4 The Pricing Method: Vertex Cover 618
+11.5 Maximization via the Pricing Method: The Disjoint Paths
+Problem 624
+11.6 Linear Programming and Rounding: An Application to Vertex
+∗ 11.7
+Cover 630
+Load Balancing Revisited: A More Advanced LP Application 637
+11.8 Arbitrarily Good Approximations: The Knapsack Problem 644 Solved Exercises 649
+Exercises 651
+Notes and Further Reading 659</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -3747,6 +4470,77 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2012/12/25/programming-collective-intelligence/">Programming Collective Intelligence</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-25T03:40:00-05:00" pubdate data-updated="true">Dec 25<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>1. Introduction</h2>
+
+<h3>Python tips</h3>
+
+<p>list: an ordered list of any type of value. constructed with []</p>
+
+<pre><code>number_list = [1,2,3,4]
+string_list = ['a','b','c','d']
+mixed_list = ['a', 3, 'c', 8]
+</code></pre>
+
+<p>dictionary: unordered set of key/value pairs, like hash map in other languages. constructed with {}</p>
+
+<pre><code>ages = {'John':24, 'Sarah':28, 'Mike':31}
+// access
+string_list[2]  # returns 'b'
+ages['Sarah']   # returns 28
+</code></pre>
+
+<p>indentation defines code blocks</p>
+
+<pre><code>if x==1:
+    print 'x is 1'
+    print 'Still in if block'
+print 'outside if block'
+</code></pre>
+
+<p>list comprehensions</p>
+
+<pre><code>[expression for variable in list]
+[expression for variable in list if condition]
+
+l1 = [1,2,3,4,5,6,7,8,9]
+print [v*10 for v in l1 if v1&gt;4]
+timesten = dict([(v, v*10) for v in l1])
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2012/12/23/careercup150/">Cracking the Coding Interview</a></h1>
     
     
@@ -3992,7 +4786,7 @@
 
 <ul>
 <li>Problems which can be solved by polynomial-time algorithms are <strong>tractable/easy</strong>. Otherwise, <strong>intractable/hard</strong></li>
-<li><p>Three classes of problems:</p>
+<li>Three classes of problems:
 
 <ol>
 <li>P.   solvable in polynomial time O(n<sup>k)</sup></li>
@@ -4001,16 +4795,21 @@
 
 <ul>
 <li>If any NP-complete problem can be solved in polynomial time, then every problem in NP has a polynomial-time algorithm.</li>
-<li>Many CS scientists believe NP-complete problems are intractable.
-
-<h4>34.1 Polynomial time 1053</h4>
-
-<h4>34.2 Polynomial-time verification 1061</h4></li>
+<li>Many CS scientists believe NP-complete problems are intractable.</li>
+<li>e.g. circuit-satisfiability problem</li>
 </ul>
 </li>
 </ol>
 </li>
-<li><p>Certifiers and Certificates:  Hamiltonian Cycle</p>
+</ul>
+
+
+<h4>34.1 Polynomial time 1053</h4>
+
+<h4>34.2 Polynomial-time verification 1061</h4>
+
+<ul>
+<li>Certifiers and Certificates:  Hamiltonian Cycle
 
 <ul>
 <li><strong>HAM-CYCLE</strong>.  Given an undirected graph G = (V, E), does there exist a simple cycle C that visits every node?</li>
@@ -4755,787 +5554,6 @@ return 0; }
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/19/oop1/">OOP Mid Term Notes</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-19T02:01:00-05:00" pubdate data-updated="true">Dec 19<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Referencing composed and base objects. site:http://zoo.cs.yale.edu/classes/cs427/</p>
-
-<h2>C++ Basics</h2>
-
-<h3>1. Properties of C++</h3>
-
-<ol>
-<li><strong>Widely used</strong> in the real world.</li>
-<li><strong>Close to the machine</strong> and capable of producing efficient code.</li>
-<li>Gives a programmer <strong>fine control</strong> over the use of resources.</li>
-<li><strong>OOP</strong>: Supports the object-oriented programming paradigm.</li>
-<li><strong>Modularity</strong>: Supports modularity and component isolation.</li>
-<li><strong>Correctness</strong>: Supports correctness through privacy, modularity, and use of exceptions.</li>
-<li><strong>Reusable code</strong>: Supports reusabale code through derivation and templates.</li>
-</ol>
-
-
-<h3>2. C++ file types</h3>
-
-<ol>
-<li><em>Header files (.hpp)</em> contain various kinds of declarations needed by clients of a module. They must not contain definitions of non-inline functions.</li>
-<li><em>Implementation files (.cpp)</em> contain definitions of non-inline functions and class methods and a few other kinds of things. Public declarations belong in the corresponding .hpp files.</li>
-<li><em>Object files (.o)</em> contain the code generated by the compiler from one .cpp file.</li>
-<li><strong>Static library files (.a)</strong> are archives (collections) of object files.</li>
-<li><em>Executable files</em> commands ready to be run. File names have no extension. They must have the “execute” mode bit set.
-is compiled to produce a corresponding .o file.</li>
-<li>Linking: All of the .o files, together with needed code from library files, are combined to produce one executable file.</li>
-</ol>
-
-
-<h3>3. Stages of a program creation. Kinds of errors that can be discovered at each stage. Compilation and linking. What does each do? What files are needed? What files are produced?</h3>
-
-<p>Two stages:</p>
-
-<ul>
-<li>Compilation: Each .cpp file
-<em>For every symbol referenced in any of the .o files, a definition must be found in exactly one .o file or in a library.</em></li>
-</ul>
-
-
-<p>Compiler errors at each stage:</p>
-
-<ul>
-<li>Preprocessor errors: Missing #include files, mismatched #ifndf…#endif pairs, etc.</li>
-<li>Compilation errors: Syntax, semantics, missing/erroneous declarations. Sometimes the file produced by the preprocessor and seen by the compiler is not what the programmer intended.</li>
-<li>Linker errors are generally methods that were declared but never defined, often because of mismatched signatures. Duplicate definitions from different modules also detected here, e.g., multiple definitions of main().</li>
-</ul>
-
-
-<h3>4. Qualifiers: inline, const, static</h3>
-
-<p>4.1. Static data members
-- A static class variable must be declared and defined.
-- A static class member is declared by preceding the member declaration by the qualifier static.
-- A static class member is defined by having it appear in global context with an initializer but without static.
-- Must be defined only once.</p>
-
-<p>Example
-In mypack.hpp file, inside class definition:</p>
-
-<pre><code>    class MyPack {
-        static int instances; // count # instantiations
-</code></pre>
-
-<p>In mypack.cpp file:</p>
-
-<pre><code>    int MyPack::instances = 0;
-</code></pre>
-
-<p>4.2. Static function members</p>
-
-<ul>
-<li>As with static variables, the are declared inside class by prefixing static.</li>
-<li>They may be defined either inside the class (as inline functions) or outside the class.</li>
-<li>If defined outside the class, the :: prefix must be used and the word static omitted.</li>
-</ul>
-
-
-<p>4.3. const declares a variable (L-value) to be readonly.</p>
-
-<p>If they are used at all, global variables should be const. It is not bad style to use a global const variable because you can do things with it that you cannot do with #define (initialize a constant object of a structured type).</p>
-
-<p>Here are three different uses of the const qualifier in a pointer declaration:</p>
-
-<pre><code>        int const* p; //a mutable pointer to a constant int
-        int* const p; //a constant pointer to a mutable int
-        int const* const r; //a constant pointer to a constant int
-</code></pre>
-
-<p>A little trick: if you read the declaration statement from right to left, it will be much easier to figure out its meaning. For example:</p>
-
-<pre><code>        int const* p; //p is a pointer to a constant integer
-        int* const p; //p is a constant pointer to an integer.
-</code></pre>
-
-<p>4.4. inline
-- Methods <strong>defined</strong> inside a class are inline (e.g., getN()).
-- Inline functions are recompiled for every call.
-- Inline avoids function call overhead but results in larger code size.
-- inline keyword makes following function definition inline.
-- Inline functions must be defined in the header (.hpp) file. Why? To expand the code of an inline function at the point of call, the compiler must have access to the function definition. The function prototype is insufficient.</p>
-
-<h3>5. C++ types: primitive (built-in) value types, class types, enum types, typedef, reference types, and pointer types.</h3>
-
-<h2>Classes and objects</h2>
-
-<h3>1. The roles of a class</h3>
-
-<ul>
-<li>A type from which objects (instances) can be formed. We say the instances belong to the class.</li>
-<li>A collection of things that belong together; a struct with its associated functions.</li>
-<li>A way to encapsulate behavior: a public interface with a private implementation.</li>
-<li>A way to protect the integrity of data, providing the rest of the world with functions that provide a view of the data but no way to modify it.</li>
-<li>A way to organize and automate allocation, initialization, and deallocation</li>
-<li>A reusable module.</li>
-<li>A way to break a complex problem down into manageable, semi-independent pieces, each with a defined
-interface.</li>
-<li>An entity that can collaborate with other classes to perform a task</li>
-</ul>
-
-
-<h3>2. Class elements and class structure. class visibility.</h3>
-
-<p>2.1. Class elements</p>
-
-<ul>
-<li>A class contains declarations for data members and function members (or methods).</li>
-<li>int n; declares a data member of type int.</li>
-<li>int getN(){ return n; } is a complete member function definition.</li>
-<li>void sortData(); declares a member function that must be defined elsewhere.</li>
-<li>By convention, member names begin with lower case letters and are written in camelCase.</li>
-</ul>
-
-
-<p>2.2. Visibility</p>
-
-<ul>
-<li>The visibility of declared names can be controlled.</li>
-<li>public: declares that following names are visible outside of the class.</li>
-<li>private: restricts name visibility to this class.</li>
-<li>Public names define the interface to the class.</li>
-<li>Private names are for internal use, like local names in functions.</li>
-</ul>
-
-
-<h3>3. Differences between a class definition and a class implementation. Importance of a class interface.</h3>
-
-<p>the public functions of a class are called the class interface.</p>
-
-<h3>4. Constructing/destructing objects.</h3>
-
-<h3>5. Different kinds and roles of constructors: ctors, copy constructors, default constructors.</h3>
-
-<p>Whenever a class object is created, one of its constructors is called.
-If not specified otherwise, the default constructor is called. This is <strong>the one that takes no arguments</strong>.
-If you do not define the default constructor, then the null constructor (which does nothing) is used.
-This applies not only to the “outer” object but also to all of its embedded objects.</p>
-
-<p>5.1. Ctors</p>
-
-<p>(short for constructor/initializors) allow one to supply parameters to implicitly-called constructors.</p>
-
-<p>Example:</p>
-
-<pre><code>    class B : A {  
-        B( int n ) : A(n) {};  
-        // Calls A constructor with argument n  
-    };
-</code></pre>
-
-<p>5.2. Copy constructors</p>
-
-<ul>
-<li>A copy constructor is automatically defined for each new class A and has prototype A(const A&amp;). It initializes a newly created A object by making a shallow copy of its argument.</li>
-<li>Copy constructors are used for call-by-value parameters.</li>
-<li><strong>Assignment</strong> uses operator=(), which by default copies the data members but does not call the copy constructor.</li>
-<li><p><em>The results of the implicitly-defined assignment and copy constructors are the same</em>, but they can be redefined to be different.</p></li>
-<li><p>Initialization, assignment, copying of objects (and variables in general)</p></li>
-</ul>
-
-
-<p>Initialization ctors
-Ctors also can be used to initialze primitive (non-class) variables.</p>
-
-<p>Example:</p>
-
-<pre><code>    class  B {  
-        int x;  
-        const int y;  
-        B( int n ) : x(n), y(n+1) {}; // Initializes x and y  
-    };
-</code></pre>
-
-<p>Multiple ctors are separated by commas.</p>
-
-<p>Ctors present must be in the same order as the construction takes place – base class ctor first, then data member ctors in the same order as their declarations in the class.</p>
-
-<p>Initialization not same as assignment</p>
-
-<p>Previous example using ctors is not the same as writing</p>
-
-<pre><code>    B( int n ) { y=n+1; x=n; };
-</code></pre>
-
-<p>The order of initialization differs.</p>
-
-<p>const variables can be initialized but not assgined to.</p>
-
-<p>Initialization uses the constructor (for class objects).</p>
-
-<p>Initialization from another instance of the same type uses the copy constructor.</p>
-
-<h2>I/O</h2>
-
-<h3>1. streams: cin, cout, cerr, and clog</h3>
-
-<ul>
-<li>cin is the standard input stream.</li>
-<li>cout is the standard output stream.</li>
-<li>cerr is the standard output stream for errors.</li>
-<li>clog is the standard output stream for logging.</li>
-</ul>
-
-
-<p>Standard output is called cout. Other predefined output streams are cerr and clog. They are usually initialized to standard output <strong>but can be redirected</strong>.</p>
-
-<h3>2. Handling files.</h3>
-
-<ul>
-<li>ifstream fin ( &#8220;myfile.in&#8221; ); opens stream fin for reading. This implicitly invokes the constructor ifstream( &#8220;myfile.in&#8221; ).</li>
-<li>ifstream fin; creates an input stream not associated with a file. fin.open( &#8220;myfile.in&#8221; ); attaches it to a file. Can also specify open modes.</li>
-<li>To test if fin failed to open correctly, write if (!fin) {…}.</li>
-<li>To close, use fin.close();.</li>
-</ul>
-
-
-<p>Can read a line into a buffer with fin.get(buf, buflen);. This function stops before the newline is read. To continue, one must move past the newline with a simple fin.get(ch); or fin.ignore();.</p>
-
-<h3>3. <strong>Manipulators</strong>.</h3>
-
-<p>Manipulators are objects that can be arguments of <em>>></em> or <em>&lt;&lt;</em> but do not necessarily produce data.</p>
-
-<p>Example:</p>
-
-<pre><code>    cout &lt;&lt; hex &lt;&lt; x &lt;&lt; y &lt;&lt; dec &lt;&lt; z &lt;&lt; endl;
-</code></pre>
-
-<p>Prints x and y in hex and z in decimal. After printing z, a newline is printed and the output stream is flushed. Manipulators are used in place of C formats to control input and output formatting and conversions.</p>
-
-<h3>4. Kinds of I/O errors and ways to handle them.</h3>
-
-<h3>5. Error flags, their meaning and how they are set.</h3>
-
-<p>I/O functions set status flags after each I/O operation. <strong>bad</strong> means there was a read or write error on the file I/O. <strong>fail</strong> means the data was not appropriate to the field, e.g., trying to read a non-numeric character into a numeric variable. <strong>eof</strong> means that the end of file has been reached. <strong>good</strong> means that the above three bits are all off.</p>
-
-<p>The whole state can be read with one call to rdstate().</p>
-
-<pre><code>    // getting state of stream object
-    #include &lt;iostream&gt;
-    #include &lt;fstream&gt;
-    using namespace std;
-
-    int main () {
-        ifstream is;
-        is.open ("test.txt");
-        if ( (is.rdstate() &amp; ifstream::failbit ) != 0 ) // if failbit flag is on
-            cerr &lt;&lt; "Error opening 'test.txt'\n";
-        return 0;
-    }
-</code></pre>
-
-<p>Functions are also provided for testing useful combinations of status bits.</p>
-
-<ul>
-<li>good() returns true if the good bit is set.</li>
-<li>bad() returns true if the bad bit is set. This is not the same as !good().</li>
-<li>fail() returns true if the bad bit or the fail bit is set.</li>
-<li>eof() returns true if the eof bit is set.</li>
-</ul>
-
-
-<p>As in C, correct end of file and error checking require paying close attention to detail of exactly when these state bits are turned on.</p>
-
-<p>To continue after a bit has been set, must call <strong>clear()</strong> to clear it.</p>
-
-<ol>
-<li>Extending operators. What operators can be extend and how? Advantages of extending operators.</li>
-</ol>
-
-
-<p>Operators can be extended to work with new types, for example, complex numbers. +-*/</p>
-
-<p>The built-in arithmetic operators in C and C++ are generic; they are defined for all built-in numeric types. One of the purposes of an object-oriented language is to enable the programmer to define new classes and use them in the same ways that the built-in classes are used. Combining these two facts, we see a need to extend the built-in generic operators to work on new classes. An operator extension implements a built-in function for a new type in such a way that the intention and character of the original operator are preserved.</p>
-
-<pre><code>    inline  
-    ostream&amp; operator&lt;&lt;(ostream&amp; out, const Square&amp; sq) {  
-        return sq.print(out);  
-    }
-</code></pre>
-
-<h2>Functions and methods</h2>
-
-<h3>1. Passing data to a function. What are the different ways to pass data to a function? Advantages of each method.</h3>
-
-<ul>
-<li>Call by value: The argument values are copied into the parameter storage locations in the function&#8217;s stack frame. There is no way for the function to change values in main&#8217;s stack frame.</li>
-<li>Call by pointer: The arguments must be addresses of integer variables in the caller&#8217;s stack frame. These
-addresses are stored in the parameter locations in the function&#8217;s stack frame. They permit the function to
-modify its caller&#8217;s memory locations.</li>
-<li>Call by reference: The arguments must be integer variables in the caller&#8217;s stack frame. The addresses of
-these variables are stored in the parameter locations in the function&#8217;s stack frame, permitting the function to modify its caller&#8217;s memory locations.</li>
-</ul>
-
-
-<p>TODO advantages</p>
-
-<h3>2. Receiving data from a function. How data can be passed back from a function? Can more than one value be returned?</h3>
-
-<ul>
-<li>Return by value.</li>
-<li>Return by pointer.</li>
-<li>Return by const T *</li>
-<li>Return by reference</li>
-<li><p>Return by const T &amp;</p>
-
-<pre><code>  int ret0( int* ar ) { return ar[0]; } // Returns an integer R-value.
-  int* ret1( int* ar ) { return &amp;ar[1]; } // A pointer R-value.
-  const int* ret2( int* ar ) { return &amp;ar[2]; } // A read-only pointer R-value.
-  int&amp; ret3( int* ar ) { return ar[3]; } // An L-value (reference).
-  const int&amp; ret4( int* ar ) { return ar[4]; } // A read-only L-value reference.
-</code></pre></li>
-</ul>
-
-
-<h2>Pointers and references</h2>
-
-<h3>1. L-values and R-values.</h3>
-
-<p>Something that can appear on the left is called an L-value.
-Something that can appear on the right is called an R-value.
-Intuitively, an L-value is the <strong>address of a storage location</strong> – some place where a value can be stored.
-An R-value is a thing that can be placed in a storage location.
-R-values are sometimes called <strong>pure data values</strong>.</p>
-
-<p>The declaration int x = 3; says several things:</p>
-
-<ul>
-<li>All values that can be stored in x have type int.</li>
-<li>The name x is bound (when the code is executed) to a storage location adequate to store an int.</li>
-<li>The int value 3 is initially placed in x’s storage location.</li>
-</ul>
-
-
-<p>The assignment statement x = 3; means the following:</p>
-
-<ul>
-<li>Get an L-value from the left hand side (x).</li>
-<li>Get an R-value from the right hand side (3).</li>
-<li>Put the R value from step 2 into the storage location whose address was obtained from step 1.</li>
-</ul>
-
-
-<p>Given int x = 3;  int y = 4; Consider x = y; This is processed as before, except what does it mean to get an R-value from y?</p>
-
-<p><strong>Whenever an L-value is presented and an R-value is needed, automatic deferencing occurs.</strong></p>
-
-<p>This means to go the storage location specified by the presented L-value (y) and get its R-value (4).</p>
-
-<p>Then the assignment takes place as before.</p>
-
-<h3>2. References vs. pointers</h3>
-
-<p>A pointer [reference value] is a primitive object with an associated L-value.</p>
-
-<p>TODO</p>
-
-<h3>3. Relationship between a reference and a pointer.</h3>
-
-<p>TODO</p>
-
-<h2>Derivation</h2>
-
-<h3>1. What is derivation?</h3>
-
-<p>One class can be derived from another.</p>
-
-<p>Syntax:</p>
-
-<pre><code>    class A {  
-    public:  
-        int x;  
-        ...  
-    };  
-    class B : public A {  
-        int y;  
-        ...  
-    };
-</code></pre>
-
-<p>A is the base class; B is the derived class.</p>
-
-<p>B inherits the members from A.</p>
-
-<h3>2. When to use and when not to use class derivation.</h3>
-
-<p>Use</p>
-
-<ul>
-<li>To allow a family of related classes to share common parts.</li>
-<li>To describe abstract interfaces like Java.</li>
-<li>To allow generic methods with run-time dispatching.</li>
-<li>To provide a clean interface between existing, non-modifiable code and added user code.</li>
-</ul>
-
-
-<h3>3. Structure of an object</h3>
-
-<p>Structure of an object A simple object is like a struct in C. It consists of a block of storage large enough to contain all of its data members. An object of a derived class contains an instance of the base class followed by the data members of the derived class.</p>
-
-<p>Example:</p>
-
-<pre><code>    class B : A { …};
-    B bObj;
-</code></pre>
-
-<p>Then “inside” of bObj is an A-instance!</p>
-
-<h3>4. Referencing composed and base objects.</h3>
-
-<h4>4.1 Referencing a composed object</h4>
-
-<p>Contrast the previous example to</p>
-
-<pre><code>    class B { A aObj; …};
-    B bObj;
-</code></pre>
-
-<p>Here B composes A.</p>
-
-<p>The embedded A object can be referenced using data member name aObj, e.g., bObj.aObj.</p>
-
-<h4>4.2 Referencing a base object</h4>
-
-<pre><code>    class A { public: int x; int y; …};
-    class B : A { int y; …};
-    B bObj;
-</code></pre>
-
-<ul>
-<li>The data members of A can be referenced directly by name.</li>
-<li>x refers to data member x in class A.</li>
-<li>y refers to data member y in class B.</li>
-<li>A::y refers to data member y in class A.</li>
-<li>this points to the whole object. Its type is B*. It can be coerced to type A*.</li>
-</ul>
-
-
-<h3>5. Construction/destruction rules.</h3>
-
-<h4>5.1 Construction rules</h4>
-
-<p>The rule for an object of a simple class is:</p>
-
-<ol>
-<li>Call the constructor/initializer for each data member object in sequence.</li>
-<li>Call the constructor for the class.</li>
-</ol>
-
-
-<p>The rule for an object of a derived class is:</p>
-
-<ol>
-<li>Call the constructor for the base class recursively.</li>
-<li>Call the constructor/initializer for each data member object of the derived class in sequence.</li>
-<li>Call the constructor for the derived class.</li>
-</ol>
-
-
-<h4>5.2 Destruction rules</h4>
-
-<p>When an object is deleted, the destructors are called in the opposite order.</p>
-
-<p>The rule for an object of a derived class is:</p>
-
-<ol>
-<li>Call the destructor for the dervied class.</li>
-<li>Call the destructor for each data member object of the derived class in reverse sequence.</li>
-<li>Call the destructor for the base class.</li>
-</ol>
-
-
-<h2>Error</h2>
-
-<h3>1. Five kinds of failures. When different errors can occur?</h3>
-
-<ul>
-<li><strong>Memory leak</strong>—Dynamic storage that is no longer accessible but has not been deallocated.</li>
-<li><strong>Amnesia</strong>—Storage values that mysteriously disapper.</li>
-<li><strong>Bus error</strong>—Program crashes because of an attempt to access non-existant memory.</li>
-<li><strong>Segmentation fault</strong>—Program crashes because of an attempt to access memory not allocated to your process.</li>
-<li><strong>Waiting for eternity</strong>—Program is in a <em>permanent wait state</em> or an infinite loop.</li>
-</ul>
-
-
-<h3>2. Memory leaks – what they are, how they arise, how they can be detected and design patterns for avoiding them.</h3>
-
-<h3>3. Memory management paradigms.</h3>
-
-<h2>C++ Standard Library </h2>
-
-<h3>1. What is the C++ Standard Library and how can it be used?</h3>
-
-<h3>2. Two classes: stringstream and vector</h3>
-
-<p>stringstream – permits I/O to an in-memory string-like object.</p>
-
-<p>vector<T> – creates a growable array of objects of type T, where T can be any type.</p>
-
-<h4>Class stringstream</h4>
-
-<p>A stringstream object (in the default case) acts like an ostream object.</p>
-
-<p>It can be used just like you would use cout.</p>
-
-<p>The characters go into an internal buffer rather than to a file or device.</p>
-
-<p>The buffer can be retrieved as a string using the str() member function.</p>
-
-<p>stringstream example</p>
-
-<p>Example: Creating a label from an integer.</p>
-
-<pre><code>    #include &lt;sstream&gt;  
-    ...  
-    int examScore=94;  
-    stringstream ss;  
-    string label;  
-    ss &lt;&lt; "Score=" &lt;&lt; examScore;  
-    label = ss.str();  
-    cout &lt;&lt; label &lt;&lt; endl;
-    This prints Score=94.
-</code></pre>
-
-<h4>vector</h4>
-
-<p><em>vector<T> myvec</em> is something like the C array T myvec[].</p>
-
-<p>The element type T can be any primitive, object, or pointer type.</p>
-
-<p>One big difference is that a vector starts empty (in the default case) and it grows as elements are appended to the end.</p>
-
-<p>Useful functions:</p>
-
-<ul>
-<li>myvec.push_back( item ) appends item to the end.</li>
-<li>myvec.size() returns the number of objects in myvec</li>
-<li>myvec[k] returns the object in myvec with index k (assuming it exists.) Indices run from 0 to size()-1.
-Other operations on vectors</li>
-<li>Other operations include creating an empty vector, inserting, deleting, and copying elements, scanning through the vector, and so forth.</li>
-<li>Liberal use is made of operator definitions to make vectors behave as much like other C++ objects as possible.</li>
-<li>Vectors implement value semantics, meaning type T objects are copied freely within the vectors.</li>
-<li>If copying is a problem, store pointers instead.
-vector examples</li>
-</ul>
-
-
-<p>You must</p>
-
-<pre><code>    #include &lt;vector&gt;.
-</code></pre>
-
-<p>Elements can be accessed using standard subscript notion.</p>
-
-<p>Inserting at the beginning or middle of a vector takes time O(n).</p>
-
-<p>Example:</p>
-
-<pre><code>    vector&lt;int&gt; tbl(10);  // creates length 10 vector of int  
-    tbl[5] = 7;           // stores 7 in slot #5  
-    cout &lt;&lt; tbl[5];       // prints 7  
-    tbl[10] = 4;          // illegal, but not checked!!!  
-    cout &lt;&lt; tbl.at(5);    // prints 7  
-    tbl.at(10) = 4;       // illegal and throws an exception  
-    tbl.push_back(4);     // creates tbl[10] and stores 4  
-    cout &lt;&lt; tbl.at(10);   // prints 4
-</code></pre>
-
-<h2>Class dependencies</h2>
-
-<ol>
-<li>Tightly coupled classes.</li>
-</ol>
-
-
-<p>Class B depends on class A if B refers to elements declared within class A or to A itself.</p>
-
-<p>A pair of classes A and B are <strong>tightly coupled</strong> if each depends on the other.</p>
-
-<ol>
-<li>Circular dependencies.</li>
-</ol>
-
-
-<p>File list.hpp:</p>
-
-<pre><code>        #pragma once  
-        #include "cell.hpp"  
-        class List { ... };
-        File cell.hpp:
-
-        #pragma once  
-        #include "list.hpp"  
-        class Cell { ... };
-        File main.cpp:
-
-        #include "list.hpp"  
-        #include "cell.hpp"  
-        int main() { ... }
-</code></pre>
-
-<p>Resolving circular dependencies</p>
-
-<ul>
-<li>Suppose the only reference to B in A is to declare a pointer. Then it works to put a <strong>“forward” declaration</strong> of B at the top of A.hpp, for example:
-
-<pre><code>  class B;
-  class A { B* bp; ... };
-</code></pre></li>
-<li>If a function defined in A references symbols of B, then the definition of the function must be moved outside the class and placed where it will be read after B has been read in, e.g., in the A.cpp file.</li>
-<li>If the function needs to be inline, this is still possible, but it’s much trickier getting the inline function definition in the right place.</li>
-</ul>
-
-
-<h2>Visualization</h2>
-
-<ol>
-<li>Unified Modeling Language (UML)</li>
-</ol>
-
-
-<p>TODO</p>
-
-<ol>
-<li><p>Elementary design principles.</p></li>
-<li><p>Privacy</p></li>
-<li>Expert</li>
-<li>Creation</li>
-<li>Deletion</li>
-<li>Consistency</li>
-<li>Delegation</li>
-<li>Don&#8217;t talk to strangers</li>
-<li>Responsibility</li>
-</ol>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/13/fast-crash-recovery-in-ramcloud/">Fast Crash Recovery in RAMCloud (SOSP&#8217;11)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-13T12:22:00-05:00" pubdate data-updated="true">Dec 13<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.stanford.edu/~ouster/cgi-bin/home.php">Stanford</a>, <a href="http://www.stanford.edu/~ouster/cgi-bin/papers/ramcloud-recovery.pdf">paper</a>, <a href="https://ramcloud.stanford.edu/wiki/display/ramcloud/RAMCloud+Presentations">slides</a>, <a href="http://www.youtube.com/watch?v=RE3CmdEGv4M">video</a></p>
-
-<h3>1. Problem</h3>
-
-<p>RAMCloud is a storage system helping developers manage large-scale DRAM storage, driven by the fact that large-scale Web applications need to cache large data in DRAM. (For example, Facebook cached 150TB DRAM in <em>memcached</em> out of 200TB of disk storage.)</p>
-
-<p>In order to keep a high level of durability and availability without impacting system performance, RAMCloud has only one single copy of data in DRAM. The problem here is how to recover from crash within 1s~2s.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/12/13/fast-crash-recovery-in-ramcloud/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/06/cleanos/">CleanOS: Limiting Mobile Data Exposure With Idle Eviction (OSDI&#8217;12)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-06T06:40:00-05:00" pubdate data-updated="true">Dec 6<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://systems.cs.columbia.edu/projects/cleanos/">Columbia University</a>, <a href="https://www.usenix.org/system/files/conference/osdi12/osdi12-final-203.pdf">paper</a> <a href="https://www.usenix.org/sites/default/files/conference/protected-files/tang_osdi12_slides.pdf">slides</a>, <a href="https://www.usenix.org/conference/osdi12/cleanos-increasing-mobile-data-control-cloud-based-eviction">video</a></p>
-
-<h3>1. Problem</h3>
-
-<p>How to protect sensitive data in mobile phones? Mobile devices are extremely prone to be stolen or lost.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/12/06/cleanos/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -5551,6 +5569,14 @@ vector examples</li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/01/08/building-decentralized-systems/">Building Decentralized Systems</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/07/algorithm-design/">Algorithm Design</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/01/07/clrs-1-basics/">CLRS 1: Basics</a>
       </li>
     
@@ -5560,14 +5586,6 @@ vector examples</li>
     
       <li class="post">
         <a href="/blog/2012/12/26/bu-tan-sheng-huo/">请不要和我谈生活，我没有生活</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/12/23/careercup150/">Cracking the Coding Interview</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/12/22/clrs-3-selected/">CLRS 3: Selected</a>
       </li>
     
   </ul>

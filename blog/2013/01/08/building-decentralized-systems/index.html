@@ -1,0 +1,719 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Building Decentralized Systems - CS Notebook</title>
+  <meta name="author" content="Tian">
+
+  
+  <meta name="description" content="LEC 2: UseNet and Gossip Messaging: UseNet Message RFC 1036 Every node is not connected directly to each other.
+gossip protocol (= epidemic protocol &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://puncsky.github.com/blog/2013/01/08/building-decentralized-systems/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="CS Notebook" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">CS Notebook</a></h1>
+  
+    <h2>Just a notebook about life and computer</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:puncsky.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Building Decentralized Systems</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-08T07:43:00-05:00" pubdate data-updated="true">Jan 8<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>LEC 2: UseNet and Gossip Messaging: UseNet Message <a href="http://www.ietf.org/rfc/rfc1036.txt">RFC 1036</a></h2>
+
+<ol>
+<li><p>Every node is not connected directly to each other.</p></li>
+<li><p>gossip protocol (= epidemic protocol)</p></li>
+<li><p><strong>Message-ID</strong>: unique, avoid infinite loop forwarding</p></li>
+<li><p>Every node picks up one random neighbor and forward the message: have you ever seen this message? And the next.</p></li>
+<li><p>TCP time&#8217;s up in 20s, but how about a node is down for 2 hours?</p></li>
+<li><p>Anti entropy (classic): Nodes periodically wake up and compare Message-ID lists. <em>not very effective</em>: have to remember IDs. doesn&#8217;t care who send the message, only Message-ID (vulnerable).</p></li>
+</ol>
+
+
+<p><a href="">lab</a>: TODO make sequence explicit.</p>
+
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Gossip_protocol">rumor-mongering</a></li>
+</ul>
+
+
+<p>easy to spread, hard to eliminate
+How? -> &#8220;Kill message&#8221;: rumor a new message to a delete certain message, a polite optional request</p>
+
+<p>censorship resistant, so much noise</p>
+
+<h2>Lab 1: Gossip Messaging</h2>
+
+<h3>User Datagram Protocol</h3>
+
+<p>Simple, stateless, no handshaking, unreliable</p>
+
+<p>Checksums</p>
+
+<p>Port: numbers for addressing different functions</p>
+
+<p>avoid overhead at network interface level (error checking, correction)</p>
+
+<p>Suitable for realtime system, lack of retransmission delays
+for unidirectional</p>
+
+<p>For error correction, use TCP, SCTP</p>
+
+<h4>Service Ports</h4>
+
+<p>port number 16 bit int (0 ~ 65535) -> <strong>multiplexing</strong>
+1. 0 ~ 1023: common, well-known services
+2. 1024 ~ 49151: IANA-registered services
+3. 49152 ~ 65535: any purpose: <em>ephemeral ports</em></p>
+
+<h4>Packet Structure</h4>
+
+<p>from <a href="http://en.wikipedia.org/wiki/user_datagram_protocol">wikipedia</a></p>
+
+<p>Header contains 4 fields (4*16 bit).
+- IPv4: source port number and checksum are optional
+- IPv6: source port number is optional</p>
+
+<ol>
+<li>Source Port Number</li>
+<li>Zero if not used</li>
+<li>Client: ephemeral</li>
+<li>Server: well-known</li>
+<li>Destination Port Number</li>
+<li>Client: ephemeral</li>
+<li>Server: well-known</li>
+<li>Length</li>
+<li>Length of the entire datagram = header + data</li>
+<li>8 bytes &lt;= length &lt;= 65535 bytes (8 bytes + 65527 bytes)</li>
+<li>IPv4 data length = 65507 bytes (65535 - 8 UDP header - 20 IP header)</li>
+<li>Checksum</li>
+<li>All zero if not used</li>
+<li>All 16-bit words are summed using one&#8217;s complement</li>
+<li>IPv4: <em>pseudo header</em></li>
+<li>IPv6: mandatory and <em>pseudo header</em></li>
+</ol>
+
+
+<h2>Lab 1 Notes</h2>
+
+<p>message = serialized instance of QVariantMap = key/value dict
+keys=QSTring, values=QVariant(wrapper)
+QDataStream serialize QVariantMap to QByteArray
+send it via QUdpSocket::writeDatagram() to each of the ports
+receive: connect readyRead() signal in QUdpSocket to a new slot; QDataStream deserialize QByteArray to QVariant</p>
+
+<h3>Part 3 A Simple Gossip Protocol</h3>
+
+<p>2 Problems
+- unreliability results in loss, duplication
+- <em>asymetric: indirect communication</em></p>
+
+<p>Got copies of whatever messages</p>
+
+<h4>Gossip in Peerster</h4>
+
+<p>2 things to do
+- Acknowledge messages they have received. If sender does not receive an acknowledgment, resend.
+- no loop
+<strong>Unique ID</strong></p>
+
+<p>pair of values: origin, sequence number (1:),
+vector clock</p>
+
+<ol>
+<li><p>Rumor Message
+QVariantMap containting 3 keys:
+QVariantMap&lt;QString, QString>, QVariantMap&lt;QString, QString>, QVariantMap&lt;QString, quint32>
+&lt;&#8221;ChatText&#8221;, &#8220;Hi&#8221;>, &lt;&#8221;Origin&#8221;, &#8220;tiger.zoo.cs.yale.edu&#8221;>, &lt;&#8221;SeqNo&#8221;, 23></p></li>
+<li><p>Status Message
+QVariantMap <QString "want", <"tiger.zoo.cs.yale.edu", 4>>
+表示看过4以前的，没看过4</p></li>
+</ol>
+
+
+<h4>Rumormongering</h4>
+
+<p>receive and pick up a random neighbor
+wait for a response as <em>status message</em>
+  if receive acknoledgment, compare the status message, if there are messages remote peer has not seen, then send the messages
+  if remote peer has new messages, send my status message (remote peers send the messages <em>one at a time</em>)
+  if sync, the starter <em>qrand()%2</em>, <em>either</em> to pick up a new random neighbor, <em>or</em> cease.
+or timeout</p>
+
+<p>keep order from (1:)</p>
+
+<p>Temp: 4 ports as a line topology, (1)-(2)-(3)-(4)</p>
+
+<p>ID: QHostInfo::localHostName() + qrandom()</p>
+
+<p>QTimer to have a handler reinvoked after a time span no receive (1 or 2 s)</p>
+
+<h4>Anti-entropy</h4>
+
+<p>QTimer, 10s to send a status messagge to randomly chosen neighbor</p>
+
+<h2>LEC3: Location, Identity, and Routing</h2>
+
+<h3>Postel&#8217;s (Robustness) Principle 严于律己，宽以待人</h3>
+
+<ul>
+<li>Be liberal in what you accept</li>
+<li>Be conservative in what you produce</li>
+</ul>
+
+
+<p>How to create a one2one reliable connection?
+Chanllenges:</p>
+
+<h4>routing(identity vs. location)</h4>
+
+<p>Location: IP addr., hostname.domain name,
+(-) portability</p>
+
+<h5>Source Routing</h5>
+
+<p>Path: a|b|C|d|e|user
+(-) loop, inefficiency, broken,</p>
+
+<h5>Routing Table</h5>
+
+<p>identifier</p>
+
+<ol>
+<li><p>Master Router Node</p></li>
+<li><p>Every node keeps the map (K-Value)</p></li>
+</ol>
+
+
+<p>(-)Scale, malicious, loop
+Latency detect, good/bad namelist,</p>
+
+<h2>Firewalls, NATs, and Getting Through Them</h2>
+
+<h2>Crypto</h2>
+
+<p>Black box</p>
+
+<h3>Concepts</h3>
+
+<ol>
+<li>Hash</li>
+</ol>
+
+
+<p>Crypto Hash:</p>
+
+<ul>
+<li>hard to find collision</li>
+<li>One way</li>
+</ul>
+
+
+<p>(+)</p>
+
+<ul>
+<li>efficient communication</li>
+<li><p>verification: hashes for files</p></li>
+<li><p>Symmetric cipher</p></li>
+</ul>
+
+
+<p>ceasar cipher: + 13</p>
+
+<p>AES, CBC, CTR</p>
+
+<ol>
+<li>PKE (PUBLIC KEY ENCRYPTION)</li>
+</ol>
+
+
+<p><a href="http://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange">Diffie-Hellman Key Exchange</a></p>
+
+<pre><code>K.public -- k.private
+  \/              \/
+"foo" -&gt; PKE -&gt; "xxz"
+
++---+---+           +---+---+
+|foo|sig| &lt;- PKE -&lt; |foo|sig|
++---+---+           +---+---+
+   /\                  /\
+</code></pre>
+
+<p>Alice: A = g<sup>a,</sup> give it to B</p>
+
+<p>Bob: B = g<sup>b,</sup> give it to A</p>
+
+<p>then, they got mutual g<sup>(a*b)</sup></p>
+
+<p>basis: hard decomposition of large prime numbers</p>
+
+<ol>
+<li>Signatures</li>
+</ol>
+
+
+<p>Alice:</p>
+
+<p>R = g<sup>r</sup> &#8212;&#8212;&#8212;- (R, &#8220;foo&#8221;) &#8212;&#8212;&#8212;&#8212;&#8211;></p>
+
+<h1>Decentralized Identities</h1>
+
+<p>Man-in-the-middle attack</p>
+
+<p>How to solve the problem?</p>
+
+<p><a href="http://en.wikipedia.org/wiki/Public_key_infrastructure">PKI</a></p>
+
+<p>A public-key infrastructure (PKI) is a set of hardware, software, people, policies, and procedures needed to create, manage, distribute, use, store, and revoke digital certificates.</p>
+
+<ol>
+<li>Traditional CAs</li>
+</ol>
+
+
+<p><a href="http://en.wikipedia.org/wiki/Certificate_authority">Certificate authority</a></p>
+
+<p>Web Browser: Root CertsA -> subCA -> subCA ->&#8230;</p>
+
+<p>PGP = Pretty Good Privacy</p>
+
+<ol>
+<li>&#8220;Web of Trust&#8221;</li>
+</ol>
+
+
+<p>Alice (B says A=&#8221;A&#8221;) &#8212;- Bob (A says B=&#8221;B&#8221; | C says B=&#8221;B&#8221;) &#8212;- Charlie (B says C=&#8221;C&#8221;)</p>
+
+<p>Vulnerable:</p>
+
+<ol>
+<li>Self-Certifying ID</li>
+</ol>
+
+
+<p>URL: http://doodle.com/jsadl332pt24p</p>
+
+<p>pub key + &#8220;I am Bryan&#8221; -> hash as Name</p>
+
+<h1>Unstructured Search</h1>
+
+<p>Approaches</p>
+
+<ol>
+<li><p>Hooding</p></li>
+<li><p>Index nodes / Super peers</p></li>
+<li><p>Expanding Horizon</p></li>
+</ol>
+
+
+<p>(-) Tragedy of commons</p>
+
+<ol>
+<li><p>Freenet</p></li>
+<li><p>Bubble Storm</p></li>
+</ol>
+
+
+<p>Birthday paradox</p>
+
+<p>================================</p>
+
+<p>NFS (Sun Network FS), AFS (Andrew FS), Coda (disconnected operation), LOCUS, Bayou</p>
+
+<h2>NFS</h2>
+
+<p>Cilent: mount foo:vol/vol  \|  fd *open(&#8220;filename&#8221;); read(fd, buffer); write(&#8230;)</p>
+
+<p>file discriptor</p>
+
+<p>open(O_create| 0_EXA) to create &#8220;mydata.txt&#8221; &#8220;mydata.txt.lock&#8221;</p>
+
+<p>three way diff</p>
+
+<h1>Content Distribution</h1>
+
+<h3>1. Akamai</h3>
+
+<p>NY Times has a lot of webpages. Akamai makes deals with ISPs to cache the pages. Akamai redirect the quest to the local ISP.</p>
+
+<p>(+) faster, good for ISP/Server/Client</p>
+
+<h3>2. CoralCDN</h3>
+
+<p>More open than akamai</p>
+
+<p>bford.info.nyud.net</p>
+
+<ol>
+<li>DNS reg -> Coral DNS server</li>
+<li>Ping the user, estimate the location</li>
+<li>select coral proxy, respond to DNS</li>
+<li>HTTP reg -> proxy</li>
+</ol>
+
+
+<p>Coral proxy DSHT (D Sloppy HT)</p>
+
+<p>slop: If no cache is found and the last one proxy in the DHT is full, then the new cache would be stored into the near ones. It violates DHS&#8217;s principles.</p>
+
+<p>(-) latency, security,</p>
+
+<h3>3. BitTorrent</h3>
+
+<p>instruction count</p>
+
+<p>e.g. PlanetLab</p>
+
+<h1>Recommendation System</h1>
+
+<h3>1. Credendce</h3>
+
+<p>Facotrs</p>
+
+<ul>
+<li>popularity</li>
+<li>lifetime</li>
+<li>other user&#8217;s behavior</li>
+<li>other user&#8217;s rating</li>
+</ul>
+
+
+<p>Issuses</p>
+
+<ul>
+<li>misleading info</li>
+<li>absolute vs. relative ratings</li>
+<li>Anchoring effect</li>
+<li>Sybil attacks -> ballot shuffing</li>
+</ul>
+
+
+<p>Figre</p>
+
+<pre><code>------+-------+-------+-------+-------+ 
+Files | UserA | UserB | UserC | UserD |
+------+-------+-------+-------+-------+ 
+F1    |  -1   |  ?    |  +1   |  +1   |
+F2    |  +1   |       |  +1   |       |
+F3    |       |  +1   |  -1   |  -1   |
+F4    |  +1   |  +1   |  -1   |  +1   |
+F5    |  -1   |       |       |       |
+------+-------+-------+-------+-------+ 
+wight |  w1   |  w2   |  w3   |  w4   |
+------+-------+-------+-------+-------+ 
+</code></pre>
+
+<p>compute weights according to similarity of me and corresponding user.</p>
+
+<pre><code>     0.5
+ (A)-------(B)
+  | \       |
+.2|   \ .7  | 1
+  |     \   |
+  |       \ |
+ (D)-------(C)
+      .5
+</code></pre>
+
+<h3>2. SumUP</h3>
+
+<p>Two regions of a graph, honest and Sybil. A in honest starts a vote. How to go on?</p>
+
+<p>A generates 10 tickets. Spread tickets in the graph randomly.</p>
+
+<p>Graph with N nodes, then:
+- 2 tickets -> ~2 nodes
+- 4 tickets -> ~4 nodes
+- &#8230;
+- N tickets -> ~N nodes
+- 2N tickets -> ~NlogN nodes</p>
+
+<h3>3. dSybil</h3>
+
+<p>Small fraction of good nodes.</p>
+
+<h1>Digital Preservation</h1>
+
+<ol>
+<li><p>Media</p></li>
+<li><p>format dosdescence</p></li>
+<li>physical deterioration</li>
+<li>power spikes, floods,</li>
+</ol>
+
+
+<p>physical bit-rot</p>
+
+<ol>
+<li><p>Logical</p></li>
+<li><p>old file formats</p></li>
+<li>unix string</li>
+<li>run old software</li>
+<li><p>run old OS on a virtual machine or an old machine</p></li>
+<li><p>&#8220;Intentional&#8221; bit-rot</p></li>
+<li><p>Dongles</p></li>
+<li>copy-protect disks</li>
+</ol>
+
+
+<h1>Anonymous communication</h1>
+
+<p>Anonymity vs. Accountability</p>
+
+<ol>
+<li><p>assume it</p></li>
+<li><p>good? depends</p></li>
+<li><p>use &#8220;public&#8221; machine</p></li>
+<li><p>[+] physical info cached</p></li>
+<li>[-] private info cached/cookies</li>
+<li><p>[-] malware/viruses</p></li>
+<li><p>use proxy</p></li>
+<li><p>multihop relays</p></li>
+<li><p>email: mixmaster/mixminior</p></li>
+<li>Tor: interactive web. Basic version: a path transferring onion messages. Advanced version: onion tunnels.</li>
+</ol>
+
+
+<h1>Accounting</h1>
+
+<p>Counter-Strike Game</p>
+
+<pre><code>    fireButtonPressed() {
+        if (bullets_in_clip &gt; 0) {
+            bullets_in_clip--;
+            fire();
+        } else          
+            reload;
+    }
+
+Server---+-----clientA
+         |
+         +-----clientB
+         |
+         +-----clientC
+</code></pre>
+
+<p>Peer Review</p>
+
+<p>Tamper-evident log, hash chain (hashes all previous logs)</p>
+
+<p>Msg with signature</p>
+
+<p>Match msg in logs</p>
+
+<h1>Free Last Lecture</h1>
+
+<ul>
+<li>StegoTorus</li>
+<li>SkypeMorph</li>
+<li>FreeFlow</li>
+<li>Curveball / Decoy routing</li>
+</ul>
+
+
+<h1>Fault tolerance</h1>
+
+<p>RSM</p>
+
+<p>Primary/backup to ensure a single order of ops</p>
+
+<p>Paxos</p>
+
+<p>lets all nodes agree on the same value despite node failures, network failures, and delays.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Tian</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-08T07:43:00-05:00" pubdate data-updated="true">Jan 8<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/system/'>System</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2013/01/08/building-decentralized-systems/" data-via="" data-counturl="http://puncsky.github.com/blog/2013/01/08/building-decentralized-systems/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/01/07/algorithm-design/" title="Previous Post: Algorithm Design">&laquo; Algorithm Design</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/01/08/building-decentralized-systems/">Building Decentralized Systems</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/07/algorithm-design/">Algorithm Design</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/07/clrs-1-basics/">CLRS 1: Basics</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/26/xie-zai-2012shi-jie-mo-ri-zhi-hou/">迟到的世界末日</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/26/bu-tan-sheng-huo/">请不要和我谈生活，我没有生活</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Tian -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
