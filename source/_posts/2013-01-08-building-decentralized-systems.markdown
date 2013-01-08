@@ -3,7 +3,7 @@ layout: post
 title: "Building Decentralized Systems"
 date: 2013-01-08 07:43
 comments: true
-categories: System
+categories: system
 published: false
 ---
 
