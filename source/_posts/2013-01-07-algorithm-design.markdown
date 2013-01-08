@@ -3,8 +3,8 @@ layout: post
 title: "Algorithm Design"
 date: 2013-01-07 16:52
 comments: true
-categories: algorithm
 published: false
+categories: algorithm
 ---
 
 ## 1 Introduction: Some Representative Problems 1
