@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "CLRS 2: Advanced"
-date: 2013-01-08 19:11
+date: 2013-01-08 16:43
 comments: true
 categories: algorithm
 ---
