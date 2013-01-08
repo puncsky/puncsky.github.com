@@ -1,9 +1,9 @@
 ---
 layout: post
 title: "CLRS 2: Advanced"
-date: 2012-12-22 19:11
+date: 2013-01-08 19:11
 comments: true
-categories: 
+categories: algorithm
 ---
 
 ## IV Advanced Design and Analysis Techniques Introduction 357
