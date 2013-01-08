@@ -239,33 +239,65 @@ parallel algorithms No agreement on a single architectural &hellip;">
 
 <ul>
 <li>Problems which can be solved by polynomial-time algorithms are <strong>tractable/easy</strong>. Otherwise, <strong>intractable/hard</strong></li>
-<li>Three classes of problems:
+<li><p>Three classes of problems:</p>
 
 <ol>
-<li>P.   solvable in O(n<sup>k)</sup></li>
-<li>NP.  verifiable in polynomial time.</li>
+<li>P.   solvable in polynomial time O(n<sup>k)</sup></li>
+<li>NP.  verifiable (there exists a certifier) in polynomial time. (NP: nondeterministic polynomial-time)</li>
 <li>NPC. NP-complete
 
 <ul>
 <li>If any NP-complete problem can be solved in polynomial time, then every problem in NP has a polynomial-time algorithm.</li>
 <li>Many CS scientists believe NP-complete problems are intractable.
-34.1 Polynomial time 1053
-34.2 Polynomial-time verification 1061
-34.3 NP-completeness and reducibility 1067 34.4 NP-completeness proofs 1078
-34.5 NP-complete problems 1086
+
+<h4>34.1 Polynomial time 1053</h4>
+
+<h4>34.2 Polynomial-time verification 1061</h4></li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>Certifiers and Certificates:  Hamiltonian Cycle</p>
+
+<ul>
+<li><strong>HAM-CYCLE</strong>.  Given an undirected graph G = (V, E), does there exist a simple cycle C that visits every node?</li>
+<li><strong>Certificate</strong>.  A permutation of the n nodes.</li>
+<li><strong>Certifier</strong>.  Check that the permutation contains each node in V exactly once, and that there is an edge between each pair of adjacent nodes in the permutation.</li>
+<li><strong>Conclusion</strong>.  HAM-CYCLE is in NP.</li>
+</ul>
+</li>
+<li>P,NP,EXP
+
+<ul>
+<li>P. Decision problems for which there is a poly-time algorithm.</li>
+<li>EXP.  Decision problems for which there is an exponential-time algorithm.</li>
+<li>NP.  Decision problems for which there is a poly-time certifier.</li>
+</ul>
+</li>
+<li>P ⊆ NP, NP ⊆ EXP</li>
+<li><strong><em>Does P = NP?</em></strong>
+
+<ul>
+<li><strong>If yes</strong>, Efficient algorithms for 3-COLOR, TSP, FACTOR, SAT&#8230;</li>
+<li><strong>If no</strong>, No efficient algorithms for 3-COLOR, TSP, FACTOR, SAT&#8230;</li>
+</ul>
+</li>
+</ul>
+
+
+<p><img src="http://upload.wikimedia.org/wikipedia/commons/a/a0/P_np_np-complete_np-hard.svg" alt="P?=NP" /></p>
+
+<h4>34.3 NP-completeness and reducibility 1067</h4>
+
+<p>34.4 NP-completeness proofs 1078
+34.5 NP-complete problems 1086</p>
 
 <h3>35 Approximation Algorithms 1106</h3>
 
 <p>35.1 The vertex-cover problem 1108
 35.2 The traveling-salesman problem 1111
 35.3 The set-covering problem 1117
-35.4 Randomization and linear programming 1123 35.5 The subset-sum problem 1128</p></li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-
+35.4 Randomization and linear programming 1123 35.5 The subset-sum problem 1128</p>
 </div>
 
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: algorithm | CS Notebook]]></title>
   <link href="http://puncsky.github.com/blog/categories/algorithm/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2013-01-07T14:56:07-05:00</updated>
+  <updated>2013-01-08T06:00:48-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -1897,6 +1897,8 @@ private:
 </li>
 </ul>
 
+
+<p><a href="http://www.cplusplus.com/reference/map/map/">C++ std::map的使用</a></p>
 
 <h3>12 Binary Search Trees 286</h3>
 

@@ -245,10 +245,38 @@
 
 <h3>26 Maximum Flow 708</h3>
 
-<p>26.1 Flow networks 709
-26.2 The Ford-Fulkerson method 714 26.3 Maximum bipartite matching 732
-? 26.4 Push-relabel algorithms 736
-? 26.5 The relabel-to-front algorithm 748</p>
+<h4>26.1 Flow networks 709</h4>
+
+<ul>
+<li><strong>Flow networks</strong>. Let directed graph G = (V, E) be a flow network with a capacity function c. Let s be the source of the network, and let t be the sink. A flow in G is a real-valued function f: V*V -> R that satisfies:
+
+<ol>
+<li><strong>Capacity constraint</strong>. For all u,v in V, we require 0 &lt;= f(u,v) &lt;= c(u,v)</li>
+<li><strong>Flow conservation</strong>. The rate at which material enters a ver- tex must equal the rate at which it leaves the vertex.</li>
+</ol>
+</li>
+<li>Value |f| of a flow f is the total flow out of the source minus the flow into the source. <strong>maximum-flow problem</strong>: we are given a flow network G with source s and sink t, and we wish to find a flow of maximum value.</li>
+</ul>
+
+
+<h4>26.2 The Ford-Fulkerson method 714</h4>
+
+<ul>
+<li>dependent on
+
+<ol>
+<li>residual networks</li>
+<li>augmenting path</li>
+<li>cuts</li>
+</ol>
+</li>
+<li>We repeatedly augment the flow until the residual network has no more augmenting paths.</li>
+</ul>
+
+
+<p>26.3 Maximum bipartite matching 732
+26.4 Push-relabel algorithms 736
+26.5 The relabel-to-front algorithm 748</p>
 </div>
 
 
