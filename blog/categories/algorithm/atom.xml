@@ -4,7 +4,7 @@
   <title><![CDATA[Category: algorithm | CS Notebook]]></title>
   <link href="http://puncsky.github.com/blog/categories/algorithm/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2013-01-08T18:50:26-05:00</updated>
+  <updated>2013-01-08T19:03:55-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -180,7 +180,7 @@
 </ul>
 
 
-<p>``` BFS pseudo code</p>
+<p>``` cpp BFS_pseudo_code.c</p>
 
 <pre><code>BFS(G, s)
     initialize vertices except source
@@ -220,7 +220,7 @@
 </ul>
 
 
-<p>``` Toplogical sort pseudo code</p>
+<p>``` cpp Toplogical_sort_pseudo_code.c</p>
 
 <pre><code>toplogicalSort(G) {
     call DFS(G) to compute finishing times v.f for each vertex v

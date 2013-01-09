@@ -4,7 +4,7 @@
   <title><![CDATA[CS Notebook]]></title>
   <link href="http://puncsky.github.com/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2013-01-08T07:56:23-05:00</updated>
+  <updated>2013-01-08T19:03:55-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -14,670 +14,300 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Building Decentralized Systems]]></title>
-    <link href="http://puncsky.github.com/blog/2013/01/08/building-decentralized-systems/"/>
-    <updated>2013-01-08T07:43:00-05:00</updated>
-    <id>http://puncsky.github.com/blog/2013/01/08/building-decentralized-systems</id>
-    <content type="html"><![CDATA[<h2>LEC 2: UseNet and Gossip Messaging: UseNet Message <a href="http://www.ietf.org/rfc/rfc1036.txt">RFC 1036</a></h2>
-
-<ol>
-<li><p>Every node is not connected directly to each other.</p></li>
-<li><p>gossip protocol (= epidemic protocol)</p></li>
-<li><p><strong>Message-ID</strong>: unique, avoid infinite loop forwarding</p></li>
-<li><p>Every node picks up one random neighbor and forward the message: have you ever seen this message? And the next.</p></li>
-<li><p>TCP time&#8217;s up in 20s, but how about a node is down for 2 hours?</p></li>
-<li><p>Anti entropy (classic): Nodes periodically wake up and compare Message-ID lists. <em>not very effective</em>: have to remember IDs. doesn&#8217;t care who send the message, only Message-ID (vulnerable).</p></li>
-</ol>
-
-
-<p><a href="">lab</a>: TODO make sequence explicit.</p>
+    <title type="html"><![CDATA[CLRS 2: Advanced]]></title>
+    <link href="http://puncsky.github.com/blog/2013/01/08/clrs-2-advanced/"/>
+    <updated>2013-01-08T16:43:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2013/01/08/clrs-2-advanced</id>
+    <content type="html"><![CDATA[<h2>IV Advanced Design and Analysis Techniques Introduction 357</h2>
 
 <ul>
-<li><a href="http://en.wikipedia.org/wiki/Gossip_protocol">rumor-mongering</a></li>
+<li>Three important but more sophisticated techniques used in designing and analyzing efficient algorithms:
+
+<ol>
+<li>dynamic programming
+
+<ul>
+<li>used to optimize problems in which we make a set of choices to get optimal solution</li>
+<li>store the solution to each such subproblem in case it should reappear.</li>
+</ul>
+</li>
+<li>greedy algorithms
+
+<ul>
+<li>used to optimize problems in which we make a set of choices to get optimal solution</li>
+<li>make each choice in a locally optimal manner. e.g. 买东西找钱算法</li>
+<li>matroid theory as a mathematical basis</li>
+</ul>
+</li>
+<li>amortized analysis
+
+<ul>
+<li>used to analyze certain algorithms that perform a sequence of similar operations.</li>
+<li>Bound the cost of the entire sequence s.t. although some operations might be expensive, many others might be cheap.</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>We have covered before:
+
+<ol>
+<li>Divide-and-conquer</li>
+<li>Randomization</li>
+<li>Recurrence</li>
+</ol>
+</li>
 </ul>
 
 
-<p>easy to spread, hard to eliminate
-How? -> &#8220;Kill message&#8221;: rumor a new message to a delete certain message, a polite optional request</p>
-
-<p>censorship resistant, so much noise</p>
-
-<h2>Lab 1: Gossip Messaging</h2>
-
-<h3>User Datagram Protocol</h3>
-
-<p>Simple, stateless, no handshaking, unreliable</p>
-
-<p>Checksums</p>
-
-<p>Port: numbers for addressing different functions</p>
-
-<p>avoid overhead at network interface level (error checking, correction)</p>
-
-<p>Suitable for realtime system, lack of retransmission delays
-for unidirectional</p>
-
-<p>For error correction, use TCP, SCTP</p>
-
-<h4>Service Ports</h4>
-
-<p>port number 16 bit int (0 ~ 65535) -> <strong>multiplexing</strong>
-1. 0 ~ 1023: common, well-known services
-2. 1024 ~ 49151: IANA-registered services
-3. 49152 ~ 65535: any purpose: <em>ephemeral ports</em></p>
-
-<h4>Packet Structure</h4>
-
-<p>from <a href="http://en.wikipedia.org/wiki/user_datagram_protocol">wikipedia</a></p>
-
-<p>Header contains 4 fields (4*16 bit).
-- IPv4: source port number and checksum are optional
-- IPv6: source port number is optional</p>
-
-<ol>
-<li>Source Port Number</li>
-<li>Zero if not used</li>
-<li>Client: ephemeral</li>
-<li>Server: well-known</li>
-<li>Destination Port Number</li>
-<li>Client: ephemeral</li>
-<li>Server: well-known</li>
-<li>Length</li>
-<li>Length of the entire datagram = header + data</li>
-<li>8 bytes &lt;= length &lt;= 65535 bytes (8 bytes + 65527 bytes)</li>
-<li>IPv4 data length = 65507 bytes (65535 - 8 UDP header - 20 IP header)</li>
-<li>Checksum</li>
-<li>All zero if not used</li>
-<li>All 16-bit words are summed using one&#8217;s complement</li>
-<li>IPv4: <em>pseudo header</em></li>
-<li>IPv6: mandatory and <em>pseudo header</em></li>
-</ol>
-
-
-<h2>Lab 1 Notes</h2>
-
-<p>message = serialized instance of QVariantMap = key/value dict
-keys=QSTring, values=QVariant(wrapper)
-QDataStream serialize QVariantMap to QByteArray
-send it via QUdpSocket::writeDatagram() to each of the ports
-receive: connect readyRead() signal in QUdpSocket to a new slot; QDataStream deserialize QByteArray to QVariant</p>
-
-<h3>Part 3 A Simple Gossip Protocol</h3>
-
-<p>2 Problems
-- unreliability results in loss, duplication
-- <em>asymetric: indirect communication</em></p>
-
-<p>Got copies of whatever messages</p>
-
-<h4>Gossip in Peerster</h4>
-
-<p>2 things to do
-- Acknowledge messages they have received. If sender does not receive an acknowledgment, resend.
-- no loop
-<strong>Unique ID</strong></p>
-
-<p>pair of values: origin, sequence number (1:),
-vector clock</p>
-
-<ol>
-<li><p>Rumor Message
-QVariantMap containting 3 keys:
-QVariantMap&lt;QString, QString>, QVariantMap&lt;QString, QString>, QVariantMap&lt;QString, quint32>
-&lt;&#8221;ChatText&#8221;, &#8220;Hi&#8221;>, &lt;&#8221;Origin&#8221;, &#8220;tiger.zoo.cs.yale.edu&#8221;>, &lt;&#8221;SeqNo&#8221;, 23></p></li>
-<li><p>Status Message
-QVariantMap <QString "want", <"tiger.zoo.cs.yale.edu", 4>>
-表示看过4以前的，没看过4</p></li>
-</ol>
-
-
-<h4>Rumormongering</h4>
-
-<p>receive and pick up a random neighbor
-wait for a response as <em>status message</em>
-  if receive acknoledgment, compare the status message, if there are messages remote peer has not seen, then send the messages
-  if remote peer has new messages, send my status message (remote peers send the messages <em>one at a time</em>)
-  if sync, the starter <em>qrand()%2</em>, <em>either</em> to pick up a new random neighbor, <em>or</em> cease.
-or timeout</p>
-
-<p>keep order from (1:)</p>
-
-<p>Temp: 4 ports as a line topology, (1)-(2)-(3)-(4)</p>
-
-<p>ID: QHostInfo::localHostName() + qrandom()</p>
-
-<p>QTimer to have a handler reinvoked after a time span no receive (1 or 2 s)</p>
-
-<h4>Anti-entropy</h4>
-
-<p>QTimer, 10s to send a status messagge to randomly chosen neighbor</p>
-
-<h2>LEC3: Location, Identity, and Routing</h2>
-
-<h3>Postel&#8217;s (Robustness) Principle 严于律己，宽以待人</h3>
+<h3>15 Dynamic Programming 359</h3>
 
 <ul>
-<li>Be liberal in what you accept</li>
-<li>Be conservative in what you produce</li>
+<li>Divide-and-conquer: subproblems are disjoint</li>
+<li>Dynamic Programming: subproblems overlap.
+
+<ul>
+<li>solve subproblems just once and save it in a table, avoiding recomputing</li>
+<li>applied to <strong>optimization problems</strong>: find <strong><em>a</em></strong> solution with the optimal (min/max) value</li>
+<li>four steps:
+
+<ol>
+<li>Characterize the structure of an optimal solution.</li>
+<li>Recursively define the value of an optimal solution.</li>
+<li>Compute the value of an optimal solution, typically in a bottom-up fashion (get the result)</li>
+<li>Construct an optimal solution from computed information (get how to compute the result)</li>
+</ol>
+</li>
+</ul>
+</li>
 </ul>
 
 
-<p>How to create a one2one reliable connection?
-Chanllenges:</p>
-
-<h4>routing(identity vs. location)</h4>
-
-<p>Location: IP addr., hostname.domain name,
-(-) portability</p>
-
-<h5>Source Routing</h5>
-
-<p>Path: a|b|C|d|e|user
-(-) loop, inefficiency, broken,</p>
-
-<h5>Routing Table</h5>
-
-<p>identifier</p>
-
-<ol>
-<li><p>Master Router Node</p></li>
-<li><p>Every node keeps the map (K-Value)</p></li>
-</ol>
-
-
-<p>(-)Scale, malicious, loop
-Latency detect, good/bad namelist,</p>
-
-<h2>Firewalls, NATs, and Getting Through Them</h2>
-
-<h2>Crypto</h2>
-
-<p>Black box</p>
-
-<h3>Concepts</h3>
-
-<ol>
-<li>Hash</li>
-</ol>
-
-
-<p>Crypto Hash:</p>
+<h4>15.1 Rod cutting 360</h4>
 
 <ul>
-<li>hard to find collision</li>
-<li>One way</li>
+<li>Input: a rod of length <em>n</em> inches. a table of prices <em>pi</em> for i = 1,2,&#8230;,n</li>
+<li>Output: max revenue rn</li>
 </ul>
 
 
-<p>(+)</p>
+<h4>15.2 Matrix-chain multiplication 370</h4>
+
+<h4>15.3 Elements of dynamic programming 378</h4>
+
+<h4>15.4 Longest common subsequence 390</h4>
+
+<h4>15.5 Optimal binary search trees 397</h4>
+
+<h3>16 Greedy Algorithms 414</h3>
+
+<h4>16.1 An activity-selection problem 415</h4>
+
+<h4>16.2 Elements of the greedy strategy 423</h4>
+
+<h4>16.3 Huffman codes 428</h4>
+
+<h4>16.4 Matroids and greedy methods 437</h4>
+
+<h4>16.5 A task-scheduling problem as a matroid 443</h4>
+
+<h3>17 Amortized Analysis 451</h3>
+
+<h4>17.1 Aggregate analysis 452</h4>
+
+<h4>17.2 The accounting method 456</h4>
+
+<h4>17.3 The potential method 459</h4>
+
+<h4>17.4 Dynamic tables 463</h4>
+
+<h2>V Advanced Data Structures Introduction 481</h2>
+
+<h3>18 B-Trees 484</h3>
+
+<p>18.1 Definition of B-trees 488
+18.2 Basic operations on B-trees 491 18.3 Deleting a key from a B-tree 499</p>
+
+<h3>19 Fibonacci Heaps 505</h3>
+
+<p>19.1 Structure of Fibonacci heaps 507
+19.2 Mergeable-heap operations 510
+19.3 Decreasing a key and deleting a node 518 19.4 Bounding the maximum degree 523</p>
+
+<h3>20 van Emde Boas Trees 531</h3>
+
+<p>20.1 Preliminary approaches 532 20.2 A recursive structure 536 20.3 The van Emde Boas tree 545</p>
+
+<h3>21 Data Structures for Disjoint Sets 561</h3>
+
+<p>21.1 Disjoint-set operations 561
+21.2 Linked-list representation of disjoint sets 564 21.3 Disjoint-set forests 568
+21.4 Analysis of union by rank with path compression 573</p>
+
+<h2>VI Graph Algorithms</h2>
+
+<p>￼Introduction 587</p>
+
+<h3>22 Elementary Graph Algorithms 589</h3>
+
+<h4>22.1 Representations of graphs 589</h4>
 
 <ul>
-<li>efficient communication</li>
-<li><p>verification: hashes for files</p></li>
-<li><p>Symmetric cipher</p></li>
+<li>Sparse graphs: |E| is much less than |V|<sup>2</sup>
+
+<ul>
+<li>adjacency list Θ(V+E)</li>
+</ul>
+</li>
+<li>Dense graphs: |E| is close to |V|<sup>2</sup> or when we need to be able to tell quickly if there is an edge connecting two given vertices.
+
+<ul>
+<li>adjacency matrices Θ(V<sup>2)</sup></li>
+</ul>
+</li>
+<li>edge (u,v) has attribute ƒ</li>
 </ul>
 
 
-<p>ceasar cipher: + 13</p>
-
-<p>AES, CBC, CTR</p>
-
-<ol>
-<li>PKE (PUBLIC KEY ENCRYPTION)</li>
-</ol>
-
-
-<p><a href="http://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange">Diffie-Hellman Key Exchange</a></p>
-
-<pre><code>K.public -- k.private
-  \/              \/
-"foo" -&gt; PKE -&gt; "xxz"
-
-+---+---+           +---+---+
-|foo|sig| &lt;- PKE -&lt; |foo|sig|
-+---+---+           +---+---+
-   /\                  /\
-</code></pre>
-
-<p>Alice: A = g<sup>a,</sup> give it to B</p>
-
-<p>Bob: B = g<sup>b,</sup> give it to A</p>
-
-<p>then, they got mutual g<sup>(a*b)</sup></p>
-
-<p>basis: hard decomposition of large prime numbers</p>
-
-<ol>
-<li>Signatures</li>
-</ol>
-
-
-<p>Alice:</p>
-
-<p>R = g<sup>r</sup> &#8212;&#8212;&#8212;- (R, &#8220;foo&#8221;) &#8212;&#8212;&#8212;&#8212;&#8211;></p>
-
-<h1>Decentralized Identities</h1>
-
-<p>Man-in-the-middle attack</p>
-
-<p>How to solve the problem?</p>
-
-<p><a href="http://en.wikipedia.org/wiki/Public_key_infrastructure">PKI</a></p>
-
-<p>A public-key infrastructure (PKI) is a set of hardware, software, people, policies, and procedures needed to create, manage, distribute, use, store, and revoke digital certificates.</p>
-
-<ol>
-<li>Traditional CAs</li>
-</ol>
-
-
-<p><a href="http://en.wikipedia.org/wiki/Certificate_authority">Certificate authority</a></p>
-
-<p>Web Browser: Root CertsA -> subCA -> subCA ->&#8230;</p>
-
-<p>PGP = Pretty Good Privacy</p>
-
-<ol>
-<li>&#8220;Web of Trust&#8221;</li>
-</ol>
-
-
-<p>Alice (B says A=&#8221;A&#8221;) &#8212;- Bob (A says B=&#8221;B&#8221; | C says B=&#8221;B&#8221;) &#8212;- Charlie (B says C=&#8221;C&#8221;)</p>
-
-<p>Vulnerable:</p>
-
-<ol>
-<li>Self-Certifying ID</li>
-</ol>
-
-
-<p>URL: http://doodle.com/jsadl332pt24p</p>
-
-<p>pub key + &#8220;I am Bryan&#8221; -> hash as Name</p>
-
-<h1>Unstructured Search</h1>
-
-<p>Approaches</p>
-
-<ol>
-<li><p>Hooding</p></li>
-<li><p>Index nodes / Super peers</p></li>
-<li><p>Expanding Horizon</p></li>
-</ol>
-
-
-<p>(-) Tragedy of commons</p>
-
-<ol>
-<li><p>Freenet</p></li>
-<li><p>Bubble Storm</p></li>
-</ol>
-
-
-<p>Birthday paradox</p>
-
-<p>================================</p>
-
-<p>NFS (Sun Network FS), AFS (Andrew FS), Coda (disconnected operation), LOCUS, Bayou</p>
-
-<h2>NFS</h2>
-
-<p>Cilent: mount foo:vol/vol  \|  fd *open(&#8220;filename&#8221;); read(fd, buffer); write(&#8230;)</p>
-
-<p>file discriptor</p>
-
-<p>open(O_create| 0_EXA) to create &#8220;mydata.txt&#8221; &#8220;mydata.txt.lock&#8221;</p>
-
-<p>three way diff</p>
-
-<h1>Content Distribution</h1>
-
-<h3>1. Akamai</h3>
-
-<p>NY Times has a lot of webpages. Akamai makes deals with ISPs to cache the pages. Akamai redirect the quest to the local ISP.</p>
-
-<p>(+) faster, good for ISP/Server/Client</p>
-
-<h3>2. CoralCDN</h3>
-
-<p>More open than akamai</p>
-
-<p>bford.info.nyud.net</p>
-
-<ol>
-<li>DNS reg -> Coral DNS server</li>
-<li>Ping the user, estimate the location</li>
-<li>select coral proxy, respond to DNS</li>
-<li>HTTP reg -> proxy</li>
-</ol>
-
-
-<p>Coral proxy DSHT (D Sloppy HT)</p>
-
-<p>slop: If no cache is found and the last one proxy in the DHT is full, then the new cache would be stored into the near ones. It violates DHS&#8217;s principles.</p>
-
-<p>(-) latency, security,</p>
-
-<h3>3. BitTorrent</h3>
-
-<p>instruction count</p>
-
-<p>e.g. PlanetLab</p>
-
-<h1>Recommendation System</h1>
-
-<h3>1. Credendce</h3>
-
-<p>Facotrs</p>
+<h4>22.2 Breadth-first search 594</h4>
 
 <ul>
-<li>popularity</li>
-<li>lifetime</li>
-<li>other user&#8217;s behavior</li>
-<li>other user&#8217;s rating</li>
+<li>BFS with queue
+
+<ul>
+<li><em>u.color</em> (WHITE for ones having not been to, GRAY for ones in the queue, BLACK for ones having been dequeued and enqueued their white neighbors), <em>u.π</em> the predecessor, <em>u.d</em> distance</li>
+</ul>
+</li>
 </ul>
 
 
-<p>Issuses</p>
+<figure class='code'><figcaption><span>BFS_pseudo_code.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'>  <span class="n">BFS</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">initialize</span> <span class="n">vertices</span> <span class="n">except</span> <span class="n">source</span>
+</span><span class='line'>      <span class="n">initialize</span> <span class="n">the</span> <span class="n">source</span> <span class="n">vertex</span>
+</span><span class='line'>      <span class="n">enqueue</span> <span class="n">the</span> <span class="n">source</span>
+</span><span class='line'>      <span class="k">while</span> <span class="p">(</span><span class="n">queue</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="n">dequeue</span> <span class="n">u</span>
+</span><span class='line'>          <span class="k">for</span> <span class="n">each</span> <span class="n">white</span> <span class="n">neigbor</span>
+</span><span class='line'>              <span class="n">mark</span> <span class="n">attributes</span>
+</span><span class='line'>              <span class="n">enqueue</span>
+</span><span class='line'>          <span class="n">u</span><span class="p">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">BLACK</span>
+</span><span class='line'>      <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>22.3 Depth-first search</h4>
 
 <ul>
-<li>misleading info</li>
-<li>absolute vs. relative ratings</li>
-<li>Anchoring effect</li>
-<li>Sybil attacks -> ballot shuffing</li>
+<li>DFS with recursion (stack)
+
+<ul>
+<li> timestamps are integers between 1 and 2 jV j, since there is one discovery event and one finishing event for each of the jV j vertices.</li>
+</ul>
+</li>
 </ul>
 
 
-<p>Figre</p>
-
-<pre><code>------+-------+-------+-------+-------+ 
-Files | UserA | UserB | UserC | UserD |
-------+-------+-------+-------+-------+ 
-F1    |  -1   |  ?    |  +1   |  +1   |
-F2    |  +1   |       |  +1   |       |
-F3    |       |  +1   |  -1   |  -1   |
-F4    |  +1   |  +1   |  -1   |  +1   |
-F5    |  -1   |       |       |       |
-------+-------+-------+-------+-------+ 
-wight |  w1   |  w2   |  w3   |  w4   |
-------+-------+-------+-------+-------+ 
-</code></pre>
-
-<p>compute weights according to similarity of me and corresponding user.</p>
-
-<pre><code>     0.5
- (A)-------(B)
-  | \       |
-.2|   \ .7  | 1
-  |     \   |
-  |       \ |
- (D)-------(C)
-      .5
-</code></pre>
-
-<h3>2. SumUP</h3>
-
-<p>Two regions of a graph, honest and Sybil. A in honest starts a vote. How to go on?</p>
-
-<p>A generates 10 tickets. Spread tickets in the graph randomly.</p>
-
-<p>Graph with N nodes, then:
-- 2 tickets -> ~2 nodes
-- 4 tickets -> ~4 nodes
-- &#8230;
-- N tickets -> ~N nodes
-- 2N tickets -> ~NlogN nodes</p>
-
-<h3>3. dSybil</h3>
-
-<p>Small fraction of good nodes.</p>
-
-<h1>Digital Preservation</h1>
-
-<ol>
-<li><p>Media</p></li>
-<li><p>format dosdescence</p></li>
-<li>physical deterioration</li>
-<li>power spikes, floods,</li>
-</ol>
-
-
-<p>physical bit-rot</p>
-
-<ol>
-<li><p>Logical</p></li>
-<li><p>old file formats</p></li>
-<li>unix string</li>
-<li>run old software</li>
-<li><p>run old OS on a virtual machine or an old machine</p></li>
-<li><p>&#8220;Intentional&#8221; bit-rot</p></li>
-<li><p>Dongles</p></li>
-<li>copy-protect disks</li>
-</ol>
-
-
-<h1>Anonymous communication</h1>
-
-<p>Anonymity vs. Accountability</p>
-
-<ol>
-<li><p>assume it</p></li>
-<li><p>good? depends</p></li>
-<li><p>use &#8220;public&#8221; machine</p></li>
-<li><p>[+] physical info cached</p></li>
-<li>[-] private info cached/cookies</li>
-<li><p>[-] malware/viruses</p></li>
-<li><p>use proxy</p></li>
-<li><p>multihop relays</p></li>
-<li><p>email: mixmaster/mixminior</p></li>
-<li>Tor: interactive web. Basic version: a path transferring onion messages. Advanced version: onion tunnels.</li>
-</ol>
-
-
-<h1>Accounting</h1>
-
-<p>Counter-Strike Game</p>
-
-<pre><code>    fireButtonPressed() {
-        if (bullets_in_clip &gt; 0) {
-            bullets_in_clip--;
-            fire();
-        } else          
-            reload;
-    }
-
-Server---+-----clientA
-         |
-         +-----clientB
-         |
-         +-----clientC
-</code></pre>
-
-<p>Peer Review</p>
-
-<p>Tamper-evident log, hash chain (hashes all previous logs)</p>
-
-<p>Msg with signature</p>
-
-<p>Match msg in logs</p>
-
-<h1>Free Last Lecture</h1>
+<h4>22.4 Topological sort 612</h4>
 
 <ul>
-<li>StegoTorus</li>
-<li>SkypeMorph</li>
-<li>FreeFlow</li>
-<li>Curveball / Decoy routing</li>
+<li>topological sort <strong>with DFS</strong></li>
+<li>DAG(directed acyclic graph)</li>
+<li>a <strong>topological sort</strong> of a graph as an ordering of its vertices along a horizontal line so that all directed edges go from left to right.</li>
+<li>to indicate precedence among events.</li>
+<li>TODO 有多个入度为0的</li>
 </ul>
 
 
-<h1>Fault tolerance</h1>
+<figure class='code'><figcaption><span>Toplogical_sort_pseudo_code.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'>  <span class="n">toplogicalSort</span><span class="p">(</span><span class="n">G</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">call</span> <span class="n">DFS</span><span class="p">(</span><span class="n">G</span><span class="p">)</span> <span class="n">to</span> <span class="n">compute</span> <span class="n">finishing</span> <span class="n">times</span> <span class="n">v</span><span class="p">.</span><span class="n">f</span> <span class="k">for</span> <span class="n">each</span> <span class="n">vertex</span> <span class="n">v</span>
+</span><span class='line'>      <span class="n">as</span> <span class="n">each</span> <span class="n">vertex</span> <span class="n">is</span> <span class="n">finished</span><span class="p">,</span> <span class="n">insert</span> <span class="n">it</span> <span class="n">onto</span> <span class="n">the</span> <span class="n">front</span> <span class="n">of</span> <span class="n">a</span> <span class="n">linked</span> <span class="n">list</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">the</span> <span class="n">linked</span> <span class="n">list</span> <span class="n">of</span> <span class="n">vertices</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>RSM</p>
 
-<p>Primary/backup to ensure a single order of ops</p>
+<h4>22.5 Strongly connected components 615</h4>
 
-<p>Paxos</p>
+<ul>
+<li>decomposing a directed graph into its strongly connected components <strong>with DFS</strong></li>
+</ul>
 
-<p>lets all nodes agree on the same value despite node failures, network failures, and delays.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Algorithm Design]]></title>
-    <link href="http://puncsky.github.com/blog/2013/01/07/algorithm-design/"/>
-    <updated>2013-01-07T16:52:00-05:00</updated>
-    <id>http://puncsky.github.com/blog/2013/01/07/algorithm-design</id>
-    <content type="html"><![CDATA[<h2>1 Introduction: Some Representative Problems 1</h2>
 
-<p>1.1 A First Problem: Stable Matching 1
-1.2 Five Representative Problems 12
-Solved Exercises 19
-Exercises 22
-Notes and Further Reading 28</p>
+<h3>23 Minimum Spanning Trees 624</h3>
 
-<h2>2 Basics of Algorithm Analysis</h2>
+<p>23.1 Growing a minimum spanning tree 625 23.2 The algorithms of Kruskal and Prim 631</p>
 
-<p>2.1 Computational Tractability 29
-2.2 Asymptotic Order of Growth 35
-2.3 Implementing the Stable Matching Algorithm Using Lists and
-Arrays 42
-2.4 A Survey of Common Running Times 47
-2.5 A More Complex Data Structure: Priority Queues 57
-Solved Exercises 65
-Exercises 67
-Notes and Further Reading 70</p>
+<h3>24 Single-Source Shortest Paths 643</h3>
 
-<h2>3 Graphs 29</h2>
+<h4>24.1 The Bellman-Ford algorithm 651</h4>
 
-<p>3.1 Basic Definitions and Applications 73
-3.2 Graph Connectivity and Graph Traversal 78
-3.3 Implementing Graph Traversal Using Queues and Stacks 87
-3.4 Testing Bipartiteness: An Application of Breadth-First Search 94
-3.5 Connectivity in Directed Graphs 97
-3.6 Directed Acyclic Graphs and Topological Ordering Solved Exercises 104
-Exercises 107
-Notes and Further Reading 112</p>
+<p>24.2 Single-source shortest paths in directed acyclic graphs</p>
 
-<h2>4 Greedy Algorithms 115</h2>
+<h4>24.3 Dijkstra’s algorithm 658</h4>
 
-<p>4.1 Interval Scheduling: The Greedy Algorithm Stays Ahead 116 4.2 Scheduling to Minimize Lateness: An Exchange Argument 125 4.3 Optimal Caching: A More Complex Exchange Argument 131</p>
+<ul>
+<li>faster than Bellmen-Ford algorithm</li>
+</ul>
 
-<h3>4.4 Shortest Paths in a Graph 137</h3>
 
-<p>4.5 The Minimum Spanning Tree Problem 142
-4.6 Implementing Kruskal’s Algorithm: The Union-Find Data
-Structure 151 4.7 Clustering 157
-4.8 Huffman Codes and Data Compression 161
-∗ 4.9 Minimum-Cost Arborescences: A Multi-Phase Greedy</p>
+<p>24.4 Difference constraints and shortest paths 664
+24.5 Proofs of shortest-paths properties 671
+655</p>
 
-<h2>5 Divide and Conquer 209</h2>
+<h3>25 All-Pairs Shortest Paths 684</h3>
 
-<p>5.1 A First Recurrence: The Mergesort Algorithm
-5.2 Further Recurrence Relations 214
-5.3 Counting Inversions 221
-5.4 Finding the Closest Pair of Points 225
-5.5 Integer Multiplication 231
-5.6 Convolutions and the Fast Fourier Transform
-Solved Exercises 242
-Exercises 246
-Notes and Further Reading 249</p>
+<p>25.1 Shortest paths and matrix multiplication 25.2 The Floyd-Warshall algorithm 693 25.3 Johnson’s algorithm for sparse graphs
+686 700</p>
 
-<h2>6 Dynamic Programming 251</h2>
+<h3>26 Maximum Flow 708</h3>
 
-<p>6.1 Weighted Interval Scheduling: A Recursive Procedure
-6.2 Principles of Dynamic Programming: Memoization or Iteration
-over Subproblems 258
-6.3 Segmented Least Squares: Multi-way Choices 261
-6.4 Subset Sums and Knapsacks: Adding a Variable 266
-6.5 RNA Secondary Structure: Dynamic Programming over
-Intervals 272
-6.6 Sequence Alignment 278
-6.7 Sequence Alignment in Linear Space via Divide and
-Conquer 284
-6.8 Shortest Paths in a Graph 290
-6.9 Shortest Paths and Distance Vector Protocols
-297
-∗ 6.10
-Negative Cycles in a Graph Solved Exercises 307 Exercises 312
-Notes and Further Reading
-301
-335</p>
+<h4>26.1 Flow networks 709</h4>
 
-<h2>7 Network Flow 337</h2>
+<ul>
+<li><strong>Flow networks</strong>. Let directed graph G = (V, E) be a flow network with a capacity function c. Let s be the source of the network, and let t be the sink. A flow in G is a real-valued function f: V*V -> R that satisfies:
 
-<p>7.1 The Maximum-Flow Problem and the Ford-Fulkerson Algorithm 338
-7.2 Maximum Flows and Minimum Cuts in a Network 346
-7.3 Choosing Good Augmenting Paths 352
-∗ 7.4 The Preflow-Push Maximum-Flow Algorithm 357
-7.5 A First Application: The Bipartite Matching Problem 367 7.6 Disjoint Paths in Directed and Undirected Graphs 373 7.7 Extensions to the Maximum-Flow Problem 378
-7.8 Survey Design 384
-7.9 Airline Scheduling 387
-7.10 Image Segmentation
-7.11 Project Selection 396 7.12 Baseball Elimination 400
-391
-∗ 7.13 A Further Direction: Adding Costs to the Matching Problem 404 Solved Exercises 411
-Exercises 415
-Notes and Further Reading 448</p>
+<ol>
+<li><strong>Capacity constraint</strong>. For all u,v in V, we require 0 &lt;= f(u,v) &lt;= c(u,v)</li>
+<li><strong>Flow conservation</strong>. The rate at which material enters a ver- tex must equal the rate at which it leaves the vertex.</li>
+</ol>
+</li>
+<li>Value |f| of a flow f is the total flow out of the source minus the flow into the source. <strong>maximum-flow problem</strong>: we are given a flow network G with source s and sink t, and we wish to find a flow of maximum value.</li>
+</ul>
 
-<h2>8 NP and Computational Intractability 451</h2>
 
-<p>8.1 Polynomial-Time Reductions 452
-8.2 Reductions via “Gadgets”: The Satisfiability Problem</p>
+<h4>26.2 The Ford-Fulkerson method 714</h4>
 
-<h3>8.3 Efficient Certification and the Definition of NP 463</h3>
+<ul>
+<li>dependent on
 
-<p>8.4 NP-Complete Problems 466
-8.5 Sequencing Problems 473
-8.6 Partitioning Problems 481
-8.7 Graph Coloring 485
-8.8 Numerical Problems 490
-8.9 Co-NP and the Asymmetry of NP 495
-8.10 A Partial Taxonomy of Hard Problems 497
-Solved Exercises 500
-Exercises 505
-Notes and Further Reading 529</p>
+<ol>
+<li>residual networks</li>
+<li>augmenting path</li>
+<li>cuts</li>
+</ol>
+</li>
+<li>We repeatedly augment the flow until the residual network has no more augmenting paths.</li>
+</ul>
 
-<h2>9 PSPACE: A Class of Problems beyond NP</h2>
 
-<p>9.1 PSPACE 531
-9.2 Some Hard Problems in PSPACE 533
-9.3 Solving Quantified Problems and Games in Polynomial
-531
-Space 536
-9.4 Solving the Planning Problem in Polynomial Space
-9.5 Proving Problems PSPACE-Complete 543
-Solved Exercises 547
-Exercises 550
-Notes and Further Reading 551</p>
-
-<h2>10 Extending the Limits of Tractability</h2>
-
-<p>10.1 Finding Small Vertex Covers 554
-10.2 Solving NP-Hard Problems on Trees 558
-10.3 Coloring a Set of Circular Arcs 563
-538
-∗ 10.4 ∗ 10.5
-Tree Decompositions of Graphs 572 Constructing a Tree Decomposition 584 Solved Exercises 591
-Exercises 594
-Notes and Further Reading 598</p>
-
-<h2>11 Approximation Algorithms</h2>
-
-<p>599
-11.1 Greedy Algorithms and Bounds on the Optimum: A Load Balancing Problem 600
-11.2 The Center Selection Problem 606
-11.3 Set Cover: A General Greedy Heuristic 612
-11.4 The Pricing Method: Vertex Cover 618
-11.5 Maximization via the Pricing Method: The Disjoint Paths
-Problem 624
-11.6 Linear Programming and Rounding: An Application to Vertex
-∗ 11.7
-Cover 630
-Load Balancing Revisited: A More Advanced LP Application 637
-11.8 Arbitrarily Good Approximations: The Knapsack Problem 644 Solved Exercises 649
-Exercises 651
-Notes and Further Reading 659</p>
+<p>26.3 Maximum bipartite matching 732
+26.4 Push-relabel algorithms 736
+26.5 The relabel-to-front algorithm 748</p>
 ]]></content>
   </entry>
   
@@ -4278,50 +3908,6 @@ Notes and Further Reading 659</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Programming Collective Intelligence]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/25/programming-collective-intelligence/"/>
-    <updated>2012-12-25T03:40:00-05:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/25/programming-collective-intelligence</id>
-    <content type="html"><![CDATA[<h2>1. Introduction</h2>
-
-<h3>Python tips</h3>
-
-<p>list: an ordered list of any type of value. constructed with []</p>
-
-<pre><code>number_list = [1,2,3,4]
-string_list = ['a','b','c','d']
-mixed_list = ['a', 3, 'c', 8]
-</code></pre>
-
-<p>dictionary: unordered set of key/value pairs, like hash map in other languages. constructed with {}</p>
-
-<pre><code>ages = {'John':24, 'Sarah':28, 'Mike':31}
-// access
-string_list[2]  # returns 'b'
-ages['Sarah']   # returns 28
-</code></pre>
-
-<p>indentation defines code blocks</p>
-
-<pre><code>if x==1:
-    print 'x is 1'
-    print 'Still in if block'
-print 'outside if block'
-</code></pre>
-
-<p>list comprehensions</p>
-
-<pre><code>[expression for variable in list]
-[expression for variable in list if condition]
-
-l1 = [1,2,3,4,5,6,7,8,9]
-print [v*10 for v in l1 if v1&gt;4]
-timesten = dict([(v, v*10) for v in l1])
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[Cracking the Coding Interview]]></title>
     <link href="http://puncsky.github.com/blog/2012/12/23/careercup150/"/>
     <updated>2012-12-23T21:57:00-05:00</updated>
@@ -4585,201 +4171,6 @@ timesten = dict([(v, v*10) for v in l1])
 35.2 The traveling-salesman problem 1111
 35.3 The set-covering problem 1117
 35.4 Randomization and linear programming 1123 35.5 The subset-sum problem 1128</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[CLRS 2: Advanced]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/22/clrs-2-advanced/"/>
-    <updated>2012-12-22T19:11:00-05:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/22/clrs-2-advanced</id>
-    <content type="html"><![CDATA[<h2>IV Advanced Design and Analysis Techniques Introduction 357</h2>
-
-<ul>
-<li>Three important but more sophisticated techniques used in designing and analyzing efficient algorithms:
-
-<ol>
-<li>dynamic programming
-
-<ul>
-<li>used to optimize problems in which we make a set of choices to get optimal solution</li>
-<li>store the solution to each such subproblem in case it should reappear.</li>
-</ul>
-</li>
-<li>greedy algorithms
-
-<ul>
-<li>used to optimize problems in which we make a set of choices to get optimal solution</li>
-<li>make each choice in a locally optimal manner. e.g. 买东西找钱算法</li>
-<li>matroid theory as a mathematical basis</li>
-</ul>
-</li>
-<li>amortized analysis
-
-<ul>
-<li>used to analyze certain algorithms that perform a sequence of similar operations.</li>
-<li>Bound the cost of the entire sequence s.t. although some operations might be expensive, many others might be cheap.</li>
-</ul>
-</li>
-</ol>
-</li>
-<li>We have covered before:
-
-<ol>
-<li>Divide-and-conquer</li>
-<li>Randomization</li>
-<li>Recurrence</li>
-</ol>
-</li>
-</ul>
-
-
-<h3>15 Dynamic Programming 359</h3>
-
-<ul>
-<li>Divide-and-conquer: subproblems are disjoint</li>
-<li>Dynamic Programming: subproblems overlap.
-
-<ul>
-<li>solve subproblems just once and save it in a table, avoiding recomputing</li>
-<li>applied to <strong>optimization problems</strong>: find <strong><em>a</em></strong> solution with the optimal (min/max) value</li>
-<li>four steps:
-
-<ol>
-<li>Characterize the structure of an optimal solution.</li>
-<li>Recursively define the value of an optimal solution.</li>
-<li>Compute the value of an optimal solution, typically in a bottom-up fashion (get the result)</li>
-<li>Construct an optimal solution from computed information (get how to compute the result)</li>
-</ol>
-</li>
-</ul>
-</li>
-</ul>
-
-
-<h4>15.1 Rod cutting 360</h4>
-
-<ul>
-<li>Input: a rod of length <em>n</em> inches. a table of prices <em>pi</em> for i = 1,2,&#8230;,n</li>
-<li>Output: max revenue rn</li>
-</ul>
-
-
-<h4>15.2 Matrix-chain multiplication 370</h4>
-
-<h4>15.3 Elements of dynamic programming 378</h4>
-
-<h4>15.4 Longest common subsequence 390</h4>
-
-<h4>15.5 Optimal binary search trees 397</h4>
-
-<h3>16 Greedy Algorithms 414</h3>
-
-<h4>16.1 An activity-selection problem 415</h4>
-
-<h4>16.2 Elements of the greedy strategy 423</h4>
-
-<h4>16.3 Huffman codes 428</h4>
-
-<h4>16.4 Matroids and greedy methods 437</h4>
-
-<h4>16.5 A task-scheduling problem as a matroid 443</h4>
-
-<h3>17 Amortized Analysis 451</h3>
-
-<h4>17.1 Aggregate analysis 452</h4>
-
-<h4>17.2 The accounting method 456</h4>
-
-<h4>17.3 The potential method 459</h4>
-
-<h4>17.4 Dynamic tables 463</h4>
-
-<h2>V Advanced Data Structures Introduction 481</h2>
-
-<h3>18 B-Trees 484</h3>
-
-<p>18.1 Definition of B-trees 488
-18.2 Basic operations on B-trees 491 18.3 Deleting a key from a B-tree 499</p>
-
-<h3>19 Fibonacci Heaps 505</h3>
-
-<p>19.1 Structure of Fibonacci heaps 507
-19.2 Mergeable-heap operations 510
-19.3 Decreasing a key and deleting a node 518 19.4 Bounding the maximum degree 523</p>
-
-<h3>20 van Emde Boas Trees 531</h3>
-
-<p>20.1 Preliminary approaches 532 20.2 A recursive structure 536 20.3 The van Emde Boas tree 545</p>
-
-<h3>21 Data Structures for Disjoint Sets 561</h3>
-
-<p>21.1 Disjoint-set operations 561
-21.2 Linked-list representation of disjoint sets 564 21.3 Disjoint-set forests 568
-21.4 Analysis of union by rank with path compression 573</p>
-
-<h2>VI Graph Algorithms</h2>
-
-<p>￼Introduction 587</p>
-
-<h3>22 Elementary Graph Algorithms 589</h3>
-
-<p>22.1 Representations of graphs 589 22.2 Breadth-first search 594
-22.3 Depth-first search
-22.4 Topological sort 612
-22.5 Strongly connected components 615</p>
-
-<h3>23 Minimum Spanning Trees 624</h3>
-
-<p>23.1 Growing a minimum spanning tree 625 23.2 The algorithms of Kruskal and Prim 631</p>
-
-<h3>24 Single-Source Shortest Paths 643</h3>
-
-<p>24.1 The Bellman-Ford algorithm 651
-24.2 Single-source shortest paths in directed acyclic graphs 24.3 Dijkstra’s algorithm 658
-24.4 Difference constraints and shortest paths 664
-24.5 Proofs of shortest-paths properties 671
-655</p>
-
-<h3>25 All-Pairs Shortest Paths 684</h3>
-
-<p>25.1 Shortest paths and matrix multiplication 25.2 The Floyd-Warshall algorithm 693 25.3 Johnson’s algorithm for sparse graphs
-686 700</p>
-
-<h3>26 Maximum Flow 708</h3>
-
-<h4>26.1 Flow networks 709</h4>
-
-<ul>
-<li><strong>Flow networks</strong>. Let directed graph G = (V, E) be a flow network with a capacity function c. Let s be the source of the network, and let t be the sink. A flow in G is a real-valued function f: V*V -> R that satisfies:
-
-<ol>
-<li><strong>Capacity constraint</strong>. For all u,v in V, we require 0 &lt;= f(u,v) &lt;= c(u,v)</li>
-<li><strong>Flow conservation</strong>. The rate at which material enters a ver- tex must equal the rate at which it leaves the vertex.</li>
-</ol>
-</li>
-<li>Value |f| of a flow f is the total flow out of the source minus the flow into the source. <strong>maximum-flow problem</strong>: we are given a flow network G with source s and sink t, and we wish to find a flow of maximum value.</li>
-</ul>
-
-
-<h4>26.2 The Ford-Fulkerson method 714</h4>
-
-<ul>
-<li>dependent on
-
-<ol>
-<li>residual networks</li>
-<li>augmenting path</li>
-<li>cuts</li>
-</ol>
-</li>
-<li>We repeatedly augment the flow until the residual network has no more augmenting paths.</li>
-</ul>
-
-
-<p>26.3 Maximum bipartite matching 732
-26.4 Push-relabel algorithms 736
-26.5 The relabel-to-front algorithm 748</p>
 ]]></content>
   </entry>
   
@@ -6908,6 +6299,222 @@ retrieve fields, determine partition keys</li>
 <h2>4. Conclusions</h2>
 
 <p>Since infrastructure cannot observe P2P communication, accounting is vulnerable to malicious clients (peers) in a hybrid design of CDN, e.g. inflation attacks. So the authors advance RCA to 1) keep tamper-evident logs and set rules for fixed state machines 2) perform statistical analysis on collected logs. Malicious clients can be detected and isolated effectively by RCA. The evaluation with real world Akamai NetSession shows that overhead is reasonable &lt;= 0.5%.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Towards Statistical Queries over Distributed Private User Data (NSDI '12)]]></title>
+    <link href="http://puncsky.github.com/blog/2012/11/20/towards-statistical-queries-over-distributed-private-user-data-nsdi-12/"/>
+    <updated>2012-11-20T16:13:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2012/11/20/towards-statistical-queries-over-distributed-private-user-data-nsdi-12</id>
+    <content type="html"><![CDATA[<p>From <a href="https://sites.google.com/site/ruichuanc/">MPI-SWS, Germany</a>, <a href="https://73aab115-a-62cb3a1a-s-sites.googlegroups.com/site/ruichuanc/pddp-nsdi12.pdf?attachauth=ANoY7cqTHmW8qn2UrCjxk0u-eafRsp77w2XtpG9QdnY9nOnDKkELrYiH-RrOI2ILFnQUv6gt-oz_ek1DA8q7TptjvCEWWWpT02huRCgNYXW-bUNQwjJjM0DLN7tiJzOKD509vt1JhOZ_fHQ_rijDX5Dhh3Bx1pdZotJp7mDbCw0yrcSTYEfbXAuzkZK2zDxfRKYzZXww-dESgY9wquSilSiX3ZrPYrATOg%3D%3D&amp;attredirects=0">paper</a> and <a href="https://www.usenix.org/sites/default/files/conference/protected-files/pddp-talk-nsdi12.pdf">slides</a></p>
+
+<h2>1. Problem</h2>
+
+<p>To protect user privacy in distributed systems from leaking by statistical queries.</p>
+
+<h2>2. Challenges</h2>
+
+<p>The most direct solutions are</p>
+
+<ol>
+<li><p>to <strong>anonymize + add noise</strong> to <em>user data</em>.</p>
+
+<p> [-] utility, de-anonymize</p></li>
+<li><p>differential privacy. add noise to <em>answer of queries</em>.</p>
+
+<p> [-] scale, churn tolerance, malicious client</p></li>
+</ol>
+
+
+<h2>3. Solution </h2>
+
+<p>PDDP: Practical Distributed Differential Privacy.</p>
+
+<!--more-->
+
+
+<ul>
+<li>Binary answer in bucket. The query result should not be distorted by the client arbitrarily.</li>
+<li>Blind noise addition. The Malicious should not be trusted. Private data are controlled by its user only.</li>
+</ul>
+
+
+<h3>3.1 Assumption</h3>
+
+<p>Clients and analysts are potentially malicious. Proxy is HbC (honest but curious) and should not have access to noise-free result.</p>
+
+<h3>3.2 Work Flow</h3>
+
+<ol>
+<li><p>Query Initialization(Analyst -> Proxy)</p></li>
+<li><p>Query Forwarding (Proxy -> Client)</p></li>
+<li><p>Client Respond (Client -> Proxy)</p>
+
+<p>answers are encrypted with the analyst&#8217;s public key.</p></li>
+<li><p>Differential Private Noise Addition.</p>
+
+<p>collaborative coin generation with a GM cryptosystem. Unbiased proxy flip encrypted coins from clients randomly and thus transform them into unbiased ones. Coins serve as DP noises.</p></li>
+<li><p>Noisy Answers to Analyst ( Proxy -> Analyst)</p></li>
+</ol>
+
+
+<h3>3.3 Implementation and Deployment</h3>
+
+<p>600+ Client = Firefox add-on + SQLite</p>
+
+<p>Proxy = Tomcat web service + MySQL</p>
+
+<p>Analyst = Java program</p>
+
+<h1>4. Conclusion</h1>
+
+<p>The authors achieve scalable, churn-tolerant user privacy against malicious analyst and clients by</p>
+
+<ol>
+<li>making a trade off between utility and privacy. (differential privacy)</li>
+<li>introduce distributed system to traditionally centralized differential privacy environment. (distributed)</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Three Papers Review about Deterministic Parallelism]]></title>
+    <link href="http://puncsky.github.com/blog/2012/11/20/three-papers-review-about-deterministic-parallelism/"/>
+    <updated>2012-11-20T16:10:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2012/11/20/three-papers-review-about-deterministic-parallelism</id>
+    <content type="html"><![CDATA[<p><a href="http://dedis.cs.yale.edu/2010/det/">Yale Dedis</a></p>
+
+<h3>1. Efficient System-Enforced Deterministic Parallelism (OSDI’10)</h3>
+
+<p>Parallelism introduces 1) non-determinism and 2) data races (heisenbugs). Determinism means that a given input always produces the same output. In other words, input alone determines the output, regardless of extrinsic events such as the OS’s thread scheduling.</p>
+
+<p>To achieve determinism,<!--more--> Determinator, an OS offering a programming model that is naturally and pervasively deterministic, is introduced. Its private workspace model solves data races in the first place, and the model is deterministic at all levels of abstraction. Like a version control system, this model gives a thread a private replica of all the state and the thread operate within its private state but could not interact directly with other threads until reconcile. At this time, write-write races become conflicts and determinator would throw an exception when main thread joins them.</p>
+
+<p>In terms of implementation, determinator takes an arbitrarily deep hierarchy of spaces, consisting of CPU register state and private virtual memory. The space is like a single-threaded process but different from the concepts of process and thread. Interaction is allowed only for the space’s parent and child spaces via put, get and return three system calls. It could be applied to multiprocessor/multicore system and also multiple nodes in a homogeneous cluster. In high level abstractions, it emulates traditional fork/exec/wait APIs, and shared state abstractions with no physical state sharing, which involves Distributed Shared Memory techniques. Its runtime maintains a complete file system replica in the address space of each process, with the copy-on-write mechanism. The runtime treats I/O as a special case of file system synchronization for the reason of space hierarchy.</p>
+
+<p>Determinator is written in C with small assembly fragments. PIOS is a subset of it, and the former is partly derived from MIT’s JOS.</p>
+
+<p>Since determinator is a primitive proof-of-concepts prototype, it inevitably has some limitations:</p>
+
+<ol>
+<li>A restrictive space hierarchy -> a performance bottleneck for I/O-bound applications     AND no support for non-hierarchical synchronization, queue, future</li>
+<li>Limited address space -> limited file system size</li>
+<li>No focus on file system -> no persistent storage</li>
+<li>Inefficient cross-node communication: no prefetching or other optimization, Eternet only.</li>
+</ol>
+
+
+<h3>2. Workspace Consistency: A Programming Model for Shared Memory Parallelism (WoDet ‘11)</h3>
+
+<p>To address the 1st limitation, Workspace Consistency: A Programming Model for Shared Memory Parallelism extends WC from OSDI’10 version of hierarchical structure to a more generalized non-hierarchical structure. It supports non-hierarchical synchronization patterns (dynamic producer/consumer graphs and inter-thread queues), besides hierarchical synchronization patterns such as fork/join and barrier. WC highlights matched release/acquire pairs, adding three constrains to Release Consistency (RC):</p>
+
+<ol>
+<li>Release/acquire pair is unique.</li>
+<li>One thread’s writes is not visible to another thread’s read until sync.</li>
+<li>Data races are handled by throwing a runtime exception or other deterministic ways.</li>
+</ol>
+
+
+<p>Two prototypes: one on Linux, one on Determinator, both supporting only hierarchical synchronization patterns.</p>
+
+<p>This generalized WC extends Determinator’s virtual memory system to support a Single Producer Multiple Consumer (SPMC) shared memory primitive – SPMC channels. The implementation adds 2 optional arguments to existing Put/Get system calls. Determinator maps the virtual memory ranges of the producer and all consumers to the same physical memory. Consumer would be blocked until the producer fixes the page.It is suitable for applications demanding pipeline parallelism or &#8220;all-to-all&#8221; communication.</p>
+
+<p>Full WC model atop SPMC extension is not yet implemented.</p>
+
+<h3>3. Deterministic OpenMP for Race-Free Parallelism (HotPar ‘11)</h3>
+
+<p>DOMP is a variant of OMP based on the WC model. It keeps parallel, loop, sections, barrier, excludes atomic, critical, flush, generalizes reduction as reduction (function : list), and extends the sections with pipeline clause.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Quincy: Fair Scheduling for Distributed Computing Clusters (SOSP '09)]]></title>
+    <link href="http://puncsky.github.com/blog/2012/11/20/quincy-fair-scheduling-for-distributed-computing-clusters-sosp-09/"/>
+    <updated>2012-11-20T16:08:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2012/11/20/quincy-fair-scheduling-for-distributed-computing-clusters-sosp-09</id>
+    <content type="html"><![CDATA[<p><a href="http://research.microsoft.com/en-us/people/misard/">Microsoft</a>, <a href="http://www.sigops.org/sosp/sosp09/papers/isard-sosp09.pdf">paper</a>, <a href="http://www.sigops.org/sosp/sosp09/videos/19_michael_isard.mov">video</a>, <a href="http://www.sigops.org/sosp/sosp09/slides/quincy/QuincyTestPage.html">slides</a></p>
+
+<h2>1. Problem</h2>
+
+<p>How to achieve fair scheduling? In other words, a guy who gets up early and performs huge tasks on a cluster should not always monopolize most computing resource, and someone else&#8217;s assignments should not be ignored. Otherwise, it is unfair for all the cluster users.</p>
+
+<p><strong>Fair sharing</strong> of the cluster resources</p>
+
+<p>Job x takes <em>t</em> seconds, when running exclusively on the cluster. When the cluster has <em>J</em> jobs, x should take &lt;= <em>Jt</em> seconds.</p>
+
+<p><em>N</em> computers and <em>J</em> jobs: each job gets at least N/J computers.</p>
+
+<h2>2. Challenges</h2>
+
+<p>Traditionally,</p>
+
+<!--more-->
+
+
+<p>MPI Model, tasks are in a pipeline and then assigned to a part of cluster.</p>
+
+<ul>
+<li>If one node is down, all the processes should be killed and the user have to start at a new checkpoint.</li>
+<li>Coarse grain allocation. Allocation is static.</li>
+<li>Off cluster data strage, e.g. SAN</li>
+</ul>
+
+
+<p>Dryad MapReduce Model</p>
+
+<ul>
+<li>No communication between slaves.</li>
+<li>No fine grain sharing for resource competence. Many Idle nodes.</li>
+</ul>
+
+
+<p><strong>Fine-grain sharing model</strong></p>
+
+<ul>
+<li>Multiplex all computers in cluster between jobs.</li>
+<li>When a task completes, computer may be assigned to another job.</li>
+<li>Jobs uses <em>N/J</em> computers at a time but set in use varies over lifetime.</li>
+</ul>
+
+
+<h2>3. Solution</h2>
+
+<p>The solution is intended for data-intensive computing with locality. There is no SAN. However, data locality conflicts with fairness. So they present Quincy: a new, graph-based framework for cluster scheduling under a fine grain cluster resource-sharing model with locality constrains. 2 basic ideas:</p>
+
+<ol>
+<li>sub-optimal assignment of a job&#8217;s tasks.</li>
+<li>kill running tasks to free resources</li>
+</ol>
+
+
+<h3>3.1 Queue-based Scheduling</h3>
+
+<p>Architecture: A core switch (CS) manages rack switches (RC). A rack switch (RC) manages computers (C). For example, C1, C2 and C3 in a rack have their own queues, and share a same rack queue. R1 R2 managed by the same core switch have their own queues above, and share a same core queue. Every time a task X is finished, X will be deleted from all the queues, no matter what hierarchy it is in.</p>
+
+<p>So how to get fairness?</p>
+
+<h3>3.2 Flow-based Scheduling</h3>
+
+<p>Simplify a scheduling problem to a matching problem.</p>
+
+<ul>
+<li>each task is either scheduled or unscheduled.</li>
+<li>can assign a cost to any matching</li>
+<li>fairness constrains number of tasks that are scheduled</li>
+</ul>
+
+
+<p>How to minimize matching cost while still maintaining fairness?</p>
+
+<p>Min-cost network flow.</p>
+
+<p>There are U (unscheduled nodes), X (cluster aggregator nodes), R (rack aggregator nodes), C (computing nodes). In addition to queue-based scheduling, the edges connecting tasks to these nodes have weights showing the cost of the matching. The capacities on the outgoing edge of job <em>j</em>&#8217;s unscheduled node <em>Uj</em> control the number of running tasks that the job will be allocated.</p>
+
+<h2>4. Conclusion</h2>
+
+<p>The authors advance a new fair schedule modeling for Dryad/MapReduce/Hadoop by min-cost network flow, achieving much better performance and effectiveness than traditional ways.</p>
 ]]></content>
   </entry>
   

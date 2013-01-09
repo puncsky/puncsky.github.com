@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://puncsky.github.com/blog/2012/12/22/clrs-2-advanced/">
+  <link rel="canonical" href="http://puncsky.github.com/blog/2013/01/08/clrs-2-advanced/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -83,7 +83,7 @@
   
 
 
-<time datetime="2012-12-22T19:11:00-05:00" pubdate data-updated="true">Dec 22<span>nd</span>, 2012</time>
+<time datetime="2013-01-08T16:43:00-05:00" pubdate data-updated="true">Jan 8<span>th</span>, 2013</time>
         
       </p>
     
@@ -221,10 +221,104 @@
 
 <h3>22 Elementary Graph Algorithms 589</h3>
 
-<p>22.1 Representations of graphs 589 22.2 Breadth-first search 594
-22.3 Depth-first search
-22.4 Topological sort 612
-22.5 Strongly connected components 615</p>
+<h4>22.1 Representations of graphs 589</h4>
+
+<ul>
+<li>Sparse graphs: |E| is much less than |V|<sup>2</sup>
+
+<ul>
+<li>adjacency list Θ(V+E)</li>
+</ul>
+</li>
+<li>Dense graphs: |E| is close to |V|<sup>2</sup> or when we need to be able to tell quickly if there is an edge connecting two given vertices.
+
+<ul>
+<li>adjacency matrices Θ(V<sup>2)</sup></li>
+</ul>
+</li>
+<li>edge (u,v) has attribute ƒ</li>
+</ul>
+
+
+<h4>22.2 Breadth-first search 594</h4>
+
+<ul>
+<li>BFS with queue
+
+<ul>
+<li><em>u.color</em> (WHITE for ones having not been to, GRAY for ones in the queue, BLACK for ones having been dequeued and enqueued their white neighbors), <em>u.π</em> the predecessor, <em>u.d</em> distance</li>
+</ul>
+</li>
+</ul>
+
+
+<figure class='code'><figcaption><span>BFS_pseudo_code.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'>  <span class="n">BFS</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">initialize</span> <span class="n">vertices</span> <span class="n">except</span> <span class="n">source</span>
+</span><span class='line'>      <span class="n">initialize</span> <span class="n">the</span> <span class="n">source</span> <span class="n">vertex</span>
+</span><span class='line'>      <span class="n">enqueue</span> <span class="n">the</span> <span class="n">source</span>
+</span><span class='line'>      <span class="k">while</span> <span class="p">(</span><span class="n">queue</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="n">dequeue</span> <span class="n">u</span>
+</span><span class='line'>          <span class="k">for</span> <span class="n">each</span> <span class="n">white</span> <span class="n">neigbor</span>
+</span><span class='line'>              <span class="n">mark</span> <span class="n">attributes</span>
+</span><span class='line'>              <span class="n">enqueue</span>
+</span><span class='line'>          <span class="n">u</span><span class="p">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">BLACK</span>
+</span><span class='line'>      <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>22.3 Depth-first search</h4>
+
+<ul>
+<li>DFS with recursion (stack)
+
+<ul>
+<li> timestamps are integers between 1 and 2 jV j, since there is one discovery event and one finishing event for each of the jV j vertices.</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>22.4 Topological sort 612</h4>
+
+<ul>
+<li>topological sort <strong>with DFS</strong></li>
+<li>DAG(directed acyclic graph)</li>
+<li>a <strong>topological sort</strong> of a graph as an ordering of its vertices along a horizontal line so that all directed edges go from left to right.</li>
+<li>to indicate precedence among events.</li>
+<li>TODO 有多个入度为0的</li>
+</ul>
+
+
+<figure class='code'><figcaption><span>Toplogical_sort_pseudo_code.c</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'>  <span class="n">toplogicalSort</span><span class="p">(</span><span class="n">G</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">call</span> <span class="n">DFS</span><span class="p">(</span><span class="n">G</span><span class="p">)</span> <span class="n">to</span> <span class="n">compute</span> <span class="n">finishing</span> <span class="n">times</span> <span class="n">v</span><span class="p">.</span><span class="n">f</span> <span class="k">for</span> <span class="n">each</span> <span class="n">vertex</span> <span class="n">v</span>
+</span><span class='line'>      <span class="n">as</span> <span class="n">each</span> <span class="n">vertex</span> <span class="n">is</span> <span class="n">finished</span><span class="p">,</span> <span class="n">insert</span> <span class="n">it</span> <span class="n">onto</span> <span class="n">the</span> <span class="n">front</span> <span class="n">of</span> <span class="n">a</span> <span class="n">linked</span> <span class="n">list</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">the</span> <span class="n">linked</span> <span class="n">list</span> <span class="n">of</span> <span class="n">vertices</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>22.5 Strongly connected components 615</h4>
+
+<ul>
+<li>decomposing a directed graph into its strongly connected components <strong>with DFS</strong></li>
+</ul>
+
 
 <h3>23 Minimum Spanning Trees 624</h3>
 
@@ -232,9 +326,18 @@
 
 <h3>24 Single-Source Shortest Paths 643</h3>
 
-<p>24.1 The Bellman-Ford algorithm 651
-24.2 Single-source shortest paths in directed acyclic graphs 24.3 Dijkstra’s algorithm 658
-24.4 Difference constraints and shortest paths 664
+<h4>24.1 The Bellman-Ford algorithm 651</h4>
+
+<p>24.2 Single-source shortest paths in directed acyclic graphs</p>
+
+<h4>24.3 Dijkstra’s algorithm 658</h4>
+
+<ul>
+<li>faster than Bellmen-Ford algorithm</li>
+</ul>
+
+
+<p>24.4 Difference constraints and shortest paths 664
 24.5 Proofs of shortest-paths properties 671
 655</p>
 
@@ -299,15 +402,21 @@
   
 
 
-<time datetime="2012-12-22T19:11:00-05:00" pubdate data-updated="true">Dec 22<span>nd</span>, 2012</time>
+<time datetime="2013-01-08T16:43:00-05:00" pubdate data-updated="true">Jan 8<span>th</span>, 2013</time>
       
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/algorithm/'>algorithm</a>
+  
+</span>
 
 
     </p>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2012/12/22/clrs-2-advanced/" data-via="" data-counturl="http://puncsky.github.com/blog/2012/12/22/clrs-2-advanced/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2013/01/08/clrs-2-advanced/" data-via="" data-counturl="http://puncsky.github.com/blog/2013/01/08/clrs-2-advanced/" >Tweet</a>
   
   
   
@@ -316,10 +425,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2012/12/19/oop2/" title="Previous Post: OOP Final Term Notes">&laquo; OOP Final Term Notes</a>
+        <a class="basic-alignment left" href="/blog/2013/01/07/clrs-1-basics/" title="Previous Post: CLRS 1: Basics">&laquo; CLRS 1: Basics</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2012/12/22/clrs-3-selected/" title="Next Post: CLRS 3: Selected">CLRS 3: Selected &raquo;</a>
       
     </p>
   </footer>
@@ -334,11 +441,7 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/01/08/building-decentralized-systems/">Building Decentralized Systems</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/01/07/algorithm-design/">Algorithm Design</a>
+        <a href="/blog/2013/01/08/clrs-2-advanced/">CLRS 2: Advanced</a>
       </li>
     
       <li class="post">
@@ -351,6 +454,10 @@
     
       <li class="post">
         <a href="/blog/2012/12/26/bu-tan-sheng-huo/">请不要和我谈生活，我没有生活</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/23/careercup150/">Cracking the Coding Interview</a>
       </li>
     
   </ul>
