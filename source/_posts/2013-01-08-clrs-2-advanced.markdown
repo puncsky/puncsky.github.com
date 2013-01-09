@@ -90,7 +90,7 @@ categories: algorithm
 - BFS with queue
 	- *u.color* (WHITE for ones having not been to, GRAY for ones in the queue, BLACK for ones having been dequeued and enqueued their white neighbors), *u.π* the predecessor, *u.d* distance
 
-``` BFS pseudo code
+``` cpp BFS_pseudo_code.c
 
 	BFS(G, s)
 		initialize vertices except source
@@ -119,7 +119,7 @@ categories: algorithm
 - to indicate precedence among events.
 - TODO 有多个入度为0的
 
-``` Toplogical sort pseudo code
+``` cpp Toplogical_sort_pseudo_code.c
 
 	toplogicalSort(G) {
 		call DFS(G) to compute finishing times v.f for each vertex v
