@@ -39,3 +39,15 @@ categories: playground
 
 - Runner technique for linked list: iterate through the linked list with two (fast and slow) pointers simultaneously. 
 - All recursive algorithms can be implemented iteratively.
+
+- `x & (~0 << n)` clears the n rightmost bits of x. `~0` is not 1 but 111...1.
+
+### Brain teasers
+
+start talking, and showing how you tackle the problem. Write down the rules you have found.
+	
+### Databases
+
+- Normalized: minimize redundancy. 
+- Denormalized: optimize read time.
+
