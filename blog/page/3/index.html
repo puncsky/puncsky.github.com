@@ -9,7 +9,7 @@
   <meta name="author" content="Tian">
 
   
-  <meta name="description" content="一 大叔 第一次见到阿米(Amittai F. Aviram)大叔就被彻底震撼到了，你简直就无法相信眼前这位爷爷辈的大叔居然是计算机系的博士！OSDI&#8217;10（计算机系统界顶级会议）最佳论文的第一作者！要知道，人人生而平等，会议生而不等，同是顶级会议，论文被OSDI录用就比VLDB、 &hellip;">
+  <meta name="description" content="Microsoft, paper, video, slides 1. Problem How to achieve fair scheduling? In other words, a guy who gets up early and performs huge tasks on a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,61 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/20/quincy-fair-scheduling-for-distributed-computing-clusters-sosp-09/">Quincy: Fair Scheduling for Distributed Computing Clusters (SOSP &#8216;09)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-20T16:08:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://research.microsoft.com/en-us/people/misard/">Microsoft</a>, <a href="http://www.sigops.org/sosp/sosp09/papers/isard-sosp09.pdf">paper</a>, <a href="http://www.sigops.org/sosp/sosp09/videos/19_michael_isard.mov">video</a>, <a href="http://www.sigops.org/sosp/sosp09/slides/quincy/QuincyTestPage.html">slides</a></p>
+
+<h2>1. Problem</h2>
+
+<p>How to achieve fair scheduling? In other words, a guy who gets up early and performs huge tasks on a cluster should not always monopolize most computing resource, and someone else&#8217;s assignments should not be ignored. Otherwise, it is unfair for all the cluster users.</p>
+
+<p><strong>Fair sharing</strong> of the cluster resources</p>
+
+<p>Job x takes <em>t</em> seconds, when running exclusively on the cluster. When the cluster has <em>J</em> jobs, x should take &lt;= <em>Jt</em> seconds.</p>
+
+<p><em>N</em> computers and <em>J</em> jobs: each job gets at least N/J computers.</p>
+
+<h2>2. Challenges</h2>
+
+<p>Traditionally,</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/20/quincy-fair-scheduling-for-distributed-computing-clusters-sosp-09/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -230,6 +285,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/01/14/gc-garbage-collection-in-java/">GC(Garbage Collection) in Java</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/01/08/clrs-2-advanced/">CLRS 2: Advanced</a>
       </li>
     
@@ -243,10 +302,6 @@
     
       <li class="post">
         <a href="/blog/2012/12/26/bu-tan-sheng-huo/">请不要和我谈生活，我没有生活</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/12/23/careercup150/">Cracking the Coding Interview</a>
       </li>
     
   </ul>

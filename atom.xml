@@ -4,7 +4,7 @@
   <title><![CDATA[CS Notebook]]></title>
   <link href="http://puncsky.github.com/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2013-01-08T19:03:55-05:00</updated>
+  <updated>2013-01-14T02:51:51-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -12,6 +12,125 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[GC(Garbage Collection) in Java]]></title>
+    <link href="http://puncsky.github.com/blog/2013/01/14/gc-garbage-collection-in-java/"/>
+    <updated>2013-01-14T00:18:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2013/01/14/gc-garbage-collection-in-java</id>
+    <content type="html"><![CDATA[<p>本文摘录自<a href="http://www.amazon.com/Thinking-Java-4th-Bruce-Eckel/dp/0131872486">Thinking in Java</a></p>
+
+<h2>1. The method  <code>finalize()</code></h2>
+
+<p><code>finalize()</code>使用时，会在GC释放空间之前被调用到，目的是在GC的时候做一些特殊的清理工作；但<strong>finalize()绝不是C++里面的destructor，因为</strong></p>
+
+<p>1.对象<strong>不一定会</strong>被GC (而C++里析构函数一定会被调用到)
+2.GC不等于析构</p>
+
+<p>既然有GC，Java就没有必要用到析构函数，所以如果有需要在GC时候额外做些事情，就使用finalize()做最后的清理工作，<strong>尽管它不一定会被调用到，除非JVM没有内存空间了</strong>。</p>
+
+<p>3.GC仅和内存有关</p>
+
+<p>既然Java本身内存回收问题就被GC解决了，为什么还要finalize()呢？<strong>因为，Java可能内嵌其他语言的代码，如果有类似C的内存处理函数malloc()，就必须要手动写free()。</strong>因此，finalize()极少会被用到。</p>
+
+<p>C++创建对象的位置有两种，一是创建在本地的stack上，自动销毁于本段代码的回花括号处，另一个是创建在heap上，必须用<strong>delete</strong>手动销毁。Java不允许创建本地对象，必须使用<strong>new</strong>，但是既然有了GC就不用delete.</p>
+
+<p>总之，要记住的是，GC和finalize()并不总会被调用到。</p>
+
+<p>finalize()可以用到debug，代码如下</p>
+
+<figure class='code'><figcaption><span>TerminationCondition.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kd">class</span> <span class="nc">Book</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kt">boolean</span> <span class="n">checkedOut</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+</span><span class='line'>    <span class="n">Book</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">checkOut</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">checkedOut</span> <span class="o">=</span> <span class="n">checkOut</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="kt">void</span> <span class="nf">checkIn</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">checkedOut</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">finalize</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">if</span><span class="o">(</span><span class="n">checkedOut</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Error: checked out.&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="c1">// Normally, you’ll also do this:</span>
+</span><span class='line'>        <span class="c1">// super.finalize(); // Call the base-class version</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">TerminationCondition</span> <span class="o">{</span>
+</span><span class='line'>    <span class="c1">//static Test monitor = new Test();</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">Book</span> <span class="n">novel</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Book</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span><span class='line'>      <span class="c1">// Proper cleanup:</span>
+</span><span class='line'>      <span class="n">novel</span><span class="o">.</span><span class="na">checkIn</span><span class="o">();</span>
+</span><span class='line'>      <span class="c1">// Drop the reference, forget to clean up:</span>
+</span><span class='line'>      <span class="k">new</span> <span class="nf">Book</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span><span class='line'>      <span class="c1">// Force garbage collection &amp; finalization:</span>
+</span><span class='line'>      <span class="n">System</span><span class="o">.</span><span class="na">gc</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="cm">/* output:</span>
+</span><span class='line'><span class="cm"> Error: checked out.</span>
+</span><span class='line'><span class="cm"> */</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>此处，<code>System.gc()</code> 强制<code>finalize()</code>必须执行。<strong>如果有finalize(),一般情况下，父类的finalize()也必须被执行到</strong>，所以<code>Book.finalize()</code>中有<code>super.finalize()</code>。</p>
+
+<h2>2. GC的工作机制</h2>
+
+<p>Java中在heap上new东西并不像其他语言那么expensive，几乎和其他语言在stack上创建对象一样快。</p>
+
+<p>非Java的GC机制：<em>reference counting</em> 数对象被引用了多少次，当等于零时就被清理掉。</p>
+
+<p>Java的机制：<em>adaptive generational stop-and-copy mark-and-sweep.</em> 所有未死的对象都可以追溯到stack或者static storage上的一个引用，形成一个个web。这时候，也有不同的处理方式：</p>
+
+<ol>
+<li><em>stop-and-copy</em>. 如果程序停下来了，将活的对象拷贝到新的heap上，垃圾就被留在了原来的heap。新heap上的对象也可以被排列得更加紧凑(compact)了。有两个问题：
+
+<ul>
+<li>保持两个heap</li>
+<li>周期性拷贝，即便没有new新的东西，或者产生的垃圾很少，会导致浪费，所以需要另一个机制处理这种特殊的情况</li>
+</ul>
+</li>
+<li><em>mark-and-sweep</em>. 比较慢，但是在产生少量垃圾或者没有垃圾时候非常快。做法是，标记活对象，所有的标记完成后，扫除没有标记的对象。</li>
+</ol>
+
+
+<p>如何做到adaptive地进行转化呢？JVM的内存分布在很多大的block当中。大的对象，可以独占block，不拷贝，而是增加其<em>generation count</em>，内含小对象的block则会被拷贝并整理。JVM会进行监视,如果所有对象都很稳定,GC效率降低的话,就切换到<em>mark-and-sweep</em>;同样, JVM会注意其效果,要是heap出现很多碎片,就会切换回<em>stop-and-copy</em>。</p>
+
+<p>EOF</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[CLRS 2: Advanced]]></title>
@@ -3948,7 +4067,20 @@
 
 <ul>
 <li>Runner technique for linked list: iterate through the linked list with two (fast and slow) pointers simultaneously.</li>
-<li>All recursive algorithms can be implemented iteratively.</li>
+<li><p>All recursive algorithms can be implemented iteratively.</p></li>
+<li><p><code>x &amp; (~0 &lt;&lt; n)</code> clears the n rightmost bits of x. <code>~0</code> is not 1 but 111&#8230;1.</p></li>
+</ul>
+
+
+<h3>Brain teasers</h3>
+
+<p>start talking, and showing how you tackle the problem. Write down the rules you have found.</p>
+
+<h3>Databases</h3>
+
+<ul>
+<li>Normalized: minimize redundancy.</li>
+<li>Denormalized: optimize read time.</li>
 </ul>
 
 ]]></content>
@@ -6426,95 +6558,6 @@ retrieve fields, determine partition keys</li>
 <h3>3. Deterministic OpenMP for Race-Free Parallelism (HotPar ‘11)</h3>
 
 <p>DOMP is a variant of OMP based on the WC model. It keeps parallel, loop, sections, barrier, excludes atomic, critical, flush, generalizes reduction as reduction (function : list), and extends the sections with pipeline clause.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Quincy: Fair Scheduling for Distributed Computing Clusters (SOSP '09)]]></title>
-    <link href="http://puncsky.github.com/blog/2012/11/20/quincy-fair-scheduling-for-distributed-computing-clusters-sosp-09/"/>
-    <updated>2012-11-20T16:08:00-05:00</updated>
-    <id>http://puncsky.github.com/blog/2012/11/20/quincy-fair-scheduling-for-distributed-computing-clusters-sosp-09</id>
-    <content type="html"><![CDATA[<p><a href="http://research.microsoft.com/en-us/people/misard/">Microsoft</a>, <a href="http://www.sigops.org/sosp/sosp09/papers/isard-sosp09.pdf">paper</a>, <a href="http://www.sigops.org/sosp/sosp09/videos/19_michael_isard.mov">video</a>, <a href="http://www.sigops.org/sosp/sosp09/slides/quincy/QuincyTestPage.html">slides</a></p>
-
-<h2>1. Problem</h2>
-
-<p>How to achieve fair scheduling? In other words, a guy who gets up early and performs huge tasks on a cluster should not always monopolize most computing resource, and someone else&#8217;s assignments should not be ignored. Otherwise, it is unfair for all the cluster users.</p>
-
-<p><strong>Fair sharing</strong> of the cluster resources</p>
-
-<p>Job x takes <em>t</em> seconds, when running exclusively on the cluster. When the cluster has <em>J</em> jobs, x should take &lt;= <em>Jt</em> seconds.</p>
-
-<p><em>N</em> computers and <em>J</em> jobs: each job gets at least N/J computers.</p>
-
-<h2>2. Challenges</h2>
-
-<p>Traditionally,</p>
-
-<!--more-->
-
-
-<p>MPI Model, tasks are in a pipeline and then assigned to a part of cluster.</p>
-
-<ul>
-<li>If one node is down, all the processes should be killed and the user have to start at a new checkpoint.</li>
-<li>Coarse grain allocation. Allocation is static.</li>
-<li>Off cluster data strage, e.g. SAN</li>
-</ul>
-
-
-<p>Dryad MapReduce Model</p>
-
-<ul>
-<li>No communication between slaves.</li>
-<li>No fine grain sharing for resource competence. Many Idle nodes.</li>
-</ul>
-
-
-<p><strong>Fine-grain sharing model</strong></p>
-
-<ul>
-<li>Multiplex all computers in cluster between jobs.</li>
-<li>When a task completes, computer may be assigned to another job.</li>
-<li>Jobs uses <em>N/J</em> computers at a time but set in use varies over lifetime.</li>
-</ul>
-
-
-<h2>3. Solution</h2>
-
-<p>The solution is intended for data-intensive computing with locality. There is no SAN. However, data locality conflicts with fairness. So they present Quincy: a new, graph-based framework for cluster scheduling under a fine grain cluster resource-sharing model with locality constrains. 2 basic ideas:</p>
-
-<ol>
-<li>sub-optimal assignment of a job&#8217;s tasks.</li>
-<li>kill running tasks to free resources</li>
-</ol>
-
-
-<h3>3.1 Queue-based Scheduling</h3>
-
-<p>Architecture: A core switch (CS) manages rack switches (RC). A rack switch (RC) manages computers (C). For example, C1, C2 and C3 in a rack have their own queues, and share a same rack queue. R1 R2 managed by the same core switch have their own queues above, and share a same core queue. Every time a task X is finished, X will be deleted from all the queues, no matter what hierarchy it is in.</p>
-
-<p>So how to get fairness?</p>
-
-<h3>3.2 Flow-based Scheduling</h3>
-
-<p>Simplify a scheduling problem to a matching problem.</p>
-
-<ul>
-<li>each task is either scheduled or unscheduled.</li>
-<li>can assign a cost to any matching</li>
-<li>fairness constrains number of tasks that are scheduled</li>
-</ul>
-
-
-<p>How to minimize matching cost while still maintaining fairness?</p>
-
-<p>Min-cost network flow.</p>
-
-<p>There are U (unscheduled nodes), X (cluster aggregator nodes), R (rack aggregator nodes), C (computing nodes). In addition to queue-based scheduling, the edges connecting tasks to these nodes have weights showing the cost of the matching. The capacities on the outgoing edge of job <em>j</em>&#8217;s unscheduled node <em>Uj</em> control the number of running tasks that the job will be allocated.</p>
-
-<h2>4. Conclusion</h2>
-
-<p>The authors advance a new fair schedule modeling for Dryad/MapReduce/Hadoop by min-cost network flow, achieving much better performance and effectiveness than traditional ways.</p>
 ]]></content>
   </entry>
   
