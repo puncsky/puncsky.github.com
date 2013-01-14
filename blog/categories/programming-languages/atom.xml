@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming_languages | CS Notebook]]></title>
   <link href="http://puncsky.github.com/blog/categories/programming-languages/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2013-01-14T02:51:51-05:00</updated>
+  <updated>2013-01-14T02:56:07-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -24,8 +24,9 @@
 
 <p><code>finalize()</code>使用时，会在GC释放空间之前被调用到，目的是在GC的时候做一些特殊的清理工作；但<strong>finalize()绝不是C++里面的destructor，因为</strong></p>
 
-<p>1.对象<strong>不一定会</strong>被GC (而C++里析构函数一定会被调用到)
-2.GC不等于析构</p>
+<p>1.对象<strong>不一定会</strong>被GC (而C++里析构函数一定会被调用到)</p>
+
+<p>2.GC不等于析构</p>
 
 <p>既然有GC，Java就没有必要用到析构函数，所以如果有需要在GC时候额外做些事情，就使用finalize()做最后的清理工作，<strong>尽管它不一定会被调用到，除非JVM没有内存空间了</strong>。</p>
 
@@ -83,7 +84,7 @@ Error: checked out.
 
 <p>非Java的GC机制：<em>reference counting</em> 数对象被引用了多少次，当等于零时就被清理掉。</p>
 
-<p>Java的机制：<em>adaptive generational stop-and-copy mark-and-sweep.</em> 所有未死的对象都可以追溯到stack或者static storage上的一个引用，形成一个个web。这时候，也有不同的处理方式：</p>
+<p>Java的机制：<strong><em>adaptive generational stop-and-copy mark-and-sweep.</em></strong> 所有未死的对象都可以追溯到stack或者static storage上的一个引用，形成一个个web。这时候，也有不同的处理方式：</p>
 
 <ol>
 <li><em>stop-and-copy</em>. 如果程序停下来了，将活的对象拷贝到新的heap上，垃圾就被留在了原来的heap。新heap上的对象也可以被排列得更加紧凑(compact)了。有两个问题：
