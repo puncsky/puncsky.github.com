@@ -9,7 +9,7 @@
   <meta name="author" content="Tian">
 
   
-  <meta name="description" content="Columbia University, paper slides, video 1. Problem How to protect sensitive data in mobile phones? Mobile devices are extremely prone to be stolen &hellip;">
+  <meta name="description" content="Stanford, paper, slides, video 1. Problem RAMCloud is a storage system helping developers manage large-scale DRAM storage, driven by the fact that &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,53 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/12/13/fast-crash-recovery-in-ramcloud/">Fast Crash Recovery in RAMCloud (SOSP&#8217;11)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-13T12:22:00-05:00" pubdate data-updated="true">Dec 13<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.stanford.edu/~ouster/cgi-bin/home.php">Stanford</a>, <a href="http://www.stanford.edu/~ouster/cgi-bin/papers/ramcloud-recovery.pdf">paper</a>, <a href="https://ramcloud.stanford.edu/wiki/display/ramcloud/RAMCloud+Presentations">slides</a>, <a href="http://www.youtube.com/watch?v=RE3CmdEGv4M">video</a></p>
+
+<h3>1. Problem</h3>
+
+<p>RAMCloud is a storage system helping developers manage large-scale DRAM storage, driven by the fact that large-scale Web applications need to cache large data in DRAM. (For example, Facebook cached 150TB DRAM in <em>memcached</em> out of 200TB of disk storage.)</p>
+
+<p>In order to keep a high level of durability and availability without impacting system performance, RAMCloud has only one single copy of data in DRAM. The problem here is how to recover from crash within 1s~2s.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/12/13/fast-crash-recovery-in-ramcloud/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -569,51 +616,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/11/20/three-papers-review-about-deterministic-parallelism/">Three Papers Review About Deterministic Parallelism</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-20T16:10:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://dedis.cs.yale.edu/2010/det/">Yale Dedis</a></p>
-
-<h3>1. Efficient System-Enforced Deterministic Parallelism (OSDI’10)</h3>
-
-<p>Parallelism introduces 1) non-determinism and 2) data races (heisenbugs). Determinism means that a given input always produces the same output. In other words, input alone determines the output, regardless of extrinsic events such as the OS’s thread scheduling.</p>
-
-<p>To achieve determinism,</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/11/20/three-papers-review-about-deterministic-parallelism/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -631,6 +633,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/01/14/os-notes/">OS Notes</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/01/14/gc-garbage-collection-in-java/">GC(Garbage Collection) in Java</a>
       </li>
     
@@ -644,10 +650,6 @@
     
       <li class="post">
         <a href="/blog/2012/12/26/xie-zai-2012shi-jie-mo-ri-zhi-hou/">迟到的世界末日</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/12/26/bu-tan-sheng-huo/">请不要和我谈生活，我没有生活</a>
       </li>
     
   </ul>

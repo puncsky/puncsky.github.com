@@ -9,7 +9,7 @@
   <meta name="author" content="Tian">
 
   
-  <meta name="description" content="本文摘录自Thinking in Java 1. The method finalize() finalize()使用时，会在GC释放空间之前被调用到，目的是在GC的时候做一些特殊的清理工作；但finalize()绝不是C++里面的destructor，因为 1.对象不一定会被GC (而C++ &hellip;">
+  <meta name="description" content="2 OS Structures Why would an application programmer prefer programming according to an API rather than invoking actual system calls? portability &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,196 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/14/os-notes/">OS Notes</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-14T14:02:00-05:00" pubdate data-updated="true">Jan 14<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>2 OS Structures</h2>
+
+<ul>
+<li>Why would an application programmer prefer programming according to an API rather than invoking actual system calls?
+
+<ul>
+<li>portability</li>
+<li>simplicity</li>
+</ul>
+</li>
+<li>How to pass parameters to the OS?
+
+<ol>
+<li>(simplest but limited) in registers</li>
+<li>in a block (Linux/Solaris)</li>
+<li>pushed onto the stack by program / popped off the stack by OS</li>
+</ol>
+</li>
+<li>6 types of system calls
+
+<ol>
+<li>process control,
+
+<ul>
+<li>end / abort</li>
+<li>if a problem causes an error trap, a dump of memory is written to disk and may be examined by a debugger</li>
+<li>command interpreter</li>
+<li>error level</li>
+<li>single-tasking / multi-tasking (有没有wait的区别)</li>
+</ul>
+</li>
+<li>file manipulation,
+
+<ul>
+<li>CRUD</li>
+<li>files and directories</li>
+<li>attributes</li>
+</ul>
+</li>
+<li>device manipulation,
+
+<ul>
+<li>physical and virtual(e.g. files) devices.</li>
+<li>combined file-device structure</li>
+</ul>
+</li>
+<li>information maintenance,
+
+<ul>
+<li>transfer info between the user program and OS</li>
+<li>info about the OS</li>
+<li>debug (dump memory and
+
+<ul>
+<li>single step CPU mode, a trap is executed by the CPU after every instruction. Caught by debugger.</li>
+</ul>
+</li>
+<li><code>time ./program</code></li>
+<li>info about a process</li>
+</ul>
+</li>
+<li>communications, 2 models of interprocess communication
+
+<ol>
+<li>message-passing
+
+<ul>
+<li>simple and efficient for exchanging small amounts of data</li>
+<li>hostid, netid, processid</li>
+<li>client</li>
+<li>server: receiving <strong>daemons</strong></li>
+</ul>
+</li>
+<li>shared-memory
+
+<ul>
+<li>max speed but problems on protection &amp; sync</li>
+<li>normally one process&#8217;s memory is prevented from the access from others.</li>
+<li>Agree to remove the restriction</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>protection.
+
+<ul>
+<li>set/get permission</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>System programs
+
+<ul>
+<li>file management</li>
+<li>status info</li>
+<li>file modification</li>
+<li>programming language support</li>
+<li>program loading and execution</li>
+<li>communications</li>
+</ul>
+</li>
+<li>DSDI
+
+<ul>
+<li>Design Goals: user/system goals</li>
+<li>Mechanisms &amp; Policies: separate policy from mechanism
+
+<ul>
+<li>mechanism: how to do</li>
+<li>policy: what will be done (may change) - parameters</li>
+<li>microkernel-based OS as one extreme example (UNIX, OS X)</li>
+</ul>
+</li>
+<li>Implementation: traditionally in assembly, now <em>most</em> in C/C++
+
+<ul>
+<li>Linux/windows mostly in C, small sections of assembly</li>
+<li>high level language for portability, BUT slower in speed and larger in storage</li>
+<li>Most critical for performance: memory manager and CPU scheduler</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>OS Structure: how components are melded into a kernel?
+
+<ul>
+<li>Simple structure
+
+<ul>
+<li>MSDOS, levels of functionality are not well separated.</li>
+<li>Original UNIX</li>
+</ul>
+</li>
+<li>Layered approach: less efficient</li>
+<li>Microkernel approach
+
+<ul>
+<li>CMU Mach</li>
+<li>microkernel provides communications between client programs and the services (Message Passing)</li>
+<li>slower if system function overhead increases</li>
+</ul>
+</li>
+<li>Modules
+
+<ul>
+<li>currently best with OOP</li>
+<li>a core kernel + loadable kernel modules</li>
+<li>modern UNIX (Solaris, Linux, MAC OS X)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -5712,53 +5902,6 @@ vector examples</li>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/13/fast-crash-recovery-in-ramcloud/">Fast Crash Recovery in RAMCloud (SOSP&#8217;11)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-13T12:22:00-05:00" pubdate data-updated="true">Dec 13<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.stanford.edu/~ouster/cgi-bin/home.php">Stanford</a>, <a href="http://www.stanford.edu/~ouster/cgi-bin/papers/ramcloud-recovery.pdf">paper</a>, <a href="https://ramcloud.stanford.edu/wiki/display/ramcloud/RAMCloud+Presentations">slides</a>, <a href="http://www.youtube.com/watch?v=RE3CmdEGv4M">video</a></p>
-
-<h3>1. Problem</h3>
-
-<p>RAMCloud is a storage system helping developers manage large-scale DRAM storage, driven by the fact that large-scale Web applications need to cache large data in DRAM. (For example, Facebook cached 150TB DRAM in <em>memcached</em> out of 200TB of disk storage.)</p>
-
-<p>In order to keep a high level of durability and availability without impacting system performance, RAMCloud has only one single copy of data in DRAM. The problem here is how to recover from crash within 1s~2s.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/12/13/fast-crash-recovery-in-ramcloud/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -5774,6 +5917,10 @@ vector examples</li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/01/14/os-notes/">OS Notes</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/01/14/gc-garbage-collection-in-java/">GC(Garbage Collection) in Java</a>
       </li>
     
@@ -5787,10 +5934,6 @@ vector examples</li>
     
       <li class="post">
         <a href="/blog/2012/12/26/xie-zai-2012shi-jie-mo-ri-zhi-hou/">迟到的世界末日</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/12/26/bu-tan-sheng-huo/">请不要和我谈生活，我没有生活</a>
       </li>
     
   </ul>
