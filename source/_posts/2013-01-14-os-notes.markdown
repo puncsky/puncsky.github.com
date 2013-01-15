@@ -1,0 +1,82 @@
+---
+layout: post
+title: "OS Notes"
+date: 2013-01-14 14:02
+comments: true
+categories: system
+---
+
+## 2 OS Structures
+
+- Why would an application programmer prefer programming according to an API rather than invoking actual system calls?
+	- portability
+	- simplicity
+- How to pass parameters to the OS?
+	1. (simplest but limited) in registers
+	2. in a block (Linux/Solaris)
+	3. pushed onto the stack by program / popped off the stack by OS	
+- 6 types of system calls
+	1. process control, 
+		- end / abort
+		- if a problem causes an error trap, a dump of memory is written to disk and may be examined by a debugger
+		- command interpreter
+		- error level
+		- single-tasking / multi-tasking (有没有wait的区别)
+	2. file manipulation, 
+		- CRUD
+		- files and directories
+		- attributes
+	3. device manipulation, 
+		- physical and virtual(e.g. files) devices. 
+		- combined file-device structure
+	4. information maintenance, 
+		- transfer info between the user program and OS
+		- info about the OS
+		- debug (dump memory and
+			- single step CPU mode, a trap is executed by the CPU after every instruction. Caught by debugger.
+		- `time ./program`
+		- info about a process
+	5. communications, 2 models of interprocess communication
+		1. message-passing
+			- simple and efficient for exchanging small amounts of data
+			- hostid, netid, processid
+			- client
+			- server: receiving **daemons**
+		2. shared-memory
+			- max speed but problems on protection & sync
+			- normally one process's memory is prevented from the access from others.
+			- Agree to remove the restriction
+	6. protection.
+		- set/get permission
+- System programs
+	- file management
+	- status info
+	- file modification
+	- programming language support
+	- program loading and execution
+	- communications
+- DSDI
+	- Design Goals: user/system goals
+	- Mechanisms & Policies: separate policy from mechanism 
+		- mechanism: how to do
+		- policy: what will be done (may change) - parameters
+		- microkernel-based OS as one extreme example (UNIX, OS X)
+	- Implementation: traditionally in assembly, now _most_ in C/C++ 
+		- Linux/windows mostly in C, small sections of assembly
+		- high level language for portability, BUT slower in speed and larger in storage
+		- Most critical for performance: memory manager and CPU scheduler
+- OS Structure: how components are melded into a kernel?
+	- Simple structure
+		- MSDOS, levels of functionality are not well separated. 
+		- Original UNIX
+	- Layered approach: less efficient
+	- Microkernel approach 
+		- CMU Mach
+		- microkernel provides communications between client programs and the services (Message Passing)
+		- slower if system function overhead increases
+	- Modules
+		- currently best with OOP
+		- a core kernel + loadable kernel modules
+		- modern UNIX (Solaris, Linux, MAC OS X)
+		
+	

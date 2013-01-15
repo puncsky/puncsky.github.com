@@ -13,6 +13,7 @@ categories: programming_languages
 `finalize()`使用时，会在GC释放空间之前被调用到，目的是在GC的时候做一些特殊的清理工作；但**finalize()绝不是C++里面的destructor，因为**
 
 1.对象**不一定会**被GC (而C++里析构函数一定会被调用到)
+
 2.GC不等于析构
 
 既然有GC，Java就没有必要用到析构函数，所以如果有需要在GC时候额外做些事情，就使用finalize()做最后的清理工作，**尽管它不一定会被调用到，除非JVM没有内存空间了**。
@@ -69,7 +70,7 @@ Java中在heap上new东西并不像其他语言那么expensive，几乎和其他
 
 非Java的GC机制：_reference counting_ 数对象被引用了多少次，当等于零时就被清理掉。
 
-Java的机制：_adaptive generational stop-and-copy mark-and-sweep._ 所有未死的对象都可以追溯到stack或者static storage上的一个引用，形成一个个web。这时候，也有不同的处理方式：
+Java的机制：**_adaptive generational stop-and-copy mark-and-sweep._** 所有未死的对象都可以追溯到stack或者static storage上的一个引用，形成一个个web。这时候，也有不同的处理方式：
 
 1. _stop-and-copy_. 如果程序停下来了，将活的对象拷贝到新的heap上，垃圾就被留在了原来的heap。新heap上的对象也可以被排列得更加紧凑(compact)了。有两个问题：
 	- 保持两个heap
