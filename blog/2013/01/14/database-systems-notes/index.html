@@ -1,0 +1,369 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Database Systems Notes - CS Notebook</title>
+  <meta name="author" content="Tian">
+
+  
+  <meta name="description" content="DB Internals 1. Introduction 1.1 Relational System: The Life of a Query RDBMS has 5 main components: Client Communications Manager two-tier: client- &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://puncsky.github.com/blog/2013/01/14/database-systems-notes/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="CS Notebook" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">CS Notebook</a></h1>
+  
+    <h2>Just a notebook about life and computer</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:puncsky.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Database Systems Notes</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-14T20:23:00-05:00" pubdate data-updated="true">Jan 14<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>DB Internals</h2>
+
+<h3>1. Introduction</h3>
+
+<h4>1.1 Relational System: The Life of a Query</h4>
+
+<ul>
+<li>RDBMS has 5 main components:
+
+<ol>
+<li>Client Communications Manager
+
+<ul>
+<li>two-tier: client-server</li>
+<li>three-tier: add a proxy tier</li>
+<li>four-tier: add an application server</li>
+</ul>
+</li>
+<li>Process Manager
+
+<ul>
+<li>admission control: when to process?</li>
+</ul>
+</li>
+<li>Relational Query Processor</li>
+<li>Transactional Storage Manager
+
+<ul>
+<li>ensure ACID (atomicity, consistency, isolation, durability)</li>
+</ul>
+</li>
+<li>Shared Components and Utilities</li>
+</ol>
+</li>
+</ul>
+
+
+<h3>2. Process Models</h3>
+
+<ul>
+<li>Uniprocessors and Lightweight Threads, 3 models:
+
+<ol>
+<li>process per DBMS worker
+
+<ul>
+<li>simple and popular but not memory-efficient</li>
+<li>IBM DB2, PostgreSQL, Oracle</li>
+</ul>
+</li>
+<li>thread per DBMS worker
+
+<ul>
+<li>a single multi-threaded process hosts all the DBMS worker activity.</li>
+<li>a dispatcher listens for new DBMS client connections.</li>
+<li>scale but have multi-threaded programming challenges.</li>
+<li>IBM DB2, SQL Server, MySQL. Informix, Sybase</li>
+</ul>
+</li>
+<li>process pool
+
+<ul>
+<li>A central process holds all DBMS client connections and, as each SQL request comes in from a client, the request is given to one of the processes in the process pool.</li>
+<li>simpler than 1 and more memory-efficient than 2</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>Shared data and process boundaries
+
+<ul>
+<li>full DBMS worker independence &amp; isolation not possible, for on same shared DB
+
+<ul>
+<li>thread per DBMS worker: same address space</li>
+<li>process per DBMS worker &amp; process pool: shared memory</li>
+</ul>
+</li>
+<li>How to transfer results from DB to client?
+
+<ul>
+<li>Various buffers are used:
+
+<ol>
+<li>Disk I/O buffers
+
+<ul>
+<li><em>DB I/O requests: The Buffer Pool.</em>
+
+<ul>
+<li>1: on heap in shared address space /</li>
+<li>2&amp;3: in shared memory in the other 2 models</li>
+</ul>
+</li>
+<li><em>Log I/O requests: The Log Tail.</em> in memory queue that periodically flushed to the log disk(s) in FIFO order (generally, a separate process is responsible for this)
+
+<ul>
+<li>1: a heap-resident data structure</li>
+<li>2&amp;3: a) a separate process b) in shared memory and flushed by all threads/processes</li>
+<li> commit transaction flush. A transaction cannot be reported as successfully committed until a commit log record is flushed to the log device.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Client Communication buffers
+
+<ul>
+<li>pull model: clients issue SQL FETCH request repeatedly</li>
+<li>Client communications socket as a queue for the tuples</li>
+<li><em>Lock table</em> is shared by all DBMS workers, used by Lock Manager to implement DB locking semantics</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>admission control
+
+<ul>
+<li>DBMS thrashing: the result of 1)memory pressure 2)contention for locks</li>
+<li>Admission control: does not accept new work unless sufficient DBMS resources are available.</li>
+<li>to achieve <em>graceful degradation</em>: latency &amp; throughtput</li>
+<li>The dispatcher process ensures that the number of client connections is kept below a threshold.</li>
+<li>Execution admission controller
+
+<ul>
+<li>aided by information from the query optimizer</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>3. Parallel Architecture: Processes and Memory Coordination</h3>
+
+<ul>
+<li>shared memory
+
+<ul>
+<li>The main challenge is to modify the query execution layers to take advantage of the ability to parallelize a single query across multiple CPUs.</li>
+</ul>
+</li>
+<li>shared nothing
+
+<ul>
+<li>horizontal data partitioning: each system in the cluster stores only a portion of the data.</li>
+<li>Good partitioning places a significant burden on DBA</li>
+<li>partial failure</li>
+</ul>
+</li>
+<li>shared disk</li>
+<li>NUMA</li>
+<li>DBMS threads and multi-processors</li>
+<li>standard practice</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Tian</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-14T20:23:00-05:00" pubdate data-updated="true">Jan 14<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2013/01/14/database-systems-notes/" data-via="" data-counturl="http://puncsky.github.com/blog/2013/01/14/database-systems-notes/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/01/14/os-notes/" title="Previous Post: OS Notes">&laquo; OS Notes</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/01/14/database-systems-notes/">Database Systems Notes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/14/os-notes/">OS Notes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/14/gc-garbage-collection-in-java/">GC(Garbage Collection) in Java</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/08/clrs-2-advanced/">CLRS 2: Advanced</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/07/clrs-1-basics/">CLRS 1: Basics</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Tian -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

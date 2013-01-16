@@ -9,7 +9,7 @@
   <meta name="author" content="Tian">
 
   
-  <meta name="description" content="Yale Dedis 1. Efficient System-Enforced Deterministic Parallelism (OSDI’10) Parallelism introduces 1) non-determinism and 2) data races (heisenbugs &hellip;">
+  <meta name="description" content="From MPI-SWS, Germany, paper and slides 1. Problem To protect user privacy in distributed systems from leaking by statistical queries. 2. Challenges &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,69 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/20/towards-statistical-queries-over-distributed-private-user-data-nsdi-12/">Towards Statistical Queries Over Distributed Private User Data (NSDI &#8216;12)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-20T16:13:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>From <a href="https://sites.google.com/site/ruichuanc/">MPI-SWS, Germany</a>, <a href="https://73aab115-a-62cb3a1a-s-sites.googlegroups.com/site/ruichuanc/pddp-nsdi12.pdf?attachauth=ANoY7cqTHmW8qn2UrCjxk0u-eafRsp77w2XtpG9QdnY9nOnDKkELrYiH-RrOI2ILFnQUv6gt-oz_ek1DA8q7TptjvCEWWWpT02huRCgNYXW-bUNQwjJjM0DLN7tiJzOKD509vt1JhOZ_fHQ_rijDX5Dhh3Bx1pdZotJp7mDbCw0yrcSTYEfbXAuzkZK2zDxfRKYzZXww-dESgY9wquSilSiX3ZrPYrATOg%3D%3D&amp;attredirects=0">paper</a> and <a href="https://www.usenix.org/sites/default/files/conference/protected-files/pddp-talk-nsdi12.pdf">slides</a></p>
+
+<h2>1. Problem</h2>
+
+<p>To protect user privacy in distributed systems from leaking by statistical queries.</p>
+
+<h2>2. Challenges</h2>
+
+<p>The most direct solutions are</p>
+
+<ol>
+<li><p>to <strong>anonymize + add noise</strong> to <em>user data</em>.</p>
+
+<p> [-] utility, de-anonymize</p></li>
+<li><p>differential privacy. add noise to <em>answer of queries</em>.</p>
+
+<p> [-] scale, churn tolerance, malicious client</p></li>
+</ol>
+
+
+<h2>3. Solution </h2>
+
+<p>PDDP: Practical Distributed Differential Privacy.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/20/towards-statistical-queries-over-distributed-private-user-data-nsdi-12/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -330,6 +393,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/01/14/database-systems-notes/">Database Systems Notes</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/01/14/os-notes/">OS Notes</a>
       </li>
     
@@ -343,10 +410,6 @@
     
       <li class="post">
         <a href="/blog/2013/01/07/clrs-1-basics/">CLRS 1: Basics</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/12/26/xie-zai-2012shi-jie-mo-ri-zhi-hou/">迟到的世界末日</a>
       </li>
     
   </ul>

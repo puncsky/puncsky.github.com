@@ -4,7 +4,7 @@
   <title><![CDATA[Category: playground | CS Notebook]]></title>
   <link href="http://puncsky.github.com/blog/categories/playground/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2013-01-14T20:29:06-05:00</updated>
+  <updated>2013-01-16T10:29:52-05:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -59,9 +59,40 @@
 </ul>
 
 
-<h3>Brain teasers</h3>
+<h3>6 Brain teasers</h3>
 
 <p>start talking, and showing how you tackle the problem. Write down the rules you have found.</p>
+
+<h3>9 Recursion and DP</h3>
+
+<ul>
+<li>Buttom-up recursion, start with a simple case</li>
+<li>Top-down recursion, how to divide the problem for case N into subproblems</li>
+<li>DP
+
+<ul>
+<li>rarely asked</li>
+<li>solve like recursion. The <strong><em>only difference</em></strong> is that intermediate results are cached for future calls</li>
+</ul>
+</li>
+<li>discuss the trade-offs between recursive &amp; iterative solutions with your interview</li>
+</ul>
+
+
+<h3>10 Scalability and Memory Limits</h3>
+
+<ul>
+<li>理想情况 -> 实际情况 -> 解决问题</li>
+<li>Typical Capacity:
+
+<ul>
+<li>Hard Drive Space</li>
+<li>Memory</li>
+<li>Internet Transfer Latency</li>
+</ul>
+</li>
+</ul>
+
 
 <h3>Databases</h3>
 
