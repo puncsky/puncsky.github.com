@@ -42,9 +42,26 @@ categories: playground
 
 - `x & (~0 << n)` clears the n rightmost bits of x. `~0` is not 1 but 111...1.
 
-### Brain teasers
+### 6 Brain teasers
 
 start talking, and showing how you tackle the problem. Write down the rules you have found.
+
+### 9 Recursion and DP
+
+- Buttom-up recursion, start with a simple case
+- Top-down recursion, how to divide the problem for case N into subproblems
+- DP
+	- rarely asked
+	- solve like recursion. The ***only difference*** is that intermediate results are cached for future calls
+- discuss the trade-offs between recursive & iterative solutions with your interview
+
+### 10 Scalability and Memory Limits
+
+- 理想情况 -> 实际情况 -> 解决问题
+- Typical Capacity:
+	- Hard Drive Space
+	- Memory
+	- Internet Transfer Latency
 	
 ### Databases
 

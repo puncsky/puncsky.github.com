@@ -78,5 +78,6 @@ categories: system
 		- currently best with OOP
 		- a core kernel + loadable kernel modules
 		- modern UNIX (Solaris, Linux, MAC OS X)
-		
+
+[A Guide to Programming Intel IA32 PC Architecture](http://zoo.cs.yale.edu/classes/cs422/2013/ref/pc-arch)
 	
