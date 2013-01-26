@@ -4,6 +4,7 @@ title: "OS Notes"
 date: 2013-01-14 14:02
 comments: true
 categories: system
+published: false
 ---
 
 ## 2 OS Structures
@@ -78,6 +79,8 @@ categories: system
 		- currently best with OOP
 		- a core kernel + loadable kernel modules
 		- modern UNIX (Solaris, Linux, MAC OS X)
+
+## x86 Processor Basics
 
 [A Guide to Programming Intel IA32 PC Architecture](http://zoo.cs.yale.edu/classes/cs422/2013/ref/pc-arch)
 	

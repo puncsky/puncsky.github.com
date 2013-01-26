@@ -4,6 +4,7 @@ title: "Database Systems Notes"
 date: 2013-01-14 20:23
 comments: true
 categories: 
+published: false
 ---
 
 ## DB Internals
@@ -28,16 +29,28 @@ categories:
 
 - Uniprocessors and Lightweight Threads, 3 models:
 	1. process per DBMS worker
-		- simple and popular but not memory-efficient
+		- simple and popular but not memory-efficient, not scale
+			- easy to debug
 		- IBM DB2, PostgreSQL, Oracle
 	2. thread per DBMS worker
 		- a single multi-threaded process hosts all the DBMS worker activity.
 		- a dispatcher listens for new DBMS client connections.
 		- scale but have multi-threaded programming challenges.
 		- IBM DB2, SQL Server, MySQL. Informix, Sybase
+		- lighter-weight and more portable than OS threads
+		- BUT
+			- blocking operations are problematic
+			- replicating code already existent in the OS (context switching, thread state management, scheduling)
+			- long term code maintenance obligation
+			- super hard to debug 
 	3. process pool
 		-  A central process holds all DBMS client connections and, as each SQL request comes in from a client, the request is given to one of the processes in the process pool. 
-		- simpler than 1 and more memory-efficient than 2
+		- simpler than 2 and more memory-efficient than 1
+	- Conclusions:
+		- poor OS thread support in the 70s lead to 1 ,2
+		- **Modern implementations tend to go with thread pool model**
+		- Legacy databases are somewhat stuck with whatever model they currently have
+		- New models
 - Shared data and process boundaries
 	- full DBMS worker independence & isolation not possible, for on same shared DB
 		- thread per DBMS worker: same address space
@@ -59,7 +72,7 @@ categories:
 - admission control
 	- DBMS thrashing: the result of 1)memory pressure 2)contention for locks
 	- Admission control: does not accept new work unless sufficient DBMS resources are available.
-	- to achieve _graceful degradation_: latency & throughtput
+	- to achieve _graceful degradation_: latency & throughput
 	1. The dispatcher process ensures that the number of client connections is kept below a threshold.
 	2. Execution admission controller
 		- aided by information from the query optimizer
@@ -73,6 +86,12 @@ categories:
 	- Good partitioning places a significant burden on DBA
 	- partial failure
 - shared disk
+	- Oracle RAC and DB2 for zSeries SYS- PLEX
+	- increasing popularity of SAN (Storage Area Networks)
+	- no partition of data -> lower cost of administration than shared-nothing
+	- distributed buffer pools <- distributed lock manager & cache-coherency protocol
+	
+	
 - NUMA
 - DBMS threads and multi-processors
 - standard practice
