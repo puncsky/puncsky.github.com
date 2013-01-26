@@ -9,7 +9,7 @@
   <meta name="author" content="Tian">
 
   
-  <meta name="description" content="本文摘录自Thinking in Java 1. The method finalize() finalize()使用时，会在GC释放空间之前被调用到，目的是在GC的时候做一些特殊的清理工作；但finalize()绝不是C++里面的destructor，因为 1.对象不一定会被GC (而C++ &hellip;">
+  <meta name="description" content="2013-01-06 睡了很久，做了很多梦，居然可以联系起来。我发现这些梦竟然都是那些当年和集体在一起快乐或痛苦的日子。 我们一起出去玩，那是有山有水的地方。回来的时候，我们躺在小船上，我竟从未见过星空如此浩瀚明亮。水草丛中生起了薄薄的一层雾色。有很多大学同学……梦到的女生居然是佐璐！ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,52 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/26/log/">Log</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-26T15:06:00-05:00" pubdate data-updated="true">Jan 26<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><hr />
+
+<p>2013-01-06</p>
+
+<p>睡了很久，做了很多梦，居然可以联系起来。我发现这些梦竟然都是那些当年和集体在一起快乐或痛苦的日子。</p>
+
+<p>我们一起出去玩，那是有山有水的地方。回来的时候，我们躺在小船上，我竟从未见过星空如此浩瀚明亮。水草丛中生起了薄薄的一层雾色。有很多大学同学……梦到的女生居然是佐璐！</p>
+
+<p>回来之后在耶鲁读书，这时候清华来了杨老师、阮博士、美琪大叔他们来参加某个学术会议。那时候大操场在举行类似运动会的活动，万分热闹。在圆桌会议的时候，我去问阮博最近在做什么研究。黄昏时分，散会了，我穿越人群匆匆忙忙赶去上课。坐在类似初中的教室里面，小学中学大学同学都在里面，惊悉十八个小时后要交类似于数学的作业，厚厚的一沓，旁边吴舟正在抄……毕业于LES/UCL的PHD大胖子老师搂着佐璐上课点陈亚智回答问题。</p>
+
+<p>这些极富怀旧性、趣味性的奇怪组合让我有说不出的乐趣，甚至都不想醒来。大学在集体里面的时候，处心积虑想要独处达到更高的效率；现在却把集体当做梦中情人乐此不疲：我需要集体却远离集体，我不愿意站在人群的外面消受永世的孤独、也不愿意站在人群的里面消费有限的时光，我注定站在人群的边缘。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -5743,53 +5789,6 @@ vector examples</li>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/13/fast-crash-recovery-in-ramcloud/">Fast Crash Recovery in RAMCloud (SOSP&#8217;11)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-13T12:22:00-05:00" pubdate data-updated="true">Dec 13<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.stanford.edu/~ouster/cgi-bin/home.php">Stanford</a>, <a href="http://www.stanford.edu/~ouster/cgi-bin/papers/ramcloud-recovery.pdf">paper</a>, <a href="https://ramcloud.stanford.edu/wiki/display/ramcloud/RAMCloud+Presentations">slides</a>, <a href="http://www.youtube.com/watch?v=RE3CmdEGv4M">video</a></p>
-
-<h3>1. Problem</h3>
-
-<p>RAMCloud is a storage system helping developers manage large-scale DRAM storage, driven by the fact that large-scale Web applications need to cache large data in DRAM. (For example, Facebook cached 150TB DRAM in <em>memcached</em> out of 200TB of disk storage.)</p>
-
-<p>In order to keep a high level of durability and availability without impacting system performance, RAMCloud has only one single copy of data in DRAM. The problem here is how to recover from crash within 1s~2s.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/12/13/fast-crash-recovery-in-ramcloud/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -5805,6 +5804,10 @@ vector examples</li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/01/26/log/">log</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/01/14/gc-garbage-collection-in-java/">GC(Garbage Collection) in Java</a>
       </li>
     
@@ -5818,10 +5821,6 @@ vector examples</li>
     
       <li class="post">
         <a href="/blog/2012/12/26/xie-zai-2012shi-jie-mo-ri-zhi-hou/">迟到的世界末日</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/12/26/bu-tan-sheng-huo/">请不要和我谈生活，我没有生活</a>
       </li>
     
   </ul>
