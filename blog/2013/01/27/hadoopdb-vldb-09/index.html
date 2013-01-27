@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Cracking the Coding Interview - CS Notebook</title>
+  <title>HadoopDB (VLDB'09) - CS Notebook</title>
   <meta name="author" content="Tian">
 
   
-  <meta name="description" content="Interview Overview 1.不求无错，但求比人好 2.真实的面试题和学术算法书上的很不一样 3.algorithm questions, behavioral questions, trivia questions. 6.screening interview(phone): &hellip;">
+  <meta name="description" content="Yale DB 1. Problem Large analytical data management with commodity clusters 2. Challenges Performance and efficiency hadoop is not for structured &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://puncsky.github.com/blog/2012/12/23/careercup150/">
+  <link rel="canonical" href="http://puncsky.github.com/blog/2013/01/27/hadoopdb-vldb-09/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -67,7 +67,7 @@
   
   <header>
     
-      <h1 class="entry-title">Cracking the Coding Interview</h1>
+      <h1 class="entry-title">HadoopDB (VLDB'09)</h1>
     
     
       <p class="meta">
@@ -83,96 +83,111 @@
   
 
 
-<time datetime="2012-12-23T21:57:00-05:00" pubdate data-updated="true">Dec 23<span>rd</span>, 2012</time>
+<time datetime="2013-01-27T15:50:00-05:00" pubdate data-updated="true">Jan 27<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h2>Interview Overview</h2>
+<div class="entry-content"><p><a href="http://db.cs.yale.edu/hadoopdb/hadoopdb.html">Yale DB</a></p>
 
-<p>1.<strong>不求无错，但求比人好</strong></p>
+<h3>1. Problem</h3>
 
-<p>2.真实的面试题和学术算法书上的很不一样</p>
+<p>Large analytical data management with commodity clusters</p>
 
-<p>3.algorithm questions, behavioral questions, trivia questions.</p>
-
-<p>6.screening interview(phone): write on paper and read it back over the phone. on-site: 4~6 in-person interviews (one lunch interview, not technical)</p>
-
-<p>7.prior experience(留下好印象 interviewer 会认为你聪明而忽略小错误), culture fit, coding skills, analytical ability</p>
+<h3>2. Challenges</h3>
 
 <ul>
-<li>做一个好相处的人</li>
-<li>关于简历的问题必须准备</li>
-<li>主要关注算法题</li>
-<li>Practicing without a compiler</li>
-<li>Behavior questions really matters: impression!</li>
-<li>Mock interview</li>
-<li>Don&#8217;t memorize solutions. Solve problems all by yourself. Quality beats quantity.</li>
-<li>把脑海中的想法说出来，不沟通=没进展</li>
-<li>take your time</li>
-<li>编程好风格</li>
-<li>测试</li>
-<li>仔细改错</li>
-<li>不害怕</li>
-<li>TODO??告诉面试官这题我见过</li>
-</ul>
-
-
-<h2>Interview Questions</h2>
-
-<p><a href="https://github.com/puncsky/playground/tree/master/careercup">Solutions with C++ at github.com</a></p>
+<li>Performance and efficiency
 
 <ul>
-<li>Runner technique for linked list: iterate through the linked list with two (fast and slow) pointers simultaneously.</li>
-<li><p>All recursive algorithms can be implemented iteratively.</p></li>
-<li><p><code>x &amp; (~0 &lt;&lt; n)</code> clears the n rightmost bits of x. <code>~0</code> is not 1 but 111&#8230;1.</p></li>
-</ul>
-
-
-<h3>6 Brain teasers</h3>
-
-<p>start talking, and showing how you tackle the problem. Write down the rules you have found.</p>
-
-<h3>9 Recursion and DP</h3>
+<li>hadoop
 
 <ul>
-<li>Buttom-up recursion, start with a simple case</li>
-<li>Top-down recursion, how to divide the problem for case N into subproblems</li>
-<li>DP
-
-<ul>
-<li>rarely asked</li>
-<li>solve like recursion. The <strong><em>only difference</em></strong> is that intermediate results are cached for future calls</li>
+<li>is not for structured data analysis</li>
+<li>scale well</li>
+<li>open source, without cost</li>
 </ul>
 </li>
-<li>discuss the trade-offs between recursive &amp; iterative solutions with your interview</li>
 </ul>
-
-
-<h3>10 Scalability and Memory Limits</h3>
-
-<ul>
-<li>理想情况 -> 实际情况 -> 解决问题</li>
-<li>Typical Capacity:
+</li>
+<li>scalability, fault-tolerance, and flexibility
 
 <ul>
-<li>Hard Drive Space</li>
-<li>Memory</li>
-<li>Internet Transfer Latency</li>
+<li>Previous parallel db fit into tens of nodes, not thousand of nodes.
+
+<ul>
+<li>not scale well for failures, heterogeneous machines, performance untested</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 
 
-<h3>Databases</h3>
+<h3>3. Solutions</h3>
 
 <ul>
-<li>Normalized: minimize redundancy.</li>
-<li>Denormalized: optimize read time.</li>
+<li>MapReduce (Hadoop) + parallel db (or single-node DBs) = HadoopDB
+
+<pre><code>  Translation layer: Hive 
+  Communication layer: Hadoop
+  Database layer: PostgreSQL (or MySQL, ... JDBC)
+</code></pre></li>
+<li>Components
+
+<pre><code>  1. Database Connector
+      Interface among dbs on nodes
+      extends InputFormat class -&gt; InputFormat Implementation lib
+      JDBC-complaint
+  2. Catalog
+      metainformation as XML = connection para + metadata
+  3. Data Loader
+      Global Hasher: MR, repartition raw data from HDFS to NO. of nodes
+      Local Hasher: copy from HDFS, repartition the partition into chunks
+      Better load balance than Hadoop
+  4. SQL - MR - SQL (SMS) Planner
+      extend Hive for
+          + open and low cost
+          - each table stored separately in HDFS, low performance in multi-table trans. 
+      intercept normal Hive flow in
+          1. update MetaStore before query execution
+          2. between query plan generation and MR jobs
+              retrieve fields, determine partition keys
+              traverse DAG bottom-up
+      only support filter, select, aggregation
+</code></pre></li>
+<li>Extend performance [23] with fault tolerance and heterogeneous node exp
+
+<pre><code>  TODO: modify the current task scheduler, connect not straggler node but the replicas.
+</code></pre></li>
+<li>Exp on EC2
+
+<pre><code>  Hadoop
+  HadoopDB
+  Vertica
+  DBMS-X
+</code></pre></li>
 </ul>
 
+
+<h3>4. Conclusion</h3>
+
+<ul>
+<li>HadoopDB&#8217;s performance &lt; parallel db for
+
+<pre><code>  PostgreSQL (not column-store, not compression)
+  Hadoop and Hive are young
+</code></pre></li>
+<li>performance, heterogeneous environ., fault tolerance, flexibility</li>
+</ul>
+
+
+<h3>Related Readings</h3>
+
+<p>[23] A Comparison of Approaches to Large Scale Data Analysis
+[6] Scope [11] Hive [24] C-store [4] What is the right way to measure scale?</p>
 </div>
 
 
@@ -195,12 +210,12 @@
   
 
 
-<time datetime="2012-12-23T21:57:00-05:00" pubdate data-updated="true">Dec 23<span>rd</span>, 2012</time>
+<time datetime="2013-01-27T15:50:00-05:00" pubdate data-updated="true">Jan 27<span>th</span>, 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/playground/'>playground</a>
+    <a class='category' href='/blog/categories/paper-review/'>paper_review</a>
   
 </span>
 
@@ -209,7 +224,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2012/12/23/careercup150/" data-via="" data-counturl="http://puncsky.github.com/blog/2012/12/23/careercup150/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2013/01/27/hadoopdb-vldb-09/" data-via="" data-counturl="http://puncsky.github.com/blog/2013/01/27/hadoopdb-vldb-09/" >Tweet</a>
   
   
   
@@ -218,10 +233,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2012/12/22/clrs-3-selected/" title="Previous Post: CLRS 3: Selected">&laquo; CLRS 3: Selected</a>
+        <a class="basic-alignment left" href="/blog/2013/01/14/gc-garbage-collection-in-java/" title="Previous Post: GC(Garbage Collection) in Java">&laquo; GC(Garbage Collection) in Java</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2012/12/26/bu-tan-sheng-huo/" title="Next Post: 请不要和我谈生活，我没有生活">请不要和我谈生活，我没有生活 &raquo;</a>
       
     </p>
   </footer>
