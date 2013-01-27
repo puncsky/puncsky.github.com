@@ -42,3 +42,10 @@ published: false
 
 ## 03 Intro to Parallelism
 
+- Types of parallelism
+	- instruction level parallelism
+		- multiple issue (e.g. superscalar)
+		- pipelining
+	- multicore parallelism
+	- multinode parallelism
+	
