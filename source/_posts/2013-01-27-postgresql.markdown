@@ -22,3 +22,6 @@ published: false
 - process per user
 	- master `postgres` listens at a specified TCP/IP port
 	- spawns a new server process
+	
+### 44.3. The Parser Stage
+
