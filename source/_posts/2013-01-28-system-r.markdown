@@ -56,14 +56,19 @@ No previous _complete_ RDBMS. Most of them focus on solving specific problems.
 	CALL FETCH(C1); -- fetch a name to x, and a salary to y
 ```
 	
-- Query Facilities
+- Query Facilities 
+	- `SELECT`
 	- Based on [5], BUT:
 	- replace block label notations with more symmetric notations
 		1. Tuples are selected by `WHERE`
 		2. Groups are formed by `GROUP BY`
 		3. Groups are selected by satisfying `HAVING`
-- Data Manipulation Facilities
+- Data Manipulation Facilities 
+	- `UPDATE` `INSERT` `DELETE`
+	- `KEEP` and assignment `<-`
+	- `CURRENT TUPLE OF CURSOR`
 - Data Definition Facilities
+	- 
 - Data Control Facilities
 - Optimizer
 - Modifying Cursors
