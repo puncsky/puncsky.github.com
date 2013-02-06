@@ -4,7 +4,7 @@ title: "System R: Relational Approach to Database Management"
 date: 2013-01-28 12:11
 comments: true
 categories: 
-published: false
+published: true
 ---
 
 ### 1. Problem
@@ -68,7 +68,6 @@ No previous _complete_ RDBMS. Most of them focus on solving specific problems.
 	- `KEEP` and assignment `<-`
 	- `CURRENT TUPLE OF CURSOR`
 - Data Definition Facilities
-	- 
 - Data Control Facilities
 - Optimizer
 - Modifying Cursors
