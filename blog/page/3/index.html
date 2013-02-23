@@ -9,7 +9,7 @@
   <meta name="author" content="Tian">
 
   
-  <meta name="description" content="MPI-SWS, UPenn, Duke, Akamai, paper, slides, video 1. Problems Hybrid (Servers with assisting peers) designs in CDNs -> malicious clients can cause &hellip;">
+  <meta name="description" content="Yale DB 1. Problem Large analytical data management (OLAP) with commodity clusters 2. Challenges Performance and efficiency hadoop is not for &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,80 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/">HadoopDB: An Architectural Hybrid of MapReduce and DBMS Technologies for Analytical Workloads (VLDB &#8216;09)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-20T16:20:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://db.cs.yale.edu/hadoopdb/">Yale DB</a></p>
+
+<h3>1. Problem</h3>
+
+<p>Large analytical data management (OLAP) with commodity clusters</p>
+
+<h3>2. Challenges</h3>
+
+<ul>
+<li>Performance and efficiency
+
+<ul>
+<li>hadoop
+
+<ul>
+<li>is not for structured data analysis</li>
+<li>scale well</li>
+<li>open source, without cost</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>scalability, fault-tolerance, and flexibility
+
+<ul>
+<li>Previous parallel db fit into tens of nodes, not thousand of nodes.</li>
+<li>not scale well for failures, heterogeneous machines, performance untested</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>3. Solutions</h3>
+
+<ul>
+<li>MapReduce (Hadoop) + parallel db (or single-node DBs) = HadoopDB</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -454,6 +528,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/02/23/shui-jue-duo-hui-zhe-shou-%21/">睡觉多会折寿！</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/01/30/zhuan-numbers-everyone-should-know/">[转] Numbers everyone should know</a>
       </li>
     
@@ -467,10 +545,6 @@
     
       <li class="post">
         <a href="/blog/2013/01/14/gc-garbage-collection-in-java/">GC(Garbage Collection) in Java</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/01/08/clrs-2-advanced/">CLRS 2: Advanced</a>
       </li>
     
   </ul>
