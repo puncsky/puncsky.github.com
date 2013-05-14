@@ -8,6 +8,13 @@ categories: paper_review
 
 [Yale DB](http://db.cs.yale.edu/hadoopdb/hadoopdb.html)
 
+### Comments
+
+Two things could be done to improve HadoopDB
+
+1. Integrate the file system for local database with HDFS. In the design of HadoopDB, they are separated which means that the more space one part is preallocated and the less space the other part has. It is not scalable because the administrator has to divide by himself. We could investigate a way to let the database run on the HDFS directly. We can modify the database's file descriptor directly or we can add an additional layer between the database and the HDFS.
+2. Set up a better scheduler. It is mentioned in the paper that the original version of hadoop fair scheduler is not so good. It is locally greedy and simply does not consider the big picture much. "Quincy: Fair Scheduling for Distributed Computing Clusters" advances a graph data structure for global cost model, which has a very good performance, increasing the throughput up to 40%.
+
 ###1. Problem
 
 Large analytical data management with commodity clusters

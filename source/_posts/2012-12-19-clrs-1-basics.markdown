@@ -64,46 +64,30 @@ The divide-and-conquer approach and recursive
 	//	merge by comparing two numbers from the sorted left and right pair by pair
 	//Output:
 	//	A sorted array 
-	void mergeSort(double* A, int size, int p, int r) {
-		if (p < r) {
-			int q = (p+r)/2;
-			mergeSort(A, 10, p, q);
-			mergeSort(A, 10, q+1, r);
-			merge(A, 10, p, q, r);
-		}
-	}
-	void merge(double* A, int size, int p, int q, int r) {
-		// create left and right arrays                                                                                                          
-		int span1 = q-p+1;
-		int span2 = r-q;
-		double* left = reinterpret_cast<double*>(malloc(sizeof(double) * (span1+1)));
-		double* right= reinterpret_cast<double*>(malloc(sizeof(double) * (span2+1)));
-		for (int i = 0; i < span1; ++i) left [i] = A[p+i];
-		for (int i = 0; i < span2; ++i) right[i] = A[q+1+i];
-		left [span1] = numeric_limits<double>::max();
-		right[span2] = numeric_limits<double>::max();
-		for(int k=p, i=0, j=0; k<=r; ++k) {
-			if (left[i] <= right[j]) {
-				A[k] = left [i];
-				++i;	
-			} else {
-    			A[k] = right[j];
-     		   	++j;
-  		  	}
-		}
-		free(left);
-		free(right);
-	}
-	int main() {
-		double A[10] = {4.,3.,2.,1.,0.,5.,6.,8.,7.,9.};
-		for (int i=0; i<10; ++i)
-			cout << A[i];
-		cout << endl;
-		mergeSort(A, 10, 0, 9);
-    	for (int i=0; i<10; ++i)
-        	cout << A[i];
-    	cout << endl;
-	}
+    void mergeSort(int* a, int b, int e) {
+    	if (b < e) {
+    		int mid = (b+e)/2;
+    		mergeSort(a, b, mid);
+    		mergeSort(a, mid+1, e);
+			// merge
+    		int* left = new int[mid-b+1 + 1];
+    		int* right= new int[e-mid + 1];
+    		for (int i = b; i <= mid; i++) {
+    			left[i-b] = a[i];
+    		}
+    		left[mid+1-b] = INT_MAX;
+    	    for (int i = mid+1; i <= e; i++) {
+    			right[i-mid-1] = a[i];
+    		}
+    		right[e-mid] = INT_MAX;
+    		int i = 0, j = 0;
+    		for (int k = b; k <= e; k++) {
+    			a[k] = (left[i]<=right[j])?(left[i++]):(right[j++]);
+    		}
+    		delete[] left;
+    		delete[] right;
+    	}
+    }
 ``` 
  
 - Θ(n lg n) but not operate in place
@@ -548,45 +532,20 @@ Divide-and-conquer paradigm
 
 ``` cpp quickSort.cxx
 
-
-	#include <iostream>
-	using namespace std;
-
-	int partition(double* A, int p, int r) ;
-	int quickSort(double* A, int p, int r) ;
-
-	void quickSort(double* A, int p, int r) {
-	    if (p < r) {
-	        int q = partition(A, p, r);
-	        quickSort(A, p, q-1);
-	        quickSort(A, q+1, r);
-	    }
-	}
-	// pick A[r] as the flag
-	// i for the left array <= A[r]
-	// j for iterating the whole array 
-	// finally, exchange A[r] in the middle
-	// return the new middle index
-	int partition(double* A, int p, int r) {
-	    double x = A[r];
-	    int i = p - 1;
-	    for (int j = p; j <= r-1; ++j) 
-	        if (A[j] <= x) {
-	            ++ i;
-	            double tmp = A[i]; A[i] = A[j]; A[j] = tmp;
-	        }
-	    double tmp = A[i+1]; A[i+1] = A[r]; A[r] = tmp;
-	    return i+1;
-	}
-
-	int main() {
-	    double A[10] = {8,1,3,2,4,7,5,6,9,0};
-	    for (int i = 0; i < 10; ++i) cout << A[i];
-	    cout << endl;
-	    quickSort(A, 0, 9);
-	    for (int i = 0; i < 10; ++i) cout << A[i];
-	    cout << endl;
-	    return 0;
+	void qSort(int* a, int b, int e) {
+		if (b < e) {
+			int midVal = a[e];
+			// partition
+			int j = b;
+			for (int i = b; i <= e; i++) {
+				if (a[i] <= midVal) {
+					int tmp = a[j]; a[j] = a[i]; a[i] = tmp;
+					j++;
+				}
+			}
+			qSort(a, b, j-2);
+			qSort(a, j, e);
+		}
 	}
 ```
 
