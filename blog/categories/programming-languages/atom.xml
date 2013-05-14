@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming_languages | CS Notebook]]></title>
   <link href="http://puncsky.github.com/blog/categories/programming-languages/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2013-02-23T15:25:00-05:00</updated>
+  <updated>2013-05-14T00:35:39-04:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -534,21 +534,142 @@ return 0; }
 </ol>
 
 
-<p>Design Patterns</p>
+<h2>Design Patterns</h2>
 
 <ul>
 <li><em>Adaptor</em> matches interface between toolkit classes and applications.</li>
 <li><em>Indirection</em> decouples high-level applications from manipulations of low-level devices.</li>
-<li><em>Proxy</em> is like indirection and controls access via a placeholder</li>
+<li><em>Proxy</em> could interface to anything, is like indirection and controls access via a placeholder</li>
 <li><em>Polymorphism</em> enables multiple implementations from the abstraction</li>
 <li><em>Controller</em> handles system events</li>
 <li><em>Bridge</em> is generalized indirection and decouples interface from implementation. Used when both application and implementation are polymorphic.</li>
 <li><em>Subject-observer</em>: keep updated states of the subject with observers.</li>
 <li><em>Singleton</em> enforces only one instance of a class</li>
-<li><em>Strategy</em> defines a family of algorithms, encapsulates each one, and makes them interchangeable at run time.</li>
+<li><em>Strategy</em> defines a family of algorithms, encapsulates each one, and makes them interchangeable at run time.
+
+<ul>
+<li>The Bridge pattern is a structural pattern (HOW DO YOU BUILD A SOFTWARE COMPONENT?).</li>
+<li>The Strategy pattern is a dynamic pattern (HOW DO YOU WANT RUN A BEHAVIOUR IN SOFTWARE?).</li>
+<li>The syntax is similar but the goal are differents:
+
+<ul>
+<li>Bridge: you can split the hierarchy of interface and class join him with an abstract reference</li>
+<li>Strategy: you have more ways for doing an operation; with strategy you can choice the algorithm at run-time and you can modify a single Strategy without a lot of side-effects at compile-time;</li>
+</ul>
+</li>
+</ul>
+</li>
 <li><em>Factory method</em> defines an interface for creating an object but lets the implementation decide which class to instantiate.</li>
 </ul>
 
+
+<h3>Factory</h3>
+
+<p>``` java ImageReaderFactory.java</p>
+
+<pre><code>public class ImageReaderFactory {
+    public static ImageReader imageReaderFactoryMethod(InputStream is) {
+        ImageReader product = null;
+
+        int imageType = determineImageType(is);
+        switch (imageType) {
+            case ImageReaderFactory.GIF:
+                product = new GifReader(is);
+                break;
+            case ImageReaderFactory.JPEG:
+                product = new JpegReader(is);
+                break;
+            //...
+        }
+        return product;
+    }
+}
+</code></pre>
+
+<p>```</p>
+
+<h3>Proxy</h3>
+
+<p>``` java Real_Img_on_SystemA_and_Proxy_on_SystemB.java</p>
+
+<pre><code>interface Image {
+    public void displayImage();
+}
+
+//on System A 
+class RealImage implements Image {
+
+    private String filename = null;
+    /**
+     * Constructor
+     * @param FILENAME
+     */
+    public RealImage(final String FILENAME) { 
+        filename = FILENAME;
+        loadImageFromDisk();
+    }
+
+    /**
+     * Loads the image from the disk
+     */
+    private void loadImageFromDisk() {
+        System.out.println("Loading   " + filename);
+    }
+
+    /**
+     * Displays the image
+     */
+    public void displayImage() { 
+        System.out.println("Displaying " + filename); 
+    }
+
+}
+
+//on System B 
+class ProxyImage implements Image {
+
+    private RealImage image = null;
+    private String filename = null;
+    /**
+     * Constructor
+     * @param FILENAME
+     */
+    public ProxyImage(final String FILENAME) { 
+        filename = FILENAME; 
+    }
+
+    /**
+     * Displays the image
+     */
+    public void displayImage() {
+        if (image == null) {
+           image = new RealImage(filename);
+        } 
+        image.displayImage();
+    }
+
+}
+
+class ProxyExample {
+
+   /**
+    * Test method
+    */
+   public static void main(String[] args) {
+        final Image IMAGE1 = new ProxyImage("HiRes_10MB_Photo1");
+        final Image IMAGE2 = new ProxyImage("HiRes_10MB_Photo2");     
+
+        IMAGE1.displayImage(); // loading necessary
+        IMAGE1.displayImage(); // loading unnecessary
+        IMAGE2.displayImage(); // loading necessary
+        IMAGE2.displayImage(); // loading unnecessary
+        IMAGE1.displayImage(); // loading unnecessary
+    }
+
+}
+</code></pre>
+
+<p>```</p>
 ]]></content>
   </entry>
   

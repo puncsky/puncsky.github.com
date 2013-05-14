@@ -9,7 +9,7 @@
   <meta name="author" content="Tian">
 
   
-  <meta name="description" content="Yale DB 1. Problem Large analytical data management with commodity clusters 2. Challenges Performance and efficiency hadoop is not for structured &hellip;">
+  <meta name="description" content="Yale DB Comments Two things could be done to improve HadoopDB Integrate the file system for local database with HDFS. In the design of HadoopDB, they &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,6 +91,16 @@
 
 
 <div class="entry-content"><p><a href="http://db.cs.yale.edu/hadoopdb/hadoopdb.html">Yale DB</a></p>
+
+<h3>Comments</h3>
+
+<p>Two things could be done to improve HadoopDB</p>
+
+<ol>
+<li>Integrate the file system for local database with HDFS. In the design of HadoopDB, they are separated which means that the more space one part is preallocated and the less space the other part has. It is not scalable because the administrator has to divide by himself. We could investigate a way to let the database run on the HDFS directly. We can modify the database&#8217;s file descriptor directly or we can add an additional layer between the database and the HDFS.</li>
+<li>Set up a better scheduler. It is mentioned in the paper that the original version of hadoop fair scheduler is not so good. It is locally greedy and simply does not consider the big picture much. &#8220;Quincy: Fair Scheduling for Distributed Computing Clusters&#8221; advances a graph data structure for global cost model, which has a very good performance, increasing the throughput up to 40%.</li>
+</ol>
+
 
 <h3>1. Problem</h3>
 
@@ -277,6 +287,10 @@ only support filter, select, aggregation</li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/04/06/dynamo-kv-store/">Dynamo: Amazon's Highly Available Key-value Store (SOSP'07)</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/02/23/shui-jue-duo-hui-zhe-shou-%21/">睡觉多会折寿！</a>
       </li>
     
@@ -290,10 +304,6 @@ only support filter, select, aggregation</li>
     
       <li class="post">
         <a href="/blog/2013/01/27/hadoopdb-vldb-09/">HadoopDB (VLDB'09)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/01/14/gc-garbage-collection-in-java/">GC(Garbage Collection) in Java</a>
       </li>
     
   </ul>

@@ -1,0 +1,503 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Dynamo: Amazon's Highly Available Key-value Store (SOSP'07) - CS Notebook</title>
+  <meta name="author" content="Tian">
+
+  
+  <meta name="description" content="From Amazon Comments Dynamo successfully builds a highly available and scalable data store, which sacrifice consistency under certain failure &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://puncsky.github.com/blog/2013/04/06/dynamo-kv-store/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="CS Notebook" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">CS Notebook</a></h1>
+  
+    <h2>Just a notebook about life and computer</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:puncsky.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Dynamo: Amazon's Highly Available Key-value Store (SOSP'07)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-06T14:16:00-04:00" pubdate data-updated="true">Apr 6<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>From <a href="http://www.allthingsdistributed.com/2007/10/amazons_dynamo.html">Amazon</a></p>
+
+<h3>Comments</h3>
+
+<p>Dynamo successfully builds a highly available and scalable data store, which sacrifice consistency under certain failure scenarios but is eventually consistent. The design is huge and involves a huge number of details. However, the paper could not specify all of them. Some meaningful parts are missing: what are the supporting techniques used in Dynamo? How it is compared to other existing KV distributed store systems? Are there any possible extensions or future works?</p>
+
+<p>This paper assumes that security concerns could be ignored for its internal use. Theoretically, security problems is still possible. At least, how can the administrator detect these attacks? e.g. sybil attacks.</p>
+
+<p>The author tried three partition schemes. The latter versions decouple partitioning and partition placement. The placement is changeable at run time. Consequently, the strategy 3 has a better efficiency. And the system recovers faster and it is easier to archive. However, the key space is partitioned equally into Q partitions, and every node assume Q/S tokens per node. However, the strategy 3 in Figure 7 is a little confusing. In my opinion, the author should specify that the span each node is responsible for is SIMILAR IN SIZE to each other, instead of exactly EQUAL IN SIZE to each other.</p>
+
+<h3>1. Problem</h3>
+
+<ul>
+<li>How to build a highly available key-value storage system (which will be applied to productions with demanding applications)?</li>
+<li><p>Assumptions:</p>
+
+<ol>
+<li>Query model: Simple KV store with read/write operations on small objects (&lt;= 1 MB).</li>
+<li>ACID properties: Weak consistency and no isolation guarantees for high availability.</li>
+<li>Efficiency: Commodity machines. Stringent latency requirements specified by SLAs.
+
+<ul>
+<li><strong>SLA</strong> (service level agreements): a client/server agreement on clear bounds
+
+<ul>
+<li>SLA should NOT be stated in terms of mean/median response time (Some custom with longer history may require more processing and thus the performance may be ignored.)</li>
+<li>Dynamo: <strong>99.9%</strong> of the distribution based on a cost-benefit analysis.</li>
+<li>Can be customized.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>No security concerns: because of internal use.
+
+<h3>2. Challenges</h3></li>
+</ol>
+</li>
+<li><p>How to achieve a strongly consistent data access interface?</p>
+
+<ul>
+<li>Data replication algorithms. Strong consistency and high data availability cannot be achieved simultaneously. Traditionally, consistency comes first.</li>
+</ul>
+</li>
+<li>How to increase availability on failure-prone commodity clusters?
+
+<ul>
+<li>Optimistic replication techniques -> conflicting changes to be resolved -> <strong>WHEN</strong> and <strong>WHO</strong>?
+
+<ul>
+<li><strong>WHEN</strong> during writes or reads?
+
+<ul>
+<li>Traditionally, conflict is resolved during writes and keep the read complexity simple.</li>
+<li>Dynamo: rejecting writes -> poor customer experience: writes should never be rejected. <strong>(always-writable)</strong></li>
+</ul>
+</li>
+<li><strong>WHO</strong> data store or the application?
+
+<ul>
+<li>data store: ONLY last write wins</li>
+<li>the application: more flexible</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Others
+
+<ul>
+<li>Incremental scalability</li>
+<li>Symmetry (P2P)</li>
+<li>Decentralization</li>
+<li>Heterogeneity</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>3. Solution</h3>
+
+<ul>
+<li>Key ideas
+
+<ul>
+<li>Sacrifice consistency under certain failure scenarios but is eventually-consistent</li>
+<li>object versioning</li>
+<li>application-assisted conflict resolution</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>3.1 System Architecture</h4>
+
+<h5>Summary</h5>
+
+<table border="1">
+ <tbody><tr>
+  <td>
+  <p align="center"><b>Problem</b></p>
+  </td>
+  <td>
+  <p align="center"><b>Technique</b></p>
+  </td>
+  <td>
+  <p align="center"><b>Advantage</b></p>
+  </td>
+ </tr>
+<tr>
+  <td>
+   <p align="center">Partitioning</p>
+  </td>
+  <td>
+  <p align="center">Consistent Hashing</p>
+  </td>
+  <td>
+  <p align="center">Incremental Scalability</p>
+  </td>
+ </tr>
+ <tr>
+  <td>
+  <p align="center">High Availability for writes</p>
+  </td>
+  <td>
+  <p align="center">
+  Vector clocks with reconciliation during reads</p>
+  </td>
+  <td>
+  <p align="center">Version size is decoupled from update rates.</p>
+  </td>
+ </tr>
+ <tr>
+  <td><p align="center">Handling temporary failures</p>
+  </td>
+  <td>
+  <p align="center">Sloppy Quorum and hinted handoff</p>
+  </td>
+  <td>
+  <p align="center">
+  Provides high availability and durability guarantee
+  when some of the replicas are not available.</p>
+  </td>
+ </tr>
+ <tr>
+  <td>
+  <p align="center">
+  Recovering from permanent failures</p>
+  </td>
+  <td>
+  <p align="center">Anti-entropy using Merkle trees</p>
+  </td>
+  <td>
+  <p align="center">Synchronizes divergent replicas in the background.</p>
+  </td>
+ </tr>
+ <tr>
+  <td>
+  <p align="center">Membership and failure detection</p>
+  </td>
+  <td>
+  <p align="center">Gossip-based membership protocol and failure
+  detection.</p>
+  </td>
+  <td>
+  <p align="center">Preserves symmetry and avoids having a centralized
+  registry for storing membership and node liveness information.</p>
+  </td>
+ </tr>
+</tbody>
+</table>
+
+
+<ul>
+<li>System Interface
+
+<ul>
+<li><em>[object/list of objects with context] get(key)</em></li>
+<li><em>put(key, context, object)    // context encodes system metadata about the object</em></li>
+<li>context and object are opaque</li>
+<li>MD5</li>
+</ul>
+</li>
+<li>Dynamic Partition
+
+<ul>
+<li>Introduce <em>virtual nodes</em> as a variant of consistent hashing.</li>
+</ul>
+</li>
+<li>Replication
+
+<ul>
+<li>Every <strong>coordinator</strong> node stores data locally and replicates them at the following <em>N-1</em> nodes in the ring.</li>
+<li>The N physical machines forms a <strong>preference list</strong>.</li>
+</ul>
+</li>
+<li>Data Versioning</li>
+<li>(Successful) Execution of put() and get()
+
+<ul>
+<li>HTTP request</li>
+<li>How to select a node? two ways:
+
+<ol>
+<li><strong>load balancer</strong> route it to any random node in the ring. If the node is not in the top N of the requested key&#8217;s preference list, the request is forwarded to the first among the top N nodes in the preference list.</li>
+<li><strong>partition-aware client library</strong> route it directly to the coordinator</li>
+</ol>
+</li>
+<li>R: min number of nodes that must participate in a successful read.</li>
+<li>W: min number of nodes that must participate in a successful write.</li>
+<li><em>R+W>N</em> -> quorum-like system</li>
+<li>How to define a successful write?
+
+<ul>
+<li><blockquote><p>= W-1 nodes respond</p></blockquote></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>(Unsuccessful) Execution of put() and get()
+
+<ul>
+<li></li>
+</ul>
+</li>
+<li>Membership</li>
+</ul>
+
+
+<h5>Implementation</h5>
+
+<h5>Lessons Learned</h5>
+
+<ul>
+<li>Dynamo&#8217;s configurations
+
+<ul>
+<li>Business logic specific reconciliation</li>
+<li>Timestamp based reconciliation</li>
+<li>High performance read engine</li>
+</ul>
+</li>
+<li><em>N, R, W</em>
+
+<ul>
+<li>N -> durability of each object</li>
+<li>W, R -> availability, durability, and consistency</li>
+<li>Dynamo: (3,2,2)</li>
+</ul>
+</li>
+<li>Performance or Durability?
+
+<ul>
+<li>Durability can be sacrificed to lower the 99.9% latency by a factor of 5, in which object buffers will be periodically written to the disk by a <em>writer thread</em>.</li>
+</ul>
+</li>
+<li>Load balance
+
+<ol>
+<li>T random tokens per node and partition by token value.
+
+<ul>
+<li>Schemes for partitioning and partition placement are intertwined.
+a) adding a new node costs a lot but has a low priority (should not affect the customer performance) -> slow
+b) key ranges change and Merkle trees (hash trees) need re-calculation.
+c) randomness -> hard to archive the entire key spaces.</li>
+</ul>
+</li>
+<li>T random tokens per node and equal sized partitions.</li>
+<li>Q/S tokens per node, equal-sized partitions.
+
+<h3>4. Conclusion</h3></li>
+</ol>
+</li>
+</ul>
+
+
+<p> “Always writable” asynchronous replication
+ Update may not propagate all replicas
+ put() à creates a new and immutable version of data
+ get() à may return multiple versions of data
+ Reconcile divergent versions
+ When: during reads
+ Who: system itself (syntactic reconciliation)</p>
+
+<pre><code>       client application (semantic reconciliation)
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Tian</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-06T14:16:00-04:00" pubdate data-updated="true">Apr 6<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/paper-review/'>paper_review</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2013/04/06/dynamo-kv-store/" data-via="" data-counturl="http://puncsky.github.com/blog/2013/04/06/dynamo-kv-store/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/02/23/shui-jue-duo-hui-zhe-shou-%21/" title="Previous Post: 睡觉多会折寿！">&laquo; 睡觉多会折寿！</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/04/06/dynamo-kv-store/">Dynamo: Amazon's Highly Available Key-value Store (SOSP'07)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/23/shui-jue-duo-hui-zhe-shou-%21/">睡觉多会折寿！</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/30/zhuan-numbers-everyone-should-know/">[转] Numbers everyone should know</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/28/system-r/">System R: Relational Approach to Database Management</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/27/hadoopdb-vldb-09/">HadoopDB (VLDB'09)</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Tian -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

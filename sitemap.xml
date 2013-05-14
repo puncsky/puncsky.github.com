@@ -84,15 +84,11 @@
     </url>
     <url>
         <loc>http://puncsky.github.com/blog/2012/12/19/oop2/</loc>
-        <lastmod>2012-12-19T02:04:06-05:00</lastmod>
+        <lastmod>2013-02-24T11:27:21-05:00</lastmod>
     </url>
     <url>
         <loc>http://puncsky.github.com/blog/2012/12/22/clrs-3-selected/</loc>
         <lastmod>2013-01-08T07:01:10-05:00</lastmod>
-    </url>
-    <url>
-        <loc>http://puncsky.github.com/blog/2012/12/23/careercup150/</loc>
-        <lastmod>2013-01-15T12:24:15-05:00</lastmod>
     </url>
     <url>
         <loc>http://puncsky.github.com/blog/2012/12/26/bu-tan-sheng-huo/</loc>
@@ -104,7 +100,7 @@
     </url>
     <url>
         <loc>http://puncsky.github.com/blog/2013/01/07/clrs-1-basics/</loc>
-        <lastmod>2013-01-07T14:59:01-05:00</lastmod>
+        <lastmod>2013-03-01T19:59:36-05:00</lastmod>
     </url>
     <url>
         <loc>http://puncsky.github.com/blog/2013/01/08/clrs-2-advanced/</loc>
@@ -116,7 +112,7 @@
     </url>
     <url>
         <loc>http://puncsky.github.com/blog/2013/01/27/hadoopdb-vldb-09/</loc>
-        <lastmod>2013-01-27T16:01:51-05:00</lastmod>
+        <lastmod>2013-03-27T19:58:07-04:00</lastmod>
     </url>
     <url>
         <loc>http://puncsky.github.com/blog/2013/01/28/system-r/</loc>
@@ -131,11 +127,15 @@
         <lastmod>2013-02-23T15:24:39-05:00</lastmod>
     </url>
     <url>
+        <loc>http://puncsky.github.com/blog/2013/04/06/dynamo-kv-store/</loc>
+        <lastmod>2013-04-28T18:21:09-04:00</lastmod>
+    </url>
+    <url>
         <loc>http://puncsky.github.com/blog/archives/</loc>
-        <lastmod>2013-02-23T15:24:39-05:00</lastmod>
+        <lastmod>2013-04-28T18:21:09-04:00</lastmod>
     </url>
     <url>
         <loc>http://puncsky.github.com/</loc>
-        <lastmod>2013-02-23T15:24:39-05:00</lastmod>
+        <lastmod>2013-04-28T18:21:09-04:00</lastmod>
     </url>
 </urlset>

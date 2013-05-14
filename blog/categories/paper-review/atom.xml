@@ -4,7 +4,7 @@
   <title><![CDATA[Category: paper_review | CS Notebook]]></title>
   <link href="http://puncsky.github.com/blog/categories/paper-review/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2013-02-23T15:25:00-05:00</updated>
+  <updated>2013-05-14T00:35:39-04:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -14,11 +14,316 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Dynamo: Amazon's Highly Available Key-value Store (SOSP'07)]]></title>
+    <link href="http://puncsky.github.com/blog/2013/04/06/dynamo-kv-store/"/>
+    <updated>2013-04-06T14:16:00-04:00</updated>
+    <id>http://puncsky.github.com/blog/2013/04/06/dynamo-kv-store</id>
+    <content type="html"><![CDATA[<p>From <a href="http://www.allthingsdistributed.com/2007/10/amazons_dynamo.html">Amazon</a></p>
+
+<h3>Comments</h3>
+
+<p>Dynamo successfully builds a highly available and scalable data store, which sacrifice consistency under certain failure scenarios but is eventually consistent. The design is huge and involves a huge number of details. However, the paper could not specify all of them. Some meaningful parts are missing: what are the supporting techniques used in Dynamo? How it is compared to other existing KV distributed store systems? Are there any possible extensions or future works?</p>
+
+<p>This paper assumes that security concerns could be ignored for its internal use. Theoretically, security problems is still possible. At least, how can the administrator detect these attacks? e.g. sybil attacks.</p>
+
+<p>The author tried three partition schemes. The latter versions decouple partitioning and partition placement. The placement is changeable at run time. Consequently, the strategy 3 has a better efficiency. And the system recovers faster and it is easier to archive. However, the key space is partitioned equally into Q partitions, and every node assume Q/S tokens per node. However, the strategy 3 in Figure 7 is a little confusing. In my opinion, the author should specify that the span each node is responsible for is SIMILAR IN SIZE to each other, instead of exactly EQUAL IN SIZE to each other.</p>
+
+<h3>1. Problem</h3>
+
+<ul>
+<li>How to build a highly available key-value storage system (which will be applied to productions with demanding applications)?</li>
+<li><p>Assumptions:</p>
+
+<ol>
+<li>Query model: Simple KV store with read/write operations on small objects (&lt;= 1 MB).</li>
+<li>ACID properties: Weak consistency and no isolation guarantees for high availability.</li>
+<li>Efficiency: Commodity machines. Stringent latency requirements specified by SLAs.
+
+<ul>
+<li><strong>SLA</strong> (service level agreements): a client/server agreement on clear bounds
+
+<ul>
+<li>SLA should NOT be stated in terms of mean/median response time (Some custom with longer history may require more processing and thus the performance may be ignored.)</li>
+<li>Dynamo: <strong>99.9%</strong> of the distribution based on a cost-benefit analysis.</li>
+<li>Can be customized.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>No security concerns: because of internal use.
+
+<h3>2. Challenges</h3></li>
+</ol>
+</li>
+<li><p>How to achieve a strongly consistent data access interface?</p>
+
+<ul>
+<li>Data replication algorithms. Strong consistency and high data availability cannot be achieved simultaneously. Traditionally, consistency comes first.</li>
+</ul>
+</li>
+<li>How to increase availability on failure-prone commodity clusters?
+
+<ul>
+<li>Optimistic replication techniques -> conflicting changes to be resolved -> <strong>WHEN</strong> and <strong>WHO</strong>?
+
+<ul>
+<li><strong>WHEN</strong> during writes or reads?
+
+<ul>
+<li>Traditionally, conflict is resolved during writes and keep the read complexity simple.</li>
+<li>Dynamo: rejecting writes -> poor customer experience: writes should never be rejected. <strong>(always-writable)</strong></li>
+</ul>
+</li>
+<li><strong>WHO</strong> data store or the application?
+
+<ul>
+<li>data store: ONLY last write wins</li>
+<li>the application: more flexible</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Others
+
+<ul>
+<li>Incremental scalability</li>
+<li>Symmetry (P2P)</li>
+<li>Decentralization</li>
+<li>Heterogeneity</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>3. Solution</h3>
+
+<ul>
+<li>Key ideas
+
+<ul>
+<li>Sacrifice consistency under certain failure scenarios but is eventually-consistent</li>
+<li>object versioning</li>
+<li>application-assisted conflict resolution</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>3.1 System Architecture</h4>
+
+<h5>Summary</h5>
+
+<table border="1">
+ <tbody><tr>
+  <td>
+  <p align="center"><b>Problem</b></p>
+  </td>
+  <td>
+  <p align="center"><b>Technique</b></p>
+  </td>
+  <td>
+  <p align="center"><b>Advantage</b></p>
+  </td>
+ </tr>
+<tr>
+  <td>
+   <p align="center">Partitioning</p>
+  </td>
+  <td>
+  <p align="center">Consistent Hashing</p>
+  </td>
+  <td>
+  <p align="center">Incremental Scalability</p>
+  </td>
+ </tr>
+ <tr>
+  <td>
+  <p align="center">High Availability for writes</p>
+  </td>
+  <td>
+  <p align="center">
+  Vector clocks with reconciliation during reads</p>
+  </td>
+  <td>
+  <p align="center">Version size is decoupled from update rates.</p>
+  </td>
+ </tr>
+ <tr>
+  <td><p align="center">Handling temporary failures</p>
+  </td>
+  <td>
+  <p align="center">Sloppy Quorum and hinted handoff</p>
+  </td>
+  <td>
+  <p align="center">
+  Provides high availability and durability guarantee
+  when some of the replicas are not available.</p>
+  </td>
+ </tr>
+ <tr>
+  <td>
+  <p align="center">
+  Recovering from permanent failures</p>
+  </td>
+  <td>
+  <p align="center">Anti-entropy using Merkle trees</p>
+  </td>
+  <td>
+  <p align="center">Synchronizes divergent replicas in the background.</p>
+  </td>
+ </tr>
+ <tr>
+  <td>
+  <p align="center">Membership and failure detection</p>
+  </td>
+  <td>
+  <p align="center">Gossip-based membership protocol and failure
+  detection.</p>
+  </td>
+  <td>
+  <p align="center">Preserves symmetry and avoids having a centralized
+  registry for storing membership and node liveness information.</p>
+  </td>
+ </tr>
+</tbody>
+</table>
+
+
+<ul>
+<li>System Interface
+
+<ul>
+<li><em>[object/list of objects with context] get(key)</em></li>
+<li><em>put(key, context, object)    // context encodes system metadata about the object</em></li>
+<li>context and object are opaque</li>
+<li>MD5</li>
+</ul>
+</li>
+<li>Dynamic Partition
+
+<ul>
+<li>Introduce <em>virtual nodes</em> as a variant of consistent hashing.</li>
+</ul>
+</li>
+<li>Replication
+
+<ul>
+<li>Every <strong>coordinator</strong> node stores data locally and replicates them at the following <em>N-1</em> nodes in the ring.</li>
+<li>The N physical machines forms a <strong>preference list</strong>.</li>
+</ul>
+</li>
+<li>Data Versioning</li>
+<li>(Successful) Execution of put() and get()
+
+<ul>
+<li>HTTP request</li>
+<li>How to select a node? two ways:
+
+<ol>
+<li><strong>load balancer</strong> route it to any random node in the ring. If the node is not in the top N of the requested key's preference list, the request is forwarded to the first among the top N nodes in the preference list.</li>
+<li><strong>partition-aware client library</strong> route it directly to the coordinator</li>
+</ol>
+</li>
+<li>R: min number of nodes that must participate in a successful read.</li>
+<li>W: min number of nodes that must participate in a successful write.</li>
+<li><em>R+W>N</em> -> quorum-like system</li>
+<li>How to define a successful write?
+
+<ul>
+<li><blockquote><p>= W-1 nodes respond</p></blockquote></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>(Unsuccessful) Execution of put() and get()
+
+<ul>
+<li></li>
+</ul>
+</li>
+<li>Membership</li>
+</ul>
+
+
+<h5>Implementation</h5>
+
+<h5>Lessons Learned</h5>
+
+<ul>
+<li>Dynamo's configurations
+
+<ul>
+<li>Business logic specific reconciliation</li>
+<li>Timestamp based reconciliation</li>
+<li>High performance read engine</li>
+</ul>
+</li>
+<li><em>N, R, W</em>
+
+<ul>
+<li>N -> durability of each object</li>
+<li>W, R -> availability, durability, and consistency</li>
+<li>Dynamo: (3,2,2)</li>
+</ul>
+</li>
+<li>Performance or Durability?
+
+<ul>
+<li>Durability can be sacrificed to lower the 99.9% latency by a factor of 5, in which object buffers will be periodically written to the disk by a <em>writer thread</em>.</li>
+</ul>
+</li>
+<li>Load balance
+
+<ol>
+<li>T random tokens per node and partition by token value.
+
+<ul>
+<li>Schemes for partitioning and partition placement are intertwined.
+a) adding a new node costs a lot but has a low priority (should not affect the customer performance) -> slow
+b) key ranges change and Merkle trees (hash trees) need re-calculation.
+c) randomness -> hard to archive the entire key spaces.</li>
+</ul>
+</li>
+<li>T random tokens per node and equal sized partitions.</li>
+<li>Q/S tokens per node, equal-sized partitions.
+
+<h3>4. Conclusion</h3></li>
+</ol>
+</li>
+</ul>
+
+
+<p> “Always writable” asynchronous replication
+ Update may not propagate all replicas
+ put() à creates a new and immutable version of data
+ get() à may return multiple versions of data
+ Reconcile divergent versions
+ When: during reads
+ Who: system itself (syntactic reconciliation)</p>
+
+<pre><code>       client application (semantic reconciliation)
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[HadoopDB (VLDB'09)]]></title>
     <link href="http://puncsky.github.com/blog/2013/01/27/hadoopdb-vldb-09/"/>
     <updated>2013-01-27T15:50:00-05:00</updated>
     <id>http://puncsky.github.com/blog/2013/01/27/hadoopdb-vldb-09</id>
     <content type="html"><![CDATA[<p><a href="http://db.cs.yale.edu/hadoopdb/hadoopdb.html">Yale DB</a></p>
+
+<h3>Comments</h3>
+
+<p>Two things could be done to improve HadoopDB</p>
+
+<ol>
+<li>Integrate the file system for local database with HDFS. In the design of HadoopDB, they are separated which means that the more space one part is preallocated and the less space the other part has. It is not scalable because the administrator has to divide by himself. We could investigate a way to let the database run on the HDFS directly. We can modify the database's file descriptor directly or we can add an additional layer between the database and the HDFS.</li>
+<li>Set up a better scheduler. It is mentioned in the paper that the original version of hadoop fair scheduler is not so good. It is locally greedy and simply does not consider the big picture much. "Quincy: Fair Scheduling for Distributed Computing Clusters" advances a graph data structure for global cost model, which has a very good performance, increasing the throughput up to 40%.</li>
+</ol>
+
 
 <h3>1. Problem</h3>
 
@@ -622,66 +927,6 @@ retrieve fields, determine partition keys</li>
 <p>[23] A Comparison of Approaches to Large Scale Data Analysis</p>
 
 <p>[6] Scope [11] Hive [24] C-store [4] What is the right way to measure scale?</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Reliable Client Accounting for P2P-Infrastructure Hybrids (NSDI '12)]]></title>
-    <link href="http://puncsky.github.com/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12/"/>
-    <updated>2012-11-20T16:16:00-05:00</updated>
-    <id>http://puncsky.github.com/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12</id>
-    <content type="html"><![CDATA[<p><a href="http://www.mpi-sws.org/~paditya/">MPI-SWS</a>, UPenn, Duke, Akamai, <a href="http://www.mpi-sws.org/~paditya/papers/rca-nsdi2012.pdf">paper</a>, <a href="https://www.usenix.org/sites/default/files/conference/protected-files/nsdi12_reliable_client_accounting_for_p2p-infrastructure_hybrids.pdf">slides</a>, <a href="https://www.usenix.org/conference/nsdi12/reliable-client-accounting-hybrid-content-distribution-networks">video</a></p>
-
-<h2>1. Problems</h2>
-
-<p>Hybrid (Servers with assisting peers) designs in CDNs -> malicious clients can cause significant accounting inaccuracies.</p>
-
-<h2>2. Challenges</h2>
-
-<p>Infrastructure can not control P2P communications by malicious clients (peers). Even if infrastructure provides signed metadata and fallback (so content can not be mishandled by peers), there are still:</p>
-
-<ul>
-<li>Affect service quality</li>
-<li>Misreport P2P transfers</li>
-</ul>
-
-
-<p>For example, inflation attack occurred for a fake download report.</p>
-
-<h2>3. Solutions</h2>
-
-<p>Reliable Client Accounting (RCA)</p>
-
-<!--more-->
-
-
-<p>Clients keep logs of network activity and upload them to the infrastructure periodically. The infrastructure collects logs, verifies them, and isolate suspicious nodes.</p>
-
-<h3>1. Record client activities reliably</h3>
-
-<p>Tamper evident logging: log recording sending/receiving history forms hash chains. Every massages contains a signature (authenticator) from its sender (O(# of messages)). -> Later, RCA only records authenticators for clients (O(# of pairs)).</p>
-
-<h3>2. Identify misbehaving/suspicious clients</h3>
-
-<p>By accounting the logs, infrastructure can find clients unilaterally claim fake downloads.</p>
-
-<p>As to malicious client software:</p>
-
-<p>What if bad clients do not follow the above steps (e.g. do not keep logs and serve bad content)? Simplify NetSession protocol to a state machine. Rules are manually set to identify bad logs not following the them.</p>
-
-<p>What if many clients collude to cheat? It is difficult in practice (infrastructure assigns peers), but can still be found by statistical checks.</p>
-
-<p>As to malicious users:</p>
-
-<p>What if a user repeatedly downloading content to drive up demand? (can be amplified by Sybil attack) Statistical checks, too.</p>
-
-<h3>3. Handle misbehavior without affecting service quality</h3>
-
-<p>Blacklist and quarantine bad clients.</p>
-
-<h2>4. Conclusions</h2>
-
-<p>Since infrastructure cannot observe P2P communication, accounting is vulnerable to malicious clients (peers) in a hybrid design of CDN, e.g. inflation attacks. So the authors advance RCA to 1) keep tamper-evident logs and set rules for fixed state machines 2) perform statistical analysis on collected logs. Malicious clients can be detected and isolated effectively by RCA. The evaluation with real world Akamai NetSession shows that overhead is reasonable &lt;= 0.5%.</p>
 ]]></content>
   </entry>
   
