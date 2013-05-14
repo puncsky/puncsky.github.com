@@ -9,7 +9,7 @@
   <meta name="author" content="Tian">
 
   
-  <meta name="description" content="Yale DB 1. Problem Large analytical data management (OLAP) with commodity clusters 2. Challenges Performance and efficiency hadoop is not for &hellip;">
+  <meta name="description" content="Life and computer science notebook from Puncsky">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,57 +18,84 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://puncsky.github.com/blog/page/3/">
+  <link rel="canonical" href="http://puncsky.github.com/blog/page/3">
   <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    body {
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .sharing, .meta, .pager {
+      margin: 20px 0px 20px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/libs/jquery.js"></script>
+  <script src="/javascripts/libs/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/bootstrap.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="CS Notebook" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
+  
   
 
 </head>
 
 <body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">CS Notebook</a></h1>
-  
-    <h2>Just a notebook about life and computer</h2>
-  
-</hgroup>
+  <nav role="navigation"><div class="navbar navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
 
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:puncsky.github.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
+      <a class="brand" href="/">CS Notebook</a>
+
+      <div class="nav-collapse">
+        <ul class="nav">
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
 </ul>
 
+
+        <ul class="nav pull-right" data-subscription="rss">
+          <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+          
+        </ul>
+
+        
+          <form class="pull-right navbar-search" action="http://google.com/search" method="get">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:puncsky.github.com" />
+              <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
 </nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
+  <div class="container">
+    <div class="row-fluid">
+      <div class="span9">
   
   
   
     <article>
       
-  <header>
+  <header class="page-header">
     
       <h1 class="entry-title"><a href="/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/">HadoopDB: An Architectural Hybrid of MapReduce and DBMS Technologies for Analytical Workloads (VLDB &#8216;09)</a></h1>
     
@@ -142,7 +169,7 @@
   
     <article>
       
-  <header>
+  <header class="page-header">
     
       <h1 class="entry-title"><a href="/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12/">Reliable Client Accounting for P2P-Infrastructure Hybrids (NSDI &#8216;12)</a></h1>
     
@@ -203,7 +230,7 @@
   
     <article>
       
-  <header>
+  <header class="page-header">
     
       <h1 class="entry-title"><a href="/blog/2012/11/20/towards-statistical-queries-over-distributed-private-user-data-nsdi-12/">Towards Statistical Queries Over Distributed Private User Data (NSDI &#8216;12)</a></h1>
     
@@ -266,7 +293,7 @@
   
     <article>
       
-  <header>
+  <header class="page-header">
     
       <h1 class="entry-title"><a href="/blog/2012/11/20/three-papers-review-about-deterministic-parallelism/">Three Papers Review About Deterministic Parallelism</a></h1>
     
@@ -311,7 +338,7 @@
   
     <article>
       
-  <header>
+  <header class="page-header">
     
       <h1 class="entry-title"><a href="/blog/2012/11/20/quincy-fair-scheduling-for-distributed-computing-clusters-sosp-09/">Quincy: Fair Scheduling for Distributed Computing Clusters (SOSP &#8216;09)</a></h1>
     
@@ -366,7 +393,7 @@
   
     <article>
       
-  <header>
+  <header class="page-header">
     
       <h1 class="entry-title"><a href="/blog/2012/11/17/chun-tian-zai-na-li-ya-chun-tian-zai-na-li-%3F/">春天在哪里呀春天在哪里？</a></h1>
     
@@ -411,7 +438,7 @@
   
     <article>
       
-  <header>
+  <header class="page-header">
     
       <h1 class="entry-title"><a href="/blog/2012/11/16/homeos-an-operating-system-for-the-home-nsdi-12/">HomeOS: An Operating System for the Home (NSDI &#8216;12)</a></h1>
     
@@ -464,7 +491,7 @@
   
     <article>
       
-  <header>
+  <header class="page-header">
     
       <h1 class="entry-title"><a href="/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10/">Fast and Parallel Webpage Layout (WWW &#8216;10)</a></h1>
     
@@ -513,19 +540,19 @@
 
     </article>
   
-  <div class="pagination">
+  <ul class="pager">
     
-    <a href="/blog/archives">Blog Archives</a>
+    <li><a href="/blog/archives">Blog Archives</a></li>
     
-    <a class="next" href="/blog/page/2/">Newer &rarr;</a>
+    <li class="next"><a href="/blog/page/2/">Newer &rarr;</a></li>
     
-  </div>
+  </ul>
 </div>
-<aside class="sidebar">
+<aside class="sidebar-nav span3">
   
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
+    <section class="well">
+  <ul id="recent_posts" class="nav nav-list">
+    <li class="nav-header">Recent Posts</li>
     
       <li class="post">
         <a href="/blog/2013/04/06/dynamo-kv-store/">Dynamo: Amazon&#8217;s Highly Available Key-value Store (SOSP&#8217;07)</a>
@@ -560,7 +587,8 @@
 
     </div>
   </div>
-  <footer role="contentinfo"><p>
+  <footer role="contentinfo" class="page-footer"><hr>
+<p>
   Copyright &copy; 2013 - Tian -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>

@@ -9,7 +9,7 @@
   <meta name="author" content="Tian">
 
   
-  <meta name="description" content="概述 方才在和朋友们一起去管理学院参加了王功权先生的讲座，期间做了一些笔记，稍作整理记录在此。王功权先生似乎并没有为这次演讲做过多的准备，也不愿意表现地太过正式，毕竟谈人生这种事情，还是需要明月夜短松冈这种微醺的情怀的。实际的情况可能是，他在从哥伦比亚大学过来的路上稍微用iPhone写了个提纲， &hellip;">
+  <meta name="description" content="Life and computer science notebook from Puncsky">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,54 +18,82 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://puncsky.github.com/blog/2012/11/27/wang-gong-quan-jiang-zuo/">
+  <link rel="canonical" href="http://puncsky.github.com/blog/2012/11/27/wang-gong-quan-jiang-zuo">
   <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    body {
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .sharing, .meta, .pager {
+      margin: 20px 0px 20px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/libs/jquery.js"></script>
+  <script src="/javascripts/libs/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/bootstrap.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="CS Notebook" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
+  
   
 
 </head>
 
 <body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">CS Notebook</a></h1>
-  
-    <h2>Just a notebook about life and computer</h2>
-  
-</hgroup>
+  <nav role="navigation"><div class="navbar navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
 
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:puncsky.github.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
+      <a class="brand" href="/">CS Notebook</a>
+
+      <div class="nav-collapse">
+        <ul class="nav">
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
 </ul>
 
+
+        <ul class="nav pull-right" data-subscription="rss">
+          <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+          
+        </ul>
+
+        
+          <form class="pull-right navbar-search" action="http://google.com/search" method="get">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:puncsky.github.com" />
+              <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
 </nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
+  <div class="container">
+    <div class="row-fluid">
+      
+<article class="hentry span9" role="article">
+
   
-  <header>
+  <header class="page-header">
     
       <h1 class="entry-title">王功权先生给年轻人的四点建议</h1>
     
@@ -249,24 +277,28 @@
 </div>
 
     
-    <p class="meta">
+    
+    <ul class="pager">
       
-        <a class="basic-alignment left" href="/blog/2012/11/26/cryptdb/" title="Previous Post: CryptDB: Protecting Confidentiality with Encrypted Query Processing (SOSP '11)">&laquo; CryptDB: Protecting Confidentiality with Encrypted Query Processing (SOSP '11)</a>
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/2012/11/26/cryptdb/" title="Previous Post:
+        CryptDB: Protecting Confidentiality with Encrypted Query Processing (SOSP '11)">&laquo; CryptDB: Protecting Confidentiality with Encrypted Query Processing (SOSP '11)</a></li>
       
+      <li><a href="/blog/archives">Blog Archives</a></li>
       
-        <a class="basic-alignment right" href="/blog/2012/12/01/cells/" title="Next Post: Cells: a virtual mobile smartphone architecture (SOSP '11)">Cells: a virtual mobile smartphone architecture (SOSP '11) &raquo;</a>
+      <li class="next"><a class="basic-alignment right" href="/blog/2012/12/01/cells/"
+        title="Next Post: Cells: a virtual mobile smartphone architecture (SOSP '11)">Cells: a virtual mobile smartphone architecture (SOSP '11)
+        &raquo;</a></li>
       
-    </p>
+    </ul>
   </footer>
 </article>
 
-</div>
-
-<aside class="sidebar">
+<aside class="sidebar-nav span3">
   
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
+    <section class="well">
+  <ul id="recent_posts" class="nav nav-list">
+    <li class="nav-header">Recent Posts</li>
     
       <li class="post">
         <a href="/blog/2013/04/06/dynamo-kv-store/">Dynamo: Amazon's Highly Available Key-value Store (SOSP'07)</a>
@@ -302,7 +334,8 @@
 
     </div>
   </div>
-  <footer role="contentinfo"><p>
+  <footer role="contentinfo" class="page-footer"><hr>
+<p>
   Copyright &copy; 2013 - Tian -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
