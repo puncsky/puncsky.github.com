@@ -28,6 +28,7 @@ The author tried three partition schemes. The latter versions decouple partition
 			- Dynamo: **99.9%** of the distribution based on a cost-benefit analysis.
 			- Can be customized. 
 	4. No security concerns: because of internal use.
+
 ### 2. Challenges
 
 - How to achieve a strongly consistent data access interface? 
@@ -180,17 +181,13 @@ The author tried three partition schemes. The latter versions decouple partition
 		c) randomness -> hard to archive the entire key spaces.
 	2. T random tokens per node and equal sized partitions.
 	3. Q/S tokens per node, equal-sized partitions.
+
 ### 4. Conclusion
 
-
-
-	“Always writable” asynchronous replication
-	Update may not propagate all replicas
-	put() à creates a new and immutable version of data
-	get() à may return multiple versions of data
-	Reconcile divergent versions
-	When: during reads
-	Who: system itself (syntactic reconciliation)
-	       client application (semantic reconciliation)
-
-
+- “Always writable” asynchronous replication
+- Update may not propagate all replicas
+- put() creates a new and immutable version of data
+- get() may return multiple versions of data
+- Reconcile divergent versions
+- When: during reads
+- Who: system itself (syntactic reconciliation) client application (semantic reconciliation)
