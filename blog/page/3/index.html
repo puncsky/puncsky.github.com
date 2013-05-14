@@ -97,141 +97,6 @@
       
   <header class="page-header">
     
-      <h1 class="entry-title"><a href="/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/">HadoopDB: An Architectural Hybrid of MapReduce and DBMS Technologies for Analytical Workloads (VLDB &#8216;09)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-20T16:20:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://db.cs.yale.edu/hadoopdb/">Yale DB</a></p>
-
-<h3>1. Problem</h3>
-
-<p>Large analytical data management (OLAP) with commodity clusters</p>
-
-<h3>2. Challenges</h3>
-
-<ul>
-<li>Performance and efficiency
-
-<ul>
-<li>hadoop
-
-<ul>
-<li>is not for structured data analysis</li>
-<li>scale well</li>
-<li>open source, without cost</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>scalability, fault-tolerance, and flexibility
-
-<ul>
-<li>Previous parallel db fit into tens of nodes, not thousand of nodes.</li>
-<li>not scale well for failures, heterogeneous machines, performance untested</li>
-</ul>
-</li>
-</ul>
-
-
-<h3>3. Solutions</h3>
-
-<ul>
-<li>MapReduce (Hadoop) + parallel db (or single-node DBs) = HadoopDB</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12/">Reliable Client Accounting for P2P-Infrastructure Hybrids (NSDI &#8216;12)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-20T16:16:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.mpi-sws.org/~paditya/">MPI-SWS</a>, UPenn, Duke, Akamai, <a href="http://www.mpi-sws.org/~paditya/papers/rca-nsdi2012.pdf">paper</a>, <a href="https://www.usenix.org/sites/default/files/conference/protected-files/nsdi12_reliable_client_accounting_for_p2p-infrastructure_hybrids.pdf">slides</a>, <a href="https://www.usenix.org/conference/nsdi12/reliable-client-accounting-hybrid-content-distribution-networks">video</a></p>
-
-<h2>1. Problems</h2>
-
-<p>Hybrid (Servers with assisting peers) designs in CDNs -> malicious clients can cause significant accounting inaccuracies.</p>
-
-<h2>2. Challenges</h2>
-
-<p>Infrastructure can not control P2P communications by malicious clients (peers). Even if infrastructure provides signed metadata and fallback (so content can not be mishandled by peers), there are still:</p>
-
-<ul>
-<li>Affect service quality</li>
-<li>Misreport P2P transfers</li>
-</ul>
-
-
-<p>For example, inflation attack occurred for a fake download report.</p>
-
-<h2>3. Solutions</h2>
-
-<p>Reliable Client Accounting (RCA)</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header class="page-header">
-    
       <h1 class="entry-title"><a href="/blog/2012/11/20/towards-statistical-queries-over-distributed-private-user-data-nsdi-12/">Towards Statistical Queries Over Distributed Private User Data (NSDI &#8216;12)</a></h1>
     
     
@@ -559,19 +424,19 @@
       </li>
     
       <li class="post">
-        <a href="/blog/2013/02/23/shui-jue-duo-hui-zhe-shou-%21/">睡觉多会折寿！</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/01/30/zhuan-numbers-everyone-should-know/">[转] Numbers everyone should know</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/01/28/system-r/">System R: Relational Approach to Database Management</a>
+        <a href="/blog/2013/01/30/zhuan-numbers-everyone-should-know/">[Repost] Numbers everyone should know</a>
       </li>
     
       <li class="post">
         <a href="/blog/2013/01/27/hadoopdb-vldb-09/">HadoopDB (VLDB&#8217;09)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/14/gc-garbage-collection-in-java/">GC(Garbage Collection) in Java</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/08/clrs-2-advanced/">CLRS 2: Advanced</a>
       </li>
     
   </ul>

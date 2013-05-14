@@ -4,7 +4,7 @@
   <title><![CDATA[Category: paper_review | CS Notebook]]></title>
   <link href="http://puncsky.github.com/blog/categories/paper-review/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2013-05-14T02:28:52-04:00</updated>
+  <updated>2013-05-14T03:26:26-04:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -236,22 +236,22 @@
 <li>How to define a successful write?
 
 <ul>
-<li><blockquote><p>= W-1 nodes respond</p></blockquote></li>
+<li>> = W-1 nodes respond</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>(Unsuccessful) Execution of put() and get()
+<li>(Unsuccessful) Execution of put() and get()</li>
+<li>Membership
 
 <ul>
-<li></li>
+<li>DHT + virtual nodes
+
+<h5>Implementation</h5></li>
 </ul>
 </li>
-<li>Membership</li>
 </ul>
 
-
-<h5>Implementation</h5>
 
 <h5>Lessons Learned</h5>
 
@@ -309,6 +309,8 @@ c) randomness -> hard to archive the entire key spaces.</li>
 <li>Who: system itself (syntactic reconciliation) client application (semantic reconciliation)</li>
 </ul>
 
+
+<p>EOF</p>
 ]]></content>
   </entry>
   

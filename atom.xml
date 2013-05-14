@@ -4,7 +4,7 @@
   <title><![CDATA[CS Notebook]]></title>
   <link href="http://puncsky.github.com/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2013-05-14T02:28:52-04:00</updated>
+  <updated>2013-05-14T03:26:26-04:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -236,22 +236,22 @@
 <li>How to define a successful write?
 
 <ul>
-<li><blockquote><p>= W-1 nodes respond</p></blockquote></li>
+<li>> = W-1 nodes respond</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>(Unsuccessful) Execution of put() and get()
+<li>(Unsuccessful) Execution of put() and get()</li>
+<li>Membership
 
 <ul>
-<li></li>
+<li>DHT + virtual nodes
+
+<h5>Implementation</h5></li>
 </ul>
 </li>
-<li>Membership</li>
 </ul>
 
-
-<h5>Implementation</h5>
 
 <h5>Lessons Learned</h5>
 
@@ -309,54 +309,13 @@ c) randomness -> hard to archive the entire key spaces.</li>
 <li>Who: system itself (syntactic reconciliation) client application (semantic reconciliation)</li>
 </ul>
 
+
+<p>EOF</p>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[睡觉多会折寿！]]></title>
-    <link href="http://puncsky.github.com/blog/2013/02/23/shui-jue-duo-hui-zhe-shou-%21/"/>
-    <updated>2013-02-23T15:21:00-05:00</updated>
-    <id>http://puncsky.github.com/blog/2013/02/23/shui-jue-duo-hui-zhe-shou-!</id>
-    <content type="html"><![CDATA[<ul>
-<li>6小时睡眠时间足够了，9小时会折寿</li>
-<li>REM期醒来最清醒，时间分别大约是3h，4.5h，5.5h</li>
-<li>深度（4）睡眠时醒来最痛苦</li>
-<li>睡的更少,并提高睡眠质量
-
-<ul>
-<li>晒太阳</li>
-<li>人造光源</li>
-<li>体育锻炼</li>
-<li>小睡片刻-短时间睡眠恢复精力的奥秘
-
-<ul>
-<li>小睡限制45分钟之内</li>
-</ul>
-</li>
-<li>在睡眠周期末期醒来</li>
-<li>周末睡懒觉对于睡眠系统是有害的，千万不要多睡觉</li>
-<li>养成规律的起床和睡觉时间</li>
-<li>不要在下午4点后接触咖啡因</li>
-<li>酒精会抑制深度睡眠阶段和 REM</li>
-<li>在通常情况下,身体每天要消耗 12 杯水。大多数人早上醒来会很渴。睡醒不喝水相当于跑了 8 小时马拉松不补充水。</li>
-<li>入睡：让大脑运转慢下来
-
-<ul>
-<li>我。。。。。。。。的。。。。。。。。。。老。。。。。。。。。。板。。。。。。。。。。是。。。。。。。。。个。。。。。。。。。SB</li>
-</ul>
-</li>
-<li>如果躺在床上超过 30 分钟还睡不着,那就起床!一直等到睡意来袭再回到床上。</li>
-<li>只有在睡前 60-90 分钟前的热水澡才会对入睡有帮助</li>
-<li>一个安静凉爽的房间要比燥热的房间更容易使人入睡, 凉爽的环境也能的睡 更沉。</li>
-</ul>
-</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[[转] Numbers everyone should know]]></title>
+    <title type="html"><![CDATA[[Repost] Numbers everyone should know]]></title>
     <link href="http://puncsky.github.com/blog/2013/01/30/zhuan-numbers-everyone-should-know/"/>
     <updated>2013-01-30T11:19:00-05:00</updated>
     <id>http://puncsky.github.com/blog/2013/01/30/zhuan-numbers-everyone-should-know</id>
@@ -393,147 +352,6 @@ c) randomness -> hard to archive the entire key spaces.</li>
 <li>1 ms = 10<sup>(-3)</sup> seconds</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[System R: Relational Approach to Database Management]]></title>
-    <link href="http://puncsky.github.com/blog/2013/01/28/system-r/"/>
-    <updated>2013-01-28T12:11:00-05:00</updated>
-    <id>http://puncsky.github.com/blog/2013/01/28/system-r</id>
-    <content type="html"><![CDATA[<h3>1. Problem</h3>
-
-<p>How to achieve data independence &amp; data control in DBS design and implementation with relational data model?</p>
-
-<h3>2. Challenges</h3>
-
-<p>No previous <em>complete</em> RDBMS. Most of them focus on solving specific problems.</p>
-
-<h3>3. Solution</h3>
-
-<h4>3.1 Architecture Overview</h4>
-
-<ul>
-<li>Relational Storage Interface (RSI) -internal-> tuples
-
-<ul>
-<li>on Relational Storage System (RSS)</li>
-</ul>
-</li>
-<li>Relational Data Interface (RDI) &lt;-external- outside PL, emulators, &#8230;
-
-<ul>
-<li>SEQUEL language (as UFI) on top of RDI</li>
-<li>on Relational Data System (RDS)</li>
-<li>catalogs of external names</li>
-<li><strong>optimizer</strong>: choose an appropriate access path</li>
-</ul>
-</li>
-</ul>
-
-
-<h4>3.2 RDS</h4>
-
-<ul>
-<li>Host Language Interface
-
-<ul>
-<li>SQL <-cursor-> host programming language: a cursor identifies a set of tuples called its <em>active set</em></li>
-<li><code>SEQUEL(cursor, 'SQL query')</code> associate <code>cursor</code> with a set of resulting tuples</li>
-<li><code>FETCH(cursor)</code> tuples are retrieved one at a time</li>
-<li>If the degree and data types are known in advance
-
-<ul>
-<li><code>BIND('X', ADDR(X))</code> specifies the addresses of available variable X</li>
-</ul>
-</li>
-<li>If not known in advance
-
-<ul>
-<li><code>DESCRIBE(C1, DEGREE, P)</code> get from c1 the degree to DEGREE, and data types and lengths to the array pointer P points to</li>
-<li>bind a new variable Q and <code>FETCH(C1, Q)</code></li>
-</ul>
-</li>
-<li><code>OPEN(C1, 'EMP')</code> == <code>SEQUEL(C1, 'SELECT * FROM EMP');</code></li>
-<li>cursor remains active until <code>CLOSE</code> or <code>KEEP</code>. <code>KEEP</code> keeps tuples of a cursor to a new permanent relation in DB</li>
-<li><code>FETCH_HOLD</code> locks tuples in cursor</li>
-<li><code>RELEASE</code> cursor</li>
-</ul>
-</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="n">EMP</span><span class="p">(</span><span class="n">EMPNO</span><span class="p">,</span> <span class="n">NAME</span><span class="p">,</span> <span class="n">DNO</span><span class="p">,</span> <span class="n">JOB</span><span class="p">,</span> <span class="n">SAL</span><span class="p">,</span> <span class="n">MGR</span><span class="p">)</span>
-</span><span class='line'><span class="n">DEPT</span><span class="p">(</span><span class="n">DNO</span><span class="p">,</span> <span class="n">DNAME</span><span class="p">,</span> <span class="n">LOC</span><span class="p">,</span> <span class="n">NEMPS</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">CALL</span> <span class="n">BIND</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">ADDR</span><span class="p">(</span><span class="n">X</span><span class="p">));</span>
-</span><span class='line'><span class="k">CALL</span> <span class="n">BIND</span><span class="p">(</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="n">ADDR</span><span class="p">(</span><span class="n">Y</span><span class="p">));</span>
-</span><span class='line'><span class="k">CALL</span> <span class="n">SEQUEL</span><span class="p">(</span><span class="n">C1</span><span class="p">,</span> <span class="s1">&#39;SELECT NAME:X, SAL:Y</span>
-</span><span class='line'><span class="s1">              FROM EMP</span>
-</span><span class='line'><span class="s1">              WHERE JOB = &quot;PROGRAMMER&quot;&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="k">CALL</span> <span class="k">FETCH</span><span class="p">(</span><span class="n">C1</span><span class="p">);</span> <span class="c1">-- fetch a name to x, and a salary to y</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>Query Facilities
-
-<ul>
-<li><code>SELECT</code></li>
-<li>Based on [5], BUT:</li>
-<li>replace block label notations with more symmetric notations
-
-<ol>
-<li>Tuples are selected by <code>WHERE</code></li>
-<li>Groups are formed by <code>GROUP BY</code></li>
-<li>Groups are selected by satisfying <code>HAVING</code></li>
-</ol>
-</li>
-</ul>
-</li>
-<li>Data Manipulation Facilities
-
-<ul>
-<li><code>UPDATE</code> <code>INSERT</code> <code>DELETE</code></li>
-<li><code>KEEP</code> and assignment <code>&lt;-</code></li>
-<li><code>CURRENT TUPLE OF CURSOR</code></li>
-</ul>
-</li>
-<li>Data Definition Facilities</li>
-<li>Data Control Facilities</li>
-<li>Optimizer</li>
-<li>Modifying Cursors</li>
-<li>Simulations of Non-relational Data Model</li>
-</ul>
-
-
-<h4>3.3 RSS</h4>
-
-<ul>
-<li>Segments</li>
-<li>Relations</li>
-<li>Images</li>
-<li>Links</li>
-<li>Transaction Management</li>
-<li>Concurrency Management</li>
-<li>System Checkpoint and Restart</li>
-</ul>
-
-
-<h3>4. Conclusions</h3>
-
-<h3>Related Readings</h3>
-
-<p>5.CHAMBERLIN, D.D., AND BOYCE, R.F. SEQUEL: A structured English query language. Proc. ACM SIGFIDET Workshop, Ann Arbor, Mich., May 1974, pp.  249-264.</p>
 ]]></content>
   </entry>
   
@@ -6984,6 +6802,187 @@ sdoEvicted(appName, sdoID)
 <p>这三个步骤并不一定是连在一起的，通常的情况是，拿着一堆论文先走第一步，几个星期后走第二部，再几个星期或者几个月后走第三步。当然，如果是赶进度的话，就甭想这么闲了 :P</p>
 
 <p>总而言之，想要一口吃掉一篇论文似乎是很难的事情，我们需要反复咀嚼，这也是为什么我要写不完整的阅读笔记的原因。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[HadoopDB: an architectural hybrid of MapReduce and DBMS technologies for analytical workloads (VLDB '09)]]></title>
+    <link href="http://puncsky.github.com/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/"/>
+    <updated>2012-11-20T16:20:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09</id>
+    <content type="html"><![CDATA[<p><a href="http://db.cs.yale.edu/hadoopdb/">Yale DB</a></p>
+
+<h3>1. Problem</h3>
+
+<p>Large analytical data management (OLAP) with commodity clusters</p>
+
+<h3>2. Challenges</h3>
+
+<ul>
+<li>Performance and efficiency
+
+<ul>
+<li>hadoop
+
+<ul>
+<li>is not for structured data analysis</li>
+<li>scale well</li>
+<li>open source, without cost</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>scalability, fault-tolerance, and flexibility
+
+<ul>
+<li>Previous parallel db fit into tens of nodes, not thousand of nodes.</li>
+<li>not scale well for failures, heterogeneous machines, performance untested</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>3. Solutions</h3>
+
+<ul>
+<li>MapReduce (Hadoop) + parallel db (or single-node DBs) = HadoopDB<!--more-->
+
+<ul>
+<li>Translation layer: Hive</li>
+<li>Communication layer: Hadoop</li>
+<li>Database layer: PostgreSQL (or MySQL, &#8230; JDBC)</li>
+</ul>
+</li>
+<li><p>Components</p>
+
+<ol>
+<li>Database Connector
+
+<ul>
+<li>Interface among dbs on nodes</li>
+<li>extends InputFormat class -> InputFormat Implementation lib</li>
+<li>JDBC-complaint</li>
+</ul>
+</li>
+<li>Catalog
+
+<ul>
+<li>metainformation as XML = connection para + metadata</li>
+</ul>
+</li>
+<li>Data Loader
+
+<ul>
+<li>Global Hasher: MR, repartition raw data from HDFS to NO. of nodes</li>
+<li>Local Hasher: copy from HDFS, repartition the partition into chunks</li>
+<li>Better load balance than Hadoop</li>
+</ul>
+</li>
+<li>SQL - MR - SQL (SMS) Planner
+
+<ul>
+<li>extend Hive for</li>
+<li>open and low cost</li>
+<li>each table stored separately in HDFS, low performance in multi-table trans.
+intercept normal Hive flow in</li>
+<li>update MetaStore before query execution</li>
+<li>between query plan generation and MR jobs
+retrieve fields, determine partition keys</li>
+</ul>
+
+
+<p>   traverse DAG bottom-up</p>
+
+<p> only support filter, select, aggregation</p></li>
+</ol>
+</li>
+<li><p>Extend performance [23] with fault tolerance and heterogeneous node exp</p>
+
+<p>  TODO: modify the current task scheduler, connect not straggler node but the replicas.</p>
+
+<p>  Exp on EC2, Hadoop, HadoopDB, Vertica, DBMS-X</p></li>
+</ul>
+
+
+<h3>4. Conclusion</h3>
+
+<ul>
+<li>HadoopDB&#8217;s performance &lt; parallel db for
+
+<ul>
+<li>PostgreSQL (not column-store, not compression)</li>
+<li>Hadoop and Hive are young</li>
+</ul>
+</li>
+<li>performance, heterogeneous environ., fault tolerance, flexibility</li>
+</ul>
+
+
+<h3>Related Readings</h3>
+
+<p>[23] A Comparison of Approaches to Large Scale Data Analysis</p>
+
+<p>[6] Scope [11] Hive [24] C-store [4] What is the right way to measure scale?</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Reliable Client Accounting for P2P-Infrastructure Hybrids (NSDI '12)]]></title>
+    <link href="http://puncsky.github.com/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12/"/>
+    <updated>2012-11-20T16:16:00-05:00</updated>
+    <id>http://puncsky.github.com/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12</id>
+    <content type="html"><![CDATA[<p><a href="http://www.mpi-sws.org/~paditya/">MPI-SWS</a>, UPenn, Duke, Akamai, <a href="http://www.mpi-sws.org/~paditya/papers/rca-nsdi2012.pdf">paper</a>, <a href="https://www.usenix.org/sites/default/files/conference/protected-files/nsdi12_reliable_client_accounting_for_p2p-infrastructure_hybrids.pdf">slides</a>, <a href="https://www.usenix.org/conference/nsdi12/reliable-client-accounting-hybrid-content-distribution-networks">video</a></p>
+
+<h2>1. Problems</h2>
+
+<p>Hybrid (Servers with assisting peers) designs in CDNs -> malicious clients can cause significant accounting inaccuracies.</p>
+
+<h2>2. Challenges</h2>
+
+<p>Infrastructure can not control P2P communications by malicious clients (peers). Even if infrastructure provides signed metadata and fallback (so content can not be mishandled by peers), there are still:</p>
+
+<ul>
+<li>Affect service quality</li>
+<li>Misreport P2P transfers</li>
+</ul>
+
+
+<p>For example, inflation attack occurred for a fake download report.</p>
+
+<h2>3. Solutions</h2>
+
+<p>Reliable Client Accounting (RCA)</p>
+
+<!--more-->
+
+
+<p>Clients keep logs of network activity and upload them to the infrastructure periodically. The infrastructure collects logs, verifies them, and isolate suspicious nodes.</p>
+
+<h3>1. Record client activities reliably</h3>
+
+<p>Tamper evident logging: log recording sending/receiving history forms hash chains. Every massages contains a signature (authenticator) from its sender (O(# of messages)). -> Later, RCA only records authenticators for clients (O(# of pairs)).</p>
+
+<h3>2. Identify misbehaving/suspicious clients</h3>
+
+<p>By accounting the logs, infrastructure can find clients unilaterally claim fake downloads.</p>
+
+<p>As to malicious client software:</p>
+
+<p>What if bad clients do not follow the above steps (e.g. do not keep logs and serve bad content)? Simplify NetSession protocol to a state machine. Rules are manually set to identify bad logs not following the them.</p>
+
+<p>What if many clients collude to cheat? It is difficult in practice (infrastructure assigns peers), but can still be found by statistical checks.</p>
+
+<p>As to malicious users:</p>
+
+<p>What if a user repeatedly downloading content to drive up demand? (can be amplified by Sybil attack) Statistical checks, too.</p>
+
+<h3>3. Handle misbehavior without affecting service quality</h3>
+
+<p>Blacklist and quarantine bad clients.</p>
+
+<h2>4. Conclusions</h2>
+
+<p>Since infrastructure cannot observe P2P communication, accounting is vulnerable to malicious clients (peers) in a hybrid design of CDN, e.g. inflation attacks. So the authors advance RCA to 1) keep tamper-evident logs and set rules for fixed state machines 2) perform statistical analysis on collected logs. Malicious clients can be detected and isolated effectively by RCA. The evaluation with real world Akamai NetSession shows that overhead is reasonable &lt;= 0.5%.</p>
 ]]></content>
   </entry>
   
