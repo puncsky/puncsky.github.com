@@ -262,7 +262,8 @@
 <aside class="sidebar-nav span3">
   
     <section class="well">
-  <img src="http://www.puncsky.com/puncsky-gray.png" alt="puncsky" style="max-width:100%;">
+  <script src="/javascripts/onmouseoverpuncsky.js" type="text/javascript"> </script>
+  <img onmouseover="enlight(this)" onmouseout="darken(this)" src="http://www.puncsky.com/puncsky-gray.png" alt="puncsky" style="max-width:100%;">
   <h4>Puncsky</h4>
   <p><i>who strives on and lives to strive</i></p>
 </section>
@@ -291,27 +292,6 @@
       </li>
     
   </ul>
-</section>
-
-<section class="well">
-  <ul id="gh_repos" class="nav">
-    <li class="nav-header">GitHub Repos</li>
-    <li class="loading">Status updating...</li>
-  </ul>
-  
-  <a href="https://github.com/puncsky">@puncsky</a> on GitHub
-  
-  <script type="text/javascript">
-    $(document).ready(function(){
-        github.showRepos({
-            user: 'puncsky',
-            count: 0,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/asides/github.js" type="text/javascript"> </script>
 </section>
 
 
