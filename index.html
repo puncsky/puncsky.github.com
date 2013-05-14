@@ -134,7 +134,7 @@
 
 <ul>
 <li>How to build a highly available key-value storage system (which will be applied to productions with demanding applications)?</li>
-<li><p>Assumptions:</p>
+<li>Assumptions:
 
 <ol>
 <li>Query model: Simple KV store with read/write operations on small objects (&lt;= 1 MB).</li>
@@ -152,12 +152,16 @@
 </li>
 </ul>
 </li>
-<li>No security concerns: because of internal use.
-
-<h3>2. Challenges</h3></li>
+<li>No security concerns: because of internal use.</li>
 </ol>
 </li>
-<li><p>How to achieve a strongly consistent data access interface?</p>
+</ul>
+
+
+<h3>2. Challenges</h3>
+
+<ul>
+<li>How to achieve a strongly consistent data access interface?
 
 <ul>
 <li>Data replication algorithms. Strong consistency and high data availability cannot be achieved simultaneously. Traditionally, consistency comes first.</li>
@@ -389,24 +393,24 @@ c) randomness -> hard to archive the entire key spaces.</li>
 </ul>
 </li>
 <li>T random tokens per node and equal sized partitions.</li>
-<li>Q/S tokens per node, equal-sized partitions.
-
-<h3>4. Conclusion</h3></li>
+<li>Q/S tokens per node, equal-sized partitions.</li>
 </ol>
 </li>
 </ul>
 
 
-<p> “Always writable” asynchronous replication
- Update may not propagate all replicas
- put() à creates a new and immutable version of data
- get() à may return multiple versions of data
- Reconcile divergent versions
- When: during reads
- Who: system itself (syntactic reconciliation)</p>
+<h3>4. Conclusion</h3>
 
-<pre><code>       client application (semantic reconciliation)
-</code></pre>
+<ul>
+<li>“Always writable” asynchronous replication</li>
+<li>Update may not propagate all replicas</li>
+<li>put() creates a new and immutable version of data</li>
+<li>get() may return multiple versions of data</li>
+<li>Reconcile divergent versions</li>
+<li>When: during reads</li>
+<li>Who: system itself (syntactic reconciliation) client application (semantic reconciliation)</li>
+</ul>
+
 </div>
   
   
