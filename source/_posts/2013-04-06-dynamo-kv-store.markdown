@@ -154,11 +154,10 @@ The author tried three partition schemes. The latter versions decouple partition
 	- W: min number of nodes that must participate in a successful write.
 	- *R+W>N* -> quorum-like system 
 	- How to define a successful write?
-		- >= W-1 nodes respond 
+		- \> = W-1 nodes respond 
 - (Unsuccessful) Execution of put() and get()
-	- 
 - Membership
-
+	- DHT + virtual nodes
 ##### Implementation
 
 ##### Lessons Learned
@@ -191,3 +190,5 @@ The author tried three partition schemes. The latter versions decouple partition
 - Reconcile divergent versions
 - When: during reads
 - Who: system itself (syntactic reconciliation) client application (semantic reconciliation)
+
+EOF

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "[转] Numbers everyone should know"
+title: "[Repost] Numbers everyone should know"
 date: 2013-01-30 11:19
 comments: true
 categories: 
