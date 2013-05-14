@@ -260,6 +260,10 @@
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2013/05/14/ren-sheng-shi-yuan/">人生十愿</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/04/06/dynamo-kv-store/">Dynamo: Amazon's Highly Available Key-value Store (SOSP'07)</a>
       </li>
     
@@ -275,11 +279,28 @@
         <a href="/blog/2013/01/14/gc-garbage-collection-in-java/">GC(Garbage Collection) in Java</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2013/01/08/clrs-2-advanced/">CLRS 2: Advanced</a>
-      </li>
-    
   </ul>
+</section>
+
+<section class="well">
+  <ul id="gh_repos" class="nav">
+    <li class="nav-header">GitHub Repos</li>
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/puncsky">@puncsky</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        github.showRepos({
+            user: 'puncsky',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/asides/github.js" type="text/javascript"> </script>
 </section>
 
 
