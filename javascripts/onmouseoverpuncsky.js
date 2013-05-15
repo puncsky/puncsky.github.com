@@ -1,9 +1,9 @@
 function enlight(x)
 {
-  x.src="favicon.png";
+  x.src="http://www.puncsky.com/favicon.png";
 }
 
 function darken(x)
 {
-  x.src="puncsky-gray.png";
+  x.src="http://www.puncsky.com/puncsky-gray.png";
 }
