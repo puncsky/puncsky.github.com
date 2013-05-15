@@ -4,7 +4,7 @@
   <title><![CDATA[CS Notebook]]></title>
   <link href="http://puncsky.github.com/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2013-05-14T16:52:49-04:00</updated>
+  <updated>2013-05-14T20:40:02-04:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -12,6 +12,30 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[人生十愿]]></title>
+    <link href="http://puncsky.github.com/blog/2013/05/14/ren-sheng-shi-yuan/"/>
+    <updated>2013-05-14T04:18:00-04:00</updated>
+    <id>http://puncsky.github.com/blog/2013/05/14/ren-sheng-shi-yuan</id>
+    <content type="html"><![CDATA[<p>毕业啦！</p>
+
+<p>世事总不尽如人意，而贪心如我者，尝试写下人生的十个愿望；倘若某日能够实现十之八九，也就算是此生无悔啦！</p>
+
+<ol>
+<li>月高风黑的时候总是可以拉上三五好友宵夜。老到住进养老院的时候总有大爷大妈陪着打麻将。</li>
+<li>亲朋好友，还有我，都能够快乐健康地活着，不求有多大的出息，但求日子过得欢喜，无论多舒适还是多苦逼，都能够坚持自己选择的路，得瑟得瑟屁颠屁颠地走下去。</li>
+<li>有个萌妹子一起玩儿，我们都有健美的体魄心态和性格，开开心心玩上一辈子。</li>
+<li>拥有一家自己的互联网公司，创造有趣有用的产品，这是时代赋予青年们的使命。感激上苍让我们CSer成为时代的弄潮儿。</li>
+<li>拿到一个PhD学位，不仅是因为“谁有知识我就对谁佩服得五体投地”，而且理想主义的说，他们至少对人类知识做出了一丁点儿的贡献。完全没有贡献？那就不要浪费时间啦！</li>
+<li>写一本好书、绘一幅好画、填一篇好诗词、吟一支小曲儿、拍一部好电影。</li>
+<li>有精力、财力或者智力帮助他人，尤其是年轻人。</li>
+</ol>
+
+
+<p>剩下的三个，以后再许！</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Dynamo: Amazon's Highly Available Key-value Store (SOSP'07)]]></title>
@@ -6923,66 +6947,6 @@ retrieve fields, determine partition keys</li>
 <p>[23] A Comparison of Approaches to Large Scale Data Analysis</p>
 
 <p>[6] Scope [11] Hive [24] C-store [4] What is the right way to measure scale?</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Reliable Client Accounting for P2P-Infrastructure Hybrids (NSDI '12)]]></title>
-    <link href="http://puncsky.github.com/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12/"/>
-    <updated>2012-11-20T16:16:00-05:00</updated>
-    <id>http://puncsky.github.com/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12</id>
-    <content type="html"><![CDATA[<p><a href="http://www.mpi-sws.org/~paditya/">MPI-SWS</a>, UPenn, Duke, Akamai, <a href="http://www.mpi-sws.org/~paditya/papers/rca-nsdi2012.pdf">paper</a>, <a href="https://www.usenix.org/sites/default/files/conference/protected-files/nsdi12_reliable_client_accounting_for_p2p-infrastructure_hybrids.pdf">slides</a>, <a href="https://www.usenix.org/conference/nsdi12/reliable-client-accounting-hybrid-content-distribution-networks">video</a></p>
-
-<h2>1. Problems</h2>
-
-<p>Hybrid (Servers with assisting peers) designs in CDNs -> malicious clients can cause significant accounting inaccuracies.</p>
-
-<h2>2. Challenges</h2>
-
-<p>Infrastructure can not control P2P communications by malicious clients (peers). Even if infrastructure provides signed metadata and fallback (so content can not be mishandled by peers), there are still:</p>
-
-<ul>
-<li>Affect service quality</li>
-<li>Misreport P2P transfers</li>
-</ul>
-
-
-<p>For example, inflation attack occurred for a fake download report.</p>
-
-<h2>3. Solutions</h2>
-
-<p>Reliable Client Accounting (RCA)</p>
-
-<!--more-->
-
-
-<p>Clients keep logs of network activity and upload them to the infrastructure periodically. The infrastructure collects logs, verifies them, and isolate suspicious nodes.</p>
-
-<h3>1. Record client activities reliably</h3>
-
-<p>Tamper evident logging: log recording sending/receiving history forms hash chains. Every massages contains a signature (authenticator) from its sender (O(# of messages)). -> Later, RCA only records authenticators for clients (O(# of pairs)).</p>
-
-<h3>2. Identify misbehaving/suspicious clients</h3>
-
-<p>By accounting the logs, infrastructure can find clients unilaterally claim fake downloads.</p>
-
-<p>As to malicious client software:</p>
-
-<p>What if bad clients do not follow the above steps (e.g. do not keep logs and serve bad content)? Simplify NetSession protocol to a state machine. Rules are manually set to identify bad logs not following the them.</p>
-
-<p>What if many clients collude to cheat? It is difficult in practice (infrastructure assigns peers), but can still be found by statistical checks.</p>
-
-<p>As to malicious users:</p>
-
-<p>What if a user repeatedly downloading content to drive up demand? (can be amplified by Sybil attack) Statistical checks, too.</p>
-
-<h3>3. Handle misbehavior without affecting service quality</h3>
-
-<p>Blacklist and quarantine bad clients.</p>
-
-<h2>4. Conclusions</h2>
-
-<p>Since infrastructure cannot observe P2P communication, accounting is vulnerable to malicious clients (peers) in a hybrid design of CDN, e.g. inflation attacks. So the authors advance RCA to 1) keep tamper-evident logs and set rules for fixed state machines 2) perform statistical analysis on collected logs. Malicious clients can be detected and isolated effectively by RCA. The evaluation with real world Akamai NetSession shows that overhead is reasonable &lt;= 0.5%.</p>
 ]]></content>
   </entry>
   
