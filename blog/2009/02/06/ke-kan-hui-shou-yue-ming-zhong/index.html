@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>CS Notebook</title>
+  <title>可堪回首月明中——我的大一上年度总结：抒情与思索 - CS Notebook</title>
   <meta name="author" content="Tian">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://puncsky.github.com/blog/page/3">
+  <link rel="canonical" href="http://puncsky.github.com/blog/2009/02/06/ke-kan-hui-shou-yue-ming-zhong">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -89,508 +89,13 @@
 </nav>
   <div class="container">
     <div class="row-fluid">
-      <div class="span9">
-  
-  
-  
-    <article>
       
+<article class="hentry span9" role="article">
+
+  
   <header class="page-header">
     
-      <h1 class="entry-title"><a href="/blog/2012/11/21/ru-he-yue-du-%5B%3F%5D-pian-lun-wen-%3F/">如何阅读一篇论文？</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-21T16:15:00-05:00" pubdate data-updated="true">Nov 21<span>st</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>阅读是人生的终极命题之一。人生苦短，我们需要阅读来继承前人的衣钵，我们需要笔记来对抗过往的遗忘，我们需要写作来连接自我和人世沧桑。</p>
-
-<p>那么，<a href="http://blizzard.cs.uwaterloo.ca/keshav/home/Papers/data/07/paper-reading.pdf">如何最高效地阅读一篇论文呢？</a></p>
-
-<p>如同任何一个学习过程，读论文的周期显然是螺旋向上的，可以划分为简单的三板斧：</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/11/21/ru-he-yue-du-%5B%3F%5D-pian-lun-wen-%3F/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/">HadoopDB: An Architectural Hybrid of MapReduce and DBMS Technologies for Analytical Workloads (VLDB &#8216;09)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-20T16:20:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://db.cs.yale.edu/hadoopdb/">Yale DB</a></p>
-
-<h3>1. Problem</h3>
-
-<p>Large analytical data management (OLAP) with commodity clusters</p>
-
-<h3>2. Challenges</h3>
-
-<ul>
-<li>Performance and efficiency
-
-<ul>
-<li>hadoop
-
-<ul>
-<li>is not for structured data analysis</li>
-<li>scale well</li>
-<li>open source, without cost</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>scalability, fault-tolerance, and flexibility
-
-<ul>
-<li>Previous parallel db fit into tens of nodes, not thousand of nodes.</li>
-<li>not scale well for failures, heterogeneous machines, performance untested</li>
-</ul>
-</li>
-</ul>
-
-
-<h3>3. Solutions</h3>
-
-<ul>
-<li>MapReduce (Hadoop) + parallel db (or single-node DBs) = HadoopDB</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12/">Reliable Client Accounting for P2P-Infrastructure Hybrids (NSDI &#8216;12)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-20T16:16:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.mpi-sws.org/~paditya/">MPI-SWS</a>, UPenn, Duke, Akamai, <a href="http://www.mpi-sws.org/~paditya/papers/rca-nsdi2012.pdf">paper</a>, <a href="https://www.usenix.org/sites/default/files/conference/protected-files/nsdi12_reliable_client_accounting_for_p2p-infrastructure_hybrids.pdf">slides</a>, <a href="https://www.usenix.org/conference/nsdi12/reliable-client-accounting-hybrid-content-distribution-networks">video</a></p>
-
-<h2>1. Problems</h2>
-
-<p>Hybrid (Servers with assisting peers) designs in CDNs -> malicious clients can cause significant accounting inaccuracies.</p>
-
-<h2>2. Challenges</h2>
-
-<p>Infrastructure can not control P2P communications by malicious clients (peers). Even if infrastructure provides signed metadata and fallback (so content can not be mishandled by peers), there are still:</p>
-
-<ul>
-<li>Affect service quality</li>
-<li>Misreport P2P transfers</li>
-</ul>
-
-
-<p>For example, inflation attack occurred for a fake download report.</p>
-
-<h2>3. Solutions</h2>
-
-<p>Reliable Client Accounting (RCA)</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2012/11/20/towards-statistical-queries-over-distributed-private-user-data-nsdi-12/">Towards Statistical Queries Over Distributed Private User Data (NSDI &#8216;12)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-20T16:13:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>From <a href="https://sites.google.com/site/ruichuanc/">MPI-SWS, Germany</a>, <a href="https://73aab115-a-62cb3a1a-s-sites.googlegroups.com/site/ruichuanc/pddp-nsdi12.pdf?attachauth=ANoY7cqTHmW8qn2UrCjxk0u-eafRsp77w2XtpG9QdnY9nOnDKkELrYiH-RrOI2ILFnQUv6gt-oz_ek1DA8q7TptjvCEWWWpT02huRCgNYXW-bUNQwjJjM0DLN7tiJzOKD509vt1JhOZ_fHQ_rijDX5Dhh3Bx1pdZotJp7mDbCw0yrcSTYEfbXAuzkZK2zDxfRKYzZXww-dESgY9wquSilSiX3ZrPYrATOg%3D%3D&amp;attredirects=0">paper</a> and <a href="https://www.usenix.org/sites/default/files/conference/protected-files/pddp-talk-nsdi12.pdf">slides</a></p>
-
-<h2>1. Problem</h2>
-
-<p>To protect user privacy in distributed systems from leaking by statistical queries.</p>
-
-<h2>2. Challenges</h2>
-
-<p>The most direct solutions are</p>
-
-<ol>
-<li><p>to <strong>anonymize + add noise</strong> to <em>user data</em>.</p>
-
-<p> [-] utility, de-anonymize</p></li>
-<li><p>differential privacy. add noise to <em>answer of queries</em>.</p>
-
-<p> [-] scale, churn tolerance, malicious client</p></li>
-</ol>
-
-
-<h2>3. Solution </h2>
-
-<p>PDDP: Practical Distributed Differential Privacy.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/11/20/towards-statistical-queries-over-distributed-private-user-data-nsdi-12/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2012/11/20/three-papers-review-about-deterministic-parallelism/">Three Papers Review About Deterministic Parallelism</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-20T16:10:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://dedis.cs.yale.edu/2010/det/">Yale Dedis</a></p>
-
-<h3>1. Efficient System-Enforced Deterministic Parallelism (OSDI’10)</h3>
-
-<p>Parallelism introduces 1) non-determinism and 2) data races (heisenbugs). Determinism means that a given input always produces the same output. In other words, input alone determines the output, regardless of extrinsic events such as the OS’s thread scheduling.</p>
-
-<p>To achieve determinism,</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/11/20/three-papers-review-about-deterministic-parallelism/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2012/11/20/quincy-fair-scheduling-for-distributed-computing-clusters-sosp-09/">Quincy: Fair Scheduling for Distributed Computing Clusters (SOSP &#8216;09)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-20T16:08:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://research.microsoft.com/en-us/people/misard/">Microsoft</a>, <a href="http://www.sigops.org/sosp/sosp09/papers/isard-sosp09.pdf">paper</a>, <a href="http://www.sigops.org/sosp/sosp09/videos/19_michael_isard.mov">video</a>, <a href="http://www.sigops.org/sosp/sosp09/slides/quincy/QuincyTestPage.html">slides</a></p>
-
-<h2>1. Problem</h2>
-
-<p>How to achieve fair scheduling? In other words, a guy who gets up early and performs huge tasks on a cluster should not always monopolize most computing resource, and someone else&#8217;s assignments should not be ignored. Otherwise, it is unfair for all the cluster users.</p>
-
-<p><strong>Fair sharing</strong> of the cluster resources</p>
-
-<p>Job x takes <em>t</em> seconds, when running exclusively on the cluster. When the cluster has <em>J</em> jobs, x should take &lt;= <em>Jt</em> seconds.</p>
-
-<p><em>N</em> computers and <em>J</em> jobs: each job gets at least N/J computers.</p>
-
-<h2>2. Challenges</h2>
-
-<p>Traditionally,</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/11/20/quincy-fair-scheduling-for-distributed-computing-clusters-sosp-09/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2012/11/17/chun-tian-zai-na-li-ya-chun-tian-zai-na-li-%3F/">春天在哪里呀春天在哪里？</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-17T15:51:00-05:00" pubdate data-updated="true">Nov 17<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>一 大叔</h3>
-
-<p>第一次见到阿米(Amittai F. Aviram)大叔就被彻底震撼到了，你简直就无法相信眼前这位爷爷辈的大叔居然是计算机系的博士！OSDI&#8217;10（计算机系统界顶级会议）最佳论文的第一作者！要知道，人人生而平等，会议生而不等，同是顶级会议，论文被OSDI录用就比VLDB、WWW、NSDI等等这些难得不是一点两点；而且系统领域的论文不是推个数学公式，做个小实验验证一下就可以过关，而是需要老老实实动手实现整个复杂的设计的。而这位谈吐之间无时无刻不环绕着功成身退气息的大叔，此刻正在向比他小个几十岁的教授们作毕业答辩！机缘巧合的是，不久之后，当我想看看如何实现一个简单的数据库的时候，满心欢喜地查到一个B+树的C语言实现，左上角竟然也是赫然打着阿米大叔的大名！</p>
-
-<p>大叔啊，您都一大把年纪了，上能发好论文，下能写好代码，让我们这群自诩码农的后生们情何以堪？元芳，你怎么看？此事必有蹊跷！于是怀着复杂的心情，我点开了大叔的履历。其实，大叔在三十年前就已经成为了南卡大学(University of South Carolina)的英语文学教授，酷爱写诗，是拿到了终身教职的。后来，不知为何对计算机产生了浓厚的兴趣，04年去哥大读计算机专业的本科，后来一发不可收拾，经过八年的锤炼，几个月前在耶鲁博士毕业。现在在MathWorks任高级软件工程师……</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/11/17/chun-tian-zai-na-li-ya-chun-tian-zai-na-li-%3F/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2012/11/16/homeos-an-operating-system-for-the-home-nsdi-12/">HomeOS: An Operating System for the Home (NSDI &#8216;12)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-16T22:06:00-05:00" pubdate data-updated="true">Nov 16<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://researcher.watson.ibm.com/researcher/view.php?person=us-ckd">IBM</a>, <a href="http://research.microsoft.com/en-us/projects/homeos/">MS</a>, <a href="https://www.usenix.org/system/files/conference/nsdi12/nsdi12-final149.pdf">paper</a>,  <a href="https://www.usenix.org/conference/nsdi12/towards-commodity-smarthomes-homeos">Video</a>, <a href="https://www.usenix.org/sites/default/files/conference/protected-files/homeos-nsdi-talk-given-clean.pdf">Slides</a></p>
-
-<h3>1. Problem</h3>
-
-<p>High overhead of managing and extending network devices for <strong>smart home</strong>: 1) growing number of devices 2) heterogeneity 3) hardware/software incompatible.</p>
-
-<h3>2. Challenges</h3>
-
-<ul>
-<li>Appliance abstraction: a closed, monolithic system. (manageability)</li>
-<li>Decentralized network-of-devices: bad portability. (extensibility: both software and hardware)</li>
-</ul>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/11/16/homeos-an-operating-system-for-the-home-nsdi-12/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10/">Fast and Parallel Webpage Layout (WWW &#8216;10)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-16T15:56:00-05:00" pubdate data-updated="true">Nov 16<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><iframe src="http://www.slideshare.net/slideshow/embed_code/15270792" width="427" height="356" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen webkitallowfullscreen mozallowfullscreen> </iframe>
-
-
-<p></p>
-
-<p><a href="http://www.eecs.berkeley.edu/~lmeyerov/">UCB</a>, <a href="http://www.eecs.berkeley.edu/~lmeyerov/projects/pbrowser/pubfiles/playout.pdf">paper</a></p>
-
-<h2>1. Problem</h2>
-
-<p>The browsing of webpages is slow on smartphones for their limited CPU computational resources. The <em>power wall</em> forces hardware architects to apply increases in transistor counts towards improving parallel performance, not sequential performance. So the authors introduce the <strong>parallel</strong> mobile browser.</p>
-
-<h2>2. Challenges</h2>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2009/02/06/ke-kan-hui-shou-yue-ming-zhong/">可堪回首月明中——我的大一上年度总结：抒情与思索</a></h1>
+      <h1 class="entry-title">可堪回首月明中——我的大一上年度总结：抒情与思索</h1>
     
     
       <p class="meta">
@@ -613,7 +118,7 @@
   </header>
 
 
-  <div class="entry-content"><blockquote><p>犹记得昨天，阡陌交错万千，歧路漫漫在天际蜿蜒。</p>
+<div class="entry-content"><blockquote><p>犹记得昨天，阡陌交错万千，歧路漫漫在天际蜿蜒。</p>
 
 <p>犹记得昨天，挑灯夜战征途远，月光潺潺泻窗前。</p>
 
@@ -735,20 +240,61 @@
 
 <p>EOF</p>
 </div>
+
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Tian</span></span>
+
+      
+
+
+
+
+
+
+
+
   
 
 
-    </article>
+<time datetime="2009-02-06T14:08:00-05:00" pubdate data-updated="true">Feb 6<span>th</span>, 2009</time>
+      
+
+<span class="categories">
   
-  <ul class="pager">
+    <a class='category' href='/blog/categories/life/'>life</a>
+  
+</span>
+
+
+    </p>
     
-    <li><a href="/blog/archives">Blog Archives</a></li>
-    
-    <li class="next"><a href="/blog/page/2/">Newer &rarr;</a></li>
-    
-  </ul>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2009/02/06/ke-kan-hui-shou-yue-ming-zhong/" data-via="" data-counturl="http://puncsky.github.com/blog/2009/02/06/ke-kan-hui-shou-yue-ming-zhong/" >Tweet</a>
+  
+  
+  
 </div>
+
+    
+    
+    <ul class="pager">
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+      <li class="next"><a class="basic-alignment right" href="/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10/"
+        title="Next Post: Fast and Parallel Webpage Layout (WWW '10)">Fast and Parallel Webpage Layout (WWW '10)
+        &raquo;</a></li>
+      
+    </ul>
+  </footer>
+</article>
+
 <aside class="sidebar-nav span3">
   
     <section class="well">
@@ -774,7 +320,7 @@
       </li>
     
       <li class="post">
-        <a href="/blog/2013/04/06/dynamo-kv-store/">Dynamo: Amazon&#8217;s Highly Available Key-value Store (SOSP&#8217;07)</a>
+        <a href="/blog/2013/04/06/dynamo-kv-store/">Dynamo: Amazon's Highly Available Key-value Store (SOSP'07)</a>
       </li>
     
       <li class="post">
@@ -794,6 +340,7 @@
 
   
 </aside>
+
 
     </div>
   </div>
