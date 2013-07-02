@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Fast and Parallel Webpage Layout (WWW '10) - CS Notebook</title>
+  <title>2009的残垣断壁和不得不说的感谢 - CS Notebook</title>
   <meta name="author" content="Tian">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://puncsky.github.com/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10">
+  <link rel="canonical" href="http://puncsky.github.com/blog/2009/12/31/2009-at-last">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -95,7 +95,7 @@
   
   <header class="page-header">
     
-      <h1 class="entry-title">Fast and Parallel Webpage Layout (WWW '10)</h1>
+      <h1 class="entry-title">2009的残垣断壁和不得不说的感谢</h1>
     
     
       <p class="meta">
@@ -111,166 +111,66 @@
   
 
 
-<time datetime="2012-11-16T15:56:00-05:00" pubdate data-updated="true">Nov 16<span>th</span>, 2012</time>
+<time datetime="2009-12-31T07:13:00-05:00" pubdate data-updated="true">Dec 31<span>st</span>, 2009</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><iframe src="http://www.slideshare.net/slideshow/embed_code/15270792" width="427" height="356" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen webkitallowfullscreen mozallowfullscreen> </iframe>
+<div class="entry-content"><blockquote><p>一年的离去</p>
 
+<p>总是埋没在</p>
 
-<p></p>
+<p>冷风犀利</p>
 
-<p><a href="http://www.eecs.berkeley.edu/~lmeyerov/">UCB</a>, <a href="http://www.eecs.berkeley.edu/~lmeyerov/projects/pbrowser/pubfiles/playout.pdf">paper</a></p>
+<p>冬夏交替</p>
 
-<h2>1. Problem</h2>
+<p>杨柳依依</p>
 
-<p>The browsing of webpages is slow on smartphones for their limited CPU computational resources. The <em>power wall</em> forces hardware architects to apply increases in transistor counts towards improving parallel performance, not sequential performance. So the authors introduce the <strong>parallel</strong> mobile browser.</p>
+<p>叶落戚戚</p>
 
-<h2>2. Challenges</h2>
+<p>脚步的迁移</p>
 
-<!--more-->
+<p>把万紫千红尽收眼底</p>
 
+<p>也不过</p>
 
-<p>In the analysis,  three core limitations of the rendering speed are:</p>
+<p>时空漂移</p>
 
-<ol>
-<li>CSS selector matching</li>
-<li>Box and text layout</li>
-<li>Glyph rendering</li>
-</ol>
+<p>尘埃一粒</p></blockquote>
 
+<hr />
 
-<h2>3. Solution</h2>
+<blockquote><p>若有若无的笑靥</p>
 
-<p>Overall Input and Output</p>
+<p>擦肩而过的瞬息</p>
 
-<ul>
-<li>Input: an HTML tree of content, CSS style rules, font files.</li>
-<li>Output: absolute element positions.</li>
-</ul>
+<p>雨霁的午后</p>
 
+<p>橘黄色的空气</p>
 
-<h3>3.1 Algo1: CSS Selector Matching</h3>
+<p>夜半时分水</p>
 
-<p><em>Rule matcher</em> associates CSS rule set with HTML node tree.</p>
+<p>龙头头低声细语</p>
 
-<p>Two assumptions:</p>
+<p>以及</p>
 
-<ol>
-<li>In general, selector language is an exact subset of regular expression.</li>
-<li>Disjunctions are split into separate selectors</li>
-</ol>
+<p>电话那头假装的漠不关心</p></blockquote>
 
+<hr />
 
-<p>Algorithm paraphrase:</p>
+<blockquote><p>灯火迷离，亭阶寂寂</p></blockquote>
 
-<ol>
-<li>sequentially read rules and correspondingly build hash maps</li>
-<li>parallelly <strong>map</strong> nodes to different kinds of rules</li>
-<li>parallelly <strong>reduce</strong> several rules to each node</li>
-</ol>
+<hr />
 
+<blockquote><p>感谢朋友中的每一个你</p>
 
-<p>Optimizations from WebKit:</p>
+<p>把这些美丽与凄厉</p>
 
-<ol>
-<li>Hashtables. [×] check CSS for every node [√] read once, build hashmap, and check hash</li>
-<li>Right-to-left matching.</li>
-</ol>
+<p>日复一日地镌刻在我一年又一年的生命里</p></blockquote>
 
-
-<p>New Optimization:</p>
-
-<ol>
-<li>Redundant selector elimination.</li>
-<li>Hash Tiling. partition the hashtable. reduce cache misses.</li>
-<li>Tokenization. store attributes as int instead of string to save cache.</li>
-<li>Parallel document traversal.</li>
-<li>Random load balancing. If in sequence, neighboring nodes will cause load imbalance.</li>
-<li>Result pre-allocation.</li>
-<li>Delayed set insertion.</li>
-<li>Non-STL sets.preallocate a vector with a size of potential matches.</li>
-</ol>
-
-
-<p>Overall Speedup = 60x: 204ms->3.5ms, 3s->50ms</p>
-
-<h3>3.2 Algo2:</h3>
-
-<ul>
-<li>Input: HTML tree nodes with symbolic constraint attributes</li>
-<li>Output: layout actual details (size, shape, position)</li>
-</ul>
-
-
-<p>Because CSS is confusing and informally-writtened, we create a new simple, concise, uniform, and intermediate language, Berkeley Style Sheets (BBS), which is transformed from CSS and will be specified with an attribute grammar (which shows potential for parallelization).</p>
-
-<p>Three contributions:</p>
-
-<ol>
-<li>Increase performance. decompse the tasks.</li>
-<li>Uniform a correct, concise specification.</li>
-<li>Prove it is at most linear in the size of HTML tree.</li>
-</ol>
-
-
-<p><strong>PARALLELIZATION</strong></p>
-
-<p>Two steps recursively for every node in the DOM tree</p>
-
-<ol>
-<li>calculate inherited attributes (top-down). Every level of childs in the tree enjoyes the parallelization.</li>
-<li>calculate synthesized attributes (node&#8217;s own attributes) (bottom-up). Every level of parents in the tree enjoys the parallelization.</li>
-</ol>
-
-
-<p>2 is dependent on 1.</p>
-
-<p>Complexity: O(log)</p>
-
-<p>Speedup of box + text layout = 2-3x</p>
-
-<p>Advanced layouts: floats</p>
-
-<h3>3.3 Algo3: Font Handling</h3>
-
-<ol>
-<li>create a pool of necessary font library request</li>
-<li>group the requests</li>
-<li>make parallel calls to process each group</li>
-</ol>
-
-
-<h2>4. Conclusions</h2>
-
-<p>Address three bottlenecks of loading a page</p>
-
-<ol>
-<li>CSS selector matching
-
-<ul>
-<li>Pre-built hash tables, map-reduce</li>
-</ul>
-</li>
-<li>Box and text layout solving
-
-<ul>
-<li>Specify layout as attribute grammars</li>
-</ul>
-</li>
-<li>Glyph rendering
-
-<ul>
-<li>Combine requests to groups and render in parallel</li>
-</ul>
-</li>
-</ol>
-
-
-<p>Milestone in building a parallel and mobile browser</p>
+<p>EOF</p>
 </div>
 
 
@@ -293,12 +193,12 @@
   
 
 
-<time datetime="2012-11-16T15:56:00-05:00" pubdate data-updated="true">Nov 16<span>th</span>, 2012</time>
+<time datetime="2009-12-31T07:13:00-05:00" pubdate data-updated="true">Dec 31<span>st</span>, 2009</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/paper-review/'>paper_review</a>
+    <a class='category' href='/blog/categories/life/'>life</a>
   
 </span>
 
@@ -307,7 +207,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10/" data-via="" data-counturl="http://puncsky.github.com/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2009/12/31/2009-at-last/" data-via="" data-counturl="http://puncsky.github.com/blog/2009/12/31/2009-at-last/" >Tweet</a>
   
   
   
@@ -318,13 +218,13 @@
     <ul class="pager">
       
       <li class="previous"><a class="basic-alignment left"
-        href="/blog/2009/12/31/2009-at-last/" title="Previous Post:
-        2009的残垣断壁和不得不说的感谢">&laquo; 2009的残垣断壁和不得不说的感谢</a></li>
+        href="/blog/2009/10/18/fu-shou-bai-ji-ye/" title="Previous Post:
+        俯首拜嵇烨">&laquo; 俯首拜嵇烨</a></li>
       
       <li><a href="/blog/archives">Blog Archives</a></li>
       
-      <li class="next"><a class="basic-alignment right" href="/blog/2012/11/16/homeos-an-operating-system-for-the-home-nsdi-12/"
-        title="Next Post: HomeOS: An Operating System for the Home (NSDI '12)">HomeOS: An Operating System for the Home (NSDI '12)
+      <li class="next"><a class="basic-alignment right" href="/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10/"
+        title="Next Post: Fast and Parallel Webpage Layout (WWW '10)">Fast and Parallel Webpage Layout (WWW '10)
         &raquo;</a></li>
       
     </ul>

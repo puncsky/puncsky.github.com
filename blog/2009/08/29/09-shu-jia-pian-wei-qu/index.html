@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Fast and Parallel Webpage Layout (WWW '10) - CS Notebook</title>
+  <title>09暑期片尾曲 - CS Notebook</title>
   <meta name="author" content="Tian">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://puncsky.github.com/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10">
+  <link rel="canonical" href="http://puncsky.github.com/blog/2009/08/29/09-shu-jia-pian-wei-qu">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -95,7 +95,7 @@
   
   <header class="page-header">
     
-      <h1 class="entry-title">Fast and Parallel Webpage Layout (WWW '10)</h1>
+      <h1 class="entry-title">09暑期片尾曲</h1>
     
     
       <p class="meta">
@@ -111,166 +111,28 @@
   
 
 
-<time datetime="2012-11-16T15:56:00-05:00" pubdate data-updated="true">Nov 16<span>th</span>, 2012</time>
+<time datetime="2009-08-29T15:43:00-04:00" pubdate data-updated="true">Aug 29<span>th</span>, 2009</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><iframe src="http://www.slideshare.net/slideshow/embed_code/15270792" width="427" height="356" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen webkitallowfullscreen mozallowfullscreen> </iframe>
+<div class="entry-content"><p>凉风习习，时不时的几场秋雨，把那寝室淋出凉意：所谓七月流火，九月授衣。即将来临的是开学的日期，趁着妖娆的暑假尚未远去，回味下过往的气息。</p>
 
+<p>想当初，壮志凌云何踌躇？但愿下巴蜀，学改革之谱，赏进步音符；登华山，览天下之大，取一抔黄土；回荆楚，叙相思之苦，酌小酒一壶。未曾料，分身乏术：肖兄莫怪愚言之而不信，但悲买票欲行之而不果。前不见兵马俑后不见钟鼓楼，念羊肉串紫气悠悠，独怆然而涕下。</p>
 
-<p></p>
+<p>犹记得，但别P大缱绻万千，一行五人安坐火车，打牌论剑，无所不言。别过北国和煦的七月天，摩挲中原千载的沧海桑田，惊扰荆楚大地的晚风幽咽，嗟叹蜀道在山间向深处蜿蜒。</p>
 
-<p><a href="http://www.eecs.berkeley.edu/~lmeyerov/">UCB</a>, <a href="http://www.eecs.berkeley.edu/~lmeyerov/projects/pbrowser/pubfiles/playout.pdf">paper</a></p>
+<p>既行万里路，又读万卷书。君子不器，欢乐暑假纵游编码街区，Cpp Primer实在忘不下去，钱能Cpp比谭浩强Data Structure风趣，两三个单词背背管他4级6级GRE，Discrete Mathematics and Its Applications书如其名一样冗长无疑，Principles of Economics没看几章就做N多笔记。</p>
 
-<h2>1. Problem</h2>
+<p>至于诸子百家，不要拉扯，待我一家家吃将来：每览昔人兴感之由，若合一契，未尝不临文嗟悼，不能喻之于怀。</p>
 
-<p>The browsing of webpages is slow on smartphones for their limited CPU computational resources. The <em>power wall</em> forces hardware architects to apply increases in transistor counts towards improving parallel performance, not sequential performance. So the authors introduce the <strong>parallel</strong> mobile browser.</p>
+<p>悲剧啊！时间如水何澹澹，有书总是读不完。玩易，学难；学易，习难；知易，行难。不动脑子简单，死亡在彼岸虎视眈眈；开动智慧难，青泥何盘盘，百步九折萦岩峦。</p>
 
-<h2>2. Challenges</h2>
+<p>悲剧啊！读书难，读人更难，DISC程式化性格分析有备固然无患，踏上实践之路脚步何其稚嫩蹒跚。言语太正经叫我怎么办？量体裁衣，看菜吃饭。艳阳高照，众人侃侃而谈。冷月低啸，倩影楚楚不凡。莫叹太心寒，人生短暂，筵席必散，却道：拿出芭蕉,扇扇扇！</p>
 
-<!--more-->
-
-
-<p>In the analysis,  three core limitations of the rendering speed are:</p>
-
-<ol>
-<li>CSS selector matching</li>
-<li>Box and text layout</li>
-<li>Glyph rendering</li>
-</ol>
-
-
-<h2>3. Solution</h2>
-
-<p>Overall Input and Output</p>
-
-<ul>
-<li>Input: an HTML tree of content, CSS style rules, font files.</li>
-<li>Output: absolute element positions.</li>
-</ul>
-
-
-<h3>3.1 Algo1: CSS Selector Matching</h3>
-
-<p><em>Rule matcher</em> associates CSS rule set with HTML node tree.</p>
-
-<p>Two assumptions:</p>
-
-<ol>
-<li>In general, selector language is an exact subset of regular expression.</li>
-<li>Disjunctions are split into separate selectors</li>
-</ol>
-
-
-<p>Algorithm paraphrase:</p>
-
-<ol>
-<li>sequentially read rules and correspondingly build hash maps</li>
-<li>parallelly <strong>map</strong> nodes to different kinds of rules</li>
-<li>parallelly <strong>reduce</strong> several rules to each node</li>
-</ol>
-
-
-<p>Optimizations from WebKit:</p>
-
-<ol>
-<li>Hashtables. [×] check CSS for every node [√] read once, build hashmap, and check hash</li>
-<li>Right-to-left matching.</li>
-</ol>
-
-
-<p>New Optimization:</p>
-
-<ol>
-<li>Redundant selector elimination.</li>
-<li>Hash Tiling. partition the hashtable. reduce cache misses.</li>
-<li>Tokenization. store attributes as int instead of string to save cache.</li>
-<li>Parallel document traversal.</li>
-<li>Random load balancing. If in sequence, neighboring nodes will cause load imbalance.</li>
-<li>Result pre-allocation.</li>
-<li>Delayed set insertion.</li>
-<li>Non-STL sets.preallocate a vector with a size of potential matches.</li>
-</ol>
-
-
-<p>Overall Speedup = 60x: 204ms->3.5ms, 3s->50ms</p>
-
-<h3>3.2 Algo2:</h3>
-
-<ul>
-<li>Input: HTML tree nodes with symbolic constraint attributes</li>
-<li>Output: layout actual details (size, shape, position)</li>
-</ul>
-
-
-<p>Because CSS is confusing and informally-writtened, we create a new simple, concise, uniform, and intermediate language, Berkeley Style Sheets (BBS), which is transformed from CSS and will be specified with an attribute grammar (which shows potential for parallelization).</p>
-
-<p>Three contributions:</p>
-
-<ol>
-<li>Increase performance. decompse the tasks.</li>
-<li>Uniform a correct, concise specification.</li>
-<li>Prove it is at most linear in the size of HTML tree.</li>
-</ol>
-
-
-<p><strong>PARALLELIZATION</strong></p>
-
-<p>Two steps recursively for every node in the DOM tree</p>
-
-<ol>
-<li>calculate inherited attributes (top-down). Every level of childs in the tree enjoyes the parallelization.</li>
-<li>calculate synthesized attributes (node&#8217;s own attributes) (bottom-up). Every level of parents in the tree enjoys the parallelization.</li>
-</ol>
-
-
-<p>2 is dependent on 1.</p>
-
-<p>Complexity: O(log)</p>
-
-<p>Speedup of box + text layout = 2-3x</p>
-
-<p>Advanced layouts: floats</p>
-
-<h3>3.3 Algo3: Font Handling</h3>
-
-<ol>
-<li>create a pool of necessary font library request</li>
-<li>group the requests</li>
-<li>make parallel calls to process each group</li>
-</ol>
-
-
-<h2>4. Conclusions</h2>
-
-<p>Address three bottlenecks of loading a page</p>
-
-<ol>
-<li>CSS selector matching
-
-<ul>
-<li>Pre-built hash tables, map-reduce</li>
-</ul>
-</li>
-<li>Box and text layout solving
-
-<ul>
-<li>Specify layout as attribute grammars</li>
-</ul>
-</li>
-<li>Glyph rendering
-
-<ul>
-<li>Combine requests to groups and render in parallel</li>
-</ul>
-</li>
-</ol>
-
-
-<p>Milestone in building a parallel and mobile browser</p>
+<p>EOF</p>
 </div>
 
 
@@ -293,12 +155,12 @@
   
 
 
-<time datetime="2012-11-16T15:56:00-05:00" pubdate data-updated="true">Nov 16<span>th</span>, 2012</time>
+<time datetime="2009-08-29T15:43:00-04:00" pubdate data-updated="true">Aug 29<span>th</span>, 2009</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/paper-review/'>paper_review</a>
+    <a class='category' href='/blog/categories/life/'>life</a>
   
 </span>
 
@@ -307,7 +169,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10/" data-via="" data-counturl="http://puncsky.github.com/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2009/08/29/09-shu-jia-pian-wei-qu/" data-via="" data-counturl="http://puncsky.github.com/blog/2009/08/29/09-shu-jia-pian-wei-qu/" >Tweet</a>
   
   
   
@@ -318,13 +180,13 @@
     <ul class="pager">
       
       <li class="previous"><a class="basic-alignment left"
-        href="/blog/2009/12/31/2009-at-last/" title="Previous Post:
-        2009的残垣断壁和不得不说的感谢">&laquo; 2009的残垣断壁和不得不说的感谢</a></li>
+        href="/blog/2009/02/06/ke-kan-hui-shou-yue-ming-zhong/" title="Previous Post:
+        可堪回首月明中——我的大一上年度总结：抒情与思索">&laquo; 可堪回首月明中——我的大一上年度总结：抒情与思索</a></li>
       
       <li><a href="/blog/archives">Blog Archives</a></li>
       
-      <li class="next"><a class="basic-alignment right" href="/blog/2012/11/16/homeos-an-operating-system-for-the-home-nsdi-12/"
-        title="Next Post: HomeOS: An Operating System for the Home (NSDI '12)">HomeOS: An Operating System for the Home (NSDI '12)
+      <li class="next"><a class="basic-alignment right" href="/blog/2009/10/06/shi-di-gan-shou-zeng-jian-gua-gou/"
+        title="Next Post: 实地感受增减挂钩先补后占的土地政策">实地感受增减挂钩先补后占的土地政策
         &raquo;</a></li>
       
     </ul>
