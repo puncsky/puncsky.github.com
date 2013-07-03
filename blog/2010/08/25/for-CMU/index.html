@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Fast and Parallel Webpage Layout (WWW '10) - CS Notebook</title>
+  <title>士不可不弘毅，一切为了CMU - CS Notebook</title>
   <meta name="author" content="Tian">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://puncsky.github.com/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10">
+  <link rel="canonical" href="http://puncsky.github.com/blog/2010/08/25/for-CMU">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -95,7 +95,7 @@
   
   <header class="page-header">
     
-      <h1 class="entry-title">Fast and Parallel Webpage Layout (WWW '10)</h1>
+      <h1 class="entry-title">士不可不弘毅，一切为了CMU</h1>
     
     
       <p class="meta">
@@ -111,166 +111,24 @@
   
 
 
-<time datetime="2012-11-16T15:56:00-05:00" pubdate data-updated="true">Nov 16<span>th</span>, 2012</time>
+<time datetime="2010-08-25T05:22:00-04:00" pubdate data-updated="true">Aug 25<span>th</span>, 2010</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><iframe src="http://www.slideshare.net/slideshow/embed_code/15270792" width="427" height="356" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen webkitallowfullscreen mozallowfullscreen> </iframe>
+<div class="entry-content"><p>在本系列的前两篇文章<a href="http://puncsky.github.com/blog/2010/08/20/read-and-write/">《读下去，写下去》</a>、<a href="http://puncsky.github.com/blog/2010/08/24/ignorance-is-strength/">《无知即力量，早选早超生》</a>中，我分别反反复复地只讲述了两个核心：1、我大二最得意的觉悟——读下去、写下去；2、针对我大二最致命的问题（厚颜无耻贪得无厌的自强不息）的理想解决方案——无知即力量、早选早超生。换句话说，两者一个是表扬一个是批评，加起来是一个总结的前半部分：回首过去。</p>
 
+<p>现在我要展望未来。</p>
 
-<p></p>
+<p>我一直很喜欢一句自慰的话：“悟以往之不见，知来者之可追。实迷途其未远，觉今是而昨非。”年年错，年年说；年年说，年年错。一直以来，我都认为这句话信息量不够高，24个字要表达的中心就连小孩子都能一语中的：不就是“知错就改”吗？直到最近，我才发现了一个更有含金量的表达：“士不可不弘毅，任重而道远”。短短的一句话，道明了原因、对策和前景：因为我是一个士，所以要心胸宽广、志向远大、坚忍不拔，容忍我犯过的错误，未来是光明而艰巨的，行百里者半九十。永远面向明天，春秋战国时期，墨家信鬼神希望回到殷商，儒家克己复礼希望回到西周：他们都失败了，唯有面向未来的法家取得了胜利。</p>
 
-<p><a href="http://www.eecs.berkeley.edu/~lmeyerov/">UCB</a>, <a href="http://www.eecs.berkeley.edu/~lmeyerov/projects/pbrowser/pubfiles/playout.pdf">paper</a></p>
+<p>跟阿达同学谈论这句话，对于这个专业极强的北大人，我基本上是不跟他谈论工科方面学术的：这样无异于在鲁班的后人面前玩弄斧头。那就只剩下谈论思想了，我问：你怎么想？他顿了一顿，道：“一切为了米利坚”。好吧，真是直白的人呐！阿达童鞋，祝你早日在MIT拿到PhD，毛主席保佑你。很久以前看到小马哥也Dream MIT么，为你们一起加油吧！</p>
 
-<h2>1. Problem</h2>
+<p>那么，我今天也郑重地说：我想去CMU读MIS Master，将来做个CIO！</p>
 
-<p>The browsing of webpages is slow on smartphones for their limited CPU computational resources. The <em>power wall</em> forces hardware architects to apply increases in transistor counts towards improving parallel performance, not sequential performance. So the authors introduce the <strong>parallel</strong> mobile browser.</p>
-
-<h2>2. Challenges</h2>
-
-<!--more-->
-
-
-<p>In the analysis,  three core limitations of the rendering speed are:</p>
-
-<ol>
-<li>CSS selector matching</li>
-<li>Box and text layout</li>
-<li>Glyph rendering</li>
-</ol>
-
-
-<h2>3. Solution</h2>
-
-<p>Overall Input and Output</p>
-
-<ul>
-<li>Input: an HTML tree of content, CSS style rules, font files.</li>
-<li>Output: absolute element positions.</li>
-</ul>
-
-
-<h3>3.1 Algo1: CSS Selector Matching</h3>
-
-<p><em>Rule matcher</em> associates CSS rule set with HTML node tree.</p>
-
-<p>Two assumptions:</p>
-
-<ol>
-<li>In general, selector language is an exact subset of regular expression.</li>
-<li>Disjunctions are split into separate selectors</li>
-</ol>
-
-
-<p>Algorithm paraphrase:</p>
-
-<ol>
-<li>sequentially read rules and correspondingly build hash maps</li>
-<li>parallelly <strong>map</strong> nodes to different kinds of rules</li>
-<li>parallelly <strong>reduce</strong> several rules to each node</li>
-</ol>
-
-
-<p>Optimizations from WebKit:</p>
-
-<ol>
-<li>Hashtables. [×] check CSS for every node [√] read once, build hashmap, and check hash</li>
-<li>Right-to-left matching.</li>
-</ol>
-
-
-<p>New Optimization:</p>
-
-<ol>
-<li>Redundant selector elimination.</li>
-<li>Hash Tiling. partition the hashtable. reduce cache misses.</li>
-<li>Tokenization. store attributes as int instead of string to save cache.</li>
-<li>Parallel document traversal.</li>
-<li>Random load balancing. If in sequence, neighboring nodes will cause load imbalance.</li>
-<li>Result pre-allocation.</li>
-<li>Delayed set insertion.</li>
-<li>Non-STL sets.preallocate a vector with a size of potential matches.</li>
-</ol>
-
-
-<p>Overall Speedup = 60x: 204ms->3.5ms, 3s->50ms</p>
-
-<h3>3.2 Algo2:</h3>
-
-<ul>
-<li>Input: HTML tree nodes with symbolic constraint attributes</li>
-<li>Output: layout actual details (size, shape, position)</li>
-</ul>
-
-
-<p>Because CSS is confusing and informally-writtened, we create a new simple, concise, uniform, and intermediate language, Berkeley Style Sheets (BBS), which is transformed from CSS and will be specified with an attribute grammar (which shows potential for parallelization).</p>
-
-<p>Three contributions:</p>
-
-<ol>
-<li>Increase performance. decompse the tasks.</li>
-<li>Uniform a correct, concise specification.</li>
-<li>Prove it is at most linear in the size of HTML tree.</li>
-</ol>
-
-
-<p><strong>PARALLELIZATION</strong></p>
-
-<p>Two steps recursively for every node in the DOM tree</p>
-
-<ol>
-<li>calculate inherited attributes (top-down). Every level of childs in the tree enjoyes the parallelization.</li>
-<li>calculate synthesized attributes (node&#8217;s own attributes) (bottom-up). Every level of parents in the tree enjoys the parallelization.</li>
-</ol>
-
-
-<p>2 is dependent on 1.</p>
-
-<p>Complexity: O(log)</p>
-
-<p>Speedup of box + text layout = 2-3x</p>
-
-<p>Advanced layouts: floats</p>
-
-<h3>3.3 Algo3: Font Handling</h3>
-
-<ol>
-<li>create a pool of necessary font library request</li>
-<li>group the requests</li>
-<li>make parallel calls to process each group</li>
-</ol>
-
-
-<h2>4. Conclusions</h2>
-
-<p>Address three bottlenecks of loading a page</p>
-
-<ol>
-<li>CSS selector matching
-
-<ul>
-<li>Pre-built hash tables, map-reduce</li>
-</ul>
-</li>
-<li>Box and text layout solving
-
-<ul>
-<li>Specify layout as attribute grammars</li>
-</ul>
-</li>
-<li>Glyph rendering
-
-<ul>
-<li>Combine requests to groups and render in parallel</li>
-</ul>
-</li>
-</ol>
-
-
-<p>Milestone in building a parallel and mobile browser</p>
+<p>EOF</p>
 </div>
 
 
@@ -293,12 +151,12 @@
   
 
 
-<time datetime="2012-11-16T15:56:00-05:00" pubdate data-updated="true">Nov 16<span>th</span>, 2012</time>
+<time datetime="2010-08-25T05:22:00-04:00" pubdate data-updated="true">Aug 25<span>th</span>, 2010</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/paper-review/'>paper_review</a>
+    <a class='category' href='/blog/categories/life/'>life</a>
   
 </span>
 
@@ -307,7 +165,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10/" data-via="" data-counturl="http://puncsky.github.com/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2010/08/25/for-CMU/" data-via="" data-counturl="http://puncsky.github.com/blog/2010/08/25/for-CMU/" >Tweet</a>
   
   
   
@@ -318,13 +176,13 @@
     <ul class="pager">
       
       <li class="previous"><a class="basic-alignment left"
-        href="/blog/2010/08/25/for-CMU/" title="Previous Post:
-        士不可不弘毅，一切为了CMU">&laquo; 士不可不弘毅，一切为了CMU</a></li>
+        href="/blog/2010/08/24/ignorance-is-strength/" title="Previous Post:
+        无知即力量，早选早超生">&laquo; 无知即力量，早选早超生</a></li>
       
       <li><a href="/blog/archives">Blog Archives</a></li>
       
-      <li class="next"><a class="basic-alignment right" href="/blog/2012/11/16/homeos-an-operating-system-for-the-home-nsdi-12/"
-        title="Next Post: HomeOS: An Operating System for the Home (NSDI '12)">HomeOS: An Operating System for the Home (NSDI '12)
+      <li class="next"><a class="basic-alignment right" href="/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10/"
+        title="Next Post: Fast and Parallel Webpage Layout (WWW '10)">Fast and Parallel Webpage Layout (WWW '10)
         &raquo;</a></li>
       
     </ul>
