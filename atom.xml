@@ -4,7 +4,7 @@
   <title><![CDATA[Puncsky CS Notebook]]></title>
   <link href="http://puncsky.github.com/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2013-08-09T20:34:46-07:00</updated>
+  <updated>2013-08-09T22:08:02-07:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -12,6 +12,143 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[中国工程师在初创公司的经验总结--《打造Facebook》]]></title>
+    <link href="http://puncsky.github.com/blog/2013/06/11/%5B%3F%5D-ben-chu-chuang-gong-si-de-hui-yi-lu-%3C%3Cda-zao-facebook%3E%3E/"/>
+    <updated>2013-06-11T20:38:00-07:00</updated>
+    <id>http://puncsky.github.com/blog/2013/06/11/[?]-ben-chu-chuang-gong-si-de-hui-yi-lu-<<da-zao-facebook>></id>
+    <content type="html"><![CDATA[<p>这是一本不是那么地有趣的书，甚至都不算是一本书，而是国内某普通大学老师上课的讲义，兼具冗余繁杂、不分重点、事后诸葛亮的无趣。不可否认确实有一些新奇的东西在里面，但是无论怎么看都让人怀疑，是不是原作者整理了一下自己的工作心得、列了一份提纲，然后找了个写手根据提纲照本宣科地添加了些文字。难道作者写作目标群体是大一大二的学生？</p>
+
+<p>无论这本书写作水平、思想水平如何，毕竟来自大名鼎鼎的Facebook，我们这些后生们怎么着也得战战兢兢地读完啊……</p>
+
+<ul>
+<li>扎克伯格每年都会给自己制定一项挑战，为了学习中文他每周在公司里搞一次小规模的中文讨论会。</li>
+<li>社交网络只有百分之二是真的&#8211;穿的T恤和拖鞋</li>
+<li>作者在Yahoo工作一年半之后,收到了来自谷歌和Facebook的猎头的邀请。当时他还在斯坦福大学半工半读管理科学和工程硕士学位。</li>
+<li>要求大涨工资的最好方法就是,从外面拿一个offer,证明自己的市场价值比在公司里的价值更高,然后跟公司进行协商。如果你对公司或者老板有很深的感情，就不建议这么做，因为这样体现了对公司的不忠诚。</li>
+<li>雅虎公司的公司政治问题比较严重，小组之间的隔阂盖过了公司的整体利益。</li>
+<li>一流人才组成的团队有很多好处：
+
+<ul>
+<li>让你更加容易的被委以重任,如果你还没有证明自己和他们一样出色甚至更出色他们宁愿独自辛苦工作也不愿意接受你的帮助,因为他们担心你会搞砸。</li>
+<li>通过完成艰巨任务,一流人才相互之间成为榜样。</li>
+<li>一流人才喜欢互相挑战。</li>
+<li>一流人才可以相互学到很多东西。</li>
+</ul>
+</li>
+<li>如何远离非一流人才呢?
+
+<ul>
+<li>首先,慢点招人。</li>
+<li>其次,炒鱿鱼要快。</li>
+</ul>
+</li>
+<li>与做研究不同的是,公司想要的是把想法迅速地、高质量的实现出来,然后在实践中不断改进。</li>
+<li>如何找到一流人才?
+
+<ol>
+<li>鼓励内部推荐。尽量多出现在未来的老板经常出没的活动场所之中，尝试去认识他们。让他们对你感兴趣,然后做内部推荐。参加这些公司举办的编程比赛。</li>
+<li>收购。</li>
+</ol>
+</li>
+<li>截止到2011年9月, Facebook的工程师队伍里,人数最多的是MIT的毕业生,其次是Stanford 和CMU 。</li>
+<li><p>黑客文化</p>
+
+<ul>
+<li>最核心的价值观是所有的信息都应该是自由传播的。黑客们的驱动力不是偷窃和破坏,而是学习和创造。</li>
+<li>黑客仅仅意味着快速开发,或者是挑战能力的极限。大多数黑客都是理想主义者,希望对世界做出积极贡献。</li>
+<li>很可能迅速发布小规模更新,并从中汲取经验教训,而不是试图一蹴而就。Done is better than perfect.</li>
+</ul>
+</li>
+<li><p>产品开发的三个准则。</p>
+
+<ol>
+<li>迅速发布再进行检测。所谓灰度发布,是不让一次性所有的用户接触到新产品,而是先开放给一部分用户,然后观测关键数据。如果反应良好,再逐步提高用户开放比例达百分之百。</li>
+<li>坦然面对不确定性。</li>
+<li>不追求极致而是不断发布达到目标。</li>
+</ol>
+</li>
+<li>硅谷盛行工具文化,公司内部的工具可以极大的提高每个员工的工作效率,可以减少运营人员的数量。
+
+<ul>
+<li>Code Review的工具<a href="http://phabricator.org/">Phabricator (开源)</a></li>
+<li>除了自动化工具,还有一种工具是人为的,就是把最最重要的目标及相关的任务、目标日期、负责人等信息写到白板上,挂在离我们最近的墙上。每天一抬头就可以看到,每次开会都会路过,时刻提醒我们最最重要的事情是什么,这种工具对我们组非常有效。</li>
+</ul>
+</li>
+<li>所谓黑卡都好就是非法盗用的信用卡。互联网上有线下黑卡交易体系,你可以去购买大量的信用卡信息,有些丢失信用卡的人还没有来得及注销,信用卡就仍然可以用,。黑卡体系就是利用这样的时间缝隙,赚取差价。最后的赔偿还是由收款方支付。</li>
+<li>搭建团队过程中对于招人的体会
+
+<ol>
+<li>项目目标对于招人的需求是有理有据的</li>
+<li>把招人看作约会,需要互相欣赏。要珍惜一起合作的机会。</li>
+<li>需要多方沟通。</li>
+</ol>
+</li>
+<li>如何开展一对一碰头会? Happy PIG
+
+<ul>
+<li>工作开不开心 happy</li>
+<li>效率高不高 Productivity</li>
+<li>工作的影响大不大 Impact</li>
+<li>当前的工作有没有提供学习成长的机会 Growth Opportunity</li>
+</ul>
+</li>
+<li>如果决定从工程师向管理者转变，一个关键因素一定是对“管理”感兴趣。你如果只是对技术感兴趣，那么“升职”为经理不但没有帮助，反而有害，因为这么一来，你花在技术钻研上面的时间减少了。成为经理之后，很多时间要花在激励团队、项目管理、对外沟通上。如果你没有这方面的兴趣，做起来也是很痛苦的。</li>
+<li>导师(mentor)文化：寻找一位可以信赖的导师帮你提高
+
+<ol>
+<li>双方是朋友。</li>
+<li>导师在某一领域能够帮你提高自己的价值。</li>
+<li>要积极主动去寻找。</li>
+<li>对每次和导师的交流进行总结、记录。</li>
+</ol>
+</li>
+<li>产品开发流程
+
+<ol>
+<li>Vision &amp; Goals
+
+<ul>
+<li>SMART</li>
+<li>6-2-2 Expected Jobs, Framework &amp; Quality, Controversial</li>
+<li>120% Principle</li>
+</ul>
+</li>
+<li>Prioritize</li>
+<li>Align Across Teams</li>
+<li>Let Others Know</li>
+<li>Design Product</li>
+<li>Pinpoint the Person</li>
+<li>Scrum</li>
+<li>Sync &amp; Report (Brief)</li>
+<li>Launch &amp; Monitor
+
+<ul>
+<li>Post-mortem</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>风投
+
+<ul>
+<li>创业者要靠谱、有激情、有能力，最佳创业团队是三人组</li>
+<li>四大指导原则，回避纯电商、游戏
+
+<ol>
+<li>额度有限</li>
+<li>六大领域：Mobile/Payment/CloudApp(Dropbox,Evernote) not IaaS/Education/Travel&amp;Food/Big Data</li>
+<li>做好最坏打算</li>
+<li>只跟投或合投</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[2012年9月至2013年5月阅读记录]]></title>
@@ -6722,300 +6859,6 @@ sdoEvicted(appName, sdoID)
 <p>至于房地产，房地产行业与城市人口增多是最直接的线性相关的，不管土地财政依赖不依赖，不管政府政策调控不调控。只要有大量的人口涌进城市，城市房地产就会兴旺。</p>
 
 <p>至于私募股权基金，私募股权基金不是主流产品，在中国之所以火爆，是因为媒体抄得火爆。实际上其中的竞争是非常激烈的，对于青年来说是极其危险的。这个行业只适合经验丰富的人。年轻人就牛皮哄哄地做这个行业，天天跟老总打交道，四处找错，这样不好。当然，如果有应届毕业生有志进入这个领域，他也欢迎，因为是金子总会发光 ：D</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[CryptDB: Protecting Confidentiality with Encrypted Query Processing (SOSP '11)]]></title>
-    <link href="http://puncsky.github.com/blog/2012/11/26/cryptdb/"/>
-    <updated>2012-11-26T19:45:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/11/26/cryptdb</id>
-    <content type="html"><![CDATA[<p><a href="http://css.csail.mit.edu/cryptdb/">MIT CSAIL</a>, <a href="http://people.csail.mit.edu/nickolai/papers/raluca-cryptdb.pdf">papers</a>, <a href="http://www.sigops.org/sosp/sosp11/current/2011-Cascais/07-popa.pptx">slides</a></p>
-
-<h3>1. Problem</h3>
-
-<p>Provide confidentiality for applications using DBMSes to solve two threats:</p>
-
-<ol>
-<li><em>Passive DB server attacks</em>. The curious database administrator (DBA) learns private data.</li>
-<li><em>Any attacks on all servers</em>. The adversary gains complete control over application and DBMS servers.</li>
-</ol>
-
-
-<!--more-->
-
-
-<h3>2. Challenges</h3>
-
-<ol>
-<li>Tension between confidentiality and efficiency. (Threat 1 + 2)
-
-<ul>
-<li>too slow or not enough confidentiality</li>
-<li>incapable of executing SQL queries without giving keys to DBMS servers</li>
-</ul>
-</li>
-<li>Support user-shared data while minimizing data leakage when both application servers and DBMS servers are compromised.
-
-<ul>
-<li>“Different keys for different users” alone is not suitable for user-shared data.</li>
-</ul>
-</li>
-</ol>
-
-
-<h3>3. Solutions</h3>
-
-<p>How to solve Challenge 1 (Threat 1+2) while still retaining data sharing (Challenge 2)?</p>
-
-<p>Architecture Overview</p>
-
-<p><img src="http://puncsky.github.com/images/cryptdb/arch.png" alt="architecture overview" /></p>
-
-<ol>
-<li>No plaintext in database at all. (eliminate Threat 1)</li>
-<li>Fine-grind keys chained to user passwords. (eliminate Threat 2 and Challenge 2)</li>
-</ol>
-
-
-<h4>3.1 Solution to Threat 1</h4>
-
-<p>How to deal with <em>Passive DB server attacks</em>? No plaintext in database at all.</p>
-
-<h5>3.1.1 Execute SQL queries over encrypted data</h5>
-
-<p>Six types of SQL-aware encryption</p>
-
-<p>SQL-aware encryption strategy with symmetric-key encryption (for efficiency).</p>
-
-<ol>
-<li>Random (RND)
-
-<ul>
-<li>support indistinguishability under an adaptive chosen-plaintext attack (IND-CPA), same plain texts -> different cipher texts</li>
-<li>AES / Blowfish in CBC mode, a random initialization vector (IV)</li>
-</ul>
-</li>
-<li>Deterministic (DET)
-
-<ul>
-<li>support equality checks, same plain texts -> same cipher texts</li>
-<li>different keys for different columns to prevent cross-column correlations</li>
-<li>Pseudo-random permutation (PRP), Blowfish for 64-bit block, AES for 128-bit block</li>
-<li>AES in CMC mode (= one round of CBC + another round of CBC in reverse order), zero IV. (to prevent leakage of prefix equality in CBC mode)</li>
-</ul>
-</li>
-<li>Order-preserving (OPE)
-
-<ul>
-<li>support order relations. If x &lt; y, then OPEk(x) &lt; OPEk(y) for any secret key K.</li>
-<li>Weaker. Thus, OPE-encrypted columns are revealed to the server only when the order query is needed.</li>
-<li>Implementation and optimization of <a href="http://www.cc.gatech.edu/~aboldyre/papers/bclo.pdf">Order-preserving symmetric encryption</a>. Use AVL BST for batch encryption. 25 ms/encryption -> 7 ms/encryption</li>
-</ul>
-</li>
-<li>Homomorphic encryption(HOM)
-
-<ul>
-<li>retains IND-CPA while allows computations to be conducted on ciphertext and obtain an encrypted result which is the ciphertext of the result of operations performed on the plaintext.</li>
-<li>UDF calling Paillier crytosystem</li>
-<li>e.g. SUM: HOMk(x)*HOMk(y)=HOMk(x+y)</li>
-</ul>
-</li>
-<li>Join (JOIN and OPE-JOIN)
-
-<ul>
-<li>support joins between two columns (because of DET)</li>
-<li>TODO</li>
-</ul>
-</li>
-<li>Word search (SEARCH)
-
-<ul>
-<li>support LIKE operation</li>
-<li>A new implementation of the protocol from <a href="http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=848445">Practical Techniques for Searches on Encrypted Data</a></li>
-<li>Proxy
-
-<ol>
-<li>split texts to keywords</li>
-<li>remove repetitions</li>
-<li>randomly permute the positions of the words</li>
-<li>encrypt each of the words</li>
-<li>paddle each word to the same size</li>
-<li>send the encrypted words to the server as a token</li>
-</ol>
-</li>
-<li>Server can only know whether the token matches.</li>
-</ul>
-</li>
-</ol>
-
-
-<h5>3.1.2 Adjustable query-based encryption</h5>
-
-<p>However, the query set is not always known in advance. So we need to dynamically adjust a layer of SQL-aware encryption scheme for queries at runtime. <strong>Onions of encryption</strong>: different keys for different layers of onions. The proxy will not give all keys to the server at any time.</p>
-
-<p><img src="http://puncsky.github.com/images/cryptdb/onion.png" alt="onion encryption" /></p>
-
-<p><img src="http://puncsky.github.com/images/cryptdb/table1.png" alt="table" /></p>
-
-<ul>
-<li>Encrypt data in one or more onions</li>
-<li>Multiple onions are needed in practice</li>
-<li>Onion decryption (stripe-off) happens only when operations on a column are required</li>
-<li>Once a layer of decryption happens, the layer remains its new state</li>
-</ul>
-
-
-<p>keys for each layer are calculated by</p>
-
-<p><img src="http://puncsky.github.com/images/cryptdb/calcKey.png" alt="keys" /></p>
-
-<p><strong>MK is the proxy&#8217;s Master Key and only intended for a single principal (user).</strong></p>
-
-<h6>a) Read query execution</h6>
-
-<ol>
-<li>Application server issues a query
-
-<ul>
-<li>SELECT ID FROM Employees WHERE Name = ‘Alice’</li>
-</ul>
-</li>
-<li>Proxy server anonymizes the query, and adjust encryption layers if stripe-off is needed
-
-<ul>
-<li>UPDATE Table1 SET C2-Eq = DECRYPT RND(KT1,C2,Eq,RND, C2-Eq, C2-IV)</li>
-</ul>
-</li>
-<li>DBMS server execute the adjusted query and return the results
-
-<ul>
-<li>SELECT C1-Eq, C1-IV FROM Table1 WHERE C2-Eq = x7..d</li>
-</ul>
-</li>
-<li>Proxy server decrypts the results and sends them to the user</li>
-<li>No need to decrypt data in DBMS when a new similar type of query is issued</li>
-</ol>
-
-
-<h6>b) Write query execution</h6>
-
-<ul>
-<li>INSERT and UPDATE queries make the proxy encrypts data to the layer that has not yet been stripped off.</li>
-<li>Addition and direct comparison should not be allowed simultaneously.
-
-<ul>
-<li>If a column is incremented and then only projected, DBMS operates on add onion.</li>
-<li>If a column is used in comparisons after increasing, proxy calculates the final value and updates it once and for all.</li>
-</ul>
-</li>
-</ul>
-
-
-<p>At this time, we can defend against Threat 1 (passive DB server attacks) by not exposing any plaintext to the DBMS server while most SQL queries can still be supported.</p>
-
-<h4>3.2 Solution to Threat 2 and Challenge 2</h4>
-
-<p>How to deal with <em>any attacks on all servers</em> while <strong>still retaining data-sharing</strong> among users? The proxy&#8217;s Master Key (MK) is not adequate for multi-users. The solution is to chain encryption keys to user passwords with the specification of key access policy among users.</p>
-
-<h5>3.2.1 Chain encryption keys to user passwords</h5>
-
-<ul>
-<li>What does the key derives from?
-
-<ol>
-<li><em>One Single principal</em> uses Global proxy Master Key (MK).</li>
-<li><em>Multiple principals</em> chain encryption keys to user passwords.</li>
-</ol>
-</li>
-</ul>
-
-
-<h6>Define <em>principal</em></h6>
-
-<p>A principal is an entity such as a user or a group, over which it is natural to specify an access policy.</p>
-
-<ul>
-<li><em>external principals</em>: real users authenticated with their passwords</li>
-<li><em>internal principals</em>: entities whose privileges are acquired through delegations</li>
-</ul>
-
-
-<h6>Annotate the schema with access control policy</h6>
-
-<p>We need to support data-sharing, so the access control policy should be specified to the schema.</p>
-
-<ul>
-<li>ENC_FOR(Sensitive-Column1, PrincipalA), A has access to column1.</li>
-<li>(principalA typeX) SPEAKS_FOR(principalB typeY), A has access to all keys that b has access to.</li>
-</ul>
-
-
-<p><img src="http://puncsky.github.com/images/cryptdb/accessControl.png" alt="Access Control Policy Annotation" /></p>
-
-<h6>Chain encryption keys</h6>
-
-<ul>
-<li>Each principal is associated with a secret and random-generated key
-
-<ul>
-<li>symmetric key (online) + public/private key pair (off-line)</li>
-<li>External principal&#8217;s random-generated symmetric key and private key is encrypted with user&#8217;s password and stored in <em>external_keys</em></li>
-</ul>
-</li>
-<li>If B speaks for A, A&#8217;s key is encrypted with B&#8217;s key and stored in <em>access_keys</em> table</li>
-<li>When a user logs in, the proxy loads all the key the user has access to.</li>
-<li>When a user logs out, the proxy delete all the user&#8217;s keys in the memory.</li>
-</ul>
-
-
-<p>At this time, threat 2 is successfully conquered while the data-sharing feature is retained.</p>
-
-<h3>4. Implementation &amp; Evaluation</h3>
-
-<h4>4.1 Implementation</h4>
-
-<ul>
-<li>No change to the DBMS and applications</li>
-<li>Portable</li>
-<li>Multi-user keys: annotations and login/logout</li>
-</ul>
-
-
-<h4>4.2 Evaluation</h4>
-
-<ul>
-<li>Support most queries</li>
-<li>Exceptional confidentiality
-
-<ul>
-<li>Most columns at RND layer</li>
-<li>Most columns at OPE analyzed were less sensitive</li>
-</ul>
-</li>
-<li>Throughput loss 26%</li>
-</ul>
-
-
-<h3>5. Conclusion</h3>
-
-<ol>
-<li>First practical DBMS to process most SQL queries on encrypted data
-
-<ul>
-<li>Hide DB from DBA, outsource DB</li>
-</ul>
-</li>
-<li>Protects data of users logged out during attack, even when all servers are compromised
-
-<ul>
-<li>Limit leakage from compromised applications</li>
-</ul>
-</li>
-<li>Modest overhead: 26% throughput loss for TPC-C</li>
-<li>No changes to DBMS (e.g., Postgres, MySQL)</li>
-</ol>
-
 ]]></content>
   </entry>
   
