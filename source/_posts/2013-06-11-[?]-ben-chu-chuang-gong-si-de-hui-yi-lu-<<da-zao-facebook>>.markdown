@@ -1,11 +1,14 @@
 ---
 layout: post
-title: "一本初创公司的回忆录--《打造Facebook》"
+title: "中国工程师在初创公司的经验总结--《打造Facebook》"
 date: 2013-06-11 20:38
 comments: true
-categories: 
-published: false
+categories: readings
 ---
+
+这是一本不是那么地有趣的书，甚至都不算是一本书，而是国内某普通大学老师上课的讲义，兼具冗余繁杂、不分重点、事后诸葛亮的无趣。不可否认确实有一些新奇的东西在里面，但是无论怎么看都让人怀疑，是不是原作者整理了一下自己的工作心得、列了一份提纲，然后找了个写手根据提纲照本宣科地添加了些文字。难道作者写作目标群体是大一大二的学生？
+
+无论这本书写作水平、思想水平如何，毕竟来自大名鼎鼎的Facebook，我们这些后生们怎么着也得战战兢兢地读完啊……
 
 - 扎克伯格每年都会给自己制定一项挑战，为了学习中文他每周在公司里搞一次小规模的中文讨论会。
 - 社交网络只有百分之二是真的--穿的T恤和拖鞋
@@ -45,6 +48,32 @@ published: false
 - 如何开展一对一碰头会? Happy PIG
 	- 工作开不开心 happy
 	- 效率高不高 Productivity
-	- 工作的影响大不大 impact
+	- 工作的影响大不大 Impact
 	- 当前的工作有没有提供学习成长的机会 Growth Opportunity
-
+- 如果决定从工程师向管理者转变，一个关键因素一定是对“管理”感兴趣。你如果只是对技术感兴趣，那么“升职”为经理不但没有帮助，反而有害，因为这么一来，你花在技术钻研上面的时间减少了。成为经理之后，很多时间要花在激励团队、项目管理、对外沟通上。如果你没有这方面的兴趣，做起来也是很痛苦的。
+- 导师(mentor)文化：寻找一位可以信赖的导师帮你提高
+	1. 双方是朋友。
+	2. 导师在某一领域能够帮你提高自己的价值。
+	3. 要积极主动去寻找。
+	4. 对每次和导师的交流进行总结、记录。
+- 产品开发流程
+	1. Vision & Goals
+		- SMART
+		- 6-2-2 Expected Jobs, Framework & Quality, Controversial
+		- 120% Principle
+	2. Prioritize
+	3. Align Across Teams
+	4. Let Others Know
+	5. Design Product
+	6. Pinpoint the Person
+	7. Scrum
+	8. Sync & Report (Brief)
+	9. Launch & Monitor
+		- Post-mortem
+- 风投
+	- 创业者要靠谱、有激情、有能力，最佳创业团队是三人组
+	- 四大指导原则，回避纯电商、游戏
+		1. 额度有限
+		2. 六大领域：Mobile/Payment/CloudApp(Dropbox,Evernote) not IaaS/Education/Travel&Food/Big Data
+		3. 做好最坏打算
+		4. 只跟投或合投

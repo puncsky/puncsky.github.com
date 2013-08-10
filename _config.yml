@@ -3,7 +3,7 @@
 # ----------------------- #
 
 url: http://puncsky.github.com
-title: CS Notebook
+title: Puncsky CS Notebook
 subtitle: Just a notebook about life and computer
 author: Tian 
 simple_search: http://google.com/search
@@ -93,7 +93,8 @@ disqus_short_name:
 disqus_show_comment_count: false
 
 # Google Analytics
-google_analytics_tracking_id:
+google_analytics_tracking_id: UA-43072488-1
+
 
 # Facebook Like
 facebook_like: false
