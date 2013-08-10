@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: algorithm | CS Notebook]]></title>
+  <title><![CDATA[Category: algorithm | Puncsky CS Notebook]]></title>
   <link href="http://puncsky.github.com/blog/categories/algorithm/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2013-07-04T15:54:23-04:00</updated>
+  <updated>2013-08-09T20:27:12-07:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[CLRS 2: Advanced]]></title>
     <link href="http://puncsky.github.com/blog/2013/01/08/clrs-2-advanced/"/>
-    <updated>2013-01-08T16:43:00-05:00</updated>
+    <updated>2013-01-08T16:43:00-08:00</updated>
     <id>http://puncsky.github.com/blog/2013/01/08/clrs-2-advanced</id>
     <content type="html"><![CDATA[<h2>IV Advanced Design and Analysis Techniques Introduction 357</h2>
 
@@ -304,7 +304,7 @@
   <entry>
     <title type="html"><![CDATA[CLRS 1: Basics]]></title>
     <link href="http://puncsky.github.com/blog/2013/01/07/clrs-1-basics/"/>
-    <updated>2013-01-07T14:55:00-05:00</updated>
+    <updated>2013-01-07T14:55:00-08:00</updated>
     <id>http://puncsky.github.com/blog/2013/01/07/clrs-1-basics</id>
     <content type="html"><![CDATA[<h2>I Foundations</h2>
 
