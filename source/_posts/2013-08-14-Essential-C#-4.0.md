@@ -1,4 +1,4 @@
----
+77;10200;0c---
 layout: post
 title: "Essential C# 4.0"
 date: 2013-08-14 10:23
@@ -97,6 +97,7 @@ Virtual Execution System(VES)
 	- for < 16 bytes
 	- stack
   - Reference Types: `string`, any custom classes, most classes
+    - ***IMPORTANT*** string is passed by value and cloned when pass it to a method, BUT 
     - data copied by reference
 	- heap
   - **Nullable Modifier**, value types can be null, like `int? count = null;`
@@ -130,7 +131,8 @@ Virtual Execution System(VES)
 	- `.ToCharArray()`
 
 	  
-``` cs
+``` C#
+// instantiating
 int[,] cells = {
 {1, 0, 2},
 {0, 2, 0},
@@ -142,7 +144,10 @@ new int[]{1, 0, 2},
 new int[]{0, 2, 0},
 new int[]{1, 2, 1}
 };
+```
 
+``` C#
+// handle conversion overflow with checked and unchecked
 checked {
 }
 
@@ -175,14 +180,17 @@ unchecked {
   preprocessor is generally a misnomer for C#.
 
 
-``` cs
+``` C#
+// Null Coalescing Operator
 string fileName;
 // ...
 string fullName = fileName??"default.txt";
 // ...
 ```
 
-``` cs
+``` C#
+// Preprocessor Directives
+
 #if CSHARP2
 System.Console.Clear();
 #endif
@@ -258,12 +266,20 @@ System.Console.Clear();
   - ***Reference Parameters (`ref`)***
     - declare `ref Type variable` in the function's list of args and call it with `ref variable` 
   - ***Output Parameters (`out`)***
-  - Parameter Arrays (params)
+  - ***Parameter Arrays (`params`)***
   - Optional Parameters
+    - optional parameters
+	must appear after all required parameters (those that don’t have default
+	values). Also, the fact that the default value needs to be a constant, compile-
+	time-resolved value
+	- **named parameters**
 5. Method Overloading
-5. Exception Handling
-
+6. Exception Handling
+  - ***generic catch***: `try { } catch { }` *Language Contrast* C++: `try { } catch (...) { }`. JAVA: `Exception` is the base class for all exceptions, so `try { } catch (Exception e) { }`.
+  - Avoid using exception handling to deal with expected situations
+  - `bool int.TryParse(textVariable, out number)`
 ``` C#
+// Aliasing a namespace or type
 using Timer = System.Timers.Timer;
 
 class HelloWorld
@@ -278,7 +294,9 @@ class HelloWorld
 ```
 
 ``` C#
-class Program {
+// Refrence Parameters
+class Program
+{
   static void Main() {
     string first = "first";
 	string second = "second";
@@ -295,7 +313,89 @@ class Program {
 }
 ```
 
+``` C#
+// Parameter Arrays
+class PathEx
+{
+  static void Main()
+  {
+    string fullName;
+	fullName = Combine(
+	    Directory.GetCurrentDirectory();
+		"bin", "config", "index.html");
+    Console.WriteLine(fullName);
+	fullName = Combine(
+	    Environment.SystemDirectory,
+		"Temp", "index.html");
+    Console.WriteLine(fullName);
+	fullName = Combine(
+	    new string[] {
+		    "C:\", "Data",
+			"HomeDir", "index.html"} );
+	Console.WriteLine(fullName);
+  }
+
+    static string Combine(params string[] paths)
+	{
+	    string result = string.Empty;
+		foreach (string path in paths) {
+		    result = System.IO.Path.Combine(result, path);
+	    }
+		return result;
+	}
+}
+```
+
+``` C#
+// named arguments
+class Program
+{
+  static void Main()
+  {
+    DisplayGreeting(firstName: "Tim", lastName: "Pan");
+  }
+  public void DisplayGreeting(
+    string firstName,
+	string middleName = default(string),
+	string lastName = default(string))
+  {
+    // ...
+  }
+}
+```
+
 ## 5 Classes 201
+
+1. Declaring and Instantiating a Class
+2. Instance Fields
+  - Declaring
+  - Accessing
+  - Const and readonly modifiers
+3. Instance Methods
+4. Access Modifiers
+5. Properties
+  - Declaring
+  - Naming Conventions
+  - Using Properties with Validation
+  - Read-Only and Write-Only
+  - Access Modifiers on Getters and Setters
+  - Properties as Virtual Fields
+  - Properties and Method Calls Not Allowed as ref or out Parameter Values
+6. Constructors & Finalizers
+  - Declaring
+  - Default constructors
+  - Overloading Constructors
+  - Calling one Constructor Using this
+  - Finalizers
+7. Static
+  - Static Fields
+  - Static Methods
+  - Static Constructors
+  - Static Classes
+8. Extension Methods
+9. Special Classes
+  - Partial Classes
+  - Nested Classes
 
 ## 6 Inheritance 269
 
