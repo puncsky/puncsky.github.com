@@ -91,6 +91,7 @@ Virtual Execution System(VES)
   considered a data type* in the same way. Rather, it is used to identify that a
   method does not return a value.
   - `var` introduced to support anonymous types, e.g. `var patent1 = new { Title = "Bifocals", YearOfPublication = "1884" };`. Avoid to use in other cases.
+    - avoid anonymous types until working with lambda and query expressions that associate data from different types or you you are horizontally projecting the data so that for a particular type, there is less data overall.
 4. **Categories of Types**
   - Value Types
     - data copied by value
@@ -373,29 +374,67 @@ class Program
   - Const and readonly modifiers
 3. Instance Methods
 4. Access Modifiers
+  - `public`, `private`, `protected`, `internal`, `protected internal`
 5. Properties
   - Declaring
+    - *Language Contrast* Programmers should view `new` as a call to instantiate an object, *not as a call to allocate memory*. It just retrieves memory from the memory manager.
   - Naming Conventions
+    - property name `FirstName`, then field name `_FirstName`(preferred), `_firstName`, or `m_FirstName`(C++ style).
   - Using Properties with Validation
   - Read-Only and Write-Only
   - Access Modifiers on Getters and Setters
+    - e.g. `private set()`
   - Properties as Virtual Fields
-  - Properties and Method Calls Not Allowed as ref or out Parameter Values
+    - They can even do not exist physically
+  - Properties and Method Calls **Not Allowed** as `ref` or `out` Parameter Values
 6. Constructors & Finalizers
   - Declaring
   - Default constructors
+    - Once there is a explicitely defined constructor, the default one (without parameters) is no longer provided.
+  - Object Initializers `Employee emp1 = new Employee("Inigo", "Montoya") { Title = "Computer Nerd", Salary = "Not Enough"};`
+    - Collection Initializers
   - Overloading Constructors
-  - Calling one Constructor Using this
+  - Constractor Chaining: Calling another Constructor Using `this`
+    - `public Employee(int id, string fristName, string lastName): this(firstName, lastName) { Id = id ; }`
+  - Generalize initialization: Refactor init process in the ctor into a private init method
   - Finalizers
+    - Like JAVA, unlike C++
 7. Static
+  - *Language Contrast* The equivalent of a global field or function within the realm of C# is a static field or function
   - Static Fields
   - Static Methods
   - Static Constructors
   - Static Classes
-8. Extension Methods
+    1. it prevents a programmer from writing code that
+	instantiates the SimpleMath class.
+	2.  it prevents the declaration of any
+	instance fields or methods within the class. Since the class cannot be
+	instantiated, instance members would be pointless.
+  - `const` fields are `static` automatically, and declaring a `const` field as `static` explicitly will cause a compile error
+  - ***`readonly` modifier is available only for fields (not for local variables)*** it is modifiable only from inside the constructor or directly during declaration. 似乎是把C++中`const`可以ctor初始化的功能拆成`readonly`了.
+8. ***Extension Methods*** requirements
+  - The first parameter corresponds to the type on which the method
+  extends or operates.
+  - To designate the extension method, prefix the extended type with the
+  this modifier.
+  - To access the method as an extension method, import the extending
+  type’s namespace via a using directive (or place the extending class in
+  the same namespace as the calling code).
 9. Special Classes
-  - Partial Classes
+  - `partial` Classes
+    - the general purpose of a partial class is to allow the splitting of a class definition across multiple files
+    - `partial` methods allow for a declaration of a method without requiring
+	  an implementation. However, when the optional implementation is
+	  included, it can be located in one of the sister partial class definitions,
+	  likely in a separate file.
   - Nested Classes
+    - One unique characteristic of nested classes is the ability to specify private
+	as an access modifier for the class itself
+	- Another interesting characteristic of nested classes is that they can
+	access any member on the containing class, including private members.
+    - treat public nested classes suspiciously;
+	they indicate potentially poor code that is likely to be confusing
+	and hard to discover.
 
 ## 6 Inheritance 269
 
