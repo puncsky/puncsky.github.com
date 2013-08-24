@@ -1,4 +1,4 @@
-77;10200;0c---
+---
 layout: post
 title: "Essential C# 4.0"
 date: 2013-08-14 10:23
@@ -11,6 +11,8 @@ published: false
 # Essential C# 4.0
 
 ## 1 Introducing C# 1
+
+![CLR converts CIL to native code](http://upload.wikimedia.org/wikipedia/commons/6/6f/CLR_diag.svg)
 
 HelloWorld.exe is an *assembly*.
 
@@ -438,7 +440,279 @@ class Program
 
 ## 6 Inheritance 269
 
+1. Derivation
+  - Extension methods are also inherited.
+  - *Language Contrast:* Different from C++, C# is a **single-inheritance** programming language, as is the CIL. Derive from only one class a time.
+    - avoid using a multiple-inheritance class
+	- `sealed` class cannot be derived. *Language Contrast:* C# sealed class = Java final class. In java, `final` can be applied to
+	  1. classes. = C# sealed class
+	  2. **methods, cannot be overridden in a derived class. This is default in C#, unless you declare a method as `virtual`**, and in a derived class this can be prevented for further classes with `sealed` again.
+	  3. fields and variables, can be initialized only once. = C# readonly
+2. Overriding
+  - *Language Contrast:* Java -- Virtual Methods by Default. Java and C++ -- Implicit Overriding. However, in C#, in order to override a method, both the base class and the derived class members must match and have corresponding `virtual` and `override` keywords.
+  - ctor: *Language Contrast:* Dispatch Method Calls during Construction
+    - C++: the type is associated with the base type rather than the derived type, and virtual methods call the base implementation.
+	- C#: dispatches virtual method calls to the most derived type.
+  - only instance members can be virtual. The CLR uses the concrete
+  type, specified at instantiation time, to determine where to dispatch a
+  virtual method call, so static virtual methods are meaningless and the
+  compiler prohibits them.
+  - `new` modifier for methods. ***If neither `override` nor `new` is specified, then `new` will be assumed, thereby maintaining the desired version safety.***
+  - *upcasting*: please see the example codes below. *downcasting*: ?dangerous?
+  - *sealed* modifier for methods. prevent overriding
+  - *base* member
+    - ctor `public Contact(string name) : base(name) { Name = name; }`
+3. Abstract Classes
+  - *Language Contrast*
+    - C++ pure virtual function with `=0`. It does not require the class itself to have any special declaration.
+    - C# and Java require `abstract` if the class has `abstract` member
+  - polymorphism.
+    - base.foo() to derived1.foo(), derived2.foo(), derived3.foo() overriding
+4. `System.Object`
+  - Every class is derived from `System.Object`
+5. ***`is` operator***
+  - verify the underlying type with `is` operator, e.g. `if (data is string) data = Encrypt((string) data);`
+6. ***`as` operator***
+  - conversion to a data type, and assign null if the source type is not inherently (within the inheritance chain). Avoid additional try/catch handling code. e.g. `Print(data as Document);`
+
+``` C++
+// C++ Dispatch method calls during construction
+// It will call method in the same class although it is virtual
+#include <iostream>
+using namespace std;
+
+class A {
+public:
+    A() {
+        cout << "A ctor()" <<endl;
+        Foo();
+    }
+
+    virtual void Foo() {
+        cout << "A Foo()" <<endl;
+    }
+};
+
+class B: public A {
+public:
+    B() {
+        cout << "B ctor()" << endl;
+        Foo();
+    }
+    void Foo() {
+        cout << "B Foo()" << endl;
+    }
+};
+
+class C: public B {
+public:
+    C() {
+        cout << "C ctor" << endl;
+        Foo();
+    }
+    void Foo() {
+        cout << "C Foo()" << endl;
+    }
+};
+
+int main(int argc, char** args) {
+    A* a = new C();
+
+    delete a;
+
+    return 0;
+}
+// output>
+// A ctor()
+// A Foo()
+// B ctor()
+// B Foo()
+// C ctor
+// C Foo()
+
+
+```
+``` C#
+// C#
+using System;
+class Tmp {
+    static int Main(string[] args) {
+        A a = new C();
+
+        return 0;
+    }
+}
+
+class A {
+    public A() {
+        Console.WriteLine("A ctor"); 
+        Foo();
+    }
+
+    public virtual void Foo() {
+        Console.WriteLine("A Foo()");
+    }
+}
+
+class B: A {
+    public B() {
+        Console.WriteLine("B ctor"); 
+        Foo();
+    }
+    public override void Foo() {
+        Console.WriteLine("B Foo()");
+    }
+}
+
+class C: B {
+    public C() {
+        Console.WriteLine("C ctor"); 
+        Foo();
+    }
+    public override void Foo() {
+        Console.WriteLine("C Foo()");
+    }
+}
+// output>
+// A ctor
+// C Foo()
+// B ctor
+// C Foo()
+// C ctor
+// C Foo()
+
+```
+
+```
+// upcasting in C#
+// `new` modifier for methods 
+using System;
+class Tmp {
+    static int Main(string[] args) {
+        D1 d1 = new D1();
+        D2 d2 = new D2();
+        C c = d1;
+        B b = c;
+        A a = b;
+
+        d1.Foo();
+        d2.Foo();
+        c.Foo();
+        b.Foo();
+        a.Foo();
+
+        return 0;
+    }
+}
+
+class A {
+    public void Foo() {
+        Console.WriteLine("A Foo()");
+    }
+}
+
+class B: A {
+    public new virtual void Foo() { // warning if without new
+        Console.WriteLine("B Foo()");
+    }
+}
+
+class C: B {
+    public override void Foo() {
+        Console.WriteLine("C Foo()");
+    }
+}
+
+class D1: C {
+    public new void Foo() {
+        Console.WriteLine("D1 Foo()");
+    }
+}
+
+class D2: C {
+    public void Foo() {  // warning to add `new` by default
+        Console.WriteLine("D2 Foo()");
+    }
+}
+// D1 Foo()
+// D2 Foo()
+// C Foo()
+// C Foo()
+// A Foo()
+
+```
+
+``` C++
+// upcasting in C++
+// A -> B -> C -> D
+// A::Foo()
+// virtual B::Foo()
+// virtual C::Foo()
+// D:Foo()
+// ...
+int main(int argc, char** argv) {
+     D* d = new D();
+     C* c = d;
+     B* b = c;
+     A* a = b;
+
+     d->Foo();
+     c->Foo();
+     b->Foo();
+     a->Foo();
+
+     delete d;
+
+     return 0;
+ }
+//
+// D Foo()
+// D Foo()
+// D Foo()
+// A Foo()
+
+```
+
 ## 7 Interfaces 305
+
+- `IPascalCase`, no implementation, no data (no fields, but properties)
+- Polymorphism
+- Interface Implementation
+  - Declaring a class to implement an interface is similar to deriving from a
+  base class in that the implemented interfaces appear in a comma-separated
+  list along with the base class (order is not significant between interfaces).
+  ***The only difference is that classes can implement multiple interfaces.***
+  - The base class specifier (if there is one) must come first: `public class Contact : PdaItem, IListable, IComparable {...`
+  - ***Explicit(more often) vs Implicit*** [Stackoverflow](http://stackoverflow.com/questions/143405/c-sharp-interfaces-implicit-implementation-versus-explicit-implementation) ??
+    - Explicit: mechanism code, or avoid overriding,
+	  - `ITrace.Dump()` to save info to files in `Person`
+	- Implicit: semantic/model/core code
+	  - Including an implicit `Compress()` implementation on a `ZipCompression`
+	  class is a perfectly reasonable choice, since `Compress()` is a core
+	  part of the `ZipCompression` class’s behavior.
+- Interface Inheritance
+  - upcasting is always successful (`Base b = new Derived()`)
+  - downcasting is not, so requires an explict cast
+  - Explicit Implementation should match the exact corresponding level in the hierachy. 
+- Versioning
+- Extension Methods on Interfaces
+
+```
+// Explicit interface implementation
+public class Contact : PdaItem, IListable, IComprarable
+{
+  // ...
+  string[] IListable.ColumnValues
+  {
+    // ...
+  }
+  // ...
+}
+
+// ...
+    values = ((IListable)contact2).ColumnValues;
+// ...
+```
 
 ## 8 Value Types 331
 
