@@ -1,0 +1,939 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: paper_review | Puncsky CS Notebook]]></title>
+  <link href="http://puncsky.github.com/blog/categories/paper-review/atom.xml" rel="self"/>
+  <link href="http://puncsky.github.com/"/>
+  <updated>2013-08-09T22:43:09-07:00</updated>
+  <id>http://puncsky.github.com/</id>
+  <author>
+    <name><![CDATA[Tian]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Dynamo: Amazon's Highly Available Key-value Store (SOSP'07)]]></title>
+    <link href="http://puncsky.github.com/blog/2013/04/06/dynamo-kv-store/"/>
+    <updated>2013-04-06T14:16:00-07:00</updated>
+    <id>http://puncsky.github.com/blog/2013/04/06/dynamo-kv-store</id>
+    <content type="html"><![CDATA[<p>From <a href="http://www.allthingsdistributed.com/2007/10/amazons_dynamo.html">Amazon</a></p>
+
+<h3>Comments</h3>
+
+<p>Dynamo successfully builds a highly available and scalable data store, which sacrifice consistency under certain failure scenarios but is eventually consistent. The design is huge and involves a huge number of details. However, the paper could not specify all of them. Some meaningful parts are missing: what are the supporting techniques used in Dynamo? How it is compared to other existing KV distributed store systems? Are there any possible extensions or future works?</p>
+
+<p>This paper assumes that security concerns could be ignored for its internal use. Theoretically, security problems is still possible. At least, how can the administrator detect these attacks? e.g. sybil attacks.</p>
+
+<p>The author tried three partition schemes. The latter versions decouple partitioning and partition placement. The placement is changeable at run time. Consequently, the strategy 3 has a better efficiency. And the system recovers faster and it is easier to archive. However, the key space is partitioned equally into Q partitions, and every node assume Q/S tokens per node. However, the strategy 3 in Figure 7 is a little confusing. In my opinion, the author should specify that the span each node is responsible for is SIMILAR IN SIZE to each other, instead of exactly EQUAL IN SIZE to each other.</p>
+
+<h3>1. Problem</h3>
+
+<ul>
+<li>How to build a highly available key-value storage system (which will be applied to productions with demanding applications)?</li>
+<li>Assumptions:
+
+<ol>
+<li>Query model: Simple KV store with read/write operations on small objects (&lt;= 1 MB).</li>
+<li>ACID properties: Weak consistency and no isolation guarantees for high availability.</li>
+<li>Efficiency: Commodity machines. Stringent latency requirements specified by SLAs.
+
+<ul>
+<li><strong>SLA</strong> (service level agreements): a client/server agreement on clear bounds
+
+<ul>
+<li>SLA should NOT be stated in terms of mean/median response time (Some custom with longer history may require more processing and thus the performance may be ignored.)</li>
+<li>Dynamo: <strong>99.9%</strong> of the distribution based on a cost-benefit analysis.</li>
+<li>Can be customized.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>No security concerns: because of internal use.</li>
+</ol>
+</li>
+</ul>
+
+
+<h3>2. Challenges</h3>
+
+<ul>
+<li>How to achieve a strongly consistent data access interface?
+
+<ul>
+<li>Data replication algorithms. Strong consistency and high data availability cannot be achieved simultaneously. Traditionally, consistency comes first.</li>
+</ul>
+</li>
+<li>How to increase availability on failure-prone commodity clusters?
+
+<ul>
+<li>Optimistic replication techniques -> conflicting changes to be resolved -> <strong>WHEN</strong> and <strong>WHO</strong>?
+
+<ul>
+<li><strong>WHEN</strong> during writes or reads?
+
+<ul>
+<li>Traditionally, conflict is resolved during writes and keep the read complexity simple.</li>
+<li>Dynamo: rejecting writes -> poor customer experience: writes should never be rejected. <strong>(always-writable)</strong></li>
+</ul>
+</li>
+<li><strong>WHO</strong> data store or the application?
+
+<ul>
+<li>data store: ONLY last write wins</li>
+<li>the application: more flexible</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Others
+
+<ul>
+<li>Incremental scalability</li>
+<li>Symmetry (P2P)</li>
+<li>Decentralization</li>
+<li>Heterogeneity</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>3. Solution</h3>
+
+<ul>
+<li>Key ideas
+
+<ul>
+<li>Sacrifice consistency under certain failure scenarios but is eventually-consistent</li>
+<li>object versioning</li>
+<li>application-assisted conflict resolution</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>3.1 System Architecture</h4>
+
+<h5>Summary</h5>
+
+<table border="1">
+ <tbody><tr>
+  <td>
+  <p align="center"><b>Problem</b></p>
+  </td>
+  <td>
+  <p align="center"><b>Technique</b></p>
+  </td>
+  <td>
+  <p align="center"><b>Advantage</b></p>
+  </td>
+ </tr>
+<tr>
+  <td>
+   <p align="center">Partitioning</p>
+  </td>
+  <td>
+  <p align="center">Consistent Hashing</p>
+  </td>
+  <td>
+  <p align="center">Incremental Scalability</p>
+  </td>
+ </tr>
+ <tr>
+  <td>
+  <p align="center">High Availability for writes</p>
+  </td>
+  <td>
+  <p align="center">
+  Vector clocks with reconciliation during reads</p>
+  </td>
+  <td>
+  <p align="center">Version size is decoupled from update rates.</p>
+  </td>
+ </tr>
+ <tr>
+  <td><p align="center">Handling temporary failures</p>
+  </td>
+  <td>
+  <p align="center">Sloppy Quorum and hinted handoff</p>
+  </td>
+  <td>
+  <p align="center">
+  Provides high availability and durability guarantee
+  when some of the replicas are not available.</p>
+  </td>
+ </tr>
+ <tr>
+  <td>
+  <p align="center">
+  Recovering from permanent failures</p>
+  </td>
+  <td>
+  <p align="center">Anti-entropy using Merkle trees</p>
+  </td>
+  <td>
+  <p align="center">Synchronizes divergent replicas in the background.</p>
+  </td>
+ </tr>
+ <tr>
+  <td>
+  <p align="center">Membership and failure detection</p>
+  </td>
+  <td>
+  <p align="center">Gossip-based membership protocol and failure
+  detection.</p>
+  </td>
+  <td>
+  <p align="center">Preserves symmetry and avoids having a centralized
+  registry for storing membership and node liveness information.</p>
+  </td>
+ </tr>
+</tbody>
+</table>
+
+
+<ul>
+<li>System Interface
+
+<ul>
+<li><em>[object/list of objects with context] get(key)</em></li>
+<li><em>put(key, context, object)    // context encodes system metadata about the object</em></li>
+<li>context and object are opaque</li>
+<li>MD5</li>
+</ul>
+</li>
+<li>Dynamic Partition
+
+<ul>
+<li>Introduce <em>virtual nodes</em> as a variant of consistent hashing.</li>
+</ul>
+</li>
+<li>Replication
+
+<ul>
+<li>Every <strong>coordinator</strong> node stores data locally and replicates them at the following <em>N-1</em> nodes in the ring.</li>
+<li>The N physical machines forms a <strong>preference list</strong>.</li>
+</ul>
+</li>
+<li>Data Versioning</li>
+<li>(Successful) Execution of put() and get()
+
+<ul>
+<li>HTTP request</li>
+<li>How to select a node? two ways:
+
+<ol>
+<li><strong>load balancer</strong> route it to any random node in the ring. If the node is not in the top N of the requested key's preference list, the request is forwarded to the first among the top N nodes in the preference list.</li>
+<li><strong>partition-aware client library</strong> route it directly to the coordinator</li>
+</ol>
+</li>
+<li>R: min number of nodes that must participate in a successful read.</li>
+<li>W: min number of nodes that must participate in a successful write.</li>
+<li><em>R+W>N</em> -> quorum-like system</li>
+<li>How to define a successful write?
+
+<ul>
+<li>> = W-1 nodes respond</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>(Unsuccessful) Execution of put() and get()</li>
+<li>Membership
+
+<ul>
+<li>DHT + virtual nodes
+
+<h5>Implementation</h5></li>
+</ul>
+</li>
+</ul>
+
+
+<h5>Lessons Learned</h5>
+
+<ul>
+<li>Dynamo's configurations
+
+<ul>
+<li>Business logic specific reconciliation</li>
+<li>Timestamp based reconciliation</li>
+<li>High performance read engine</li>
+</ul>
+</li>
+<li><em>N, R, W</em>
+
+<ul>
+<li>N -> durability of each object</li>
+<li>W, R -> availability, durability, and consistency</li>
+<li>Dynamo: (3,2,2)</li>
+</ul>
+</li>
+<li>Performance or Durability?
+
+<ul>
+<li>Durability can be sacrificed to lower the 99.9% latency by a factor of 5, in which object buffers will be periodically written to the disk by a <em>writer thread</em>.</li>
+</ul>
+</li>
+<li>Load balance
+
+<ol>
+<li>T random tokens per node and partition by token value.
+
+<ul>
+<li>Schemes for partitioning and partition placement are intertwined.
+a) adding a new node costs a lot but has a low priority (should not affect the customer performance) -> slow
+b) key ranges change and Merkle trees (hash trees) need re-calculation.
+c) randomness -> hard to archive the entire key spaces.</li>
+</ul>
+</li>
+<li>T random tokens per node and equal sized partitions.</li>
+<li>Q/S tokens per node, equal-sized partitions.</li>
+</ol>
+</li>
+</ul>
+
+
+<h3>4. Conclusion</h3>
+
+<ul>
+<li>“Always writable” asynchronous replication</li>
+<li>Update may not propagate all replicas</li>
+<li>put() creates a new and immutable version of data</li>
+<li>get() may return multiple versions of data</li>
+<li>Reconcile divergent versions</li>
+<li>When: during reads</li>
+<li>Who: system itself (syntactic reconciliation) client application (semantic reconciliation)</li>
+</ul>
+
+
+<p>EOF</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[HadoopDB (VLDB'09)]]></title>
+    <link href="http://puncsky.github.com/blog/2013/01/27/hadoopdb-vldb-09/"/>
+    <updated>2013-01-27T15:50:00-08:00</updated>
+    <id>http://puncsky.github.com/blog/2013/01/27/hadoopdb-vldb-09</id>
+    <content type="html"><![CDATA[<p><a href="http://db.cs.yale.edu/hadoopdb/hadoopdb.html">Yale DB</a></p>
+
+<h3>Comments</h3>
+
+<p>Two things could be done to improve HadoopDB</p>
+
+<ol>
+<li>Integrate the file system for local database with HDFS. In the design of HadoopDB, they are separated which means that the more space one part is preallocated and the less space the other part has. It is not scalable because the administrator has to divide by himself. We could investigate a way to let the database run on the HDFS directly. We can modify the database's file descriptor directly or we can add an additional layer between the database and the HDFS.</li>
+<li>Set up a better scheduler. It is mentioned in the paper that the original version of hadoop fair scheduler is not so good. It is locally greedy and simply does not consider the big picture much. "Quincy: Fair Scheduling for Distributed Computing Clusters" advances a graph data structure for global cost model, which has a very good performance, increasing the throughput up to 40%.</li>
+</ol>
+
+
+<h3>1. Problem</h3>
+
+<p>Large analytical data management with commodity clusters</p>
+
+<h3>2. Challenges</h3>
+
+<ul>
+<li>Performance and efficiency
+
+<ul>
+<li>hadoop
+
+<ul>
+<li>is not for structured data analysis</li>
+<li>scale well</li>
+<li>open source, without cost</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>scalability, fault-tolerance, and flexibility
+
+<ul>
+<li>Previous parallel db fit into tens of nodes, not thousand of nodes.
+
+<ul>
+<li>not scale well for failures, heterogeneous machines, performance untested</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>3. Solutions</h3>
+
+<ul>
+<li>MapReduce (Hadoop) + parallel db (or single-node DBs) = HadoopDB
+  Translation layer: Hive
+  Communication layer: Hadoop
+  Database layer: PostgreSQL (or MySQL, ... JDBC)</li>
+<li>Components
+
+<ol>
+<li>Database Connector
+
+<ul>
+<li>Interface among dbs on nodes</li>
+<li>extends InputFormat class -> InputFormat Implementation lib</li>
+<li>JDBC-complaint</li>
+</ul>
+</li>
+<li>Catalog
+
+<ul>
+<li>metainformation as XML = connection para + metadata</li>
+</ul>
+</li>
+<li>Data Loader
+
+<ul>
+<li>Global Hasher: MR, repartition raw data from HDFS to NO. of nodes</li>
+<li>Local Hasher: copy from HDFS, repartition the partition into chunks</li>
+<li>Better load balance than Hadoop</li>
+</ul>
+</li>
+<li>SQL - MR - SQL (SMS) Planner
+
+<ul>
+<li>extend Hive for
+
+<ul>
+<li>open and low cost</li>
+<li>each table stored separately in HDFS, low performance in multi-table trans.</li>
+</ul>
+</li>
+<li>intercept normal Hive flow in
+
+<ol>
+<li>update MetaStore before query execution</li>
+<li>between query plan generation and MR jobs
+ retrieve fields, determine partition keys
+ traverse DAG bottom-up
+only support filter, select, aggregation</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>Extend performance [23] with fault tolerance and heterogeneous node exp
+
+<ul>
+<li>TODO: modify the current task scheduler, connect not straggler node but the replicas.</li>
+</ul>
+</li>
+<li>Exp on EC2
+
+<ul>
+<li>Hadoop</li>
+<li>HadoopDB</li>
+<li>Vertica</li>
+<li>DBMS-X</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>4. Conclusion</h3>
+
+<ul>
+<li>HadoopDB's performance &lt; parallel db for
+  PostgreSQL (not column-store, not compression)
+  Hadoop and Hive are young</li>
+<li>performance, heterogeneous environ., fault tolerance, flexibility</li>
+</ul>
+
+
+<h3>Related Readings</h3>
+
+<p>[23] A Comparison of Approaches to Large Scale Data Analysis
+[6] Scope [11] Hive [24] C-store [4] What is the right way to measure scale?</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[CryptDB: Protecting Confidentiality with Encrypted Query Processing (SOSP '11)]]></title>
+    <link href="http://puncsky.github.com/blog/2012/11/26/cryptdb/"/>
+    <updated>2012-11-26T19:45:00-08:00</updated>
+    <id>http://puncsky.github.com/blog/2012/11/26/cryptdb</id>
+    <content type="html"><![CDATA[<p><a href="http://css.csail.mit.edu/cryptdb/">MIT CSAIL</a>, <a href="http://people.csail.mit.edu/nickolai/papers/raluca-cryptdb.pdf">papers</a>, <a href="http://www.sigops.org/sosp/sosp11/current/2011-Cascais/07-popa.pptx">slides</a></p>
+
+<h3>1. Problem</h3>
+
+<p>Provide confidentiality for applications using DBMSes to solve two threats:</p>
+
+<ol>
+<li><em>Passive DB server attacks</em>. The curious database administrator (DBA) learns private data.</li>
+<li><em>Any attacks on all servers</em>. The adversary gains complete control over application and DBMS servers.</li>
+</ol>
+
+
+<!--more-->
+
+
+<h3>2. Challenges</h3>
+
+<ol>
+<li>Tension between confidentiality and efficiency. (Threat 1 + 2)
+
+<ul>
+<li>too slow or not enough confidentiality</li>
+<li>incapable of executing SQL queries without giving keys to DBMS servers</li>
+</ul>
+</li>
+<li>Support user-shared data while minimizing data leakage when both application servers and DBMS servers are compromised.
+
+<ul>
+<li>“Different keys for different users” alone is not suitable for user-shared data.</li>
+</ul>
+</li>
+</ol>
+
+
+<h3>3. Solutions</h3>
+
+<p>How to solve Challenge 1 (Threat 1+2) while still retaining data sharing (Challenge 2)?</p>
+
+<p>Architecture Overview</p>
+
+<p><img src="http://puncsky.github.com/images/cryptdb/arch.png" alt="architecture overview" /></p>
+
+<ol>
+<li>No plaintext in database at all. (eliminate Threat 1)</li>
+<li>Fine-grind keys chained to user passwords. (eliminate Threat 2 and Challenge 2)</li>
+</ol>
+
+
+<h4>3.1 Solution to Threat 1</h4>
+
+<p>How to deal with <em>Passive DB server attacks</em>? No plaintext in database at all.</p>
+
+<h5>3.1.1 Execute SQL queries over encrypted data</h5>
+
+<p>Six types of SQL-aware encryption</p>
+
+<p>SQL-aware encryption strategy with symmetric-key encryption (for efficiency).</p>
+
+<ol>
+<li>Random (RND)
+
+<ul>
+<li>support indistinguishability under an adaptive chosen-plaintext attack (IND-CPA), same plain texts -> different cipher texts</li>
+<li>AES / Blowfish in CBC mode, a random initialization vector (IV)</li>
+</ul>
+</li>
+<li>Deterministic (DET)
+
+<ul>
+<li>support equality checks, same plain texts -> same cipher texts</li>
+<li>different keys for different columns to prevent cross-column correlations</li>
+<li>Pseudo-random permutation (PRP), Blowfish for 64-bit block, AES for 128-bit block</li>
+<li>AES in CMC mode (= one round of CBC + another round of CBC in reverse order), zero IV. (to prevent leakage of prefix equality in CBC mode)</li>
+</ul>
+</li>
+<li>Order-preserving (OPE)
+
+<ul>
+<li>support order relations. If x &lt; y, then OPEk(x) &lt; OPEk(y) for any secret key K.</li>
+<li>Weaker. Thus, OPE-encrypted columns are revealed to the server only when the order query is needed.</li>
+<li>Implementation and optimization of <a href="http://www.cc.gatech.edu/~aboldyre/papers/bclo.pdf">Order-preserving symmetric encryption</a>. Use AVL BST for batch encryption. 25 ms/encryption -> 7 ms/encryption</li>
+</ul>
+</li>
+<li>Homomorphic encryption(HOM)
+
+<ul>
+<li>retains IND-CPA while allows computations to be conducted on ciphertext and obtain an encrypted result which is the ciphertext of the result of operations performed on the plaintext.</li>
+<li>UDF calling Paillier crytosystem</li>
+<li>e.g. SUM: HOMk(x)*HOMk(y)=HOMk(x+y)</li>
+</ul>
+</li>
+<li>Join (JOIN and OPE-JOIN)
+
+<ul>
+<li>support joins between two columns (because of DET)</li>
+<li>TODO</li>
+</ul>
+</li>
+<li>Word search (SEARCH)
+
+<ul>
+<li>support LIKE operation</li>
+<li>A new implementation of the protocol from <a href="http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=848445">Practical Techniques for Searches on Encrypted Data</a></li>
+<li>Proxy
+
+<ol>
+<li>split texts to keywords</li>
+<li>remove repetitions</li>
+<li>randomly permute the positions of the words</li>
+<li>encrypt each of the words</li>
+<li>paddle each word to the same size</li>
+<li>send the encrypted words to the server as a token</li>
+</ol>
+</li>
+<li>Server can only know whether the token matches.</li>
+</ul>
+</li>
+</ol>
+
+
+<h5>3.1.2 Adjustable query-based encryption</h5>
+
+<p>However, the query set is not always known in advance. So we need to dynamically adjust a layer of SQL-aware encryption scheme for queries at runtime. <strong>Onions of encryption</strong>: different keys for different layers of onions. The proxy will not give all keys to the server at any time.</p>
+
+<p><img src="http://puncsky.github.com/images/cryptdb/onion.png" alt="onion encryption" /></p>
+
+<p><img src="http://puncsky.github.com/images/cryptdb/table1.png" alt="table" /></p>
+
+<ul>
+<li>Encrypt data in one or more onions</li>
+<li>Multiple onions are needed in practice</li>
+<li>Onion decryption (stripe-off) happens only when operations on a column are required</li>
+<li>Once a layer of decryption happens, the layer remains its new state</li>
+</ul>
+
+
+<p>keys for each layer are calculated by</p>
+
+<p><img src="http://puncsky.github.com/images/cryptdb/calcKey.png" alt="keys" /></p>
+
+<p><strong>MK is the proxy's Master Key and only intended for a single principal (user).</strong></p>
+
+<h6>a) Read query execution</h6>
+
+<ol>
+<li>Application server issues a query
+
+<ul>
+<li>SELECT ID FROM Employees WHERE Name = ‘Alice’</li>
+</ul>
+</li>
+<li>Proxy server anonymizes the query, and adjust encryption layers if stripe-off is needed
+
+<ul>
+<li>UPDATE Table1 SET C2-Eq = DECRYPT RND(KT1,C2,Eq,RND, C2-Eq, C2-IV)</li>
+</ul>
+</li>
+<li>DBMS server execute the adjusted query and return the results
+
+<ul>
+<li>SELECT C1-Eq, C1-IV FROM Table1 WHERE C2-Eq = x7..d</li>
+</ul>
+</li>
+<li>Proxy server decrypts the results and sends them to the user</li>
+<li>No need to decrypt data in DBMS when a new similar type of query is issued</li>
+</ol>
+
+
+<h6>b) Write query execution</h6>
+
+<ul>
+<li>INSERT and UPDATE queries make the proxy encrypts data to the layer that has not yet been stripped off.</li>
+<li>Addition and direct comparison should not be allowed simultaneously.
+
+<ul>
+<li>If a column is incremented and then only projected, DBMS operates on add onion.</li>
+<li>If a column is used in comparisons after increasing, proxy calculates the final value and updates it once and for all.</li>
+</ul>
+</li>
+</ul>
+
+
+<p>At this time, we can defend against Threat 1 (passive DB server attacks) by not exposing any plaintext to the DBMS server while most SQL queries can still be supported.</p>
+
+<h4>3.2 Solution to Threat 2 and Challenge 2</h4>
+
+<p>How to deal with <em>any attacks on all servers</em> while <strong>still retaining data-sharing</strong> among users? The proxy's Master Key (MK) is not adequate for multi-users. The solution is to chain encryption keys to user passwords with the specification of key access policy among users.</p>
+
+<h5>3.2.1 Chain encryption keys to user passwords</h5>
+
+<ul>
+<li>What does the key derives from?
+
+<ol>
+<li><em>One Single principal</em> uses Global proxy Master Key (MK).</li>
+<li><em>Multiple principals</em> chain encryption keys to user passwords.</li>
+</ol>
+</li>
+</ul>
+
+
+<h6>Define <em>principal</em></h6>
+
+<p>A principal is an entity such as a user or a group, over which it is natural to specify an access policy.</p>
+
+<ul>
+<li><em>external principals</em>: real users authenticated with their passwords</li>
+<li><em>internal principals</em>: entities whose privileges are acquired through delegations</li>
+</ul>
+
+
+<h6>Annotate the schema with access control policy</h6>
+
+<p>We need to support data-sharing, so the access control policy should be specified to the schema.</p>
+
+<ul>
+<li>ENC_FOR(Sensitive-Column1, PrincipalA), A has access to column1.</li>
+<li>(principalA typeX) SPEAKS_FOR(principalB typeY), A has access to all keys that b has access to.</li>
+</ul>
+
+
+<p><img src="http://puncsky.github.com/images/cryptdb/accessControl.png" alt="Access Control Policy Annotation" /></p>
+
+<h6>Chain encryption keys</h6>
+
+<ul>
+<li>Each principal is associated with a secret and random-generated key
+
+<ul>
+<li>symmetric key (online) + public/private key pair (off-line)</li>
+<li>External principal's random-generated symmetric key and private key is encrypted with user's password and stored in <em>external_keys</em></li>
+</ul>
+</li>
+<li>If B speaks for A, A's key is encrypted with B's key and stored in <em>access_keys</em> table</li>
+<li>When a user logs in, the proxy loads all the key the user has access to.</li>
+<li>When a user logs out, the proxy delete all the user's keys in the memory.</li>
+</ul>
+
+
+<p>At this time, threat 2 is successfully conquered while the data-sharing feature is retained.</p>
+
+<h3>4. Implementation &amp; Evaluation</h3>
+
+<h4>4.1 Implementation</h4>
+
+<ul>
+<li>No change to the DBMS and applications</li>
+<li>Portable</li>
+<li>Multi-user keys: annotations and login/logout</li>
+</ul>
+
+
+<h4>4.2 Evaluation</h4>
+
+<ul>
+<li>Support most queries</li>
+<li>Exceptional confidentiality
+
+<ul>
+<li>Most columns at RND layer</li>
+<li>Most columns at OPE analyzed were less sensitive</li>
+</ul>
+</li>
+<li>Throughput loss 26%</li>
+</ul>
+
+
+<h3>5. Conclusion</h3>
+
+<ol>
+<li>First practical DBMS to process most SQL queries on encrypted data
+
+<ul>
+<li>Hide DB from DBA, outsource DB</li>
+</ul>
+</li>
+<li>Protects data of users logged out during attack, even when all servers are compromised
+
+<ul>
+<li>Limit leakage from compromised applications</li>
+</ul>
+</li>
+<li>Modest overhead: 26% throughput loss for TPC-C</li>
+<li>No changes to DBMS (e.g., Postgres, MySQL)</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[如何阅读一篇论文？]]></title>
+    <link href="http://puncsky.github.com/blog/2012/11/21/ru-he-yue-du-%5B%3F%5D-pian-lun-wen-%3F/"/>
+    <updated>2012-11-21T16:15:00-08:00</updated>
+    <id>http://puncsky.github.com/blog/2012/11/21/ru-he-yue-du-[?]-pian-lun-wen-?</id>
+    <content type="html"><![CDATA[<p>阅读是人生的终极命题之一。人生苦短，我们需要阅读来继承前人的衣钵，我们需要笔记来对抗过往的遗忘，我们需要写作来连接自我和人世沧桑。</p>
+
+<p>那么，<a href="http://blizzard.cs.uwaterloo.ca/keshav/home/Papers/data/07/paper-reading.pdf">如何最高效地阅读一篇论文呢？</a></p>
+
+<p>如同任何一个学习过程，读论文的周期显然是螺旋向上的，可以划分为简单的三板斧：</p>
+
+<!--more-->
+
+
+<h3>1. 略读</h3>
+
+<p>五到十分钟的快速略读：</p>
+
+<ol>
+<li>题目，摘要，介绍</li>
+<li>各部分的标题</li>
+<li>如果有数学式子，大致了解有什么样的理论基础</li>
+<li>结论</li>
+<li>标出引用中度过的文献</li>
+</ol>
+
+
+<p>此时回答下列五个C：</p>
+
+<ol>
+<li>类别Category: A measurement paper? An analysis of an existing system? A description of a research prototype?</li>
+<li>背景Context: Related papers? Theoretical bases?</li>
+<li>正确？Correctness: Valid assumptions?</li>
+<li>贡献Contributions.</li>
+<li>清楚？Clarify. Well-written?</li>
+</ol>
+
+
+<p>此时，可以据此进一步决定该文章是否值得打印出来细看。相应的，自己写论文的时候如果给这些部分写得不出彩，也就不会被人关注到。</p>
+
+<h3>2. 选读</h3>
+
+<p>一个小时的选读，就像GRE阅读那样，只读关键的主干，不要读细节，比如证据、例子什么的。批注关键点、评论、或者自己不懂的地方。细读图表，标注相关阅读文献。</p>
+
+<p>如果此时还是不懂这篇论文在说什么，有三种选择：</p>
+
+<ol>
+<li>算了，这篇文章对我将来没帮助</li>
+<li>认了，大侠过两天重新读过，不过是充点背景知识先</li>
+<li>拼了，进入第三阶段</li>
+</ol>
+
+
+<h3>3. 重现</h3>
+
+<p>四到五小时的重现：自己基于作者的假设会怎么解决这个问题？将自己的解决过程和作者的过程一一比较，就能够发现两者各自的优缺点。</p>
+
+<h3>后话</h3>
+
+<p>这三个步骤并不一定是连在一起的，通常的情况是，拿着一堆论文先走第一步，几个星期后走第二部，再几个星期或者几个月后走第三步。当然，如果是赶进度的话，就甭想这么闲了 :P</p>
+
+<p>总而言之，想要一口吃掉一篇论文似乎是很难的事情，我们需要反复咀嚼，这也是为什么我要写不完整的阅读笔记的原因。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[HadoopDB: an architectural hybrid of MapReduce and DBMS technologies for analytical workloads (VLDB '09)]]></title>
+    <link href="http://puncsky.github.com/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/"/>
+    <updated>2012-11-20T16:20:00-08:00</updated>
+    <id>http://puncsky.github.com/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09</id>
+    <content type="html"><![CDATA[<p><a href="http://db.cs.yale.edu/hadoopdb/">Yale DB</a></p>
+
+<h3>1. Problem</h3>
+
+<p>Large analytical data management (OLAP) with commodity clusters</p>
+
+<h3>2. Challenges</h3>
+
+<ul>
+<li>Performance and efficiency
+
+<ul>
+<li>hadoop
+
+<ul>
+<li>is not for structured data analysis</li>
+<li>scale well</li>
+<li>open source, without cost</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>scalability, fault-tolerance, and flexibility
+
+<ul>
+<li>Previous parallel db fit into tens of nodes, not thousand of nodes.</li>
+<li>not scale well for failures, heterogeneous machines, performance untested</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>3. Solutions</h3>
+
+<ul>
+<li>MapReduce (Hadoop) + parallel db (or single-node DBs) = HadoopDB<!--more-->
+
+<ul>
+<li>Translation layer: Hive</li>
+<li>Communication layer: Hadoop</li>
+<li>Database layer: PostgreSQL (or MySQL, ... JDBC)</li>
+</ul>
+</li>
+<li><p>Components</p>
+
+<ol>
+<li>Database Connector
+
+<ul>
+<li>Interface among dbs on nodes</li>
+<li>extends InputFormat class -> InputFormat Implementation lib</li>
+<li>JDBC-complaint</li>
+</ul>
+</li>
+<li>Catalog
+
+<ul>
+<li>metainformation as XML = connection para + metadata</li>
+</ul>
+</li>
+<li>Data Loader
+
+<ul>
+<li>Global Hasher: MR, repartition raw data from HDFS to NO. of nodes</li>
+<li>Local Hasher: copy from HDFS, repartition the partition into chunks</li>
+<li>Better load balance than Hadoop</li>
+</ul>
+</li>
+<li>SQL - MR - SQL (SMS) Planner
+
+<ul>
+<li>extend Hive for</li>
+<li>open and low cost</li>
+<li>each table stored separately in HDFS, low performance in multi-table trans.
+intercept normal Hive flow in</li>
+<li>update MetaStore before query execution</li>
+<li>between query plan generation and MR jobs
+retrieve fields, determine partition keys</li>
+</ul>
+
+
+<p>   traverse DAG bottom-up</p>
+
+<p> only support filter, select, aggregation</p></li>
+</ol>
+</li>
+<li><p>Extend performance [23] with fault tolerance and heterogeneous node exp</p>
+
+<p>  TODO: modify the current task scheduler, connect not straggler node but the replicas.</p>
+
+<p>  Exp on EC2, Hadoop, HadoopDB, Vertica, DBMS-X</p></li>
+</ul>
+
+
+<h3>4. Conclusion</h3>
+
+<ul>
+<li>HadoopDB's performance &lt; parallel db for
+
+<ul>
+<li>PostgreSQL (not column-store, not compression)</li>
+<li>Hadoop and Hive are young</li>
+</ul>
+</li>
+<li>performance, heterogeneous environ., fault tolerance, flexibility</li>
+</ul>
+
+
+<h3>Related Readings</h3>
+
+<p>[23] A Comparison of Approaches to Large Scale Data Analysis</p>
+
+<p>[6] Scope [11] Hive [24] C-store [4] What is the right way to measure scale?</p>
+]]></content>
+  </entry>
+  
+</feed>

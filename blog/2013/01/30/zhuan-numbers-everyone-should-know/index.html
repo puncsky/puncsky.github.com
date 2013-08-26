@@ -1,0 +1,300 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>[Repost] Numbers everyone should know - Puncsky CS Notebook</title>
+  <meta name="author" content="Tian">
+
+  
+  <meta name="description" content="Life and computer science notebook from Puncsky">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://puncsky.github.com/blog/2013/01/30/zhuan-numbers-everyone-should-know">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    body {
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .sharing, .meta, .pager {
+      margin: 20px 0px 20px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/libs/jquery.js"></script>
+  <script src="/javascripts/libs/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/bootstrap.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Puncsky CS Notebook" type="application/atom+xml">
+  
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-43072488-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <nav role="navigation"><div class="navbar navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
+      <a class="brand" href="/">Puncsky CS Notebook</a>
+
+      <div class="nav-collapse">
+        <ul class="nav">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+
+        <ul class="nav pull-right" data-subscription="rss">
+          <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+          
+        </ul>
+
+        
+          <form class="pull-right navbar-search" action="http://google.com/search" method="get">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:puncsky.github.com" />
+              <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</nav>
+  <div class="container">
+    <div class="row-fluid">
+      
+<article class="hentry span9" role="article">
+
+  
+  <header class="page-header">
+    
+      <h1 class="entry-title">[Repost] Numbers Everyone Should Know</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-30T11:19:00-08:00" pubdate data-updated="true">Jan 30<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I seldom repost unoriginal notes in this blog. However, this time&#8230;</p>
+
+<p>Jeff Dean, a brilliant engineer at Google, gave a talk a while ago listing the numbers every engineer should know. I copied these from here.</p>
+
+<hr />
+
+<table>
+ <tbody><tr><td>  L1 cache reference                   </td><td class="c"> 0.5 ns                               
+ </td></tr><tr><td>  Branch mispredict                    </td><td class="c"> 5 ns                                 
+ </td></tr><tr><td>  L2 cache reference                   </td><td class="c"> 7 ns                                 
+ </td></tr><tr><td>  Mutex lock/unlock                    </td><td class="c"> 100 ns                               
+ </td></tr><tr><td>  Main memory reference                </td><td class="c"> 100 ns                               
+ </td></tr><tr><td>  Compress 1K bytes with Zippy         </td><td class="c"> 10,000 ns       </td><td class="c"> 0.01 ms 
+ </td></tr><tr><td>  Send 1K bytes over 1 Gbps network    </td><td class="c"> 10,000 ns       </td><td class="c"> 0.01 ms 
+ </td></tr><tr><td>  Read 1 MB sequentially from memory   </td><td class="c"> 250,000 ns      </td><td class="c"> 0.25 ms 
+ </td></tr><tr><td>  Round trip within same datacenter    </td><td class="c"> 500,000 ns      </td><td class="c"> 0.5 ms  
+ </td></tr><tr><td>  Disk seek                            </td><td class="c"> 10,000,000 ns   </td><td class="c"> 10 ms   
+ </td></tr><tr><td>  Read 1 MB sequentially from network  </td><td class="c"> 10,000,000 ns    </td><td class="c"> 10 ms   
+ </td></tr><tr><td>  Read 1 MB sequentially from disk     </td><td class="c"> 30,000,000 ns   </td><td class="c"> 30 ms   
+ </td></tr><tr><td>  Send packet CA-&gt;Netherlands-&gt;CA      </td><td class="c"> 150,000,000 ns  </td><td class="c"> 150 ms  
+ </td></tr></tbody>
+</table>
+
+
+<hr />
+
+<p>Where</p>
+
+<ul>
+<li>1 ns = 10<sup>(-9)</sup> seconds</li>
+<li>1 ms = 10<sup>(-3)</sup> seconds</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Tian</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-30T11:19:00-08:00" pubdate data-updated="true">Jan 30<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2013/01/30/zhuan-numbers-everyone-should-know/" data-via="" data-counturl="http://puncsky.github.com/blog/2013/01/30/zhuan-numbers-everyone-should-know/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    
+    <ul class="pager">
+      
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/2013/01/27/hadoopdb-vldb-09/" title="Previous Post:
+        HadoopDB (VLDB'09)">&laquo; HadoopDB (VLDB'09)</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+      <li class="next"><a class="basic-alignment right" href="/blog/2013/04/06/dynamo-kv-store/"
+        title="Next Post: Dynamo: Amazon's Highly Available Key-value Store (SOSP'07)">Dynamo: Amazon's Highly Available Key-value Store (SOSP'07)
+        &raquo;</a></li>
+      
+    </ul>
+  </footer>
+</article>
+
+<aside class="sidebar-nav span3">
+  
+    <section class="well">
+  <script src="/javascripts/onmouseoverpuncsky.js" type="text/javascript"> </script>
+  <img onmouseover="enlight(this)" onmouseout="darken(this)" src="/puncsky-gray.png" alt="puncsky" style="max-width:100%;">
+  <h4>Puncsky</h4>
+  <p><i>who strives on and lives to strive</i></p>
+  <p><a href="https://www.github.com/puncsky/">Github</a></p>
+</section>
+<section class="well">
+  <ul id="recent_posts" class="nav nav-list">
+    <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/11/%5B%3F%5D-ben-chu-chuang-gong-si-de-hui-yi-lu-%3C%3Cda-zao-facebook%3E%3E/">中国工程师在初创公司的经验总结--《打造Facebook》</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/01/2013nian-wu-yue-fen-yue-du-ji-lu/">2012年9月至2013年5月阅读记录</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/01/bo-lan-zhuang-kuo-de-gai-ge-kai-fa-shi-hua-%3C%3Cji-dang-san-shi-nian-%3E%3E-du-hou-gan/">波澜壮阔的改革开放史话——《激荡三十年》读后感</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/14/ren-sheng-shi-yuan/">人生十愿</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/04/06/dynamo-kv-store/">Dynamo: Amazon's Highly Available Key-value Store (SOSP'07)</a>
+      </li>
+    
+  </ul>
+</section>
+<section class="well">
+	<div id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://www.puncsky.com', 'user' : 1100959, 'server' : '2', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2013-06-24', 'lang' : 'en', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www2.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www2.clustrmaps.com/user/92810cc9f"><img src="http://www2.clustrmaps.com/stats/maps-no_clusters/www.puncsky.com-thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo" class="page-footer"><hr>
+<p>
+  Copyright &copy; 2013 - Tian -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

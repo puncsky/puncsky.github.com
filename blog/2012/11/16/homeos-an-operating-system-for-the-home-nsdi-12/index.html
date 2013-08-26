@@ -1,0 +1,374 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>HomeOS: An Operating System for the Home (NSDI '12) - Puncsky CS Notebook</title>
+  <meta name="author" content="Tian">
+
+  
+  <meta name="description" content="Life and computer science notebook from Puncsky">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://puncsky.github.com/blog/2012/11/16/homeos-an-operating-system-for-the-home-nsdi-12">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    body {
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .sharing, .meta, .pager {
+      margin: 20px 0px 20px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/libs/jquery.js"></script>
+  <script src="/javascripts/libs/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/bootstrap.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Puncsky CS Notebook" type="application/atom+xml">
+  
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-43072488-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <nav role="navigation"><div class="navbar navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
+      <a class="brand" href="/">Puncsky CS Notebook</a>
+
+      <div class="nav-collapse">
+        <ul class="nav">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+
+        <ul class="nav pull-right" data-subscription="rss">
+          <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+          
+        </ul>
+
+        
+          <form class="pull-right navbar-search" action="http://google.com/search" method="get">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:puncsky.github.com" />
+              <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</nav>
+  <div class="container">
+    <div class="row-fluid">
+      
+<article class="hentry span9" role="article">
+
+  
+  <header class="page-header">
+    
+      <h1 class="entry-title">HomeOS: An Operating System for the Home (NSDI '12)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-16T22:06:00-08:00" pubdate data-updated="true">Nov 16<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="http://researcher.watson.ibm.com/researcher/view.php?person=us-ckd">IBM</a>, <a href="http://research.microsoft.com/en-us/projects/homeos/">MS</a>, <a href="https://www.usenix.org/system/files/conference/nsdi12/nsdi12-final149.pdf">paper</a>,  <a href="https://www.usenix.org/conference/nsdi12/towards-commodity-smarthomes-homeos">Video</a>, <a href="https://www.usenix.org/sites/default/files/conference/protected-files/homeos-nsdi-talk-given-clean.pdf">Slides</a></p>
+
+<h3>1. Problem</h3>
+
+<p>High overhead of managing and extending network devices for <strong>smart home</strong>: 1) growing number of devices 2) heterogeneity 3) hardware/software incompatible.</p>
+
+<h3>2. Challenges</h3>
+
+<ul>
+<li>Appliance abstraction: a closed, monolithic system. (manageability)</li>
+<li>Decentralized network-of-devices: bad portability. (extensibility: both software and hardware)</li>
+</ul>
+
+
+<!--more-->
+
+
+<h3>3. Solution</h3>
+
+<p>HomeOS: a PC-like abstraction for network devices</p>
+
+<h4>3.1 Overview</h4>
+
+<table>
+    <tr>
+        <td>Application layer</td><td>Tasks</td>
+    </tr>
+    <tr>
+        <td>Management layer</td><td>Control</td>
+    </tr>
+    <tr>
+        <td>Device functionality layer (DFL)</td><td>Device</td>
+    </tr>
+    <tr>
+        <td>Device connectivity layer (DCL)</td><td>Topological</td>
+    </tr>
+    <tr>
+        <td>PCs, XBox, Smartphones, TVs, &#8230;</td><td>Heterogeneity source handled</td>
+    </tr>
+</table>
+
+
+<h4>3.2 Application Layer</h4>
+
+<p>Environment for develop-written codes. An application should have a manifest {rules} to specify what devices it needs.</p>
+
+<h4>3.3 Management Layer</h4>
+
+<ol>
+<li><p>Application manager with access control</p>
+
+<ul>
+<li>Time-based access control.</li>
+<li>Applications as security principals</li>
+<li>Settings should be querable</li>
+<li>Sensitive devices need extra attention</li>
+</ul>
+</li>
+<li><p>Mediate conflicting accesses</p>
+
+<ul>
+<li>Datalog access control rules: (r, g, m, Ts, Te, d, pri, a): Resource r can be accessed by users in group g, using module m, in the time window from Ts to Te, on day of the week d, with priority pri and access mode a.</li>
+<li>Simplicity. User account works within a given time. Groups are in a tree hierarchy.</li>
+</ul>
+</li>
+</ol>
+
+
+<h4>3.4 Device Functionality Layer</h4>
+
+<p>Provide APIs for higher layers by using handles.</p>
+
+<p>Service interfaces = roles{operations()} (&#8220;lightswitch&#8221; role = turnOn()+turnOff())</p>
+
+<ul>
+<li>A new device can either use an existing role or register new roles</li>
+<li>OS is agnostic to the services</li>
+</ul>
+
+
+<h4>3.5 Device Connectivity Layer</h4>
+
+<p>Provide handles for higher layers.</p>
+
+<ul>
+<li>No understanding of device semantics</li>
+<li>A uniform interaction with different kinds of devices</li>
+</ul>
+
+
+<h4>3.6 Implementation and Evaluation</h4>
+
+<p>C#</p>
+
+<p>Developer: &#8220;music follows the lights&#8221;/&#8221;custom lights per user&#8221;. 8/10 of them finished in 2h</p>
+
+<p>User: 77% completion rate</p>
+
+<h3>4. Conclusion</h3>
+
+<p>Bad abstractions in &#8220;smart home&#8221; result in high overhead of managing and extending network devices, which are in increasing number and mostly not compatible with each other. Traditionally, appliance abstraction provides a huge system with no potential for customization and extension. Meanwhile, decentralized network-of-devices provide little portability. So the authors present a new abstraction &#8211; HomeOS, a PC-like abstraction for network devices. The new abstraction architecture consists of four layers. Lower layers interact with heterogenous devices and protocols. Upper layers simplify development and use of applications. HomeOS is implemented with C# and its experience shows a satisfying manageability and extensibility.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Tian</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-16T22:06:00-08:00" pubdate data-updated="true">Nov 16<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/paper-review/'>paper_review</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2012/11/16/homeos-an-operating-system-for-the-home-nsdi-12/" data-via="" data-counturl="http://puncsky.github.com/blog/2012/11/16/homeos-an-operating-system-for-the-home-nsdi-12/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    
+    <ul class="pager">
+      
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10/" title="Previous Post:
+        Fast and Parallel Webpage Layout (WWW '10)">&laquo; Fast and Parallel Webpage Layout (WWW '10)</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+      <li class="next"><a class="basic-alignment right" href="/blog/2012/11/17/chun-tian-zai-na-li-ya-chun-tian-zai-na-li-%3F/"
+        title="Next Post: 春天在哪里呀春天在哪里？">春天在哪里呀春天在哪里？
+        &raquo;</a></li>
+      
+    </ul>
+  </footer>
+</article>
+
+<aside class="sidebar-nav span3">
+  
+    <section class="well">
+  <script src="/javascripts/onmouseoverpuncsky.js" type="text/javascript"> </script>
+  <img onmouseover="enlight(this)" onmouseout="darken(this)" src="/puncsky-gray.png" alt="puncsky" style="max-width:100%;">
+  <h4>Puncsky</h4>
+  <p><i>who strives on and lives to strive</i></p>
+  <p><a href="https://www.github.com/puncsky/">Github</a></p>
+</section>
+<section class="well">
+  <ul id="recent_posts" class="nav nav-list">
+    <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/11/%5B%3F%5D-ben-chu-chuang-gong-si-de-hui-yi-lu-%3C%3Cda-zao-facebook%3E%3E/">中国工程师在初创公司的经验总结--《打造Facebook》</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/01/2013nian-wu-yue-fen-yue-du-ji-lu/">2012年9月至2013年5月阅读记录</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/01/bo-lan-zhuang-kuo-de-gai-ge-kai-fa-shi-hua-%3C%3Cji-dang-san-shi-nian-%3E%3E-du-hou-gan/">波澜壮阔的改革开放史话——《激荡三十年》读后感</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/14/ren-sheng-shi-yuan/">人生十愿</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/04/06/dynamo-kv-store/">Dynamo: Amazon's Highly Available Key-value Store (SOSP'07)</a>
+      </li>
+    
+  </ul>
+</section>
+<section class="well">
+	<div id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://www.puncsky.com', 'user' : 1100959, 'server' : '2', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2013-06-24', 'lang' : 'en', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www2.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www2.clustrmaps.com/user/92810cc9f"><img src="http://www2.clustrmaps.com/stats/maps-no_clusters/www.puncsky.com-thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo" class="page-footer"><hr>
+<p>
+  Copyright &copy; 2013 - Tian -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

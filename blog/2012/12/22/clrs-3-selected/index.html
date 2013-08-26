@@ -1,0 +1,479 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>CLRS 3: Selected - Puncsky CS Notebook</title>
+  <meta name="author" content="Tian">
+
+  
+  <meta name="description" content="Life and computer science notebook from Puncsky">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://puncsky.github.com/blog/2012/12/22/clrs-3-selected">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    body {
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .sharing, .meta, .pager {
+      margin: 20px 0px 20px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/libs/jquery.js"></script>
+  <script src="/javascripts/libs/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/bootstrap.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Puncsky CS Notebook" type="application/atom+xml">
+  
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-43072488-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <nav role="navigation"><div class="navbar navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
+      <a class="brand" href="/">Puncsky CS Notebook</a>
+
+      <div class="nav-collapse">
+        <ul class="nav">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+
+        <ul class="nav pull-right" data-subscription="rss">
+          <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+          
+        </ul>
+
+        
+          <form class="pull-right navbar-search" action="http://google.com/search" method="get">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:puncsky.github.com" />
+              <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</nav>
+  <div class="container">
+    <div class="row-fluid">
+      
+<article class="hentry span9" role="article">
+
+  
+  <header class="page-header">
+    
+      <h1 class="entry-title">CLRS 3: Selected</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-22T19:12:00-08:00" pubdate data-updated="true">Dec 22<span>nd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>VII Selected Topics</h2>
+
+<p>Introduction 769</p>
+
+<h3>27 Multithreaded Algorithms 772</h3>
+
+<ul>
+<li>serial algorithms</li>
+<li>parallel algorithms
+
+<ul>
+<li>No agreement on a single architectural model for parallel computers
+
+<ul>
+<li>shared memory (multicore)
+
+<ul>
+<li><strong><em>static threads</em></strong> -> complex schedule and load-balance -> concurrency platforms
+
+<ul>
+<li><strong>dynamic multithreading platform</strong>
+
+<ul>
+<li>2 features: 1. nested parallelism. Subroutine can be spawned. (divide-and-conquer) 2. parallel loops.</li>
+<li>3 keywords: parallel, spawn, sync.</li>
+<li>Platforms: Cilk, Cilk++, OpenMP, Task Parallel Library, Threading Building Blocks, Intel TBB.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>distributed memory</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>27.1 The basics of dynamic multithreading</h4>
+
+<ul>
+<li>The keyword <strong>spawn</strong> does not say, however, that a procedure must execute concurrently with its spawned children, only that it <em>may</em>. It is up to a scheduler at run time.</li>
+<li>A procedure cannot safely use the values returned by its spawned children until after it executes a sync statement</li>
+</ul>
+
+
+<p>算Fibonacci，recursion 的时候，spawn一个，自己算一个，sync，对这两个结果求和。</p>
+
+<h5>A model for multithreaded execution</h5>
+
+<ul>
+<li>Linear speedup: T1/Tp = Θ(P); Perfect linear speedup: T1/Tp = P</li>
+</ul>
+
+
+<p>27.2 Multithreaded matrix multiplication 792
+27.3 Multithreaded merge sort 797</p>
+
+<h3>28 Matrix Operations 813</h3>
+
+<ul>
+<li>numerical stability: limited precision</li>
+<li>numerically unstable</li>
+</ul>
+
+
+<p>28.1 Solving systems of linear equations 813
+28.2 Inverting matrices 827
+28.3 Symmetric positive-definite matrices and least-squares approximation 832</p>
+
+<h3>29 Linear Programming 843</h3>
+
+<p>29.1 Standard and slack forms 850
+29.2 Formulating problems as linear programs 859 29.3 The simplex algorithm 864
+29.4 Duality 879
+29.5 The initial basic feasible solution 886</p>
+
+<h3>30 Polynomials and the FFT 898</h3>
+
+<ul>
+<li>Fast Fourier transform, or FFT, can reduce the time to multiply polynomials to Θ(n lg n).</li>
+</ul>
+
+
+<p>30.1 Representing polynomials 900 30.2 The DFT and FFT 906
+30.3 Efficient FFT implementations 915</p>
+
+<h3>31 Number-Theoretic Algorithms 926</h3>
+
+<ul>
+<li>Cryptographic schemes based on large prime numbers.</li>
+</ul>
+
+
+<p>31.1 Elementary number-theoretic notions 927
+31.2 Greatest common divisor 933
+31.3 Modular arithmetic 939
+31.4 Solving modular linear equations 946
+31.5 The Chinese remainder theorem 950
+31.6 Powers of an element 954
+31.7 The RSA public-key cryptosystem 958
+31.8 Primality testing 965
+31.9 Integer factorization 975</p>
+
+<h3>32 String Matching 985</h3>
+
+<ul>
+<li>T[n]: text</li>
+<li>P[m]: pattern (m &lt;= n)</li>
+<li>s: shift - pattern P occurs beginning at position <em>s+1</em> in text T
+
+<ul>
+<li>valid shift</li>
+<li>invalid shift</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>32.1 The naive string-matching algorithm 988</h4>
+
+<p>O((n-m+1)*m)</p>
+
+<h4>32.2 The Rabin-Karp algorithm 990</h4>
+
+<ul>
+<li>把字符串转换成一位一位的数字，用霍纳法则</li>
+<li>Θ(m) preprocessing, worst-case Θ((n-m+1)*m)</li>
+<li>used to detect plagiarism</li>
+</ul>
+
+
+<h4>32.3 String matching with finite automata 995</h4>
+
+<h4>32.4 The Knuth-Morris-Pratt algorithm 1002</h4>
+
+<h3>33 Computational Geometry 1014</h3>
+
+<p>33.1 Line-segment properties 1015
+33.2 Determining whether any pair of segments intersects 1021 33.3 Finding the convex hull 1029
+33.4 Finding the closest pair of points 1039</p>
+
+<h3>34 NP-Completeness 1048</h3>
+
+<ul>
+<li>Problems which can be solved by polynomial-time algorithms are <strong>tractable/easy</strong>. Otherwise, <strong>intractable/hard</strong></li>
+<li>Three classes of problems:
+
+<ol>
+<li>P.   solvable in polynomial time O(n<sup>k)</sup></li>
+<li>NP.  verifiable (there exists a certifier) in polynomial time. (NP: nondeterministic polynomial-time)</li>
+<li>NPC. NP-complete
+
+<ul>
+<li>If any NP-complete problem can be solved in polynomial time, then every problem in NP has a polynomial-time algorithm.</li>
+<li>Many CS scientists believe NP-complete problems are intractable.</li>
+<li>e.g. circuit-satisfiability problem</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+
+
+<h4>34.1 Polynomial time 1053</h4>
+
+<h4>34.2 Polynomial-time verification 1061</h4>
+
+<ul>
+<li>Certifiers and Certificates:  Hamiltonian Cycle
+
+<ul>
+<li><strong>HAM-CYCLE</strong>.  Given an undirected graph G = (V, E), does there exist a simple cycle C that visits every node?</li>
+<li><strong>Certificate</strong>.  A permutation of the n nodes.</li>
+<li><strong>Certifier</strong>.  Check that the permutation contains each node in V exactly once, and that there is an edge between each pair of adjacent nodes in the permutation.</li>
+<li><strong>Conclusion</strong>.  HAM-CYCLE is in NP.</li>
+</ul>
+</li>
+<li>P,NP,EXP
+
+<ul>
+<li>P. Decision problems for which there is a poly-time algorithm.</li>
+<li>EXP.  Decision problems for which there is an exponential-time algorithm.</li>
+<li>NP.  Decision problems for which there is a poly-time certifier.</li>
+</ul>
+</li>
+<li>P ⊆ NP, NP ⊆ EXP</li>
+<li><strong><em>Does P = NP?</em></strong>
+
+<ul>
+<li><strong>If yes</strong>, Efficient algorithms for 3-COLOR, TSP, FACTOR, SAT&#8230;</li>
+<li><strong>If no</strong>, No efficient algorithms for 3-COLOR, TSP, FACTOR, SAT&#8230;</li>
+</ul>
+</li>
+</ul>
+
+
+<p><img src="http://upload.wikimedia.org/wikipedia/commons/a/a0/P_np_np-complete_np-hard.svg" alt="P?=NP" /></p>
+
+<h4>34.3 NP-completeness and reducibility 1067</h4>
+
+<p>34.4 NP-completeness proofs 1078
+34.5 NP-complete problems 1086</p>
+
+<h3>35 Approximation Algorithms 1106</h3>
+
+<p>35.1 The vertex-cover problem 1108
+35.2 The traveling-salesman problem 1111
+35.3 The set-covering problem 1117
+35.4 Randomization and linear programming 1123 35.5 The subset-sum problem 1128</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Tian</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-22T19:12:00-08:00" pubdate data-updated="true">Dec 22<span>nd</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2012/12/22/clrs-3-selected/" data-via="" data-counturl="http://puncsky.github.com/blog/2012/12/22/clrs-3-selected/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    
+    <ul class="pager">
+      
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/2012/12/19/oop2/" title="Previous Post:
+        OOP Final Term Notes">&laquo; OOP Final Term Notes</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+      <li class="next"><a class="basic-alignment right" href="/blog/2012/12/26/bu-tan-sheng-huo/"
+        title="Next Post: 请不要和我谈生活，我没有生活">请不要和我谈生活，我没有生活
+        &raquo;</a></li>
+      
+    </ul>
+  </footer>
+</article>
+
+<aside class="sidebar-nav span3">
+  
+    <section class="well">
+  <script src="/javascripts/onmouseoverpuncsky.js" type="text/javascript"> </script>
+  <img onmouseover="enlight(this)" onmouseout="darken(this)" src="/puncsky-gray.png" alt="puncsky" style="max-width:100%;">
+  <h4>Puncsky</h4>
+  <p><i>who strives on and lives to strive</i></p>
+  <p><a href="https://www.github.com/puncsky/">Github</a></p>
+</section>
+<section class="well">
+  <ul id="recent_posts" class="nav nav-list">
+    <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/11/%5B%3F%5D-ben-chu-chuang-gong-si-de-hui-yi-lu-%3C%3Cda-zao-facebook%3E%3E/">中国工程师在初创公司的经验总结--《打造Facebook》</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/01/2013nian-wu-yue-fen-yue-du-ji-lu/">2012年9月至2013年5月阅读记录</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/01/bo-lan-zhuang-kuo-de-gai-ge-kai-fa-shi-hua-%3C%3Cji-dang-san-shi-nian-%3E%3E-du-hou-gan/">波澜壮阔的改革开放史话——《激荡三十年》读后感</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/14/ren-sheng-shi-yuan/">人生十愿</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/04/06/dynamo-kv-store/">Dynamo: Amazon's Highly Available Key-value Store (SOSP'07)</a>
+      </li>
+    
+  </ul>
+</section>
+<section class="well">
+	<div id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://www.puncsky.com', 'user' : 1100959, 'server' : '2', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2013-06-24', 'lang' : 'en', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www2.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www2.clustrmaps.com/user/92810cc9f"><img src="http://www2.clustrmaps.com/stats/maps-no_clusters/www.puncsky.com-thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo" class="page-footer"><hr>
+<p>
+  Copyright &copy; 2013 - Tian -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

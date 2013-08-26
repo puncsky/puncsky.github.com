@@ -1,0 +1,385 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>GC(Garbage Collection) in Java - Puncsky CS Notebook</title>
+  <meta name="author" content="Tian">
+
+  
+  <meta name="description" content="Life and computer science notebook from Puncsky">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://puncsky.github.com/blog/2013/01/14/gc-garbage-collection-in-java">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    body {
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .sharing, .meta, .pager {
+      margin: 20px 0px 20px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/libs/jquery.js"></script>
+  <script src="/javascripts/libs/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/bootstrap.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Puncsky CS Notebook" type="application/atom+xml">
+  
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-43072488-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <nav role="navigation"><div class="navbar navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
+      <a class="brand" href="/">Puncsky CS Notebook</a>
+
+      <div class="nav-collapse">
+        <ul class="nav">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+
+        <ul class="nav pull-right" data-subscription="rss">
+          <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+          
+        </ul>
+
+        
+          <form class="pull-right navbar-search" action="http://google.com/search" method="get">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:puncsky.github.com" />
+              <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</nav>
+  <div class="container">
+    <div class="row-fluid">
+      
+<article class="hentry span9" role="article">
+
+  
+  <header class="page-header">
+    
+      <h1 class="entry-title">GC(Garbage Collection) in Java</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-14T00:18:00-08:00" pubdate data-updated="true">Jan 14<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>本文摘录自<a href="http://www.amazon.com/Thinking-Java-4th-Bruce-Eckel/dp/0131872486">Thinking in Java</a></p>
+
+<h2>1. The method  <code>finalize()</code></h2>
+
+<p><code>finalize()</code>使用时，会在GC释放空间之前被调用到，目的是在GC的时候做一些特殊的清理工作；但<strong>finalize()绝不是C++里面的destructor，因为</strong></p>
+
+<p>1.对象<strong>不一定会</strong>被GC (而C++里析构函数一定会被调用到)</p>
+
+<p>2.GC不等于析构</p>
+
+<p>既然有GC，Java就没有必要用到析构函数，所以如果有需要在GC时候额外做些事情，就使用finalize()做最后的清理工作，<strong>尽管它不一定会被调用到，除非JVM没有内存空间了</strong>。</p>
+
+<p>3.GC仅和内存有关</p>
+
+<p>既然Java本身内存回收问题就被GC解决了，为什么还要finalize()呢？<strong>因为，Java可能内嵌其他语言的代码，如果有类似C的内存处理函数malloc()，就必须要手动写free()。</strong>因此，finalize()极少会被用到。</p>
+
+<p>C++创建对象的位置有两种，一是创建在本地的stack上，自动销毁于本段代码的回花括号处，另一个是创建在heap上，必须用<strong>delete</strong>手动销毁。Java不允许创建本地对象，必须使用<strong>new</strong>，但是既然有了GC就不用delete.</p>
+
+<p>总之，要记住的是，GC和finalize()并不总会被调用到。</p>
+
+<p>finalize()可以用到debug，代码如下</p>
+
+<figure class='code'><figcaption><span>TerminationCondition.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kd">class</span> <span class="nc">Book</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kt">boolean</span> <span class="n">checkedOut</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+</span><span class='line'>    <span class="n">Book</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">checkOut</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">checkedOut</span> <span class="o">=</span> <span class="n">checkOut</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="kt">void</span> <span class="nf">checkIn</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">checkedOut</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">finalize</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">if</span><span class="o">(</span><span class="n">checkedOut</span><span class="o">)</span>
+</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Error: checked out.&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="c1">// Normally, you’ll also do this:</span>
+</span><span class='line'>        <span class="c1">// super.finalize(); // Call the base-class version</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">TerminationCondition</span> <span class="o">{</span>
+</span><span class='line'>    <span class="c1">//static Test monitor = new Test();</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">Book</span> <span class="n">novel</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Book</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span><span class='line'>      <span class="c1">// Proper cleanup:</span>
+</span><span class='line'>      <span class="n">novel</span><span class="o">.</span><span class="na">checkIn</span><span class="o">();</span>
+</span><span class='line'>      <span class="c1">// Drop the reference, forget to clean up:</span>
+</span><span class='line'>      <span class="k">new</span> <span class="nf">Book</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span><span class='line'>      <span class="c1">// Force garbage collection &amp; finalization:</span>
+</span><span class='line'>      <span class="n">System</span><span class="o">.</span><span class="na">gc</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="cm">/* output:</span>
+</span><span class='line'><span class="cm"> Error: checked out.</span>
+</span><span class='line'><span class="cm"> */</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>此处，<code>System.gc()</code> 强制<code>finalize()</code>必须执行。<strong>如果有finalize(),一般情况下，父类的finalize()也必须被执行到</strong>，所以<code>Book.finalize()</code>中有<code>super.finalize()</code>。</p>
+
+<h2>2. GC的工作机制</h2>
+
+<p>Java中在heap上new东西并不像其他语言那么expensive，几乎和其他语言在stack上创建对象一样快。</p>
+
+<p>非Java的GC机制：<em>reference counting</em> 数对象被引用了多少次，当等于零时就被清理掉。</p>
+
+<p>Java的机制：<strong><em>adaptive generational stop-and-copy mark-and-sweep.</em></strong> 所有未死的对象都可以追溯到stack或者static storage上的一个引用，形成一个个web。这时候，也有不同的处理方式：</p>
+
+<ol>
+<li><em>stop-and-copy</em>. 如果程序停下来了，将活的对象拷贝到新的heap上，垃圾就被留在了原来的heap。新heap上的对象也可以被排列得更加紧凑(compact)了。有两个问题：
+
+<ul>
+<li>保持两个heap</li>
+<li>周期性拷贝，即便没有new新的东西，或者产生的垃圾很少，会导致浪费，所以需要另一个机制处理这种特殊的情况</li>
+</ul>
+</li>
+<li><em>mark-and-sweep</em>. 比较慢，但是在产生少量垃圾或者没有垃圾时候非常快。做法是，标记活对象，所有的标记完成后，扫除没有标记的对象。</li>
+</ol>
+
+
+<p>如何做到adaptive地进行转化呢？JVM的内存分布在很多大的block当中。大的对象，可以独占block，不拷贝，而是增加其<em>generation count</em>，内含小对象的block则会被拷贝并整理。JVM会进行监视,如果所有对象都很稳定,GC效率降低的话,就切换到<em>mark-and-sweep</em>;同样, JVM会注意其效果,要是heap出现很多碎片,就会切换回<em>stop-and-copy</em>。</p>
+
+<p>EOF</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Tian</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-14T00:18:00-08:00" pubdate data-updated="true">Jan 14<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/programming-languages/'>programming_languages</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2013/01/14/gc-garbage-collection-in-java/" data-via="" data-counturl="http://puncsky.github.com/blog/2013/01/14/gc-garbage-collection-in-java/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    
+    <ul class="pager">
+      
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/2013/01/08/clrs-2-advanced/" title="Previous Post:
+        CLRS 2: Advanced">&laquo; CLRS 2: Advanced</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+      <li class="next"><a class="basic-alignment right" href="/blog/2013/01/27/hadoopdb-vldb-09/"
+        title="Next Post: HadoopDB (VLDB'09)">HadoopDB (VLDB'09)
+        &raquo;</a></li>
+      
+    </ul>
+  </footer>
+</article>
+
+<aside class="sidebar-nav span3">
+  
+    <section class="well">
+  <script src="/javascripts/onmouseoverpuncsky.js" type="text/javascript"> </script>
+  <img onmouseover="enlight(this)" onmouseout="darken(this)" src="/puncsky-gray.png" alt="puncsky" style="max-width:100%;">
+  <h4>Puncsky</h4>
+  <p><i>who strives on and lives to strive</i></p>
+  <p><a href="https://www.github.com/puncsky/">Github</a></p>
+</section>
+<section class="well">
+  <ul id="recent_posts" class="nav nav-list">
+    <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/11/%5B%3F%5D-ben-chu-chuang-gong-si-de-hui-yi-lu-%3C%3Cda-zao-facebook%3E%3E/">中国工程师在初创公司的经验总结--《打造Facebook》</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/01/2013nian-wu-yue-fen-yue-du-ji-lu/">2012年9月至2013年5月阅读记录</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/01/bo-lan-zhuang-kuo-de-gai-ge-kai-fa-shi-hua-%3C%3Cji-dang-san-shi-nian-%3E%3E-du-hou-gan/">波澜壮阔的改革开放史话——《激荡三十年》读后感</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/14/ren-sheng-shi-yuan/">人生十愿</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/04/06/dynamo-kv-store/">Dynamo: Amazon's Highly Available Key-value Store (SOSP'07)</a>
+      </li>
+    
+  </ul>
+</section>
+<section class="well">
+	<div id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://www.puncsky.com', 'user' : 1100959, 'server' : '2', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2013-06-24', 'lang' : 'en', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www2.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www2.clustrmaps.com/user/92810cc9f"><img src="http://www2.clustrmaps.com/stats/maps-no_clusters/www.puncsky.com-thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo" class="page-footer"><hr>
+<p>
+  Copyright &copy; 2013 - Tian -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

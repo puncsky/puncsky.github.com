@@ -1,0 +1,559 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>CryptDB: Protecting Confidentiality with Encrypted Query Processing (SOSP '11) - Puncsky CS Notebook</title>
+  <meta name="author" content="Tian">
+
+  
+  <meta name="description" content="Life and computer science notebook from Puncsky">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://puncsky.github.com/blog/2012/11/26/cryptdb">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    body {
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .sharing, .meta, .pager {
+      margin: 20px 0px 20px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/libs/jquery.js"></script>
+  <script src="/javascripts/libs/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/bootstrap.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Puncsky CS Notebook" type="application/atom+xml">
+  
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-43072488-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <nav role="navigation"><div class="navbar navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
+      <a class="brand" href="/">Puncsky CS Notebook</a>
+
+      <div class="nav-collapse">
+        <ul class="nav">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+
+        <ul class="nav pull-right" data-subscription="rss">
+          <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+          
+        </ul>
+
+        
+          <form class="pull-right navbar-search" action="http://google.com/search" method="get">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:puncsky.github.com" />
+              <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</nav>
+  <div class="container">
+    <div class="row-fluid">
+      
+<article class="hentry span9" role="article">
+
+  
+  <header class="page-header">
+    
+      <h1 class="entry-title">CryptDB: Protecting Confidentiality With Encrypted Query Processing (SOSP '11)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-26T19:45:00-08:00" pubdate data-updated="true">Nov 26<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="http://css.csail.mit.edu/cryptdb/">MIT CSAIL</a>, <a href="http://people.csail.mit.edu/nickolai/papers/raluca-cryptdb.pdf">papers</a>, <a href="http://www.sigops.org/sosp/sosp11/current/2011-Cascais/07-popa.pptx">slides</a></p>
+
+<h3>1. Problem</h3>
+
+<p>Provide confidentiality for applications using DBMSes to solve two threats:</p>
+
+<ol>
+<li><em>Passive DB server attacks</em>. The curious database administrator (DBA) learns private data.</li>
+<li><em>Any attacks on all servers</em>. The adversary gains complete control over application and DBMS servers.</li>
+</ol>
+
+
+<!--more-->
+
+
+<h3>2. Challenges</h3>
+
+<ol>
+<li>Tension between confidentiality and efficiency. (Threat 1 + 2)
+
+<ul>
+<li>too slow or not enough confidentiality</li>
+<li>incapable of executing SQL queries without giving keys to DBMS servers</li>
+</ul>
+</li>
+<li>Support user-shared data while minimizing data leakage when both application servers and DBMS servers are compromised.
+
+<ul>
+<li>“Different keys for different users” alone is not suitable for user-shared data.</li>
+</ul>
+</li>
+</ol>
+
+
+<h3>3. Solutions</h3>
+
+<p>How to solve Challenge 1 (Threat 1+2) while still retaining data sharing (Challenge 2)?</p>
+
+<p>Architecture Overview</p>
+
+<p><img src="http://puncsky.github.com/images/cryptdb/arch.png" alt="architecture overview" /></p>
+
+<ol>
+<li>No plaintext in database at all. (eliminate Threat 1)</li>
+<li>Fine-grind keys chained to user passwords. (eliminate Threat 2 and Challenge 2)</li>
+</ol>
+
+
+<h4>3.1 Solution to Threat 1</h4>
+
+<p>How to deal with <em>Passive DB server attacks</em>? No plaintext in database at all.</p>
+
+<h5>3.1.1 Execute SQL queries over encrypted data</h5>
+
+<p>Six types of SQL-aware encryption</p>
+
+<p>SQL-aware encryption strategy with symmetric-key encryption (for efficiency).</p>
+
+<ol>
+<li>Random (RND)
+
+<ul>
+<li>support indistinguishability under an adaptive chosen-plaintext attack (IND-CPA), same plain texts -> different cipher texts</li>
+<li>AES / Blowfish in CBC mode, a random initialization vector (IV)</li>
+</ul>
+</li>
+<li>Deterministic (DET)
+
+<ul>
+<li>support equality checks, same plain texts -> same cipher texts</li>
+<li>different keys for different columns to prevent cross-column correlations</li>
+<li>Pseudo-random permutation (PRP), Blowfish for 64-bit block, AES for 128-bit block</li>
+<li>AES in CMC mode (= one round of CBC + another round of CBC in reverse order), zero IV. (to prevent leakage of prefix equality in CBC mode)</li>
+</ul>
+</li>
+<li>Order-preserving (OPE)
+
+<ul>
+<li>support order relations. If x &lt; y, then OPEk(x) &lt; OPEk(y) for any secret key K.</li>
+<li>Weaker. Thus, OPE-encrypted columns are revealed to the server only when the order query is needed.</li>
+<li>Implementation and optimization of <a href="http://www.cc.gatech.edu/~aboldyre/papers/bclo.pdf">Order-preserving symmetric encryption</a>. Use AVL BST for batch encryption. 25 ms/encryption -> 7 ms/encryption</li>
+</ul>
+</li>
+<li>Homomorphic encryption(HOM)
+
+<ul>
+<li>retains IND-CPA while allows computations to be conducted on ciphertext and obtain an encrypted result which is the ciphertext of the result of operations performed on the plaintext.</li>
+<li>UDF calling Paillier crytosystem</li>
+<li>e.g. SUM: HOMk(x)*HOMk(y)=HOMk(x+y)</li>
+</ul>
+</li>
+<li>Join (JOIN and OPE-JOIN)
+
+<ul>
+<li>support joins between two columns (because of DET)</li>
+<li>TODO</li>
+</ul>
+</li>
+<li>Word search (SEARCH)
+
+<ul>
+<li>support LIKE operation</li>
+<li>A new implementation of the protocol from <a href="http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=848445">Practical Techniques for Searches on Encrypted Data</a></li>
+<li>Proxy
+
+<ol>
+<li>split texts to keywords</li>
+<li>remove repetitions</li>
+<li>randomly permute the positions of the words</li>
+<li>encrypt each of the words</li>
+<li>paddle each word to the same size</li>
+<li>send the encrypted words to the server as a token</li>
+</ol>
+</li>
+<li>Server can only know whether the token matches.</li>
+</ul>
+</li>
+</ol>
+
+
+<h5>3.1.2 Adjustable query-based encryption</h5>
+
+<p>However, the query set is not always known in advance. So we need to dynamically adjust a layer of SQL-aware encryption scheme for queries at runtime. <strong>Onions of encryption</strong>: different keys for different layers of onions. The proxy will not give all keys to the server at any time.</p>
+
+<p><img src="http://puncsky.github.com/images/cryptdb/onion.png" alt="onion encryption" /></p>
+
+<p><img src="http://puncsky.github.com/images/cryptdb/table1.png" alt="table" /></p>
+
+<ul>
+<li>Encrypt data in one or more onions</li>
+<li>Multiple onions are needed in practice</li>
+<li>Onion decryption (stripe-off) happens only when operations on a column are required</li>
+<li>Once a layer of decryption happens, the layer remains its new state</li>
+</ul>
+
+
+<p>keys for each layer are calculated by</p>
+
+<p><img src="http://puncsky.github.com/images/cryptdb/calcKey.png" alt="keys" /></p>
+
+<p><strong>MK is the proxy&#8217;s Master Key and only intended for a single principal (user).</strong></p>
+
+<h6>a) Read query execution</h6>
+
+<ol>
+<li>Application server issues a query
+
+<ul>
+<li>SELECT ID FROM Employees WHERE Name = ‘Alice’</li>
+</ul>
+</li>
+<li>Proxy server anonymizes the query, and adjust encryption layers if stripe-off is needed
+
+<ul>
+<li>UPDATE Table1 SET C2-Eq = DECRYPT RND(KT1,C2,Eq,RND, C2-Eq, C2-IV)</li>
+</ul>
+</li>
+<li>DBMS server execute the adjusted query and return the results
+
+<ul>
+<li>SELECT C1-Eq, C1-IV FROM Table1 WHERE C2-Eq = x7..d</li>
+</ul>
+</li>
+<li>Proxy server decrypts the results and sends them to the user</li>
+<li>No need to decrypt data in DBMS when a new similar type of query is issued</li>
+</ol>
+
+
+<h6>b) Write query execution</h6>
+
+<ul>
+<li>INSERT and UPDATE queries make the proxy encrypts data to the layer that has not yet been stripped off.</li>
+<li>Addition and direct comparison should not be allowed simultaneously.
+
+<ul>
+<li>If a column is incremented and then only projected, DBMS operates on add onion.</li>
+<li>If a column is used in comparisons after increasing, proxy calculates the final value and updates it once and for all.</li>
+</ul>
+</li>
+</ul>
+
+
+<p>At this time, we can defend against Threat 1 (passive DB server attacks) by not exposing any plaintext to the DBMS server while most SQL queries can still be supported.</p>
+
+<h4>3.2 Solution to Threat 2 and Challenge 2</h4>
+
+<p>How to deal with <em>any attacks on all servers</em> while <strong>still retaining data-sharing</strong> among users? The proxy&#8217;s Master Key (MK) is not adequate for multi-users. The solution is to chain encryption keys to user passwords with the specification of key access policy among users.</p>
+
+<h5>3.2.1 Chain encryption keys to user passwords</h5>
+
+<ul>
+<li>What does the key derives from?
+
+<ol>
+<li><em>One Single principal</em> uses Global proxy Master Key (MK).</li>
+<li><em>Multiple principals</em> chain encryption keys to user passwords.</li>
+</ol>
+</li>
+</ul>
+
+
+<h6>Define <em>principal</em></h6>
+
+<p>A principal is an entity such as a user or a group, over which it is natural to specify an access policy.</p>
+
+<ul>
+<li><em>external principals</em>: real users authenticated with their passwords</li>
+<li><em>internal principals</em>: entities whose privileges are acquired through delegations</li>
+</ul>
+
+
+<h6>Annotate the schema with access control policy</h6>
+
+<p>We need to support data-sharing, so the access control policy should be specified to the schema.</p>
+
+<ul>
+<li>ENC_FOR(Sensitive-Column1, PrincipalA), A has access to column1.</li>
+<li>(principalA typeX) SPEAKS_FOR(principalB typeY), A has access to all keys that b has access to.</li>
+</ul>
+
+
+<p><img src="http://puncsky.github.com/images/cryptdb/accessControl.png" alt="Access Control Policy Annotation" /></p>
+
+<h6>Chain encryption keys</h6>
+
+<ul>
+<li>Each principal is associated with a secret and random-generated key
+
+<ul>
+<li>symmetric key (online) + public/private key pair (off-line)</li>
+<li>External principal&#8217;s random-generated symmetric key and private key is encrypted with user&#8217;s password and stored in <em>external_keys</em></li>
+</ul>
+</li>
+<li>If B speaks for A, A&#8217;s key is encrypted with B&#8217;s key and stored in <em>access_keys</em> table</li>
+<li>When a user logs in, the proxy loads all the key the user has access to.</li>
+<li>When a user logs out, the proxy delete all the user&#8217;s keys in the memory.</li>
+</ul>
+
+
+<p>At this time, threat 2 is successfully conquered while the data-sharing feature is retained.</p>
+
+<h3>4. Implementation &amp; Evaluation</h3>
+
+<h4>4.1 Implementation</h4>
+
+<ul>
+<li>No change to the DBMS and applications</li>
+<li>Portable</li>
+<li>Multi-user keys: annotations and login/logout</li>
+</ul>
+
+
+<h4>4.2 Evaluation</h4>
+
+<ul>
+<li>Support most queries</li>
+<li>Exceptional confidentiality
+
+<ul>
+<li>Most columns at RND layer</li>
+<li>Most columns at OPE analyzed were less sensitive</li>
+</ul>
+</li>
+<li>Throughput loss 26%</li>
+</ul>
+
+
+<h3>5. Conclusion</h3>
+
+<ol>
+<li>First practical DBMS to process most SQL queries on encrypted data
+
+<ul>
+<li>Hide DB from DBA, outsource DB</li>
+</ul>
+</li>
+<li>Protects data of users logged out during attack, even when all servers are compromised
+
+<ul>
+<li>Limit leakage from compromised applications</li>
+</ul>
+</li>
+<li>Modest overhead: 26% throughput loss for TPC-C</li>
+<li>No changes to DBMS (e.g., Postgres, MySQL)</li>
+</ol>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Tian</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-26T19:45:00-08:00" pubdate data-updated="true">Nov 26<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/paper-review/'>paper_review</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2012/11/26/cryptdb/" data-via="" data-counturl="http://puncsky.github.com/blog/2012/11/26/cryptdb/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    
+    <ul class="pager">
+      
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/2012/11/21/ru-he-yue-du-%5B%3F%5D-pian-lun-wen-%3F/" title="Previous Post:
+        如何阅读一篇论文？">&laquo; 如何阅读一篇论文？</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+      <li class="next"><a class="basic-alignment right" href="/blog/2012/11/27/wang-gong-quan-jiang-zuo/"
+        title="Next Post: 王功权先生给年轻人的四点建议">王功权先生给年轻人的四点建议
+        &raquo;</a></li>
+      
+    </ul>
+  </footer>
+</article>
+
+<aside class="sidebar-nav span3">
+  
+    <section class="well">
+  <script src="/javascripts/onmouseoverpuncsky.js" type="text/javascript"> </script>
+  <img onmouseover="enlight(this)" onmouseout="darken(this)" src="/puncsky-gray.png" alt="puncsky" style="max-width:100%;">
+  <h4>Puncsky</h4>
+  <p><i>who strives on and lives to strive</i></p>
+  <p><a href="https://www.github.com/puncsky/">Github</a></p>
+</section>
+<section class="well">
+  <ul id="recent_posts" class="nav nav-list">
+    <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/11/%5B%3F%5D-ben-chu-chuang-gong-si-de-hui-yi-lu-%3C%3Cda-zao-facebook%3E%3E/">中国工程师在初创公司的经验总结--《打造Facebook》</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/01/2013nian-wu-yue-fen-yue-du-ji-lu/">2012年9月至2013年5月阅读记录</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/01/bo-lan-zhuang-kuo-de-gai-ge-kai-fa-shi-hua-%3C%3Cji-dang-san-shi-nian-%3E%3E-du-hou-gan/">波澜壮阔的改革开放史话——《激荡三十年》读后感</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/14/ren-sheng-shi-yuan/">人生十愿</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/04/06/dynamo-kv-store/">Dynamo: Amazon's Highly Available Key-value Store (SOSP'07)</a>
+      </li>
+    
+  </ul>
+</section>
+<section class="well">
+	<div id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://www.puncsky.com', 'user' : 1100959, 'server' : '2', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2013-06-24', 'lang' : 'en', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www2.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www2.clustrmaps.com/user/92810cc9f"><img src="http://www2.clustrmaps.com/stats/maps-no_clusters/www.puncsky.com-thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo" class="page-footer"><hr>
+<p>
+  Copyright &copy; 2013 - Tian -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

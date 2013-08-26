@@ -1,0 +1,426 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Fast and Parallel Webpage Layout (WWW '10) - Puncsky CS Notebook</title>
+  <meta name="author" content="Tian">
+
+  
+  <meta name="description" content="Life and computer science notebook from Puncsky">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://puncsky.github.com/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    body {
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .sharing, .meta, .pager {
+      margin: 20px 0px 20px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/libs/jquery.js"></script>
+  <script src="/javascripts/libs/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/bootstrap.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Puncsky CS Notebook" type="application/atom+xml">
+  
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-43072488-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <nav role="navigation"><div class="navbar navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
+      <a class="brand" href="/">Puncsky CS Notebook</a>
+
+      <div class="nav-collapse">
+        <ul class="nav">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+
+        <ul class="nav pull-right" data-subscription="rss">
+          <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+          
+        </ul>
+
+        
+          <form class="pull-right navbar-search" action="http://google.com/search" method="get">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:puncsky.github.com" />
+              <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</nav>
+  <div class="container">
+    <div class="row-fluid">
+      
+<article class="hentry span9" role="article">
+
+  
+  <header class="page-header">
+    
+      <h1 class="entry-title">Fast and Parallel Webpage Layout (WWW '10)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-16T15:56:00-08:00" pubdate data-updated="true">Nov 16<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><iframe src="http://www.slideshare.net/slideshow/embed_code/15270792" width="427" height="356" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen webkitallowfullscreen mozallowfullscreen> </iframe>
+
+
+<p></p>
+
+<p><a href="http://www.eecs.berkeley.edu/~lmeyerov/">UCB</a>, <a href="http://www.eecs.berkeley.edu/~lmeyerov/projects/pbrowser/pubfiles/playout.pdf">paper</a></p>
+
+<h2>1. Problem</h2>
+
+<p>The browsing of webpages is slow on smartphones for their limited CPU computational resources. The <em>power wall</em> forces hardware architects to apply increases in transistor counts towards improving parallel performance, not sequential performance. So the authors introduce the <strong>parallel</strong> mobile browser.</p>
+
+<h2>2. Challenges</h2>
+
+<!--more-->
+
+
+<p>In the analysis,  three core limitations of the rendering speed are:</p>
+
+<ol>
+<li>CSS selector matching</li>
+<li>Box and text layout</li>
+<li>Glyph rendering</li>
+</ol>
+
+
+<h2>3. Solution</h2>
+
+<p>Overall Input and Output</p>
+
+<ul>
+<li>Input: an HTML tree of content, CSS style rules, font files.</li>
+<li>Output: absolute element positions.</li>
+</ul>
+
+
+<h3>3.1 Algo1: CSS Selector Matching</h3>
+
+<p><em>Rule matcher</em> associates CSS rule set with HTML node tree.</p>
+
+<p>Two assumptions:</p>
+
+<ol>
+<li>In general, selector language is an exact subset of regular expression.</li>
+<li>Disjunctions are split into separate selectors</li>
+</ol>
+
+
+<p>Algorithm paraphrase:</p>
+
+<ol>
+<li>sequentially read rules and correspondingly build hash maps</li>
+<li>parallelly <strong>map</strong> nodes to different kinds of rules</li>
+<li>parallelly <strong>reduce</strong> several rules to each node</li>
+</ol>
+
+
+<p>Optimizations from WebKit:</p>
+
+<ol>
+<li>Hashtables. [×] check CSS for every node [√] read once, build hashmap, and check hash</li>
+<li>Right-to-left matching.</li>
+</ol>
+
+
+<p>New Optimization:</p>
+
+<ol>
+<li>Redundant selector elimination.</li>
+<li>Hash Tiling. partition the hashtable. reduce cache misses.</li>
+<li>Tokenization. store attributes as int instead of string to save cache.</li>
+<li>Parallel document traversal.</li>
+<li>Random load balancing. If in sequence, neighboring nodes will cause load imbalance.</li>
+<li>Result pre-allocation.</li>
+<li>Delayed set insertion.</li>
+<li>Non-STL sets.preallocate a vector with a size of potential matches.</li>
+</ol>
+
+
+<p>Overall Speedup = 60x: 204ms->3.5ms, 3s->50ms</p>
+
+<h3>3.2 Algo2:</h3>
+
+<ul>
+<li>Input: HTML tree nodes with symbolic constraint attributes</li>
+<li>Output: layout actual details (size, shape, position)</li>
+</ul>
+
+
+<p>Because CSS is confusing and informally-writtened, we create a new simple, concise, uniform, and intermediate language, Berkeley Style Sheets (BBS), which is transformed from CSS and will be specified with an attribute grammar (which shows potential for parallelization).</p>
+
+<p>Three contributions:</p>
+
+<ol>
+<li>Increase performance. decompse the tasks.</li>
+<li>Uniform a correct, concise specification.</li>
+<li>Prove it is at most linear in the size of HTML tree.</li>
+</ol>
+
+
+<p><strong>PARALLELIZATION</strong></p>
+
+<p>Two steps recursively for every node in the DOM tree</p>
+
+<ol>
+<li>calculate inherited attributes (top-down). Every level of childs in the tree enjoyes the parallelization.</li>
+<li>calculate synthesized attributes (node&#8217;s own attributes) (bottom-up). Every level of parents in the tree enjoys the parallelization.</li>
+</ol>
+
+
+<p>2 is dependent on 1.</p>
+
+<p>Complexity: O(log)</p>
+
+<p>Speedup of box + text layout = 2-3x</p>
+
+<p>Advanced layouts: floats</p>
+
+<h3>3.3 Algo3: Font Handling</h3>
+
+<ol>
+<li>create a pool of necessary font library request</li>
+<li>group the requests</li>
+<li>make parallel calls to process each group</li>
+</ol>
+
+
+<h2>4. Conclusions</h2>
+
+<p>Address three bottlenecks of loading a page</p>
+
+<ol>
+<li>CSS selector matching
+
+<ul>
+<li>Pre-built hash tables, map-reduce</li>
+</ul>
+</li>
+<li>Box and text layout solving
+
+<ul>
+<li>Specify layout as attribute grammars</li>
+</ul>
+</li>
+<li>Glyph rendering
+
+<ul>
+<li>Combine requests to groups and render in parallel</li>
+</ul>
+</li>
+</ol>
+
+
+<p>Milestone in building a parallel and mobile browser</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Tian</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-16T15:56:00-08:00" pubdate data-updated="true">Nov 16<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/paper-review/'>paper_review</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://puncsky.github.com/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10/" data-via="" data-counturl="http://puncsky.github.com/blog/2012/11/16/fast-and-parallel-webpage-layout-www-10/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    
+    <ul class="pager">
+      
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/2011/12/22/tian-s-dilemma/" title="Previous Post:
+        和氏璧的困境">&laquo; 和氏璧的困境</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+      <li class="next"><a class="basic-alignment right" href="/blog/2012/11/16/homeos-an-operating-system-for-the-home-nsdi-12/"
+        title="Next Post: HomeOS: An Operating System for the Home (NSDI '12)">HomeOS: An Operating System for the Home (NSDI '12)
+        &raquo;</a></li>
+      
+    </ul>
+  </footer>
+</article>
+
+<aside class="sidebar-nav span3">
+  
+    <section class="well">
+  <script src="/javascripts/onmouseoverpuncsky.js" type="text/javascript"> </script>
+  <img onmouseover="enlight(this)" onmouseout="darken(this)" src="/puncsky-gray.png" alt="puncsky" style="max-width:100%;">
+  <h4>Puncsky</h4>
+  <p><i>who strives on and lives to strive</i></p>
+  <p><a href="https://www.github.com/puncsky/">Github</a></p>
+</section>
+<section class="well">
+  <ul id="recent_posts" class="nav nav-list">
+    <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/11/%5B%3F%5D-ben-chu-chuang-gong-si-de-hui-yi-lu-%3C%3Cda-zao-facebook%3E%3E/">中国工程师在初创公司的经验总结--《打造Facebook》</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/01/2013nian-wu-yue-fen-yue-du-ji-lu/">2012年9月至2013年5月阅读记录</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/01/bo-lan-zhuang-kuo-de-gai-ge-kai-fa-shi-hua-%3C%3Cji-dang-san-shi-nian-%3E%3E-du-hou-gan/">波澜壮阔的改革开放史话——《激荡三十年》读后感</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/14/ren-sheng-shi-yuan/">人生十愿</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/04/06/dynamo-kv-store/">Dynamo: Amazon's Highly Available Key-value Store (SOSP'07)</a>
+      </li>
+    
+  </ul>
+</section>
+<section class="well">
+	<div id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://www.puncsky.com', 'user' : 1100959, 'server' : '2', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2013-06-24', 'lang' : 'en', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www2.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www2.clustrmaps.com/user/92810cc9f"><img src="http://www2.clustrmaps.com/stats/maps-no_clusters/www.puncsky.com-thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo" class="page-footer"><hr>
+<p>
+  Copyright &copy; 2013 - Tian -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

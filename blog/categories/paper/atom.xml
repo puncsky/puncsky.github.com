@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Paper | Puncsky CS Notebook]]></title>
+  <link href="http://puncsky.github.com/blog/categories/paper/atom.xml" rel="self"/>
+  <link href="http://puncsky.github.com/"/>
+  <updated>2013-08-09T22:43:09-07:00</updated>
+  <id>http://puncsky.github.com/</id>
+  <author>
+    <name><![CDATA[Tian]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Fast Crash Recovery in RAMCloud (SOSP'11)]]></title>
+    <link href="http://puncsky.github.com/blog/2012/12/13/fast-crash-recovery-in-ramcloud/"/>
+    <updated>2012-12-13T12:22:00-08:00</updated>
+    <id>http://puncsky.github.com/blog/2012/12/13/fast-crash-recovery-in-ramcloud</id>
+    <content type="html"><![CDATA[<p><a href="http://www.stanford.edu/~ouster/cgi-bin/home.php">Stanford</a>, <a href="http://www.stanford.edu/~ouster/cgi-bin/papers/ramcloud-recovery.pdf">paper</a>, <a href="https://ramcloud.stanford.edu/wiki/display/ramcloud/RAMCloud+Presentations">slides</a>, <a href="http://www.youtube.com/watch?v=RE3CmdEGv4M">video</a></p>
+
+<h3>1. Problem</h3>
+
+<p>RAMCloud is a storage system helping developers manage large-scale DRAM storage, driven by the fact that large-scale Web applications need to cache large data in DRAM. (For example, Facebook cached 150TB DRAM in <em>memcached</em> out of 200TB of disk storage.)</p>
+
+<p>In order to keep a high level of durability and availability without impacting system performance, RAMCloud has only one single copy of data in DRAM. The problem here is how to recover from crash within 1s~2s.</p>
+
+<!--more-->
+
+
+<h3>2. Challenges</h3>
+
+<ul>
+<li><strong>Durability</strong>. RAM is lack of durability. Data is unavailable on crashed nodes.</li>
+<li><strong>Availability</strong>. How to recover as soon as possible?
+
+<ul>
+<li>Synchronous disk writes too slow</li>
+</ul>
+</li>
+<li><strong>Large scale</strong>. 10,000 nodes, 100TB to 1PB</li>
+</ul>
+
+
+<h3>3. Solution</h3>
+
+<ul>
+<li>For durability, keep a <em>pervasive log structure</em>. Even RAM is a log.</li>
+<li>For availability, employ data parallelism and pipelining while backup data are distributed across a large number of secondary storage devices.</li>
+</ul>
+
+
+<p>Architecture Overview</p>
+
+<p>(Up to 100,000) application servers are connected to (up to 10,000) master/backup storage servers. Each storage server contains a master and a backup. Masters expose RAM as key-value store, while backups store data from other Masters. A central coordinator manages the server pool and tablet configuration.</p>
+
+<p>When a master receives a write requests, it updates its in-memory log and forwards the new data to several backups, which buffer the data in their memory. Master maintains a hash table to record locations of data objects. The data is eventually written to disk or flash in large batches. <strong>Backups must use an auxiliary power source to ensure that buffers can be written to stable storage after a power failure.</strong></p>
+
+<p>When a master crashes, its in-memory log and hash table will be lost, but log data stored on disk on backups will survive.</p>
+
+<p>How to recover? The crashed and restarted master replays log data into RAM and reconstruct the hash table.</p>
+
+<p>How to recover with scale? Partition and scatter log data to more backups randomly. So backup data can be read in parallel.</p>
+
+<p>How about the network bandwidth bottleneck of NIC on recovery master? More recovery masters are used and each master's data are also partitioned. Before recovery, backups receive a partition list specifying which master should what part of data should be sent to.</p>
+
+<p><strong>What if one backup is slow and make the whole process slow?</strong> The master chooses candidate Backups randomly and selects the best one according to its locality, disk information, etc.</p>
+
+<p>Performance: recovers 35GB to RAM in 1.6s using 60 nodes.</p>
+
+<h3>4. Conclusion</h3>
+
+<p>The authors use the log-structured storage instead of synchronous disk write to preserve durability. And the availability is achieved via data parallelism. The design harness the scale well and has exceptional performance.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[CleanOS: Limiting Mobile Data Exposure with Idle Eviction (OSDI'12)]]></title>
+    <link href="http://puncsky.github.com/blog/2012/12/06/cleanos/"/>
+    <updated>2012-12-06T06:40:00-08:00</updated>
+    <id>http://puncsky.github.com/blog/2012/12/06/cleanos</id>
+    <content type="html"><![CDATA[<p><a href="http://systems.cs.columbia.edu/projects/cleanos/">Columbia University</a>, <a href="https://www.usenix.org/system/files/conference/osdi12/osdi12-final-203.pdf">paper</a> <a href="https://www.usenix.org/sites/default/files/conference/protected-files/tang_osdi12_slides.pdf">slides</a>, <a href="https://www.usenix.org/conference/osdi12/cleanos-increasing-mobile-data-control-cloud-based-eviction">video</a></p>
+
+<h3>1. Problem</h3>
+
+<p>How to protect sensitive data in mobile phones? Mobile devices are extremely prone to be stolen or lost.</p>
+
+<!--more-->
+
+
+<h3>2. Challenges</h3>
+
+<ul>
+<li>Users don’t lock their devices (57%) or configure poor passwords</li>
+<li><strong>Physical attacks</strong> are notoriously difficult to protect against
+
+<ul>
+<li>E.g., memory dumps, cold boot attacks, breaking trusted-hardware seals can reveal data or decryption keys</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>3. Solution</h3>
+
+<p>CleanOS evicts cryptographic keys to the trusted cloud and keeps a clean environment at all times:</p>
+
+<ol>
+<li>Sensitive data objects (SDOs) disappear automatically unless are frequently used</li>
+<li><em>evict-idle</em> garbage collector (eiGC) encrypts objects that have not been active for a while</li>
+</ol>
+
+
+<p>Architecture Overview: 1. SDO abstraction, 2. Dalvik interpreter with eiGC, 3. SDO cloud store</p>
+
+<h4>SDO</h4>
+
+<p>Application developers restrict sensitive data with SDO. There are three default default: "SSL", "User Input", "Password" SDOs in SDK. And it does not rely on app modifications.</p>
+
+<pre><code>// SDO API:
+class SDO {
+    SDO(String description, SDOLevel level) // new SDO
+    void add(Object o)      // adds object to SDO
+    void remvoe(Object o)   // removes object from SDO
+}
+// CleanOS protocol between the phone and the cloud
+registerSDO(sdoID, appName, description, key) 
+    // register SDO with DB
+fetchKey(appName, sdoID, bucketID) -&gt; key || null
+    // fetches the key for a bucket in the SDO
+    // bucketID = 0 returns the SDO's key
+sdoEvicted(appName, sdoID)
+    // anounces an SDO's eviction to the cloud
+</code></pre>
+
+<h4>Dalvik VM</h4>
+
+<ol>
+<li>Tracking module(Modified TaintDroid): automatically marks and saves SDO</li>
+<li>Eviction module with eiGC: periodically <code>sdoEvicted()</code> (AES)</li>
+<li>Decryption module: <code>fetchKey()</code> (Several keys at once)</li>
+</ol>
+
+
+<h4>Trusted Clouds</h4>
+
+<p>The cloud keeps the DB to store SDO information and audit logs.</p>
+
+<h4>Implementation &amp; Evaluation</h4>
+
+<p>Dalvik VM(TaintDroid taint-tracking system, interpreter, GC,...) , Google App Engine.</p>
+
+<p>Exposure: ~100% to &lt;~7%</p>
+
+<p>Auditing: much better with user-defined SDOs</p>
+
+<p>Reasonable network traffic and energy overhead with optimization.</p>
+
+<h3>4. Conclusion</h3>
+
+<p>Smartphones accumulate sensitive data over time and is vulnerable to physical attacks. CleanOS protects confidentiality in smartphones by evicting idle sensitive data to the trusted cloud. The idea is mainly implemented with SDO and eiGC. It successfully provides practical protection and auditing services for Android devices.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Chord: A Scalable Peer-to-peer Lookup Service for Internet Applications]]></title>
+    <link href="http://puncsky.github.com/blog/2012/12/06/chord/"/>
+    <updated>2012-12-06T06:29:00-08:00</updated>
+    <id>http://puncsky.github.com/blog/2012/12/06/chord</id>
+    <content type="html"><![CDATA[<p><a href="http://pdos.lcs.mit.edu/chord/">MIT PDOS</a>, <a href="http://pdos.csail.mit.edu/papers/chord:sigcomm01/chord_sigcomm.pdf">paper</a>, <a href="http://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=5&amp;cad=rja&amp;ved=0CGEQFjAE&amp;url=http%3A%2F%2Fpdos.csail.mit.edu%2Frtm%2Fslides%2Fsigcomm01.ppt&amp;ei=tYLAUNjmLoSt0AGb7YCoBw&amp;usg=AFQjCNHmlld_WDglWjj7TP_coYsk1O_l-A&amp;sig2=SO8yiWfEsi_V2VEI-F2pmw">slides</a></p>
+
+<h3>1. Problem</h3>
+
+<p><em>A lookup protocol</em>: How to locate the node that stores a data item in a dynamic P2P system with frequent node arrivals and departures? In other words, given a key, it maps the key onto a node.</p>
+
+<!--more-->
+
+
+<h3>2. Challenges</h3>
+
+<ul>
+<li>Scalability
+
+<ul>
+<li>Previous consistent hashing needs to know <strong>most</strong> other nodes</li>
+</ul>
+</li>
+<li>Robustness</li>
+<li>Efficiency
+
+<ul>
+<li>Centralized lookup (Napster): O(N)</li>
+<li>Flooded queries (Gnutella): Worst case O(N)</li>
+</ul>
+</li>
+<li>Simplicity</li>
+</ul>
+
+
+<h3>3. Solution</h3>
+
+<p>Chord: Just <code>IPaddress Lookup(key)</code> service, no data storage.</p>
+
+<p>Distributed Hash Table (DHT)</p>
+
+<p><strong>Consistent Hashing</strong>: Key ID and Node ID are in the <strong>same ID space</strong> with SHA-1. A key is stored at is successor (node with next higher ID). For each node ...</p>
+
+<h4>Simple Lookup Algorithm (O(n))</h4>
+
+<p>Each node picks a random ID in a circular numeric space, and supervises a region of ID space immediately following its ID. The data shall be stored in its successor.</p>
+
+<pre><code>Lookup(my-id, key-id)
+    n = my sucessor
+    if my-id &lt; n &lt; key-id
+        call Lookup(id) on node n   // next hop
+    else
+        return my successor         // done
+</code></pre>
+
+<h4>Lookup with finger tables (log(N))</h4>
+
+<p>Finger i points to successor of n+2<sup>i.</sup></p>
+
+<pre><code>Lookup(my-id, key)
+    look in local finger table for highest node m s.t. my-id &lt; n &lt; key-id
+    if n exists
+        call Lookup(id) on node n   // next hop
+    else
+        return my successor         // done
+</code></pre>
+
+<p>How to join a new node? For example, join N36 (Node 36) between N25 and N40.</p>
+
+<ol>
+<li>Lookup(36) and get N40's IP</li>
+<li>N36 sets its own successor pointer point to N40</li>
+<li>Copy keys 26~36 from N40 to N36</li>
+<li>Set N25's successor pointer point to N36, and update finger pointers in the background</li>
+</ol>
+
+
+<p>How to deal with failure (a node doesn't know correct successor)?</p>
+
+<ul>
+<li>Successor lists. Each node knows <em>r</em> immediate successors.
+
+<ul>
+<li>Assume 1/2 of nodes fail.</li>
+<li>P(successor list all dead) (1/2)<sup>r</sup></li>
+<li>P(no broken nodes)=(1-(1/2)<sup>r)<sup>N</sup></sup></li>
+</ul>
+</li>
+</ul>
+
+
+<h4>Lookup with fault tolerance</h4>
+
+<pre><code>Lookup(my-id, key-id)
+    look in local finger table and sucessor-list for highest node n s.t. my-id &lt; n &lt; key-id
+    if n exists
+        call Lookup(id) on node n   // next hop
+        if call failed
+            remove n from finger table
+            return Lookup(my-id, key-id)
+    else return my sucessor         // done
+</code></pre>
+
+<h3>4. Conclusion</h3>
+
+<p>Chord uses consistent hashing, distributed hash tables, and novel finger tables to provide lookup services for P2P systems. Each node maintains only O(logN) other nodes. The arrivals and departures acquire only O(log<sup>2</sup> N) messages. The successor list can deal with failure effectively. Chord is simple, scalable, and efficient.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Cells: a virtual mobile smartphone architecture (SOSP '11)]]></title>
+    <link href="http://puncsky.github.com/blog/2012/12/01/cells/"/>
+    <updated>2012-12-01T19:52:00-08:00</updated>
+    <id>http://puncsky.github.com/blog/2012/12/01/cells</id>
+    <content type="html"><![CDATA[<p><a href="http://systems.cs.columbia.edu/archive/pub/2011/10/cells-a-virtual-mobile-smartphone-architecture/">Columbia University</a>, <a href="http://www.sigops.org/sosp/sosp11/current/2011-Cascais/printable/13-andrus.pdf">papers</a>, <a href="http://www.sigops.org/sosp/sosp11/current/2011-Cascais/13-andrus-slides.pdf">slides</a>, <a href="http://www.youtube.com/watch?v=XBBJ8873vqE">video</a></p>
+
+<h3>1. Problem</h3>
+
+<p>The popularity of smartphones results in the need that a user may purchase several smartphones for different uses. Virtual machine (VM) mechanisms may be the solution, which enables separate and isolated instances of a smartphone software stack to run on the same ARM hardware.</p>
+
+<h3>2. Challenges</h3>
+
+<p>Traditional VMs for desktops and servers can not be applied to smartphones for</p>
+
+<ol>
+<li>limited resources can not fully support running an another entire OS</li>
+<li>existing design cannot leverage new devices, such as GPS, camera, GPUs, ...</li>
+</ol>
+
+
+<h3>3. Solution</h3>
+
+<p>Key observation: <strong>one app at a time</strong></p>
+
+<!--more-->
+
+
+<ul>
+<li>Cells, a new, lightweight virtualization architecture for enabling multiple virtual phones (VPs) to run simultaneously on the same smartphone hardware with high performance.
+
+<ul>
+<li>not entire OS virtualization but multiple isolated virtual phones (VP) on a single OS.</li>
+<li>a novel file system layout based on unioning which minimizes memory consumption</li>
+</ul>
+</li>
+<li>Architecture
+
+<ul>
+<li>one foreground VP for displaying and multiple background VPs</li>
+<li>remap OS resource id to virtual ones and then each VP has its own private virtual namespaces</li>
+<li>foreground VP has direct access to hardware. If the foreground VP does not acquire exclusive access, the hardware can be shared by background VPs.
+
+<ul>
+<li>Kernel-Level Device Virtualization to support transparency and performance by introducing <em>device namespace</em></li>
+<li>User-Level Device Virtualization to support portability and transparency by proxy</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Graphics
+
+<ul>
+<li>Linux framebuffer (FB) provides an abstraction to a physical display, so a new FB device driver <strong>mux_fb</strong>  is introduced between virtual addresses and physical addresses, providing an identical device interface to all VPs.</li>
+<li>The foreground VP uses the GPU directly, but background VPs use GPU render into their respective <em>backing buffers</em>.</li>
+</ul>
+</li>
+<li>Power Management
+
+<ul>
+<li><em>early suspend</em> interface: it is blocked by Cells for background VPs</li>
+<li><em>fbearlysuspend</em> interface: Cells makes it namespace-aware. Block &amp; unblock.</li>
+<li><em>weak locks</em> interface: The same weak lock can be locked and unlocked independently by multiple device namespaces.</li>
+</ul>
+</li>
+<li>Phone calls: combination use of VoIP and cellular network
+
+<ul>
+<li>VoIP provides telephone numbers for VPs</li>
+<li>Proxy libraries</li>
+</ul>
+</li>
+</ul>
+
+
+<p>Implementation &amp; evaluation</p>
+
+<ul>
+<li>Up to 5 VPs on Nexus 1, Nexus S ...</li>
+<li>Modest memory overhead (less than 2%)</li>
+<li>Imperceptible switch time among VPs</li>
+</ul>
+
+
+<h3>4. Conclusion</h3>
+
+<ul>
+<li>First OS virtualization fully supports smartphone hardware with native performance</li>
+<li>One app at a time -> foreground and background usage model</li>
+<li>No need of modifications for applications</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
