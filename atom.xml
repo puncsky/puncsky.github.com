@@ -4,7 +4,7 @@
   <title><![CDATA[Puncsky CS Notebook]]></title>
   <link href="http://puncsky.github.com/atom.xml" rel="self"/>
   <link href="http://puncsky.github.com/"/>
-  <updated>2013-08-09T22:43:09-07:00</updated>
+  <updated>2013-08-26T15:21:07-07:00</updated>
   <id>http://puncsky.github.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -12,6 +12,1600 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Setting up the Twitter Helper with ASP.NET]]></title>
+    <link href="http://puncsky.github.com/blog/2013/08/26/Twitter-Helper-in-ASPNET/"/>
+    <updated>2013-08-26T15:09:00-07:00</updated>
+    <id>http://puncsky.github.com/blog/2013/08/26/Twitter-Helper-in-ASPNET</id>
+    <content type="html"><![CDATA[<p>It is a simple tutorial on how to create your own twitter helpers in ASP.NET website.</p>
+
+<!-- more -->
+
+
+<h2>Create Buttons with Helpers</h2>
+
+<h3>1. Follow Button</h3>
+
+<p>The <a href="https://dev.twitter.com/docs/follow-button">Twitter API: Follow Button</a> uses Javascript and data attributes to configure the button:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;https://twitter.com/aspnet&quot;</span> <span class="na">class=</span><span class="s">&quot;twitter-follow-button&quot;</span> <span class="na">data-show-count=</span><span class="s">&quot;false&quot;</span><span class="nt">&gt;</span>Follow @aspnet<span class="nt">&lt;/a&gt;</span>
+</span><span class='line'><span class="nt">&lt;script&gt;</span><span class="o">!</span><span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">,</span><span class="nx">s</span><span class="p">,</span><span class="nx">id</span><span class="p">){</span><span class="kd">var</span> <span class="nx">js</span><span class="p">,</span><span class="nx">fjs</span><span class="o">=</span><span class="nx">d</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="nx">s</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span><span class="nx">p</span><span class="o">=</span><span class="sr">/^http:/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">location</span><span class="p">)</span><span class="o">?</span><span class="s1">&#39;http&#39;</span><span class="o">:</span><span class="s1">&#39;https&#39;</span><span class="p">;</span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">d</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="nx">id</span><span class="p">)){</span><span class="nx">js</span><span class="o">=</span><span class="nx">d</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span><span class="nx">js</span><span class="p">.</span><span class="nx">id</span><span class="o">=</span><span class="nx">id</span><span class="p">;</span><span class="nx">js</span><span class="p">.</span><span class="nx">src</span><span class="o">=</span><span class="nx">p</span><span class="o">+</span><span class="s1">&#39;://platform.twitter.com/widgets.js&#39;</span><span class="p">;</span><span class="nx">fjs</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">js</span><span class="p">,</span><span class="nx">fjs</span><span class="p">);}}(</span><span class="nb">document</span><span class="p">,</span> <span class="s1">&#39;script&#39;</span><span class="p">,</span> <span class="s1">&#39;twitter-wjs&#39;</span><span class="p">);</span><span class="nt">&lt;/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It will be displayed as</p>
+
+<p><a href="https://twitter.com/aspnet" class="twitter-follow-button" data-show-count="false">Follow @aspnet</a></p>
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+
+<p>We can create a new button with configurations provided by twitter directly at <a href="https://twitter.com/about/resources/buttons">twitter.com/about/resources/buttons</a>. On the other hand, to build our own reusable helper button in ASP.NET website, create <code>Twitter.cshtml</code> in the folder <code>App_Code\</code>, and add the following to <code>App_Code\Twitter.cshtml</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>@using System.Globalization
+</span><span class='line'>
+</span><span class='line'>@* For more about the twitter follow button, please visit https://dev.twitter.com/docs/follow-button *@
+</span><span class='line'>@helper FollowButton(
+</span><span class='line'>            string userName,
+</span><span class='line'>            bool showCount = false,
+</span><span class='line'>            bool showUserName = true,
+</span><span class='line'>            bool largeButton = false,
+</span><span class='line'>            bool optOutOfTailoring = false,
+</span><span class='line'>            string language = &quot;&quot;,
+</span><span class='line'>            bool alignLeft= true) {
+</span><span class='line'>    HtmlString showCountAttribute = new HtmlString(showCount ? &quot;&quot; : &quot;data-show-count=\&quot;false\&quot;&quot;);
+</span><span class='line'>    HtmlString showUserNameAttribute = new HtmlString(showUserName ? &quot;&quot; : &quot;data-show-screen-name=\&quot;false\&quot;&quot;);
+</span><span class='line'>    HtmlString largeButtonAttribute = new HtmlString(largeButton ? &quot;data-size=\&quot;large\&quot;&quot; : &quot;&quot;);
+</span><span class='line'>    HtmlString optOutOfTailoringAttribute = new HtmlString(optOutOfTailoring ? &quot;data-dnt=\&quot;true\&quot;&quot; : &quot;&quot;);
+</span><span class='line'>    HtmlString languageAttribute = new HtmlString(!language.IsEmpty() <span class="err">&amp;&amp;</span> !language.Equals(&quot;en&quot;, StringComparison.OrdinalIgnoreCase) ? String.Format(CultureInfo.InvariantCulture, &quot; data-lang=\&quot;&quot; + HttpUtility.HtmlAttributeEncode(language) +&quot;\&quot;&quot;) : &quot;&quot;);
+</span><span class='line'>    HtmlString alignAttribute = new HtmlString(alignLeft ? &quot;&quot; : &quot;data-align=\&quot;right\&quot;&quot;);
+</span><span class='line'><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;https://twitter.com/@HttpUtility.UrlEncode(userName)&quot;</span> <span class="na">class=</span><span class="s">&quot;twitter-follow-button&quot;</span> <span class="err">@</span><span class="na">showCountAttribute</span> <span class="err">@</span><span class="na">showUserNameAttribute</span> <span class="err">@</span><span class="na">largeButtonAttribute</span> <span class="err">@</span><span class="na">optOutOfTailoringAttribute</span> <span class="err">@</span><span class="na">languageAttribute</span> <span class="err">@</span><span class="na">alignAttribute</span><span class="nt">&gt;</span>Follow @(&quot;@&quot; + userName)<span class="nt">&lt;/a&gt;</span>
+</span><span class='line'><span class="nt">&lt;script&gt;</span><span class="o">!</span><span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">,</span><span class="nx">s</span><span class="p">,</span><span class="nx">id</span><span class="p">){</span><span class="kd">var</span> <span class="nx">js</span><span class="p">,</span><span class="nx">fjs</span><span class="o">=</span><span class="nx">d</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="nx">s</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span><span class="nx">p</span><span class="o">=</span><span class="sr">/^http:/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">location</span><span class="p">)</span><span class="o">?</span><span class="s1">&#39;http&#39;</span><span class="o">:</span><span class="s1">&#39;https&#39;</span><span class="p">;</span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">d</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="nx">id</span><span class="p">)){</span><span class="nx">js</span><span class="o">=</span><span class="nx">d</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span><span class="nx">js</span><span class="p">.</span><span class="nx">id</span><span class="o">=</span><span class="nx">id</span><span class="p">;</span><span class="nx">js</span><span class="p">.</span><span class="nx">src</span><span class="o">=</span><span class="nx">p</span><span class="o">+</span><span class="s1">&#39;://platform.twitter.com/widgets.js&#39;</span><span class="p">;</span><span class="nx">fjs</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">js</span><span class="p">,</span><span class="nx">fjs</span><span class="p">);}}(</span><span class="nb">document</span><span class="p">,</span> <span class="s1">&#39;script&#39;</span><span class="p">,</span> <span class="s1">&#39;twitter-wjs&#39;</span><span class="p">);</span><span class="nt">&lt;/script&gt;</span>
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After setting up the helper, it can be called in our page with <code>@Twitter.FollowButton()</code>. In our example, we should send at least one parameter specifying the <code>userName</code> we would like to follow. Assume we need a button following <a href="https://twitter.com/aspnet">The ASP.NET Team(@aspnet)</a>, showing the follower count, with a small size, in the language of spanish (<a href="http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">ISO-639-1 Language Code</a>):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>@Twitter.FollowButton(userName: &quot;aspnet&quot;, showCount: true, largeButton: false, language: &quot;es&quot;)
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It will be displayed as</p>
+
+<p><a href="https://twitter.com/aspnet" class="twitter-follow-button" data-show-count="false" data-lang="es">Seguir a @aspnet</a></p>
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+
+<h3>2. Tweet Button</h3>
+
+<p>Similarly, we can both utilize the tool provided by <a href="https://twitter.com/about/resources/buttons#tweet">twitter.com/about/resources/buttons#tweet</a> and create our own helper.</p>
+
+<p>In order to create our own helper, add the following to <code>App_Code\Twitter.cshtml</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>@* For more about the tweet button, please visit https://dev.twitter.com/docs/tweet-button *@
+</span><span class='line'>@helper TweetButton(string url = &quot;&quot;,
+</span><span class='line'>            string tweetText = &quot;&quot;,
+</span><span class='line'>            bool showCount = true,
+</span><span class='line'>            string via = &quot;&quot;,
+</span><span class='line'>            string recommend = &quot;&quot;,
+</span><span class='line'>            string hashtag = &quot;&quot;,
+</span><span class='line'>            bool largeButton = false,
+</span><span class='line'>            bool optOutOfTailoring = false,
+</span><span class='line'>            string language = &quot;&quot;) {
+</span><span class='line'>    HtmlString urlAttribute = new HtmlString(url.IsEmpty() ? &quot;&quot; : String.Format(CultureInfo.InvariantCulture, &quot; data-url=\&quot;&quot; + HttpUtility.HtmlAttributeEncode(url) + &quot;\&quot;&quot;));
+</span><span class='line'>    HtmlString tweetTextAttribute = new HtmlString(tweetText.IsEmpty() ? &quot;&quot; : &quot;data-text=\&quot;&quot; + HttpUtility.HtmlAttributeEncode(tweetText) + &quot;\&quot;&quot;);
+</span><span class='line'>    HtmlString showCountAttribute = new HtmlString(showCount ? &quot;&quot; : &quot;data-show-count=\&quot;false\&quot;&quot;);
+</span><span class='line'>    HtmlString viaAttribute = new HtmlString(via.IsEmpty() ? &quot;&quot; : &quot;data-via=\&quot;&quot; + HttpUtility.HtmlAttributeEncode(via) + &quot;\&quot;&quot;);
+</span><span class='line'>    HtmlString recommendAttribute = new HtmlString(recommend.IsEmpty() ? &quot;&quot; : &quot;data-related=\&quot;&quot; + HttpUtility.HtmlAttributeEncode(recommend) + &quot;\&quot;&quot;);
+</span><span class='line'>    HtmlString hashtagAttribute = new HtmlString(hashtag.IsEmpty() ? &quot;&quot; : &quot;data-hashtags=\&quot;&quot; + HttpUtility.HtmlAttributeEncode(hashtag) + &quot;\&quot;&quot;);
+</span><span class='line'>    HtmlString largeButtonAttribute = new HtmlString(largeButton ? &quot;data-size=\&quot;large\&quot;&quot; : &quot;&quot;);
+</span><span class='line'>    HtmlString optOutOfTailoringAttribute = new HtmlString(optOutOfTailoring ? &quot;data-dnt=\&quot;true\&quot;&quot; : &quot;&quot;);
+</span><span class='line'>    HtmlString languageAttribute = new HtmlString(!language.IsEmpty() <span class="err">&amp;&amp;</span> !language.Equals(&quot;en&quot;, StringComparison.OrdinalIgnoreCase) ? String.Format(CultureInfo.InvariantCulture, &quot; data-lang=\&quot;{0}\&quot;&quot;, HttpUtility.HtmlAttributeEncode(language)) : &quot;&quot;);
+</span><span class='line'><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;https://twitter.com/share&quot;</span> <span class="na">class=</span><span class="s">&quot;twitter-share-button&quot;</span> <span class="err">@</span><span class="na">urlAttribute</span> <span class="err">@</span><span class="na">tweetTextAttribute</span> <span class="err">@</span><span class="na">showCountAttribute</span> <span class="err">@</span><span class="na">viaAttribute</span> <span class="err">@</span><span class="na">recommendAttribute</span> <span class="err">@</span><span class="na">hashtagAttribute</span> <span class="err">@</span><span class="na">largeButtonAttribute</span> <span class="err">@</span><span class="na">optOutOfTailoringAttribute</span> <span class="err">@</span><span class="na">languageAttribute</span><span class="nt">&gt;</span>Tweet<span class="nt">&lt;/a&gt;</span>
+</span><span class='line'><span class="nt">&lt;script&gt;</span><span class="o">!</span><span class="kd">function</span> <span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">s</span><span class="p">,</span> <span class="nx">id</span><span class="p">)</span> <span class="p">{</span> <span class="kd">var</span> <span class="nx">js</span><span class="p">,</span> <span class="nx">fjs</span> <span class="o">=</span> <span class="nx">d</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="nx">s</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">p</span> <span class="o">=</span> <span class="sr">/^http:/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">location</span><span class="p">)</span> <span class="o">?</span> <span class="s1">&#39;http&#39;</span> <span class="o">:</span> <span class="s1">&#39;https&#39;</span><span class="p">;</span> <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">d</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="nx">id</span><span class="p">))</span> <span class="p">{</span> <span class="nx">js</span> <span class="o">=</span> <span class="nx">d</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span> <span class="nx">js</span><span class="p">.</span><span class="nx">id</span> <span class="o">=</span> <span class="nx">id</span><span class="p">;</span> <span class="nx">js</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="nx">p</span> <span class="o">+</span> <span class="s1">&#39;://platform.twitter.com/widgets.js&#39;</span><span class="p">;</span> <span class="nx">fjs</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">js</span><span class="p">,</span> <span class="nx">fjs</span><span class="p">);</span> <span class="p">}</span> <span class="p">}(</span><span class="nb">document</span><span class="p">,</span> <span class="s1">&#39;script&#39;</span><span class="p">,</span> <span class="s1">&#39;twitter-wjs&#39;</span><span class="p">);</span><span class="nt">&lt;/script&gt;</span>
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Assume that we need a tweet button sharing the link to <code>http://www.asp.net/mvc</code>, with a large size and a hashtag <code>awesome</code>, and in the language of English.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>@Twitter.TweetButton(url: &quot;http://www.asp.net/mvc&quot;, largeButton: true, hashtag: &quot;awesome&quot;)
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It will be displayed as</p>
+
+<p><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.asp.net/mvc" data-size="large" data-count="none" data-hashtags="awesome">Tweet</a></p>
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+
+<h2>Create Registered Widgets</h2>
+
+<p>In Twitter API v1.1, widgets, including profile, favorites, search and list, are migrated to <a href="https://dev.twitter.com/docs/embedded-timelines">Embedded Timelines</a>. The user should register the widgets at <a href="https://twitter.com/settings/widgets">twitter.com/settins/widgets</a>. Unauthenticated requests are not supported.</p>
+
+<h3>1. User Timeline (Profile)</h3>
+
+<p>Log in to twitter and go to  <a href="https://twitter.com/settings/widgets">twitter.com/settingts/widgets</a>. <a href="https://twitter.com/settings/widgets/new">Click <code>Create new</code></a>, set up our own configuration, and click <code>Create widget</code>. Finally, copy and paste the code into the page of our site.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">&quot;twitter-timeline&quot;</span> <span class="na">href=</span><span class="s">&quot;https://twitter.com/aspnet&quot;</span> <span class="na">data-widget-id=</span><span class="s">&quot;369912910400593920&quot;</span><span class="nt">&gt;</span>Tweets by @aspnet<span class="nt">&lt;/a&gt;</span>
+</span><span class='line'><span class="nt">&lt;script&gt;</span><span class="o">!</span><span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">,</span><span class="nx">s</span><span class="p">,</span><span class="nx">id</span><span class="p">){</span><span class="kd">var</span> <span class="nx">js</span><span class="p">,</span><span class="nx">fjs</span><span class="o">=</span><span class="nx">d</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="nx">s</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span><span class="nx">p</span><span class="o">=</span><span class="sr">/^http:/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">location</span><span class="p">)</span><span class="o">?</span><span class="s1">&#39;http&#39;</span><span class="o">:</span><span class="s1">&#39;https&#39;</span><span class="p">;</span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">d</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="nx">id</span><span class="p">)){</span><span class="nx">js</span><span class="o">=</span><span class="nx">d</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span><span class="nx">js</span><span class="p">.</span><span class="nx">id</span><span class="o">=</span><span class="nx">id</span><span class="p">;</span><span class="nx">js</span><span class="p">.</span><span class="nx">src</span><span class="o">=</span><span class="nx">p</span><span class="o">+</span><span class="s2">&quot;://platform.twitter.com/widgets.js&quot;</span><span class="p">;</span><span class="nx">fjs</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">js</span><span class="p">,</span><span class="nx">fjs</span><span class="p">);}}(</span><span class="nb">document</span><span class="p">,</span><span class="s2">&quot;script&quot;</span><span class="p">,</span><span class="s2">&quot;twitter-wjs&quot;</span><span class="p">);</span><span class="nt">&lt;/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The code above will be shown as</p>
+
+<p><a class="twitter-timeline" href="https://twitter.com/aspnet" data-widget-id="369912910400593920">Tweets by @aspnet</a></p>
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+
+<h3>2. Favorites</h3>
+
+<p>Go to <a href="https://twitter.com/settings/widgets/new/favorites">twitter.com/settings/widgets/new/favorites</a>. Set up our own configuration. Click <code>Create widget</code>, copy and paste the code into the page of our site.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">&quot;twitter-timeline&quot;</span> <span class="na">href=</span><span class="s">&quot;https://twitter.com/aspnet/favorites&quot;</span> <span class="na">data-widget-id=</span><span class="s">&quot;369909963851714561&quot;</span><span class="nt">&gt;</span>Favorite Tweets by @aspnet<span class="nt">&lt;/a&gt;</span>
+</span><span class='line'><span class="nt">&lt;script&gt;</span><span class="o">!</span><span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">,</span><span class="nx">s</span><span class="p">,</span><span class="nx">id</span><span class="p">){</span><span class="kd">var</span> <span class="nx">js</span><span class="p">,</span><span class="nx">fjs</span><span class="o">=</span><span class="nx">d</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="nx">s</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span><span class="nx">p</span><span class="o">=</span><span class="sr">/^http:/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">location</span><span class="p">)</span><span class="o">?</span><span class="s1">&#39;http&#39;</span><span class="o">:</span><span class="s1">&#39;https&#39;</span><span class="p">;</span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">d</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="nx">id</span><span class="p">)){</span><span class="nx">js</span><span class="o">=</span><span class="nx">d</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span><span class="nx">js</span><span class="p">.</span><span class="nx">id</span><span class="o">=</span><span class="nx">id</span><span class="p">;</span><span class="nx">js</span><span class="p">.</span><span class="nx">src</span><span class="o">=</span><span class="nx">p</span><span class="o">+</span><span class="s2">&quot;://platform.twitter.com/widgets.js&quot;</span><span class="p">;</span><span class="nx">fjs</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">js</span><span class="p">,</span><span class="nx">fjs</span><span class="p">);}}(</span><span class="nb">document</span><span class="p">,</span><span class="s2">&quot;script&quot;</span><span class="p">,</span><span class="s2">&quot;twitter-wjs&quot;</span><span class="p">);</span><span class="nt">&lt;/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It will be displayed as:</p>
+
+<p><a class="twitter-timeline" href="https://twitter.com/aspnet/favorites" data-widget-id="369909963851714561">Favorite Tweets by @aspnet</a></p>
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+
+<h3>3. List</h3>
+
+<p>Go to <a href="https://twitter.com/settings/widgets/new/list">twitter.com/settings/widgets/new/list</a>. Set up our own configuration. Click <code>Create widget</code>, copy and paste the code into the page of our website.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">&quot;twitter-timeline&quot;</span> <span class="na">href=</span><span class="s">&quot;https://twitter.com/puncsky/blog&quot;</span> <span class="na">data-widget-id=</span><span class="s">&quot;369913408134467584&quot;</span><span class="nt">&gt;</span>Tweets from @puncsky/blog<span class="nt">&lt;/a&gt;</span>
+</span><span class='line'><span class="nt">&lt;script&gt;</span><span class="o">!</span><span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">,</span><span class="nx">s</span><span class="p">,</span><span class="nx">id</span><span class="p">){</span><span class="kd">var</span> <span class="nx">js</span><span class="p">,</span><span class="nx">fjs</span><span class="o">=</span><span class="nx">d</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="nx">s</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span><span class="nx">p</span><span class="o">=</span><span class="sr">/^http:/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">location</span><span class="p">)</span><span class="o">?</span><span class="s1">&#39;http&#39;</span><span class="o">:</span><span class="s1">&#39;https&#39;</span><span class="p">;</span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">d</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="nx">id</span><span class="p">)){</span><span class="nx">js</span><span class="o">=</span><span class="nx">d</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span><span class="nx">js</span><span class="p">.</span><span class="nx">id</span><span class="o">=</span><span class="nx">id</span><span class="p">;</span><span class="nx">js</span><span class="p">.</span><span class="nx">src</span><span class="o">=</span><span class="nx">p</span><span class="o">+</span><span class="s2">&quot;://platform.twitter.com/widgets.js&quot;</span><span class="p">;</span><span class="nx">fjs</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">js</span><span class="p">,</span><span class="nx">fjs</span><span class="p">);}}(</span><span class="nb">document</span><span class="p">,</span><span class="s2">&quot;script&quot;</span><span class="p">,</span><span class="s2">&quot;twitter-wjs&quot;</span><span class="p">);</span><span class="nt">&lt;/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It will be like:</p>
+
+<p><a class="twitter-timeline" href="https://twitter.com/puncsky/blog" data-widget-id="369913408134467584">Tweets from @puncsky/blog</a></p>
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+
+<h3>4. Search</h3>
+
+<p>Go to <a href="https://twitter.com/settings/widgets/new/search">twitter.com/settings/widgets/new/search</a>. Set up our own configuration. Click <code>Create widget</code>, copy and paste the code into the page of our website.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">&quot;twitter-timeline&quot;</span> <span class="na">href=</span><span class="s">&quot;https://twitter.com/search?q=%23asp.net&quot;</span> <span class="na">data-widget-id=</span><span class="s">&quot;369910441469689856&quot;</span><span class="nt">&gt;</span>Tweets about &quot;#asp.net&quot;<span class="nt">&lt;/a&gt;</span>
+</span><span class='line'><span class="nt">&lt;script&gt;</span><span class="o">!</span><span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">,</span><span class="nx">s</span><span class="p">,</span><span class="nx">id</span><span class="p">){</span><span class="kd">var</span> <span class="nx">js</span><span class="p">,</span><span class="nx">fjs</span><span class="o">=</span><span class="nx">d</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="nx">s</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span><span class="nx">p</span><span class="o">=</span><span class="sr">/^http:/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">location</span><span class="p">)</span><span class="o">?</span><span class="s1">&#39;http&#39;</span><span class="o">:</span><span class="s1">&#39;https&#39;</span><span class="p">;</span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">d</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="nx">id</span><span class="p">)){</span><span class="nx">js</span><span class="o">=</span><span class="nx">d</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span><span class="nx">js</span><span class="p">.</span><span class="nx">id</span><span class="o">=</span><span class="nx">id</span><span class="p">;</span><span class="nx">js</span><span class="p">.</span><span class="nx">src</span><span class="o">=</span><span class="nx">p</span><span class="o">+</span><span class="s2">&quot;://platform.twitter.com/widgets.js&quot;</span><span class="p">;</span><span class="nx">fjs</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">js</span><span class="p">,</span><span class="nx">fjs</span><span class="p">);}}(</span><span class="nb">document</span><span class="p">,</span><span class="s2">&quot;script&quot;</span><span class="p">,</span><span class="s2">&quot;twitter-wjs&quot;</span><span class="p">);</span><span class="nt">&lt;/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It will be displayed as:</p>
+
+<p><a class="twitter-timeline" href="https://twitter.com/search?q=%23asp.net" data-widget-id="369910441469689856">Tweets about &#8220;#asp.net&#8221;</a></p>
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Essential C# 4.0: Basics]]></title>
+    <link href="http://puncsky.github.com/blog/2013/08/14/Essential-C%23-4.0/"/>
+    <updated>2013-08-14T10:23:00-07:00</updated>
+    <id>http://puncsky.github.com/blog/2013/08/14/Essential-C#-4.0</id>
+    <content type="html"><![CDATA[<p>No one can ever master a programming language (PL) by studying it only without looking into and comparing it with other ones. In addition, modern application software often requires a variety of components written in different PLs. Most importantly, language itself is not important at all; at least not important when compared to the fundamental ideas on architectures, frameworks, the design of the PL. A competing programmer can always get the hang of any PLs quickly.</p>
+
+<p>Consequently, I make a list of PLs I would study seriously in the future.</p>
+
+<!-- more -->
+
+
+<ol>
+<li>C# or Java</li>
+<li>A serious pure OOP and enterprise level PL is always necessary for the reason of productivity.</li>
+<li>C/C++</li>
+<li>The most powerful PL, which can be used to create almost everything.</li>
+<li>Help to understand things under the hood.</li>
+<li>C++: semi-OOP version of C, a horrible language which requires a life long time to study.</li>
+<li>Bash/Python</li>
+<li>Scripts make your life easier.</li>
+<li>Javascript</li>
+<li>Everything could be written in Javascript will be eventually written in Javascript.</li>
+<li>Lisp</li>
+<li>Help to understand the beauty of functional PL.</li>
+</ol>
+
+
+<p>The following part is my notes on the book <em>Essential C#</em>, which is redeemed as the best book for C# learners.</p>
+
+<h1>Essential C# 4.0</h1>
+
+<h2>1 Introducing C# 1</h2>
+
+<p><img src="http://upload.wikimedia.org/wikipedia/commons/6/6f/CLR_diag.svg" alt="CLR converts CIL to native code" /></p>
+
+<p>HelloWorld.exe is an <em>assembly</em>.</p>
+
+<p>Dynamic Link Library (DLL) is also an <em>assembly</em>.</p>
+
+<p><em>Language Contrast</em>: Java—Filename Must Match Class Name</p>
+
+<p>keywords, identifiers. keywords may be used as identifiers if they include “@” as a prefix.</p>
+
+<ul>
+<li><strong>Pascal Casing</strong>: Type&#8217;s name should begin with a capital letter and a <em>noun</em>&#8230;</li>
+<li><strong>Camel Casing</strong>: same except that the first letter is lowercase.</li>
+</ul>
+
+
+<p>method, statement</p>
+
+<p><em>Language Contrast</em>: C++/Java &#8211; <code>main()</code> is all lowercase</p>
+
+<p><strong>Strings are immutable.</strong></p>
+
+<p>composite formatting.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>System.Console.WriteLine("Your full name is {0} {1}.", firstName, lastName);
+</span><span class='line'>//                        -------format string-------  ----format item-----
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Comment Types
+
+<ul>
+<li>Delimited comments</li>
+<li>Single-line comments</li>
+<li>XML delimited comments <code>/**comment**/</code></li>
+<li>XML single-line comments <code>///comment</code></li>
+</ul>
+</li>
+</ul>
+
+
+<p>C# src &#8211;(C# compiler)&#8211;> common intermediate language(CIL) &#8211;(justintime compiling)&#8211;> machine code</p>
+
+<p>Virtual Execution System(VES)</p>
+
+<ul>
+<li>whether require runtime to execution?
+
+<ul>
+<li>managed code and managed execution</li>
+<li>unmanaged code and unmanaged execution</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>2 Data Types 31</h2>
+
+<ol>
+<li>Numeric Types</li>
+<li>Integer Types
+
+<ul>
+<li>Base Class Library (BCL)</li>
+</ul>
+</li>
+<li>Float-Point Types</li>
+<li>Decimal
+
+<ul>
+<li>greater precision than the floating-point types, but a smaller range.</li>
+<li>conversions from floating-point types to the decimal type may result in overflow errors.</li>
+<li>calculations with decimal are slightly slower.</li>
+</ul>
+</li>
+<li>Literal Values
+
+<ul>
+<li>a representation of a constant value within source code.</li>
+<li><strong>hardcoding</strong>: place a value directly into src
+
+<ul>
+<li>numbers with a decimal point will default to <code>double</code></li>
+<li><code>decimal</code>? append an m (or M): <code>1.32525456874526m</code>
+
+<ul>
+<li>no suffix -> <code>int</code> <code>uint</code>, <code>long</code>, <code>ulong</code>.</li>
+<li>suffix <code>U</code>/<code>L</code>/<code>UL</code>/<code>LU</code></li>
+<li>infix <code>E</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>More Types</li>
+<li>Boolean</li>
+<li>Character
+
+<ul>
+<li>Escape Sequence: <code>\uxxxx</code> unicode char in hex, e.g. <code>\u0029</code></li>
+</ul>
+</li>
+<li>Strings
+
+<ul>
+<li>verbatim string (with prefix <code>@</code>)
+
+<ul>
+<li>signify that a backslash should not be interpreted as the beginning of an escape sequence.</li>
+<li>a newline cannot be placed directly within a string that is not prefaced with the @ symbol.</li>
+<li>The only escape sequence the verbatim string does support is &#8220;&#8221;, which signifies double quotes and does not terminate the string.</li>
+</ul>
+</li>
+<li><strong>immutable</strong>
+
+<ul>
+<li>How to modify? <code>System.Text.StringBuilder</code></li>
+</ul>
+</li>
+<li>New Line
+
+<ul>
+<li>Win : <code>\r\n</code></li>
+<li>*nix: <code>\n</code></li>
+<li><code>Console.WriteLine()</code> or <code>Console.Write(Environment.NewLine);</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>null and void</li>
+<li>In C++, void is a data type commonly used as void<em><em>. In C#, <code>void</code> </em>is not
+considered a data type</em> in the same way. Rather, it is used to identify that a
+method does not return a value.</li>
+<li><code>var</code> introduced to support anonymous types, e.g. <code>var patent1 = new { Title = "Bifocals", YearOfPublication = "1884" };</code>. Avoid to use in other cases.
+
+<ul>
+<li>avoid anonymous types until working with lambda and query expressions that associate data from different types or you you are horizontally projecting the data so that for a particular type, there is less data overall.</li>
+</ul>
+</li>
+<li><strong>Categories of Types</strong></li>
+<li>Value Types: all the C# primitive types except <code>string</code> and <code>object</code>, all derive from <code>System.ValueType</code>
+
+<ul>
+<li>data copied by value</li>
+<li>for &lt; 16 bytes</li>
+<li>stack</li>
+</ul>
+</li>
+<li>Reference Types: <code>string</code>, <code>object</code>, any custom classes, most classes
+
+<ul>
+<li><strong><em>IMPORTANT</em></strong> string is passed by value and cloned when pass it to a method, BUT</li>
+<li>data copied by reference</li>
+<li>heap</li>
+</ul>
+</li>
+<li><strong>Nullable Modifier</strong>, value types can be null, like <code>int? count = null;</code></li>
+<li>Conversions</li>
+<li>Explicit Cast
+
+<ul>
+<li><strong><em>checked and unchecked block</em></strong> whether to throw overflow exceptions</li>
+<li>No numbers to booleans conversion</li>
+</ul>
+</li>
+<li>Implicit Cast</li>
+<li>Conversion Without Casting
+
+<ul>
+<li><code>Parse(T1 to, T2 from)</code></li>
+<li><code>System.Convert</code></li>
+<li><code>bool TryParse(T1 to,T2 from, T1 number)</code></li>
+</ul>
+</li>
+<li>Arrays</li>
+<li>Declaring
+
+<ul>
+<li><code>string[] languages;</code> square brackets identify the <strong>rank</strong> (# of dimensions)</li>
+<li>before the variable. <em>Language Contrast</em>: different from C++/JAVA, <code>int numbers[]</code> is not allowed.</li>
+</ul>
+</li>
+<li>Instantiating
+
+<ul>
+<li><strong>IMPORTANT the same applied to other similar cases</strong>
+
+<ul>
+<li>If only one statement: <code>string[] languages = { "C#", "COBOL", "Java" };</code></li>
+<li>If multiple lines: <code>string[] languages; languages = new string[]{"C#", "COBOL", "JAVA" };</code></li>
+</ul>
+</li>
+<li><code>new string[size];</code></li>
+</ul>
+</li>
+<li><p>Assigning</p>
+
+<ul>
+<li>multi-dimensional
+
+<ol>
+<li><strong><em>consistently sized array</em></strong> <code>int[,,,]</code></li>
+<li><strong><em>jagged array</em></strong> <code>int[][][]</code></li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>Using</p>
+
+<ul>
+<li><code>Sort()</code>, <code>BinarySearch()</code>, <code>Reverse()</code>, <code>Clear()</code>, &#8230;</li>
+<li>Redimension? <code>System.Array.Resize()</code></li>
+</ul>
+</li>
+<li>String as Arrays
+
+<ul>
+<li><code>.ToCharArray()</code></li>
+</ul>
+</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// instantiating
+</span><span class='line'>int[,] cells = {
+</span><span class='line'>{1, 0, 2},
+</span><span class='line'>{0, 2, 0},
+</span><span class='line'>{1, 2, 1}
+</span><span class='line'>};
+</span><span class='line'>
+</span><span class='line'>int[][] cells = {
+</span><span class='line'>new int[]{1, 0, 2},
+</span><span class='line'>new int[]{0, 2, 0},
+</span><span class='line'>new int[]{1, 2, 1}
+</span><span class='line'>};</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// handle conversion overflow with checked and unchecked
+</span><span class='line'>checked {
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>unchecked {
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>3 Operators and Control Flow 83</h2>
+
+<ol>
+<li>Operators</li>
+<li>Thread-Safe Incrementing and Decrementing, use thread-safe <code>Increment()</code> and <code>Decrement()</code> in <code>System.Threading.Interlocked</code> class</li>
+<li>Boolean Expressionn</li>
+<li>XOR for eXclusive OR</li>
+<li>Conditional Operator (?)
+
+<ul>
+<li>Shortcut to the conditional operator: <strong>Null Coalescing Operator (<code>??</code>)</strong> evaluates an expression for null and returns a second expression if the value is null.</li>
+</ul>
+</li>
+<li>Bitwise Operators</li>
+<li>Control Flow Statements</li>
+<li><code>foreach (type variable in collection) { /* do something */ }</code>
+
+<ul>
+<li><code>variable</code> is read-only, and its scope is limited to the <code>foreach loop</code></li>
+</ul>
+</li>
+<li>Jump Statements</li>
+<li><em>Language Contrast</em>: Unlike C++, C# does not allow a <code>switch</code> statement to fall through from one <code>case</code> block to the next if the <code>case</code> includes a statement. A jump statement is always required following the statement within a case.</li>
+<li><em>Language Contrast</em>: C# prevents using goto into something, and allows its use only within or out of something.</li>
+<li><strong><em>Preprocessor Directives</em></strong></li>
+<li><em>Language Contrast</em>: C/C++ contain a preprocessor. Preprocessor directives generally tell the compiler how to
+compile the code in a file and do not participate in the compilation process
+itself. In contrast, the C# compiler handles preprocessor directives as part
+of the regular lexical analysis of the source code. As a result, C# does not
+support preprocessor macros beyond defining a constant. In fact, the term
+preprocessor is generally a misnomer for C#.</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Null Coalescing Operator
+</span><span class='line'>string fileName;
+</span><span class='line'>// ...
+</span><span class='line'>string fullName = fileName??"default.txt";
+</span><span class='line'>// ...</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Preprocessor Directives
+</span><span class='line'>
+</span><span class='line'>#if CSHARP2
+</span><span class='line'>System.Console.Clear();
+</span><span class='line'>#endif
+</span><span class='line'>
+</span><span class='line'>#if LINUX
+</span><span class='line'>...
+</span><span class='line'>#elif WINDOWS
+</span><span class='line'>...
+</span><span class='line'>#endif
+</span><span class='line'>
+</span><span class='line'>// you can define a preprocessor symbol in two way
+</span><span class='line'>// first,
+</span><span class='line'>#define CSHARP2
+</span><span class='line'>// second, in CLI
+</span><span class='line'>// &gt;csc.exe /define:CSHARP2 TicTacToe.cs
+</span><span class='line'>
+</span><span class='line'>#warning "Some move allowed multiple times."
+</span><span class='line'>// Performing main compilation...
+</span><span class='line'>// ...\tictactoe.cs(471,16): warning CS1030: #warning: ’"Same move allowed
+</span><span class='line'>// multiple times."’
+</span><span class='line'>// Build complete -- 0 errors, 1 warnings
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>// Note that warning numbers are prefixed with the letters CS in the compiler output.
+</span><span class='line'>// to disable warnings, first,
+</span><span class='line'>#pragma warning disable 1030
+</span><span class='line'>// second,
+</span><span class='line'>// &gt; csc /doc:generate.xml /nowarn:1591 /out:generate.exe Program.cs
+</span><span class='line'>
+</span><span class='line'>#pragma warning restore 1030
+</span><span class='line'>// one of the most common warnings to disable is CS1591, as this appears when you elect to
+</span><span class='line'>// generate XML documentation using the /doc compiler option, but you neglect to document
+</span><span class='line'>// all of the public items within your program.
+</span><span class='line'>
+</span><span class='line'>// specify line numbers
+</span><span class='line'>#line 113 "TicTacToe.cs"
+</span><span class='line'>#warning "Same move allowed multiple times."
+</span><span class='line'>#line defualt
+</span><span class='line'>// display line 113 and then restore
+</span><span class='line'>
+</span><span class='line'>// for visual editors to open/collapse
+</span><span class='line'>#region Display Tic-tac-toe Board
+</span><span class='line'>...
+</span><span class='line'>#endregion Display Tic-tac-toe Board
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>4 Methods and Parameters 149</h2>
+
+<ol>
+<li>Calling a Method</li>
+<li>Namespace
+
+<ul>
+<li>Everything should appear within a class definition.</li>
+</ul>
+</li>
+<li>Type Name</li>
+<li>Scope</li>
+<li>Method Name</li>
+<li>Parameters</li>
+<li>Method Return
+
+<ul>
+<li><em>Language Contrast</em>:Unlike C++, C# classes never separate the implementation from the declaration. Cleaner and more readable.</li>
+</ul>
+</li>
+<li>Declaring a Method</li>
+<li>The Using Directive</li>
+<li><em>Language Contrast</em> Java uses wildcards in <code>import</code> directive, while C# requires each namespace to be imported explicitly.</li>
+<li><code>using</code> could be nested in other namespaces but seldom used in this way.</li>
+<li><strong><em>Aliasing</em></strong> a namespace or type: <code>using CountDownTimer = System.Timers.Timer;</code></li>
+<li>Parameters</li>
+<li>Value Parameters
+
+<ul>
+<li><code>static int Main(string[] args)</code> By convention, a return other than zero indicates an error.
+
+<ul>
+<li><em>Language Contrast</em>, CLI arguments start from <code>args[0]</code>. The name of the program is omitted.</li>
+<li>access the CLI arguments through <code>args</code> or <code>System.Environment.GetCommandLineArgs()</code></li>
+<li><strong><em>Multiple <code>Main()</code> Methods in a program</em></strong>? use <code>&gt;csc.exe /m main.cs</code></li>
+</ul>
+</li>
+<li>call stack, <em>stack unwinding</em>, <em>call site</em>调用地点</li>
+<li><code>string</code> as parameters are passed by value</li>
+<li>By default, parameters are passed by value</li>
+</ul>
+</li>
+<li><strong><em>Reference Parameters (<code>ref</code>)</em></strong>
+
+<ul>
+<li>declare <code>ref Type variable</code> in the function&#8217;s list of args and call it with <code>ref variable</code></li>
+</ul>
+</li>
+<li><strong><em>Output Parameters (<code>out</code>)</em></strong></li>
+<li><strong><em>Parameter Arrays (<code>params</code>)</em></strong></li>
+<li>Optional Parameters
+
+<ul>
+<li>optional parameters
+must appear after all required parameters (those that don’t have default
+values). Also, the fact that the default value needs to be a constant, compile-
+time-resolved value</li>
+<li><strong>named parameters</strong></li>
+</ul>
+</li>
+<li>Method Overloading</li>
+<li>Exception Handling</li>
+<li><strong><em>generic catch</em></strong>: <code>try { } catch { }</code> <em>Language Contrast</em> C++: <code>try { } catch (...) { }</code>. JAVA: <code>Exception</code> is the base class for all exceptions, so <code>try { } catch (Exception e) { }</code>.</li>
+<li>Avoid using exception handling to deal with expected situations</li>
+<li><code>bool int.TryParse(textVariable, out number)</code></li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Aliasing a namespace or type
+</span><span class='line'>using Timer = System.Timers.Timer;
+</span><span class='line'>
+</span><span class='line'>class HelloWorld
+</span><span class='line'>{
+</span><span class='line'>  static void Main()
+</span><span class='line'>  {
+</span><span class='line'>    Timer timer;
+</span><span class='line'>  // ...
+</span><span class='line'>  }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Refrence Parameters
+</span><span class='line'>class Program
+</span><span class='line'>{
+</span><span class='line'>  static void Main() {
+</span><span class='line'>    string first = "first";
+</span><span class='line'>  string second = "second";
+</span><span class='line'>  Swap(ref first, ref second);
+</span><span class='line'>
+</span><span class='line'>    System.Console.WriteLine(@"first = ""{0}"", second = ""{1}""", first, second);
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  static void Swap(ref string first, ref string second) {
+</span><span class='line'>    string tmp = first;
+</span><span class='line'>  first = second;
+</span><span class='line'>  second = tmp;
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Parameter Arrays
+</span><span class='line'>class PathEx
+</span><span class='line'>{
+</span><span class='line'>  static void Main()
+</span><span class='line'>  {
+</span><span class='line'>    string fullName;
+</span><span class='line'>  fullName = Combine(
+</span><span class='line'>      Directory.GetCurrentDirectory();
+</span><span class='line'>      "bin", "config", "index.html");
+</span><span class='line'>    Console.WriteLine(fullName);
+</span><span class='line'>  fullName = Combine(
+</span><span class='line'>      Environment.SystemDirectory,
+</span><span class='line'>      "Temp", "index.html");
+</span><span class='line'>    Console.WriteLine(fullName);
+</span><span class='line'>  fullName = Combine(
+</span><span class='line'>      new string[] {
+</span><span class='line'>          "C:\", "Data",
+</span><span class='line'>          "HomeDir", "index.html"} );
+</span><span class='line'>  Console.WriteLine(fullName);
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>    static string Combine(params string[] paths)
+</span><span class='line'>  {
+</span><span class='line'>      string result = string.Empty;
+</span><span class='line'>      foreach (string path in paths) {
+</span><span class='line'>          result = System.IO.Path.Combine(result, path);
+</span><span class='line'>      }
+</span><span class='line'>      return result;
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// named arguments
+</span><span class='line'>class Program
+</span><span class='line'>{
+</span><span class='line'>  static void Main()
+</span><span class='line'>  {
+</span><span class='line'>    DisplayGreeting(firstName: "Tim", lastName: "Pan");
+</span><span class='line'>  }
+</span><span class='line'>  public void DisplayGreeting(
+</span><span class='line'>    string firstName,
+</span><span class='line'>  string middleName = default(string),
+</span><span class='line'>  string lastName = default(string))
+</span><span class='line'>  {
+</span><span class='line'>    // ...
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>5 Classes 201</h2>
+
+<ol>
+<li>Declaring and Instantiating a Class</li>
+<li>Instance Fields</li>
+<li>Declaring</li>
+<li>Accessing</li>
+<li>Const and readonly modifiers</li>
+<li>Instance Methods</li>
+<li>Access Modifiers</li>
+<li><code>public</code>, <code>private</code>, <code>protected</code>, <code>internal</code>, <code>protected internal</code></li>
+<li>Properties</li>
+<li>Declaring
+
+<ul>
+<li><em>Language Contrast</em> Programmers should view <code>new</code> as a call to instantiate an object, <em>not as a call to allocate memory</em>. It just retrieves memory from the memory manager.</li>
+</ul>
+</li>
+<li>Naming Conventions
+
+<ul>
+<li>property name <code>FirstName</code>, then field name <code>_FirstName</code>(preferred), <code>_firstName</code>, or <code>m_FirstName</code>(C++ style).</li>
+</ul>
+</li>
+<li>Using Properties with Validation</li>
+<li>Read-Only and Write-Only</li>
+<li>Access Modifiers on Getters and Setters
+
+<ul>
+<li>e.g. <code>private set()</code></li>
+</ul>
+</li>
+<li>Properties as Virtual Fields
+
+<ul>
+<li>They can even do not exist physically</li>
+</ul>
+</li>
+<li>Properties and Method Calls <strong>Not Allowed</strong> as <code>ref</code> or <code>out</code> Parameter Values</li>
+<li>Constructors &amp; Finalizers</li>
+<li>Declaring</li>
+<li>Default constructors
+
+<ul>
+<li>Once there is a explicitely defined constructor, the default one (without parameters) is no longer provided.</li>
+</ul>
+</li>
+<li>Object Initializers <code>Employee emp1 = new Employee("Inigo", "Montoya") { Title = "Computer Nerd", Salary = "Not Enough"};</code>
+
+<ul>
+<li>Collection Initializers</li>
+</ul>
+</li>
+<li>Overloading Constructors</li>
+<li>Constractor Chaining: Calling another Constructor Using <code>this</code>
+
+<ul>
+<li><code>public Employee(int id, string fristName, string lastName): this(firstName, lastName) { Id = id ; }</code></li>
+</ul>
+</li>
+<li>Generalize initialization: Refactor init process in the ctor into a private init method</li>
+<li>Finalizers
+
+<ul>
+<li>Like JAVA, unlike C++</li>
+</ul>
+</li>
+<li>Static</li>
+<li><em>Language Contrast</em> The equivalent of a global field or function within the realm of C# is a static field or function</li>
+<li>Static Fields</li>
+<li>Static Methods</li>
+<li>Static Constructors</li>
+<li>Static Classes
+
+<ol>
+<li>it prevents a programmer from writing code that
+instantiates the SimpleMath class.</li>
+<li>it prevents the declaration of any
+instance fields or methods within the class. Since the class cannot be
+instantiated, instance members would be pointless.</li>
+</ol>
+</li>
+<li><code>const</code> fields are <code>static</code> automatically, and declaring a <code>const</code> field as <code>static</code> explicitly will cause a compile error</li>
+<li><strong><em><code>readonly</code> modifier is available only for fields (not for local variables)</em></strong> it is modifiable only from inside the constructor or directly during declaration. 似乎是把C++中<code>const</code>可以ctor初始化的功能拆成<code>readonly</code>了.</li>
+<li><strong><em>Extension Methods</em></strong> requirements</li>
+<li>The first parameter corresponds to the type on which the method
+extends or operates.</li>
+<li>To designate the extension method, prefix the extended type with the
+this modifier.</li>
+<li>To access the method as an extension method, import the extending
+type’s namespace via a using directive (or place the extending class in
+the same namespace as the calling code).</li>
+<li>Special Classes</li>
+<li><code>partial</code> Classes
+
+<ul>
+<li>the general purpose of a partial class is to allow the splitting of a class definition across multiple files</li>
+<li><code>partial</code> methods allow for a declaration of a method without requiring
+an implementation. However, when the optional implementation is
+included, it can be located in one of the sister partial class definitions,
+likely in a separate file.</li>
+</ul>
+</li>
+<li>Nested Classes
+
+<ul>
+<li>One unique characteristic of nested classes is the ability to specify private
+as an access modifier for the class itself</li>
+<li>Another interesting characteristic of nested classes is that they can
+access any member on the containing class, including private members.</li>
+<li>treat public nested classes suspiciously;
+they indicate potentially poor code that is likely to be confusing
+and hard to discover.</li>
+</ul>
+</li>
+</ol>
+
+
+<h2>6 Inheritance 269</h2>
+
+<ol>
+<li>Derivation</li>
+<li>Extension methods are also inherited.</li>
+<li><em>Language Contrast:</em> Different from C++, C# is a <strong>single-inheritance</strong> programming language, as is the CIL. Derive from only one class a time.
+
+<ul>
+<li>avoid using a multiple-inheritance class</li>
+<li><code>sealed</code> class cannot be derived. <em>Language Contrast:</em> C# sealed class = Java final class. In java, <code>final</code> can be applied to
+
+<ol>
+<li>classes. = C# sealed class</li>
+<li><strong>methods, cannot be overridden in a derived class. This is default in C#, unless you declare a method as <code>virtual</code></strong>, and in a derived class this can be prevented for further classes with <code>sealed</code> again.</li>
+<li>fields and variables, can be initialized only once. = C# readonly</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>Overriding</li>
+<li><em>Language Contrast:</em> Java &#8211; Virtual Methods by Default. Java and C++ &#8211; Implicit Overriding. However, in C#, in order to override a method, both the base class and the derived class members must match and have corresponding <code>virtual</code> and <code>override</code> keywords.</li>
+<li>ctor: <em>Language Contrast:</em> Dispatch Method Calls during Construction
+
+<ul>
+<li>C++: the type is associated with the base type rather than the derived type, and virtual methods call the base implementation.</li>
+<li>C#: dispatches virtual method calls to the most derived type.</li>
+</ul>
+</li>
+<li>only instance members can be virtual. The CLR uses the concrete
+type, specified at instantiation time, to determine where to dispatch a
+virtual method call, so static virtual methods are meaningless and the
+compiler prohibits them.</li>
+<li><code>new</code> modifier for methods. <strong><em>If neither <code>override</code> nor <code>new</code> is specified, then <code>new</code> will be assumed, thereby maintaining the desired version safety.</em></strong></li>
+<li><em>upcasting</em>: please see the example codes below. <em>downcasting</em>: ?dangerous?</li>
+<li><em>sealed</em> modifier for methods. prevent overriding</li>
+<li><em>base</em> member
+
+<ul>
+<li>ctor <code>public Contact(string name) : base(name) { Name = name; }</code></li>
+</ul>
+</li>
+<li>Abstract Classes</li>
+<li><em>Language Contrast</em>
+
+<ul>
+<li>C++ pure virtual function with <code>=0</code>. It does not require the class itself to have any special declaration.</li>
+<li>C# and Java require <code>abstract</code> if the class has <code>abstract</code> member</li>
+</ul>
+</li>
+<li>polymorphism.
+
+<ul>
+<li>base.foo() to derived1.foo(), derived2.foo(), derived3.foo() overriding</li>
+</ul>
+</li>
+<li><code>System.Object</code></li>
+<li>Every class is derived from <code>System.Object</code></li>
+<li><strong><em><code>is</code> operator</em></strong></li>
+<li>verify the underlying type with <code>is</code> operator, e.g. <code>if (data is string) data = Encrypt((string) data);</code></li>
+<li><strong><em><code>as</code> operator</em></strong></li>
+<li>conversion to a data type, and assign null if the source type is not inherently (within the inheritance chain). Avoid additional try/catch handling code. e.g. <code>Print(data as Document);</code></li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// C++ Dispatch method calls during construction</span>
+</span><span class='line'><span class="c1">// It will call method in the same class although it is virtual</span>
+</span><span class='line'><span class="cp">#include &lt;iostream&gt;</span>
+</span><span class='line'><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
+</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'>    <span class="n">A</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;A ctor()&quot;</span> <span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">Foo</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;A Foo()&quot;</span> <span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">B</span><span class="o">:</span> <span class="k">public</span> <span class="n">A</span> <span class="p">{</span>
+</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'>    <span class="n">B</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;B ctor()&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="kt">void</span> <span class="n">Foo</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;B Foo()&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">C</span><span class="o">:</span> <span class="k">public</span> <span class="n">B</span> <span class="p">{</span>
+</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'>    <span class="n">C</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;C ctor&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="kt">void</span> <span class="n">Foo</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;C Foo()&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">A</span><span class="o">*</span> <span class="n">a</span> <span class="o">=</span> <span class="k">new</span> <span class="n">C</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">delete</span> <span class="n">a</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// output&gt;</span>
+</span><span class='line'><span class="c1">// A ctor()</span>
+</span><span class='line'><span class="c1">// A Foo()</span>
+</span><span class='line'><span class="c1">// B ctor()</span>
+</span><span class='line'><span class="c1">// B Foo()</span>
+</span><span class='line'><span class="c1">// C ctor</span>
+</span><span class='line'><span class="c1">// C Foo()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// C#</span>
+</span><span class='line'><span class="k">using</span> <span class="n">System</span><span class="p">;</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Tmp</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">static</span> <span class="kt">int</span> <span class="n">Main</span><span class="p">(</span><span class="n">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">A</span> <span class="n">a</span> <span class="o">=</span> <span class="k">new</span> <span class="n">C</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">A</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;A ctor&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="k">virtual</span> <span class="kt">void</span> <span class="n">Foo</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;A Foo()&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">B</span><span class="o">:</span> <span class="n">A</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">B</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;B ctor&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">override</span> <span class="kt">void</span> <span class="n">Foo</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;B Foo()&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">C</span><span class="o">:</span> <span class="n">B</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">C</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;C ctor&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">override</span> <span class="kt">void</span> <span class="n">Foo</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;C Foo()&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// output&gt;</span>
+</span><span class='line'><span class="c1">// A ctor</span>
+</span><span class='line'><span class="c1">// C Foo()</span>
+</span><span class='line'><span class="c1">// B ctor</span>
+</span><span class='line'><span class="c1">// C Foo()</span>
+</span><span class='line'><span class="c1">// C ctor</span>
+</span><span class='line'><span class="c1">// C Foo()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// upcasting in C#</span>
+</span><span class='line'><span class="c1">// `new` modifier for methods </span>
+</span><span class='line'><span class="k">using</span> <span class="n">System</span><span class="p">;</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Tmp</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">static</span> <span class="kt">int</span> <span class="n">Main</span><span class="p">(</span><span class="n">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">D1</span> <span class="n">d1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">D1</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">D2</span> <span class="n">d2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">D2</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">C</span> <span class="n">c</span> <span class="o">=</span> <span class="n">d1</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">B</span> <span class="n">b</span> <span class="o">=</span> <span class="n">c</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">A</span> <span class="n">a</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">d1</span><span class="p">.</span><span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">d2</span><span class="p">.</span><span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">c</span><span class="p">.</span><span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">b</span><span class="p">.</span><span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">a</span><span class="p">.</span><span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="kt">void</span> <span class="n">Foo</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;A Foo()&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">B</span><span class="o">:</span> <span class="n">A</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="k">new</span> <span class="k">virtual</span> <span class="kt">void</span> <span class="n">Foo</span><span class="p">()</span> <span class="p">{</span> <span class="c1">// warning if without new</span>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;B Foo()&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">C</span><span class="o">:</span> <span class="n">B</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">override</span> <span class="kt">void</span> <span class="n">Foo</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;C Foo()&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">D1</span><span class="o">:</span> <span class="n">C</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="k">new</span> <span class="kt">void</span> <span class="n">Foo</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;D1 Foo()&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">D2</span><span class="o">:</span> <span class="n">C</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="kt">void</span> <span class="n">Foo</span><span class="p">()</span> <span class="p">{</span>  <span class="c1">// warning to add `new` by default</span>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;D2 Foo()&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// D1 Foo()</span>
+</span><span class='line'><span class="c1">// D2 Foo()</span>
+</span><span class='line'><span class="c1">// C Foo()</span>
+</span><span class='line'><span class="c1">// C Foo()</span>
+</span><span class='line'><span class="c1">// A Foo()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// upcasting in C++</span>
+</span><span class='line'><span class="c1">// A -&gt; B -&gt; C -&gt; D</span>
+</span><span class='line'><span class="c1">// A::Foo()</span>
+</span><span class='line'><span class="c1">// virtual B::Foo()</span>
+</span><span class='line'><span class="c1">// virtual C::Foo()</span>
+</span><span class='line'><span class="c1">// D:Foo()</span>
+</span><span class='line'><span class="c1">// ...</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>     <span class="n">D</span><span class="o">*</span> <span class="n">d</span> <span class="o">=</span> <span class="k">new</span> <span class="n">D</span><span class="p">();</span>
+</span><span class='line'>     <span class="n">C</span><span class="o">*</span> <span class="n">c</span> <span class="o">=</span> <span class="n">d</span><span class="p">;</span>
+</span><span class='line'>     <span class="n">B</span><span class="o">*</span> <span class="n">b</span> <span class="o">=</span> <span class="n">c</span><span class="p">;</span>
+</span><span class='line'>     <span class="n">A</span><span class="o">*</span> <span class="n">a</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>     <span class="n">d</span><span class="o">-&gt;</span><span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>     <span class="n">c</span><span class="o">-&gt;</span><span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>     <span class="n">b</span><span class="o">-&gt;</span><span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>     <span class="n">a</span><span class="o">-&gt;</span><span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>     <span class="k">delete</span> <span class="n">d</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'> <span class="p">}</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'><span class="c1">// D Foo()</span>
+</span><span class='line'><span class="c1">// D Foo()</span>
+</span><span class='line'><span class="c1">// D Foo()</span>
+</span><span class='line'><span class="c1">// A Foo()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>7 Interfaces 305</h2>
+
+<ul>
+<li><code>IPascalCase</code>, no implementation, no data (no fields, but properties)</li>
+<li>Polymorphism</li>
+<li>Interface Implementation
+
+<ul>
+<li>Declaring a class to implement an interface is similar to deriving from a
+base class in that the implemented interfaces appear in a comma-separated
+list along with the base class (order is not significant between interfaces).
+<strong><em>The only difference is that classes can implement multiple interfaces.</em></strong></li>
+<li>The base class specifier (if there is one) must come first: <code>public class Contact : PdaItem, IListable, IComparable {...</code></li>
+<li><strong><em>Explicit(more often) vs Implicit</em></strong> <a href="http://stackoverflow.com/questions/143405/c-sharp-interfaces-implicit-implementation-versus-explicit-implementation">Stackoverflow</a> ??
+
+<ul>
+<li>Explicit: mechanism code, or avoid overriding,
+
+<ul>
+<li><code>ITrace.Dump()</code> to save info to files in <code>Person</code></li>
+</ul>
+</li>
+<li>Implicit: semantic/model/core code
+
+<ul>
+<li>Including an implicit <code>Compress()</code> implementation on a <code>ZipCompression</code>
+class is a perfectly reasonable choice, since <code>Compress()</code> is a core
+part of the <code>ZipCompression</code> class’s behavior.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Interface Inheritance
+
+<ul>
+<li>upcasting is always successful (<code>Base b = new Derived()</code>)</li>
+<li>downcasting is not, so requires an explict cast</li>
+<li>Explicit Implementation should match the exact corresponding level in the hierachy.</li>
+</ul>
+</li>
+<li>Versioning</li>
+<li>Extension Methods on Interfaces</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// Explicit interface implementation</span>
+</span><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">Contact</span> <span class="o">:</span> <span class="n">PdaItem</span><span class="p">,</span> <span class="n">IListable</span><span class="p">,</span> <span class="n">IComprarable</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// ...</span>
+</span><span class='line'>  <span class="n">string</span><span class="p">[]</span> <span class="n">IListable</span><span class="p">.</span><span class="n">ColumnValues</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// ...</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="c1">// ...</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// ...</span>
+</span><span class='line'>    <span class="n">values</span> <span class="o">=</span> <span class="p">((</span><span class="n">IListable</span><span class="p">)</span><span class="n">contact2</span><span class="p">).</span><span class="n">ColumnValues</span><span class="p">;</span>
+</span><span class='line'><span class="c1">// ...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>8 Value Types 331</h2>
+
+<p>All the C# primitive types are value types except <code>string</code> and <code>object</code>. How to define user&#8217;s own value types? <code>struct</code></p>
+
+<ol>
+<li>Structs (derive from <code>System.Object</code> -> <code>System.ValueType</code>)</li>
+<li>Recommend: Once you have instantiated a value type, you should not be able to modify the same instance.</li>
+<li>*C# prevents explict definition of default constructors (parameterless)</li>
+<li><code>struct</code> fields can not be initialized at declaration time.</li>
+<li>Unlike <code>class</code>, <code>struct</code> does not support finalizers. There is no need for the GC.</li>
+<li><em>Language Contrast</em>: In C++, the difference between structs and classes is simply that by
+default, a struct’s members are public. C# doesn’t include this subtle distinction.
+The contrast is far greater in C#, where struct significantly
+changes the memory behavior from that of a class.</li>
+<li><code>T default(T)</code> to get the default value</li>
+<li><strong><em>Boxing</em></strong>: upcasting <code>ValueType</code> to <code>Object</code></li>
+<li>First, memory is allocated on the heap that will contain the value
+type’s data and a little overhead (a SyncBlockIndex and method
+table pointer).</li>
+<li>Next, a memory copy occurs from the value type’s data on the stack,
+into the allocated location on the heap.</li>
+<li>Finally, the object or interface reference is updated to point at the
+location on the heap.</li>
+<li><strong><em>unboxing</em></strong> TODO start from page 339</li>
+<li><strong><em><code>lock</code> statement</em></strong></li>
+<li>Enums</li>
+<li>An enum always has an underlying type, which may be <code>int</code>(default), <code>uint</code>, <code>long</code>,
+or <code>ulong</code>, but not <code>char</code>.</li>
+<li>Cast between enums via <code>System.Array</code></li>
+<li>Cast between enums and strings via
+
+<ul>
+<li><em>enum -> string</em>.</li>
+<li><em>string -> enum</em>. <code>Enum.Parse()</code></li>
+</ul>
+</li>
+<li>Enums as bit flags with <code>[Flags]</code> FlagsAttribute to perform bit operations.</li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[中国工程师在初创公司的经验总结--《打造Facebook》]]></title>
@@ -6640,225 +8234,6 @@ sdoEvicted(appName, sdoID)
 <h3>4. Conclusion</h3>
 
 <p>Chord uses consistent hashing, distributed hash tables, and novel finger tables to provide lookup services for P2P systems. Each node maintains only O(logN) other nodes. The arrivals and departures acquire only O(log<sup>2</sup> N) messages. The successor list can deal with failure effectively. Chord is simple, scalable, and efficient.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Cells: a virtual mobile smartphone architecture (SOSP '11)]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/01/cells/"/>
-    <updated>2012-12-01T19:52:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/01/cells</id>
-    <content type="html"><![CDATA[<p><a href="http://systems.cs.columbia.edu/archive/pub/2011/10/cells-a-virtual-mobile-smartphone-architecture/">Columbia University</a>, <a href="http://www.sigops.org/sosp/sosp11/current/2011-Cascais/printable/13-andrus.pdf">papers</a>, <a href="http://www.sigops.org/sosp/sosp11/current/2011-Cascais/13-andrus-slides.pdf">slides</a>, <a href="http://www.youtube.com/watch?v=XBBJ8873vqE">video</a></p>
-
-<h3>1. Problem</h3>
-
-<p>The popularity of smartphones results in the need that a user may purchase several smartphones for different uses. Virtual machine (VM) mechanisms may be the solution, which enables separate and isolated instances of a smartphone software stack to run on the same ARM hardware.</p>
-
-<h3>2. Challenges</h3>
-
-<p>Traditional VMs for desktops and servers can not be applied to smartphones for</p>
-
-<ol>
-<li>limited resources can not fully support running an another entire OS</li>
-<li>existing design cannot leverage new devices, such as GPS, camera, GPUs, &#8230;</li>
-</ol>
-
-
-<h3>3. Solution</h3>
-
-<p>Key observation: <strong>one app at a time</strong></p>
-
-<!--more-->
-
-
-<ul>
-<li>Cells, a new, lightweight virtualization architecture for enabling multiple virtual phones (VPs) to run simultaneously on the same smartphone hardware with high performance.
-
-<ul>
-<li>not entire OS virtualization but multiple isolated virtual phones (VP) on a single OS.</li>
-<li>a novel file system layout based on unioning which minimizes memory consumption</li>
-</ul>
-</li>
-<li>Architecture
-
-<ul>
-<li>one foreground VP for displaying and multiple background VPs</li>
-<li>remap OS resource id to virtual ones and then each VP has its own private virtual namespaces</li>
-<li>foreground VP has direct access to hardware. If the foreground VP does not acquire exclusive access, the hardware can be shared by background VPs.
-
-<ul>
-<li>Kernel-Level Device Virtualization to support transparency and performance by introducing <em>device namespace</em></li>
-<li>User-Level Device Virtualization to support portability and transparency by proxy</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Graphics
-
-<ul>
-<li>Linux framebuffer (FB) provides an abstraction to a physical display, so a new FB device driver <strong>mux_fb</strong>  is introduced between virtual addresses and physical addresses, providing an identical device interface to all VPs.</li>
-<li>The foreground VP uses the GPU directly, but background VPs use GPU render into their respective <em>backing buffers</em>.</li>
-</ul>
-</li>
-<li>Power Management
-
-<ul>
-<li><em>early suspend</em> interface: it is blocked by Cells for background VPs</li>
-<li><em>fbearlysuspend</em> interface: Cells makes it namespace-aware. Block &amp; unblock.</li>
-<li><em>weak locks</em> interface: The same weak lock can be locked and unlocked independently by multiple device namespaces.</li>
-</ul>
-</li>
-<li>Phone calls: combination use of VoIP and cellular network
-
-<ul>
-<li>VoIP provides telephone numbers for VPs</li>
-<li>Proxy libraries</li>
-</ul>
-</li>
-</ul>
-
-
-<p>Implementation &amp; evaluation</p>
-
-<ul>
-<li>Up to 5 VPs on Nexus 1, Nexus S &#8230;</li>
-<li>Modest memory overhead (less than 2%)</li>
-<li>Imperceptible switch time among VPs</li>
-</ul>
-
-
-<h3>4. Conclusion</h3>
-
-<ul>
-<li>First OS virtualization fully supports smartphone hardware with native performance</li>
-<li>One app at a time -> foreground and background usage model</li>
-<li>No need of modifications for applications</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[王功权先生给年轻人的四点建议]]></title>
-    <link href="http://puncsky.github.com/blog/2012/11/27/wang-gong-quan-jiang-zuo/"/>
-    <updated>2012-11-27T16:34:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/11/27/wang-gong-quan-jiang-zuo</id>
-    <content type="html"><![CDATA[<h3>概述</h3>
-
-<p>方才在和朋友们一起去管理学院参加了王功权先生的讲座，期间做了一些笔记，稍作整理记录在此。王功权先生似乎并没有为这次演讲做过多的准备，也不愿意表现地太过正式，毕竟谈人生这种事情，还是需要明月夜短松冈这种微醺的情怀的。实际的情况可能是，他在从哥伦比亚大学过来的路上稍微用iPhone写了个提纲，讲述之前看了几眼，便开始侃侃而谈，当然，情到深处之时，还是让人颇有触动的，不愧为一位诗人。以下的记录纯属个人笔记，有我个人理解的偏差，并不能确保准确地反映王功权先生的观点，也不反映我自己的观点。</p>
-
-<p>他讲述的这四点建议分别是：</p>
-
-<ol>
-<li>规划未来不如调整现在</li>
-<li>志存高远</li>
-<li>选择意味着放弃</li>
-<li>在美国就业，在中国创业</li>
-</ol>
-
-
-<p>在其后的问答环节中，他回答同学们提出的两个问题：</p>
-
-<ol>
-<li>简要介绍您现在在哥伦比亚大学东亚研究所研究的“公民社会”这一议题？</li>
-<li>对经济管理类毕业生就业领域选择有那些建议？</li>
-</ol>
-
-
-<!--more-->
-
-
-<h3>规划未来不如调整现在</h3>
-
-<p>首先，王功权先生非常谦虚地表示，外界对他们的评价说”有远见卓识“是不正确的，他从未有过非常长远的规划，很多次人生的重大转折都只是出于对现状有着强烈的不满，然后追随心意做出选择。另外，他在讲述的过程中更是反复强调，他认为他的道路不值得模仿。</p>
-
-<p>在大学毕业步入省委机关宣传部四年后，他每天的生活非常平淡：处长和他同处一个办公室，两个人每天躲在报纸背后，偶尔四目相交，处长会和他谈论人生道理什么的，但是当时的他虽然表面上毕恭毕敬地聆听着，实际上只是看着领导的嘴一张一合。他从从处长那里看到自己将来的影子，对现状产生了强烈的恐惧，于是依然决然地辞职了。当时，为了怕自己后悔，他将辞职信一式五份投递到机关上下各部门，不给自己留任何退路。他向同学借了五百块便奔了去海南。后来因缘际会，受过八九牵连被关押、降过职，但无论做什么事情都兢兢业业，升职很快。后来，他不想因为一碗饭而丢失一位朋友，彻底离开体制内。</p>
-
-<p>其后他和朋友白手起家一起创立海南农高投联合开发总公司（万通前身）。因为当时《公司法》还没有出来，直接给银行交纳七千块，便可托银行代理注册“初始资金上千万”的空壳公司。他感觉到不光荣，很尴尬，尽管假借时代的潮流，公司后来的发展一日千里。在与政府官员打交道的过程中，他又一次次地目睹了那些体制内现有的流弊。一开始送一条领带就能办成大事，后来送领带当然是远远不够的不够的。吃饭、搓澡也是必须的，甚至出现同一个饭桌开两场，同一个晚上搓澡三次的情况。因为当年受过关押，他认为即便把钱撕掉也不要给官员，坚守原则，从不行贿。</p>
-
-<p>他再一次不愿意如是这般如履薄冰地生活，便辞职开始到硅谷担任IDG高技术创业投资基金高级合伙人，后来尽管获得了巨大的成功，可是功成名就之后感觉实在太忙，百忙之中抽空积累不少手稿，希望能够整理成书，于是意图退出创投领域。但是，这时候，他发现仅仅是自己投钱还不甘心，希望考量自己是否有募资的能力、是否能够赢得国际市场的信任，便接受恰好鼎晖投资的邀请，负责创办鼎晖创业投资基金，取得了不少成就。</p>
-
-<p>再后来就发生了引起轩然大波的那次私奔事件……一时间遍尝人情冷暖、人世沧桑。最近一年多来，他在哥伦比亚大学东亚研究所研究“公民社会”。</p>
-
-<p>最后他总结道，<strong>他从不在感觉不好的事情上停留，尽管这句话总是说起来容易做起来难</strong>。</p>
-
-<h3>志存高远</h3>
-
-<p>这里的<strong>志存高远并不是说要为国家、人类做多大的贡献，而仅仅是要看得远一点。每个人总会有那些“从前碌碌却因何？到如今，回头试想真无趣！”的体验。看得远一点，未来的自己就不会轻易地为现在短视的选择而后悔。</strong></p>
-
-<p>走在时代车轮的前面有可能被轧死，走在时代车轮的后面有可能被弃死，走在时代车轮的上面有可能被摔死，紧跟时代车轮的旁边最合适。无论如何，只要个人脉搏与时代浪潮共鸣，无论成败，都是弄潮儿。</p>
-
-<p>特别地，他表示为中国如此多的年轻人有志跻身公务员行列感到悲哀，因为在未来，政府精兵简政是时代的必然。</p>
-
-<h3>选择意味着放弃</h3>
-
-<p>选择一件事，就放弃了除这件事之外的所有东西。选择了科研就不要想赚钱，选择了创业就不要想过安稳的日子，选择了安稳就不要想一鸣惊人自己当老板。因为，<strong>打工练就的经验80%是对创业没用的</strong>，打工注重的是卓有成效地完成上级的任务，而“完成任务”是很难帮助回答创业者需要面对的最基本的三个问题的：</p>
-
-<ol>
-<li>我干什么？
-
-<ul>
-<li>自己决定去做资本正确的事情，而不是简单地完成任务。</li>
-</ul>
-</li>
-<li>钱从哪来？
-
-<ul>
-<li>创业本身就是解决钱的问题。没有条件就要创造条件。</li>
-</ul>
-</li>
-<li>谁跟我干？
-
-<ul>
-<li>怎么能让他们跟我干？</li>
-</ul>
-</li>
-</ol>
-
-
-<p>王先生并没有具体指导大家应该怎么做，但是他表示年轻人应该有着年轻人特有的朝气和豪气：<strong>拿青春赌明天，年轻就是资本。拿出五年来赌，五年后的情况不会比现在差。</strong>因为刚毕业，你本来就什么都没有……至于男生的个人问题，他表示<strong>没钱就不爱你的女生咱不要好吗？</strong></p>
-
-<p>最后，他总结道，<strong>即便失败，也要会总结教训，尝试就是赢</strong>。失败，不是让你失去所有，而是让你学到“这样不对”。</p>
-
-<h3>在美国就业在中国创业</h3>
-
-<p>王先生首先强调，这里不是说党国好，只是无法否认的是，中国广袤的市场和机遇是其他土地无法比拟的。中国留学生在美国创业要比在中国困难很多。这里并不是建议大家毕业就回国，实际上，<strong>两到三年美国大机构的工作经验特别重要，teamwork的能力特别重要</strong>。</p>
-
-<p>那么，在什么领域创业呢？<strong>走社会良性的道路，做能够创造真正价值的事业。</strong>人性本善，每个人的内心深处是有真善美的，公道自在人心。无论做什么，自己将来总是能够本能地意识到到现在的自己过去做得对不对。比如他自己就觉得自己私奔一场，羞于开口。</p>
-
-<p>前一阵子有朋友邀请他加盟去重庆铸造中国最高的金融大厦，把重庆打造成金融中心。他反问道：重庆真的需要成为中国最高的金融大厦吗？重庆真的需要成为金融中心吗？中国真的需要一个新的金融中心吗？</p>
-
-<h3>Q&amp;A</h3>
-
-<h4>公民社会？</h4>
-
-<p>中国政治体制转型是社会上下的、党内外的共识，不走邪路、不走老路，怎么走？不知道。山雨欲来风满楼。要改革，两条路：</p>
-
-<ol>
-<li>乱摸，总结教训 （摸着石头过河）</li>
-<li>借鉴</li>
-</ol>
-
-
-<p>党的选择自然是第一点。虽然不知道怎么走，仍旧有一些共识：</p>
-
-<ul>
-<li>要稳定，不应该有暴力型的动乱 （跳出 暴力-轮回）</li>
-<li>改革党和国家的领导体制（温总理），这是宪法层面的问题，<strong>宪政民主</strong></li>
-<li>不改造政治文化，所以有<strong>公民社会</strong>的议题，维护公民权利，约束政府的权利</li>
-<li>不反对党，党内外一致反对的是专制。开放党 禁很难，但可以通过民众推动政府改革</li>
-</ul>
-
-
-<p>公民社会强调社会化管理，强调NGO组织在社会管理中的作用，它既不属于政府，也不属于追求盈利的私人。具体案例非常复杂，王先生没有细讲，但是他很高兴地看到，在广东，NGO已经可以不再强制需要挂靠上级主管部门了。</p>
-
-<h4>年轻人在创业/就业领域选择？</h4>
-
-<p>王先生表示，要慎重进入对权利比较依赖的部门，特权/权力的削弱是大的趋势，大型国企很可能在将来会被解构。年轻人最好依赖市场竞争而不是国家权力，要进入出于蓝海的领域，比如教育、医疗。</p>
-
-<p>至于房地产，房地产行业与城市人口增多是最直接的线性相关的，不管土地财政依赖不依赖，不管政府政策调控不调控。只要有大量的人口涌进城市，城市房地产就会兴旺。</p>
-
-<p>至于私募股权基金，私募股权基金不是主流产品，在中国之所以火爆，是因为媒体抄得火爆。实际上其中的竞争是非常激烈的，对于青年来说是极其危险的。这个行业只适合经验丰富的人。年轻人就牛皮哄哄地做这个行业，天天跟老总打交道，四处找错，这样不好。当然，如果有应届毕业生有志进入这个领域，他也欢迎，因为是金子总会发光 ：D</p>
 ]]></content>
   </entry>
   

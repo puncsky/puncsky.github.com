@@ -1,0 +1,1125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: programming_language | Puncsky CS Notebook]]></title>
+  <link href="http://puncsky.github.com/blog/categories/programming-language/atom.xml" rel="self"/>
+  <link href="http://puncsky.github.com/"/>
+  <updated>2013-08-26T15:21:07-07:00</updated>
+  <id>http://puncsky.github.com/</id>
+  <author>
+    <name><![CDATA[Tian]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Essential C# 4.0: Basics]]></title>
+    <link href="http://puncsky.github.com/blog/2013/08/14/Essential-C%23-4.0/"/>
+    <updated>2013-08-14T10:23:00-07:00</updated>
+    <id>http://puncsky.github.com/blog/2013/08/14/Essential-C#-4.0</id>
+    <content type="html"><![CDATA[<p>No one can ever master a programming language (PL) by studying it only without looking into and comparing it with other ones. In addition, modern application software often requires a variety of components written in different PLs. Most importantly, language itself is not important at all; at least not important when compared to the fundamental ideas on architectures, frameworks, the design of the PL. A competing programmer can always get the hang of any PLs quickly.</p>
+
+<p>Consequently, I make a list of PLs I would study seriously in the future.</p>
+
+<!-- more -->
+
+
+<ol>
+<li>C# or Java</li>
+<li>A serious pure OOP and enterprise level PL is always necessary for the reason of productivity.</li>
+<li>C/C++</li>
+<li>The most powerful PL, which can be used to create almost everything.</li>
+<li>Help to understand things under the hood.</li>
+<li>C++: semi-OOP version of C, a horrible language which requires a life long time to study.</li>
+<li>Bash/Python</li>
+<li>Scripts make your life easier.</li>
+<li>Javascript</li>
+<li>Everything could be written in Javascript will be eventually written in Javascript.</li>
+<li>Lisp</li>
+<li>Help to understand the beauty of functional PL.</li>
+</ol>
+
+
+<p>The following part is my notes on the book <em>Essential C#</em>, which is redeemed as the best book for C# learners.</p>
+
+<h1>Essential C# 4.0</h1>
+
+<h2>1 Introducing C# 1</h2>
+
+<p><img src="http://upload.wikimedia.org/wikipedia/commons/6/6f/CLR_diag.svg" alt="CLR converts CIL to native code" /></p>
+
+<p>HelloWorld.exe is an <em>assembly</em>.</p>
+
+<p>Dynamic Link Library (DLL) is also an <em>assembly</em>.</p>
+
+<p><em>Language Contrast</em>: Java—Filename Must Match Class Name</p>
+
+<p>keywords, identifiers. keywords may be used as identifiers if they include “@” as a prefix.</p>
+
+<ul>
+<li><strong>Pascal Casing</strong>: Type's name should begin with a capital letter and a <em>noun</em>...</li>
+<li><strong>Camel Casing</strong>: same except that the first letter is lowercase.</li>
+</ul>
+
+
+<p>method, statement</p>
+
+<p><em>Language Contrast</em>: C++/Java -- <code>main()</code> is all lowercase</p>
+
+<p><strong>Strings are immutable.</strong></p>
+
+<p>composite formatting.</p>
+
+<p>```
+System.Console.WriteLine("Your full name is {0} {1}.", firstName, lastName);
+//                        -------format string-------  ----format item-----</p>
+
+<p>```</p>
+
+<ul>
+<li>Comment Types
+
+<ul>
+<li>Delimited comments</li>
+<li>Single-line comments</li>
+<li>XML delimited comments <code>/**comment**/</code></li>
+<li>XML single-line comments <code>///comment</code></li>
+</ul>
+</li>
+</ul>
+
+
+<p>C# src --(C# compiler)--> common intermediate language(CIL) --(justintime compiling)--> machine code</p>
+
+<p>Virtual Execution System(VES)</p>
+
+<ul>
+<li>whether require runtime to execution?
+
+<ul>
+<li>managed code and managed execution</li>
+<li>unmanaged code and unmanaged execution</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>2 Data Types 31</h2>
+
+<ol>
+<li>Numeric Types</li>
+<li>Integer Types
+
+<ul>
+<li>Base Class Library (BCL)</li>
+</ul>
+</li>
+<li>Float-Point Types</li>
+<li>Decimal
+
+<ul>
+<li>greater precision than the floating-point types, but a smaller range.</li>
+<li>conversions from floating-point types to the decimal type may result in overflow errors.</li>
+<li>calculations with decimal are slightly slower.</li>
+</ul>
+</li>
+<li>Literal Values
+
+<ul>
+<li>a representation of a constant value within source code.</li>
+<li><strong>hardcoding</strong>: place a value directly into src
+
+<ul>
+<li>numbers with a decimal point will default to <code>double</code></li>
+<li><code>decimal</code>? append an m (or M): <code>1.32525456874526m</code>
+
+<ul>
+<li>no suffix -> <code>int</code> <code>uint</code>, <code>long</code>, <code>ulong</code>.</li>
+<li>suffix <code>U</code>/<code>L</code>/<code>UL</code>/<code>LU</code></li>
+<li>infix <code>E</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>More Types</li>
+<li>Boolean</li>
+<li>Character
+
+<ul>
+<li>Escape Sequence: <code>\uxxxx</code> unicode char in hex, e.g. <code>\u0029</code></li>
+</ul>
+</li>
+<li>Strings
+
+<ul>
+<li>verbatim string (with prefix <code>@</code>)
+
+<ul>
+<li>signify that a backslash should not be interpreted as the beginning of an escape sequence.</li>
+<li>a newline cannot be placed directly within a string that is not prefaced with the @ symbol.</li>
+<li>The only escape sequence the verbatim string does support is "", which signifies double quotes and does not terminate the string.</li>
+</ul>
+</li>
+<li><strong>immutable</strong>
+
+<ul>
+<li>How to modify? <code>System.Text.StringBuilder</code></li>
+</ul>
+</li>
+<li>New Line
+
+<ul>
+<li>Win : <code>\r\n</code></li>
+<li>*nix: <code>\n</code></li>
+<li><code>Console.WriteLine()</code> or <code>Console.Write(Environment.NewLine);</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>null and void</li>
+<li>In C++, void is a data type commonly used as void<em><em>. In C#, <code>void</code> </em>is not
+considered a data type</em> in the same way. Rather, it is used to identify that a
+method does not return a value.</li>
+<li><code>var</code> introduced to support anonymous types, e.g. <code>var patent1 = new { Title = "Bifocals", YearOfPublication = "1884" };</code>. Avoid to use in other cases.
+
+<ul>
+<li>avoid anonymous types until working with lambda and query expressions that associate data from different types or you you are horizontally projecting the data so that for a particular type, there is less data overall.</li>
+</ul>
+</li>
+<li><strong>Categories of Types</strong></li>
+<li>Value Types: all the C# primitive types except <code>string</code> and <code>object</code>, all derive from <code>System.ValueType</code>
+
+<ul>
+<li>data copied by value</li>
+<li>for &lt; 16 bytes</li>
+<li>stack</li>
+</ul>
+</li>
+<li>Reference Types: <code>string</code>, <code>object</code>, any custom classes, most classes
+
+<ul>
+<li><strong><em>IMPORTANT</em></strong> string is passed by value and cloned when pass it to a method, BUT</li>
+<li>data copied by reference</li>
+<li>heap</li>
+</ul>
+</li>
+<li><strong>Nullable Modifier</strong>, value types can be null, like <code>int? count = null;</code></li>
+<li>Conversions</li>
+<li>Explicit Cast
+
+<ul>
+<li><strong><em>checked and unchecked block</em></strong> whether to throw overflow exceptions</li>
+<li>No numbers to booleans conversion</li>
+</ul>
+</li>
+<li>Implicit Cast</li>
+<li>Conversion Without Casting
+
+<ul>
+<li><code>Parse(T1 to, T2 from)</code></li>
+<li><code>System.Convert</code></li>
+<li><code>bool TryParse(T1 to,T2 from, T1 number)</code></li>
+</ul>
+</li>
+<li>Arrays</li>
+<li>Declaring
+
+<ul>
+<li><code>string[] languages;</code> square brackets identify the <strong>rank</strong> (# of dimensions)</li>
+<li>before the variable. <em>Language Contrast</em>: different from C++/JAVA, <code>int numbers[]</code> is not allowed.</li>
+</ul>
+</li>
+<li>Instantiating
+
+<ul>
+<li><strong>IMPORTANT the same applied to other similar cases</strong>
+
+<ul>
+<li>If only one statement: <code>string[] languages = { "C#", "COBOL", "Java" };</code></li>
+<li>If multiple lines: <code>string[] languages; languages = new string[]{"C#", "COBOL", "JAVA" };</code></li>
+</ul>
+</li>
+<li><code>new string[size];</code></li>
+</ul>
+</li>
+<li><p>Assigning</p>
+
+<ul>
+<li>multi-dimensional
+
+<ol>
+<li><strong><em>consistently sized array</em></strong> <code>int[,,,]</code></li>
+<li><strong><em>jagged array</em></strong> <code>int[][][]</code></li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>Using</p>
+
+<ul>
+<li><code>Sort()</code>, <code>BinarySearch()</code>, <code>Reverse()</code>, <code>Clear()</code>, ...</li>
+<li>Redimension? <code>System.Array.Resize()</code></li>
+</ul>
+</li>
+<li>String as Arrays
+
+<ul>
+<li><code>.ToCharArray()</code></li>
+</ul>
+</li>
+</ol>
+
+
+<p>```
+// instantiating
+int[,] cells = {
+{1, 0, 2},
+{0, 2, 0},
+{1, 2, 1}
+};</p>
+
+<p>int[][] cells = {
+new int[]{1, 0, 2},
+new int[]{0, 2, 0},
+new int[]{1, 2, 1}
+};
+```</p>
+
+<p>```
+// handle conversion overflow with checked and unchecked
+checked {
+}</p>
+
+<p>unchecked {
+}</p>
+
+<p>```</p>
+
+<h2>3 Operators and Control Flow 83</h2>
+
+<ol>
+<li>Operators</li>
+<li>Thread-Safe Incrementing and Decrementing, use thread-safe <code>Increment()</code> and <code>Decrement()</code> in <code>System.Threading.Interlocked</code> class</li>
+<li>Boolean Expressionn</li>
+<li>XOR for eXclusive OR</li>
+<li>Conditional Operator (?)
+
+<ul>
+<li>Shortcut to the conditional operator: <strong>Null Coalescing Operator (<code>??</code>)</strong> evaluates an expression for null and returns a second expression if the value is null.</li>
+</ul>
+</li>
+<li>Bitwise Operators</li>
+<li>Control Flow Statements</li>
+<li><code>foreach (type variable in collection) { /* do something */ }</code>
+
+<ul>
+<li><code>variable</code> is read-only, and its scope is limited to the <code>foreach loop</code></li>
+</ul>
+</li>
+<li>Jump Statements</li>
+<li><em>Language Contrast</em>: Unlike C++, C# does not allow a <code>switch</code> statement to fall through from one <code>case</code> block to the next if the <code>case</code> includes a statement. A jump statement is always required following the statement within a case.</li>
+<li><em>Language Contrast</em>: C# prevents using goto into something, and allows its use only within or out of something.</li>
+<li><strong><em>Preprocessor Directives</em></strong></li>
+<li><em>Language Contrast</em>: C/C++ contain a preprocessor. Preprocessor directives generally tell the compiler how to
+compile the code in a file and do not participate in the compilation process
+itself. In contrast, the C# compiler handles preprocessor directives as part
+of the regular lexical analysis of the source code. As a result, C# does not
+support preprocessor macros beyond defining a constant. In fact, the term
+preprocessor is generally a misnomer for C#.</li>
+</ol>
+
+
+<p><code>
+// Null Coalescing Operator
+string fileName;
+// ...
+string fullName = fileName??"default.txt";
+// ...
+</code></p>
+
+<p>```
+// Preprocessor Directives</p>
+
+<h1>if CSHARP2</h1>
+
+<p>System.Console.Clear();</p>
+
+<h1>endif</h1>
+
+<h1>if LINUX</h1>
+
+<p>...</p>
+
+<h1>elif WINDOWS</h1>
+
+<p>...</p>
+
+<h1>endif</h1>
+
+<p>// you can define a preprocessor symbol in two way
+// first,</p>
+
+<h1>define CSHARP2</h1>
+
+<p>// second, in CLI
+// >csc.exe /define:CSHARP2 TicTacToe.cs</p>
+
+<h1>warning "Some move allowed multiple times."</h1>
+
+<p>// Performing main compilation...
+// ...\tictactoe.cs(471,16): warning CS1030: #warning: ’"Same move allowed
+// multiple times."’
+// Build complete -- 0 errors, 1 warnings</p>
+
+<p>// Note that warning numbers are prefixed with the letters CS in the compiler output.
+// to disable warnings, first,</p>
+
+<h1>pragma warning disable 1030</h1>
+
+<p>// second,
+// > csc /doc:generate.xml /nowarn:1591 /out:generate.exe Program.cs</p>
+
+<h1>pragma warning restore 1030</h1>
+
+<p>// one of the most common warnings to disable is CS1591, as this appears when you elect to
+// generate XML documentation using the /doc compiler option, but you neglect to document
+// all of the public items within your program.</p>
+
+<p>// specify line numbers</p>
+
+<h1>line 113 "TicTacToe.cs"</h1>
+
+<h1>warning "Same move allowed multiple times."</h1>
+
+<h1>line defualt</h1>
+
+<p>// display line 113 and then restore</p>
+
+<p>// for visual editors to open/collapse</p>
+
+<h1>region Display Tic-tac-toe Board</h1>
+
+<p>...</p>
+
+<h1>endregion Display Tic-tac-toe Board</h1>
+
+<p>```</p>
+
+<h2>4 Methods and Parameters 149</h2>
+
+<ol>
+<li>Calling a Method</li>
+<li>Namespace
+
+<ul>
+<li>Everything should appear within a class definition.</li>
+</ul>
+</li>
+<li>Type Name</li>
+<li>Scope</li>
+<li>Method Name</li>
+<li>Parameters</li>
+<li>Method Return
+
+<ul>
+<li><em>Language Contrast</em>:Unlike C++, C# classes never separate the implementation from the declaration. Cleaner and more readable.</li>
+</ul>
+</li>
+<li>Declaring a Method</li>
+<li>The Using Directive</li>
+<li><em>Language Contrast</em> Java uses wildcards in <code>import</code> directive, while C# requires each namespace to be imported explicitly.</li>
+<li><code>using</code> could be nested in other namespaces but seldom used in this way.</li>
+<li><strong><em>Aliasing</em></strong> a namespace or type: <code>using CountDownTimer = System.Timers.Timer;</code></li>
+<li>Parameters</li>
+<li>Value Parameters
+
+<ul>
+<li><code>static int Main(string[] args)</code> By convention, a return other than zero indicates an error.
+
+<ul>
+<li><em>Language Contrast</em>, CLI arguments start from <code>args[0]</code>. The name of the program is omitted.</li>
+<li>access the CLI arguments through <code>args</code> or <code>System.Environment.GetCommandLineArgs()</code></li>
+<li><strong><em>Multiple <code>Main()</code> Methods in a program</em></strong>? use <code>&gt;csc.exe /m main.cs</code></li>
+</ul>
+</li>
+<li>call stack, <em>stack unwinding</em>, <em>call site</em>调用地点</li>
+<li><code>string</code> as parameters are passed by value</li>
+<li>By default, parameters are passed by value</li>
+</ul>
+</li>
+<li><strong><em>Reference Parameters (<code>ref</code>)</em></strong>
+
+<ul>
+<li>declare <code>ref Type variable</code> in the function's list of args and call it with <code>ref variable</code></li>
+</ul>
+</li>
+<li><strong><em>Output Parameters (<code>out</code>)</em></strong></li>
+<li><strong><em>Parameter Arrays (<code>params</code>)</em></strong></li>
+<li>Optional Parameters
+
+<ul>
+<li>optional parameters
+must appear after all required parameters (those that don’t have default
+values). Also, the fact that the default value needs to be a constant, compile-
+time-resolved value</li>
+<li><strong>named parameters</strong></li>
+</ul>
+</li>
+<li>Method Overloading</li>
+<li>Exception Handling</li>
+<li><strong><em>generic catch</em></strong>: <code>try { } catch { }</code> <em>Language Contrast</em> C++: <code>try { } catch (...) { }</code>. JAVA: <code>Exception</code> is the base class for all exceptions, so <code>try { } catch (Exception e) { }</code>.</li>
+<li>Avoid using exception handling to deal with expected situations</li>
+<li><code>bool int.TryParse(textVariable, out number)</code>
+```
+// Aliasing a namespace or type
+using Timer = System.Timers.Timer;</li>
+</ol>
+
+
+<p>class HelloWorld
+{
+  static void Main()
+  {</p>
+
+<pre><code>Timer timer;
+// ...
+</code></pre>
+
+<p>  }
+}</p>
+
+<p>```</p>
+
+<p>```
+// Refrence Parameters
+class Program
+{
+  static void Main() {</p>
+
+<pre><code>string first = "first";
+string second = "second";
+Swap(ref first, ref second);
+
+System.Console.WriteLine(@"first = ""{0}"", second = ""{1}""", first, second);
+</code></pre>
+
+<p>  }</p>
+
+<p>  static void Swap(ref string first, ref string second) {</p>
+
+<pre><code>string tmp = first;
+first = second;
+second = tmp;
+</code></pre>
+
+<p>  }
+}
+```</p>
+
+<p>```
+// Parameter Arrays
+class PathEx
+{
+  static void Main()
+  {</p>
+
+<pre><code>string fullName;
+fullName = Combine(
+    Directory.GetCurrentDirectory();
+    "bin", "config", "index.html");
+Console.WriteLine(fullName);
+fullName = Combine(
+    Environment.SystemDirectory,
+    "Temp", "index.html");
+Console.WriteLine(fullName);
+fullName = Combine(
+    new string[] {
+        "C:\", "Data",
+        "HomeDir", "index.html"} );
+Console.WriteLine(fullName);
+</code></pre>
+
+<p>  }</p>
+
+<pre><code>static string Combine(params string[] paths)
+{
+    string result = string.Empty;
+    foreach (string path in paths) {
+        result = System.IO.Path.Combine(result, path);
+    }
+    return result;
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>```
+// named arguments
+class Program
+{
+  static void Main()
+  {</p>
+
+<pre><code>DisplayGreeting(firstName: "Tim", lastName: "Pan");
+</code></pre>
+
+<p>  }
+  public void DisplayGreeting(</p>
+
+<pre><code>string firstName,
+string middleName = default(string),
+string lastName = default(string))
+</code></pre>
+
+<p>  {</p>
+
+<pre><code>// ...
+</code></pre>
+
+<p>  }
+}
+```</p>
+
+<h2>5 Classes 201</h2>
+
+<ol>
+<li>Declaring and Instantiating a Class</li>
+<li>Instance Fields</li>
+<li>Declaring</li>
+<li>Accessing</li>
+<li>Const and readonly modifiers</li>
+<li>Instance Methods</li>
+<li>Access Modifiers</li>
+<li><code>public</code>, <code>private</code>, <code>protected</code>, <code>internal</code>, <code>protected internal</code></li>
+<li>Properties</li>
+<li>Declaring
+
+<ul>
+<li><em>Language Contrast</em> Programmers should view <code>new</code> as a call to instantiate an object, <em>not as a call to allocate memory</em>. It just retrieves memory from the memory manager.</li>
+</ul>
+</li>
+<li>Naming Conventions
+
+<ul>
+<li>property name <code>FirstName</code>, then field name <code>_FirstName</code>(preferred), <code>_firstName</code>, or <code>m_FirstName</code>(C++ style).</li>
+</ul>
+</li>
+<li>Using Properties with Validation</li>
+<li>Read-Only and Write-Only</li>
+<li>Access Modifiers on Getters and Setters
+
+<ul>
+<li>e.g. <code>private set()</code></li>
+</ul>
+</li>
+<li>Properties as Virtual Fields
+
+<ul>
+<li>They can even do not exist physically</li>
+</ul>
+</li>
+<li>Properties and Method Calls <strong>Not Allowed</strong> as <code>ref</code> or <code>out</code> Parameter Values</li>
+<li>Constructors &amp; Finalizers</li>
+<li>Declaring</li>
+<li>Default constructors
+
+<ul>
+<li>Once there is a explicitely defined constructor, the default one (without parameters) is no longer provided.</li>
+</ul>
+</li>
+<li>Object Initializers <code>Employee emp1 = new Employee("Inigo", "Montoya") { Title = "Computer Nerd", Salary = "Not Enough"};</code>
+
+<ul>
+<li>Collection Initializers</li>
+</ul>
+</li>
+<li>Overloading Constructors</li>
+<li>Constractor Chaining: Calling another Constructor Using <code>this</code>
+
+<ul>
+<li><code>public Employee(int id, string fristName, string lastName): this(firstName, lastName) { Id = id ; }</code></li>
+</ul>
+</li>
+<li>Generalize initialization: Refactor init process in the ctor into a private init method</li>
+<li>Finalizers
+
+<ul>
+<li>Like JAVA, unlike C++</li>
+</ul>
+</li>
+<li>Static</li>
+<li><em>Language Contrast</em> The equivalent of a global field or function within the realm of C# is a static field or function</li>
+<li>Static Fields</li>
+<li>Static Methods</li>
+<li>Static Constructors</li>
+<li>Static Classes
+
+<ol>
+<li>it prevents a programmer from writing code that
+instantiates the SimpleMath class.</li>
+<li>it prevents the declaration of any
+instance fields or methods within the class. Since the class cannot be
+instantiated, instance members would be pointless.</li>
+</ol>
+</li>
+<li><code>const</code> fields are <code>static</code> automatically, and declaring a <code>const</code> field as <code>static</code> explicitly will cause a compile error</li>
+<li><strong><em><code>readonly</code> modifier is available only for fields (not for local variables)</em></strong> it is modifiable only from inside the constructor or directly during declaration. 似乎是把C++中<code>const</code>可以ctor初始化的功能拆成<code>readonly</code>了.</li>
+<li><strong><em>Extension Methods</em></strong> requirements</li>
+<li>The first parameter corresponds to the type on which the method
+extends or operates.</li>
+<li>To designate the extension method, prefix the extended type with the
+this modifier.</li>
+<li>To access the method as an extension method, import the extending
+type’s namespace via a using directive (or place the extending class in
+the same namespace as the calling code).</li>
+<li>Special Classes</li>
+<li><code>partial</code> Classes
+
+<ul>
+<li>the general purpose of a partial class is to allow the splitting of a class definition across multiple files</li>
+<li><code>partial</code> methods allow for a declaration of a method without requiring
+an implementation. However, when the optional implementation is
+included, it can be located in one of the sister partial class definitions,
+likely in a separate file.</li>
+</ul>
+</li>
+<li>Nested Classes
+
+<ul>
+<li>One unique characteristic of nested classes is the ability to specify private
+as an access modifier for the class itself</li>
+<li>Another interesting characteristic of nested classes is that they can
+access any member on the containing class, including private members.</li>
+<li>treat public nested classes suspiciously;
+they indicate potentially poor code that is likely to be confusing
+and hard to discover.</li>
+</ul>
+</li>
+</ol>
+
+
+<h2>6 Inheritance 269</h2>
+
+<ol>
+<li>Derivation</li>
+<li>Extension methods are also inherited.</li>
+<li><em>Language Contrast:</em> Different from C++, C# is a <strong>single-inheritance</strong> programming language, as is the CIL. Derive from only one class a time.
+
+<ul>
+<li>avoid using a multiple-inheritance class</li>
+<li><code>sealed</code> class cannot be derived. <em>Language Contrast:</em> C# sealed class = Java final class. In java, <code>final</code> can be applied to
+
+<ol>
+<li>classes. = C# sealed class</li>
+<li><strong>methods, cannot be overridden in a derived class. This is default in C#, unless you declare a method as <code>virtual</code></strong>, and in a derived class this can be prevented for further classes with <code>sealed</code> again.</li>
+<li>fields and variables, can be initialized only once. = C# readonly</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>Overriding</li>
+<li><em>Language Contrast:</em> Java -- Virtual Methods by Default. Java and C++ -- Implicit Overriding. However, in C#, in order to override a method, both the base class and the derived class members must match and have corresponding <code>virtual</code> and <code>override</code> keywords.</li>
+<li>ctor: <em>Language Contrast:</em> Dispatch Method Calls during Construction
+
+<ul>
+<li>C++: the type is associated with the base type rather than the derived type, and virtual methods call the base implementation.</li>
+<li>C#: dispatches virtual method calls to the most derived type.</li>
+</ul>
+</li>
+<li>only instance members can be virtual. The CLR uses the concrete
+type, specified at instantiation time, to determine where to dispatch a
+virtual method call, so static virtual methods are meaningless and the
+compiler prohibits them.</li>
+<li><code>new</code> modifier for methods. <strong><em>If neither <code>override</code> nor <code>new</code> is specified, then <code>new</code> will be assumed, thereby maintaining the desired version safety.</em></strong></li>
+<li><em>upcasting</em>: please see the example codes below. <em>downcasting</em>: ?dangerous?</li>
+<li><em>sealed</em> modifier for methods. prevent overriding</li>
+<li><em>base</em> member
+
+<ul>
+<li>ctor <code>public Contact(string name) : base(name) { Name = name; }</code></li>
+</ul>
+</li>
+<li>Abstract Classes</li>
+<li><em>Language Contrast</em>
+
+<ul>
+<li>C++ pure virtual function with <code>=0</code>. It does not require the class itself to have any special declaration.</li>
+<li>C# and Java require <code>abstract</code> if the class has <code>abstract</code> member</li>
+</ul>
+</li>
+<li>polymorphism.
+
+<ul>
+<li>base.foo() to derived1.foo(), derived2.foo(), derived3.foo() overriding</li>
+</ul>
+</li>
+<li><code>System.Object</code></li>
+<li>Every class is derived from <code>System.Object</code></li>
+<li><strong><em><code>is</code> operator</em></strong></li>
+<li>verify the underlying type with <code>is</code> operator, e.g. <code>if (data is string) data = Encrypt((string) data);</code></li>
+<li><strong><em><code>as</code> operator</em></strong></li>
+<li>conversion to a data type, and assign null if the source type is not inherently (within the inheritance chain). Avoid additional try/catch handling code. e.g. <code>Print(data as Document);</code></li>
+</ol>
+
+
+<p>``` cpp
+// C++ Dispatch method calls during construction
+// It will call method in the same class although it is virtual</p>
+
+<h1>include <iostream></h1>
+
+<p>using namespace std;</p>
+
+<p>class A {
+public:</p>
+
+<pre><code>A() {
+    cout &lt;&lt; "A ctor()" &lt;&lt;endl;
+    Foo();
+}
+
+virtual void Foo() {
+    cout &lt;&lt; "A Foo()" &lt;&lt;endl;
+}
+</code></pre>
+
+<p>};</p>
+
+<p>class B: public A {
+public:</p>
+
+<pre><code>B() {
+    cout &lt;&lt; "B ctor()" &lt;&lt; endl;
+    Foo();
+}
+void Foo() {
+    cout &lt;&lt; "B Foo()" &lt;&lt; endl;
+}
+</code></pre>
+
+<p>};</p>
+
+<p>class C: public B {
+public:</p>
+
+<pre><code>C() {
+    cout &lt;&lt; "C ctor" &lt;&lt; endl;
+    Foo();
+}
+void Foo() {
+    cout &lt;&lt; "C Foo()" &lt;&lt; endl;
+}
+</code></pre>
+
+<p>};</p>
+
+<p>int main(int argc, char** args) {</p>
+
+<pre><code>A* a = new C();
+
+delete a;
+
+return 0;
+</code></pre>
+
+<p>}
+// output>
+// A ctor()
+// A Foo()
+// B ctor()
+// B Foo()
+// C ctor
+// C Foo()</p>
+
+<p><code>
+</code>
+// C#
+using System;
+class Tmp {</p>
+
+<pre><code>static int Main(string[] args) {
+    A a = new C();
+
+    return 0;
+}
+</code></pre>
+
+<p>}</p>
+
+<p>class A {</p>
+
+<pre><code>public A() {
+    Console.WriteLine("A ctor"); 
+    Foo();
+}
+
+public virtual void Foo() {
+    Console.WriteLine("A Foo()");
+}
+</code></pre>
+
+<p>}</p>
+
+<p>class B: A {</p>
+
+<pre><code>public B() {
+    Console.WriteLine("B ctor"); 
+    Foo();
+}
+public override void Foo() {
+    Console.WriteLine("B Foo()");
+}
+</code></pre>
+
+<p>}</p>
+
+<p>class C: B {</p>
+
+<pre><code>public C() {
+    Console.WriteLine("C ctor"); 
+    Foo();
+}
+public override void Foo() {
+    Console.WriteLine("C Foo()");
+}
+</code></pre>
+
+<p>}
+// output>
+// A ctor
+// C Foo()
+// B ctor
+// C Foo()
+// C ctor
+// C Foo()</p>
+
+<p>```</p>
+
+<p><code>``
+// upcasting in C#
+//</code>new` modifier for methods
+using System;
+class Tmp {</p>
+
+<pre><code>static int Main(string[] args) {
+    D1 d1 = new D1();
+    D2 d2 = new D2();
+    C c = d1;
+    B b = c;
+    A a = b;
+
+    d1.Foo();
+    d2.Foo();
+    c.Foo();
+    b.Foo();
+    a.Foo();
+
+    return 0;
+}
+</code></pre>
+
+<p>}</p>
+
+<p>class A {</p>
+
+<pre><code>public void Foo() {
+    Console.WriteLine("A Foo()");
+}
+</code></pre>
+
+<p>}</p>
+
+<p>class B: A {</p>
+
+<pre><code>public new virtual void Foo() { // warning if without new
+    Console.WriteLine("B Foo()");
+}
+</code></pre>
+
+<p>}</p>
+
+<p>class C: B {</p>
+
+<pre><code>public override void Foo() {
+    Console.WriteLine("C Foo()");
+}
+</code></pre>
+
+<p>}</p>
+
+<p>class D1: C {</p>
+
+<pre><code>public new void Foo() {
+    Console.WriteLine("D1 Foo()");
+}
+</code></pre>
+
+<p>}</p>
+
+<p>class D2: C {</p>
+
+<pre><code>public void Foo() {  // warning to add `new` by default
+    Console.WriteLine("D2 Foo()");
+}
+</code></pre>
+
+<p>}
+// D1 Foo()
+// D2 Foo()
+// C Foo()
+// C Foo()
+// A Foo()</p>
+
+<p>```</p>
+
+<p>``` cpp
+// upcasting in C++
+// A -> B -> C -> D
+// A::Foo()
+// virtual B::Foo()
+// virtual C::Foo()
+// D:Foo()
+// ...
+int main(int argc, char** argv) {</p>
+
+<pre><code> D* d = new D();
+ C* c = d;
+ B* b = c;
+ A* a = b;
+
+ d-&gt;Foo();
+ c-&gt;Foo();
+ b-&gt;Foo();
+ a-&gt;Foo();
+
+ delete d;
+
+ return 0;
+</code></pre>
+
+<p> }
+//
+// D Foo()
+// D Foo()
+// D Foo()
+// A Foo()</p>
+
+<p>```</p>
+
+<h2>7 Interfaces 305</h2>
+
+<ul>
+<li><code>IPascalCase</code>, no implementation, no data (no fields, but properties)</li>
+<li>Polymorphism</li>
+<li>Interface Implementation
+
+<ul>
+<li>Declaring a class to implement an interface is similar to deriving from a
+base class in that the implemented interfaces appear in a comma-separated
+list along with the base class (order is not significant between interfaces).
+<strong><em>The only difference is that classes can implement multiple interfaces.</em></strong></li>
+<li>The base class specifier (if there is one) must come first: <code>public class Contact : PdaItem, IListable, IComparable {...</code></li>
+<li><strong><em>Explicit(more often) vs Implicit</em></strong> <a href="http://stackoverflow.com/questions/143405/c-sharp-interfaces-implicit-implementation-versus-explicit-implementation">Stackoverflow</a> ??
+
+<ul>
+<li>Explicit: mechanism code, or avoid overriding,
+
+<ul>
+<li><code>ITrace.Dump()</code> to save info to files in <code>Person</code></li>
+</ul>
+</li>
+<li>Implicit: semantic/model/core code
+
+<ul>
+<li>Including an implicit <code>Compress()</code> implementation on a <code>ZipCompression</code>
+class is a perfectly reasonable choice, since <code>Compress()</code> is a core
+part of the <code>ZipCompression</code> class’s behavior.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Interface Inheritance
+
+<ul>
+<li>upcasting is always successful (<code>Base b = new Derived()</code>)</li>
+<li>downcasting is not, so requires an explict cast</li>
+<li>Explicit Implementation should match the exact corresponding level in the hierachy.</li>
+</ul>
+</li>
+<li>Versioning</li>
+<li>Extension Methods on Interfaces</li>
+</ul>
+
+
+<p>```
+// Explicit interface implementation
+public class Contact : PdaItem, IListable, IComprarable
+{
+  // ...
+  string[] IListable.ColumnValues
+  {</p>
+
+<pre><code>// ...
+</code></pre>
+
+<p>  }
+  // ...
+}</p>
+
+<p>// ...</p>
+
+<pre><code>values = ((IListable)contact2).ColumnValues;
+</code></pre>
+
+<p>// ...
+```</p>
+
+<h2>8 Value Types 331</h2>
+
+<p>All the C# primitive types are value types except <code>string</code> and <code>object</code>. How to define user's own value types? <code>struct</code></p>
+
+<ol>
+<li>Structs (derive from <code>System.Object</code> -> <code>System.ValueType</code>)</li>
+<li>Recommend: Once you have instantiated a value type, you should not be able to modify the same instance.</li>
+<li>*C# prevents explict definition of default constructors (parameterless)</li>
+<li><code>struct</code> fields can not be initialized at declaration time.</li>
+<li>Unlike <code>class</code>, <code>struct</code> does not support finalizers. There is no need for the GC.</li>
+<li><em>Language Contrast</em>: In C++, the difference between structs and classes is simply that by
+default, a struct’s members are public. C# doesn’t include this subtle distinction.
+The contrast is far greater in C#, where struct significantly
+changes the memory behavior from that of a class.</li>
+<li><code>T default(T)</code> to get the default value</li>
+<li><strong><em>Boxing</em></strong>: upcasting <code>ValueType</code> to <code>Object</code></li>
+<li>First, memory is allocated on the heap that will contain the value
+type’s data and a little overhead (a SyncBlockIndex and method
+table pointer).</li>
+<li>Next, a memory copy occurs from the value type’s data on the stack,
+into the allocated location on the heap.</li>
+<li>Finally, the object or interface reference is updated to point at the
+location on the heap.</li>
+<li><strong><em>unboxing</em></strong> TODO start from page 339</li>
+<li><strong><em><code>lock</code> statement</em></strong></li>
+<li>Enums</li>
+<li>An enum always has an underlying type, which may be <code>int</code>(default), <code>uint</code>, <code>long</code>,
+or <code>ulong</code>, but not <code>char</code>.</li>
+<li>Cast between enums via <code>System.Array</code></li>
+<li>Cast between enums and strings via
+
+<ul>
+<li><em>enum -> string</em>.</li>
+<li><em>string -> enum</em>. <code>Enum.Parse()</code></li>
+</ul>
+</li>
+<li>Enums as bit flags with <code>[Flags]</code> FlagsAttribute to perform bit operations.</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>

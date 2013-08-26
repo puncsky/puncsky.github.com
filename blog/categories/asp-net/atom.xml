@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: asp.net | Puncsky CS Notebook]]></title>
+  <link href="http://puncsky.github.com/blog/categories/asp-net/atom.xml" rel="self"/>
+  <link href="http://puncsky.github.com/"/>
+  <updated>2013-08-26T15:21:07-07:00</updated>
+  <id>http://puncsky.github.com/</id>
+  <author>
+    <name><![CDATA[Tian]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Setting up the Twitter Helper with ASP.NET]]></title>
+    <link href="http://puncsky.github.com/blog/2013/08/26/Twitter-Helper-in-ASPNET/"/>
+    <updated>2013-08-26T15:09:00-07:00</updated>
+    <id>http://puncsky.github.com/blog/2013/08/26/Twitter-Helper-in-ASPNET</id>
+    <content type="html"><![CDATA[<p>It is a simple tutorial on how to create your own twitter helpers in ASP.NET website.</p>
+
+<!-- more -->
+
+
+<h2>Create Buttons with Helpers</h2>
+
+<h3>1. Follow Button</h3>
+
+<p>The <a href="https://dev.twitter.com/docs/follow-button">Twitter API: Follow Button</a> uses Javascript and data attributes to configure the button:</p>
+
+<p>``` html
+<a href="https://twitter.com/aspnet" class="twitter-follow-button" data-show-count="false">Follow @aspnet</a></p>
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+
+<p>```</p>
+
+<p>It will be displayed as</p>
+
+<p><a href="https://twitter.com/aspnet" class="twitter-follow-button" data-show-count="false">Follow @aspnet</a></p>
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+
+<p>We can create a new button with configurations provided by twitter directly at <a href="https://twitter.com/about/resources/buttons">twitter.com/about/resources/buttons</a>. On the other hand, to build our own reusable helper button in ASP.NET website, create <code>Twitter.cshtml</code> in the folder <code>App_Code\</code>, and add the following to <code>App_Code\Twitter.cshtml</code>.</p>
+
+<p>``` html
+@using System.Globalization</p>
+
+<p>@<em> For more about the twitter follow button, please visit https://dev.twitter.com/docs/follow-button </em>@
+@helper FollowButton(</p>
+
+<pre><code>        string userName,
+        bool showCount = false,
+        bool showUserName = true,
+        bool largeButton = false,
+        bool optOutOfTailoring = false,
+        string language = "",
+        bool alignLeft= true) {
+HtmlString showCountAttribute = new HtmlString(showCount ? "" : "data-show-count=\"false\"");
+HtmlString showUserNameAttribute = new HtmlString(showUserName ? "" : "data-show-screen-name=\"false\"");
+HtmlString largeButtonAttribute = new HtmlString(largeButton ? "data-size=\"large\"" : "");
+HtmlString optOutOfTailoringAttribute = new HtmlString(optOutOfTailoring ? "data-dnt=\"true\"" : "");
+HtmlString languageAttribute = new HtmlString(!language.IsEmpty() &amp;&amp; !language.Equals("en", StringComparison.OrdinalIgnoreCase) ? String.Format(CultureInfo.InvariantCulture, " data-lang=\"" + HttpUtility.HtmlAttributeEncode(language) +"\"") : "");
+HtmlString alignAttribute = new HtmlString(alignLeft ? "" : "data-align=\"right\"");
+</code></pre>
+
+<p><a href="https://twitter.com/@HttpUtility.UrlEncode(userName)" class="twitter-follow-button" @showCountAttribute @showUserNameAttribute @largeButtonAttribute @optOutOfTailoringAttribute @languageAttribute @alignAttribute>Follow @("@" + userName)</a></p>
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+
+<p>}
+```</p>
+
+<p>After setting up the helper, it can be called in our page with <code>@Twitter.FollowButton()</code>. In our example, we should send at least one parameter specifying the <code>userName</code> we would like to follow. Assume we need a button following <a href="https://twitter.com/aspnet">The ASP.NET Team(@aspnet)</a>, showing the follower count, with a small size, in the language of spanish (<a href="http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">ISO-639-1 Language Code</a>):</p>
+
+<p><code>html
+@Twitter.FollowButton(userName: "aspnet", showCount: true, largeButton: false, language: "es")
+</code></p>
+
+<p>It will be displayed as</p>
+
+<p><a href="https://twitter.com/aspnet" class="twitter-follow-button" data-show-count="false" data-lang="es">Seguir a @aspnet</a></p>
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+
+<h3>2. Tweet Button</h3>
+
+<p>Similarly, we can both utilize the tool provided by <a href="https://twitter.com/about/resources/buttons#tweet">twitter.com/about/resources/buttons#tweet</a> and create our own helper.</p>
+
+<p>In order to create our own helper, add the following to <code>App_Code\Twitter.cshtml</code>.</p>
+
+<p>``` html
+@<em> For more about the tweet button, please visit https://dev.twitter.com/docs/tweet-button </em>@
+@helper TweetButton(string url = "",</p>
+
+<pre><code>        string tweetText = "",
+        bool showCount = true,
+        string via = "",
+        string recommend = "",
+        string hashtag = "",
+        bool largeButton = false,
+        bool optOutOfTailoring = false,
+        string language = "") {
+HtmlString urlAttribute = new HtmlString(url.IsEmpty() ? "" : String.Format(CultureInfo.InvariantCulture, " data-url=\"" + HttpUtility.HtmlAttributeEncode(url) + "\""));
+HtmlString tweetTextAttribute = new HtmlString(tweetText.IsEmpty() ? "" : "data-text=\"" + HttpUtility.HtmlAttributeEncode(tweetText) + "\"");
+HtmlString showCountAttribute = new HtmlString(showCount ? "" : "data-show-count=\"false\"");
+HtmlString viaAttribute = new HtmlString(via.IsEmpty() ? "" : "data-via=\"" + HttpUtility.HtmlAttributeEncode(via) + "\"");
+HtmlString recommendAttribute = new HtmlString(recommend.IsEmpty() ? "" : "data-related=\"" + HttpUtility.HtmlAttributeEncode(recommend) + "\"");
+HtmlString hashtagAttribute = new HtmlString(hashtag.IsEmpty() ? "" : "data-hashtags=\"" + HttpUtility.HtmlAttributeEncode(hashtag) + "\"");
+HtmlString largeButtonAttribute = new HtmlString(largeButton ? "data-size=\"large\"" : "");
+HtmlString optOutOfTailoringAttribute = new HtmlString(optOutOfTailoring ? "data-dnt=\"true\"" : "");
+HtmlString languageAttribute = new HtmlString(!language.IsEmpty() &amp;&amp; !language.Equals("en", StringComparison.OrdinalIgnoreCase) ? String.Format(CultureInfo.InvariantCulture, " data-lang=\"{0}\"", HttpUtility.HtmlAttributeEncode(language)) : "");
+</code></pre>
+
+<p><a href="https://twitter.com/share" class="twitter-share-button" @urlAttribute @tweetTextAttribute @showCountAttribute @viaAttribute @recommendAttribute @hashtagAttribute @largeButtonAttribute @optOutOfTailoringAttribute @languageAttribute>Tweet</a></p>
+
+<script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>
+
+
+<p>}
+```</p>
+
+<p>Assume that we need a tweet button sharing the link to <code>http://www.asp.net/mvc</code>, with a large size and a hashtag <code>awesome</code>, and in the language of English.</p>
+
+<p><code>html
+@Twitter.TweetButton(url: "http://www.asp.net/mvc", largeButton: true, hashtag: "awesome")
+</code></p>
+
+<p>It will be displayed as</p>
+
+<p><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.asp.net/mvc" data-size="large" data-count="none" data-hashtags="awesome">Tweet</a></p>
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+
+<h2>Create Registered Widgets</h2>
+
+<p>In Twitter API v1.1, widgets, including profile, favorites, search and list, are migrated to <a href="https://dev.twitter.com/docs/embedded-timelines">Embedded Timelines</a>. The user should register the widgets at <a href="https://twitter.com/settings/widgets">twitter.com/settins/widgets</a>. Unauthenticated requests are not supported.</p>
+
+<h3>1. User Timeline (Profile)</h3>
+
+<p>Log in to twitter and go to  <a href="https://twitter.com/settings/widgets">twitter.com/settingts/widgets</a>. <a href="https://twitter.com/settings/widgets/new">Click <code>Create new</code></a>, set up our own configuration, and click <code>Create widget</code>. Finally, copy and paste the code into the page of our site.</p>
+
+<p>``` html
+<a class="twitter-timeline" href="https://twitter.com/aspnet" data-widget-id="369912910400593920">Tweets by @aspnet</a></p>
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+
+<p>```</p>
+
+<p>The code above will be shown as</p>
+
+<p><a class="twitter-timeline" href="https://twitter.com/aspnet" data-widget-id="369912910400593920">Tweets by @aspnet</a></p>
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+
+<h3>2. Favorites</h3>
+
+<p>Go to <a href="https://twitter.com/settings/widgets/new/favorites">twitter.com/settings/widgets/new/favorites</a>. Set up our own configuration. Click <code>Create widget</code>, copy and paste the code into the page of our site.</p>
+
+<p>``` html
+<a class="twitter-timeline" href="https://twitter.com/aspnet/favorites" data-widget-id="369909963851714561">Favorite Tweets by @aspnet</a></p>
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+
+<p>```</p>
+
+<p>It will be displayed as:</p>
+
+<p><a class="twitter-timeline" href="https://twitter.com/aspnet/favorites" data-widget-id="369909963851714561">Favorite Tweets by @aspnet</a></p>
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+
+<h3>3. List</h3>
+
+<p>Go to <a href="https://twitter.com/settings/widgets/new/list">twitter.com/settings/widgets/new/list</a>. Set up our own configuration. Click <code>Create widget</code>, copy and paste the code into the page of our website.</p>
+
+<p>``` html
+<a class="twitter-timeline" href="https://twitter.com/puncsky/blog" data-widget-id="369913408134467584">Tweets from @puncsky/blog</a></p>
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+
+<p>```</p>
+
+<p>It will be like:</p>
+
+<p><a class="twitter-timeline" href="https://twitter.com/puncsky/blog" data-widget-id="369913408134467584">Tweets from @puncsky/blog</a></p>
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+
+<h3>4. Search</h3>
+
+<p>Go to <a href="https://twitter.com/settings/widgets/new/search">twitter.com/settings/widgets/new/search</a>. Set up our own configuration. Click <code>Create widget</code>, copy and paste the code into the page of our website.</p>
+
+<p>``` html
+<a class="twitter-timeline" href="https://twitter.com/search?q=%23asp.net" data-widget-id="369910441469689856">Tweets about "#asp.net"</a></p>
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+
+<p>```</p>
+
+<p>It will be displayed as:</p>
+
+<p><a class="twitter-timeline" href="https://twitter.com/search?q=%23asp.net" data-widget-id="369910441469689856">Tweets about "#asp.net"</a></p>
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+
+
+]]></content>
+  </entry>
+  
+</feed>
