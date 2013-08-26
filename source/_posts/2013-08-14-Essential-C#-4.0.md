@@ -1,11 +1,33 @@
 ---
 layout: post
-title: "Essential C# 4.0"
+title: "Essential C# 4.0: Basics"
 date: 2013-08-14 10:23
 comments: true
 categories:  programming_language
-published: false
+published: true 
 ---
+
+No one can ever master a programming language (PL) by studying it only without looking into and comparing it with other ones. In addition, modern application software often requires a variety of components written in different PLs. Most importantly, language itself is not important at all; at least not important when compared to the fundamental ideas on architectures, frameworks, the design of the PL. A competing programmer can always get the hang of any PLs quickly.
+
+Consequently, I make a list of PLs I would study seriously in the future.
+
+<!-- more -->
+
+1. C# or Java
+  - A serious pure OOP and enterprise level PL is always necessary for the reason of productivity.
+2. C/C++
+  - The most powerful PL, which can be used to create almost everything.
+  - Help to understand things under the hood.
+  - C++: semi-OOP version of C, a horrible language which requires a life long time to study.
+3. Bash/Python
+  - Scripts make your life easier.
+4. Javascript
+  - Everything could be written in Javascript will be eventually written in Javascript.
+5. Lisp
+  - Help to understand the beauty of functional PL.
+
+
+The following part is my notes on the book *Essential C#*, which is redeemed as the best book for C# learners.
 
 
 # Essential C# 4.0
@@ -95,11 +117,11 @@ Virtual Execution System(VES)
   - `var` introduced to support anonymous types, e.g. `var patent1 = new { Title = "Bifocals", YearOfPublication = "1884" };`. Avoid to use in other cases.
     - avoid anonymous types until working with lambda and query expressions that associate data from different types or you you are horizontally projecting the data so that for a particular type, there is less data overall.
 4. **Categories of Types**
-  - Value Types
+  - Value Types: all the C# primitive types except `string ` and `object`, all derive from `System.ValueType`
     - data copied by value
 	- for < 16 bytes
 	- stack
-  - Reference Types: `string`, any custom classes, most classes
+  - Reference Types: `string`, `object`, any custom classes, most classes
     - ***IMPORTANT*** string is passed by value and cloned when pass it to a method, BUT 
     - data copied by reference
 	- heap
@@ -716,37 +738,35 @@ public class Contact : PdaItem, IListable, IComprarable
 
 ## 8 Value Types 331
 
-## 9 Well-Formed Types 357
+All the C# primitive types are value types except `string` and `object`. How to define user's own value types? `struct`
 
-## 10 Exception Handling 405
+1. Structs (derive from `System.Object` -> `System.ValueType`)
+  - Recommend: Once you have instantiated a value type, you should not be able to modify the same instance.
+  - *C# prevents explict definition of default constructors (parameterless)
+  - `struct` fields can not be initialized at declaration time.
+  - Unlike `class`, `struct` does not support finalizers. There is no need for the GC.
+  - *Language Contrast*: In C++, the difference between structs and classes is simply that by
+  default, a struct’s members are public. C# doesn’t include this subtle distinction.
+  The contrast is far greater in C#, where struct significantly
+  changes the memory behavior from that of a class.
+  - `T default(T)` to get the default value
+2. ***Boxing***: upcasting `ValueType` to `Object`
+  1. First, memory is allocated on the heap that will contain the value
+  type’s data and a little overhead (a SyncBlockIndex and method
+  table pointer).
+  2. Next, a memory copy occurs from the value type’s data on the stack,
+  into the allocated location on the heap.
+  3. Finally, the object or interface reference is updated to point at the
+  location on the heap.
+  - ***unboxing*** TODO start from page 339
+  - ***`lock` statement***
+3. Enums
+  - An enum always has an underlying type, which may be `int`(default), `uint`, `long`,
+  or `ulong`, but not `char`.
+  - Cast between enums via `System.Array`
+  - Cast between enums and strings via
+    - *enum -> string*.
+	- *string -> enum*. `Enum.Parse()`
+  - Enums as bit flags with `[Flags]` FlagsAttribute to perform bit operations.
 
-## 11 Generics 421
 
-## 12 Delegates and Lambda Expressions 469
-
-## 13 Events 507
-
-## 14 Collection Interfaces with Standard Query Operators 535
-
-## 15 LINQ with Query Expressions 589
-
-## 16 Building Custom Collections 611
-
-## 17 Reflection, Attributes, and Dynamic Programming 651
-
-## 18 Multithreading 701
-
-## 19 Synchronization and More Multithreading Patterns 749
-
-## 20 Platform Interoperability and Unsafe Code 815
-
-## 21 The Common Language Infrastructure 843
-
-## Appendix
-
-A Downloading and Installing the C# Compiler and the CLI Platform 865
-B Full Source Code Listings 869
-C Concurrent Classes from System. Collections. Concurrent 895
-D C# 2.0 Topics 899
-E C# 3.0 Topics 903
-F C# 4.0 Topics 905
