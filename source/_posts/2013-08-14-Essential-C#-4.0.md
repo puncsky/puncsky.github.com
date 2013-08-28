@@ -55,7 +55,7 @@ method, statement
 
 composite formatting.
 
-``` cs
+``` 
 System.Console.WriteLine("Your full name is {0} {1}.", firstName, lastName);
 //                        -------format string-------  ----format item-----
 
@@ -156,7 +156,7 @@ Virtual Execution System(VES)
 	- `.ToCharArray()`
 
 	  
-``` C#
+``` 
 // instantiating
 int[,] cells = {
 {1, 0, 2},
@@ -171,7 +171,7 @@ new int[]{1, 2, 1}
 };
 ```
 
-``` C#
+```
 // handle conversion overflow with checked and unchecked
 checked {
 }
@@ -205,7 +205,7 @@ unchecked {
   preprocessor is generally a misnomer for C#.
 
 
-``` C#
+``` 
 // Null Coalescing Operator
 string fileName;
 // ...
@@ -213,7 +213,7 @@ string fullName = fileName??"default.txt";
 // ...
 ```
 
-``` C#
+``` 
 // Preprocessor Directives
 
 #if CSHARP2
@@ -303,7 +303,7 @@ System.Console.Clear();
   - ***generic catch***: `try { } catch { }` *Language Contrast* C++: `try { } catch (...) { }`. JAVA: `Exception` is the base class for all exceptions, so `try { } catch (Exception e) { }`.
   - Avoid using exception handling to deal with expected situations
   - `bool int.TryParse(textVariable, out number)`
-``` C#
+``` 
 // Aliasing a namespace or type
 using Timer = System.Timers.Timer;
 
@@ -318,7 +318,7 @@ class HelloWorld
 
 ```
 
-``` C#
+``` 
 // Refrence Parameters
 class Program
 {
@@ -338,7 +338,7 @@ class Program
 }
 ```
 
-``` C#
+``` 
 // Parameter Arrays
 class PathEx
 {
@@ -371,7 +371,7 @@ class PathEx
 }
 ```
 
-``` C#
+``` 
 // named arguments
 class Program
 {
@@ -497,7 +497,7 @@ class Program
 6. ***`as` operator***
   - conversion to a data type, and assign null if the source type is not inherently (within the inheritance chain). Avoid additional try/catch handling code. e.g. `Print(data as Document);`
 
-``` C++
+``` cpp
 // C++ Dispatch method calls during construction
 // It will call method in the same class although it is virtual
 #include <iostream>
@@ -554,7 +554,7 @@ int main(int argc, char** args) {
 
 
 ```
-``` C#
+``` 
 // C#
 using System;
 class Tmp {
@@ -664,7 +664,7 @@ class D2: C {
 
 ```
 
-``` C++
+``` cpp
 // upcasting in C++
 // A -> B -> C -> D
 // A::Foo()

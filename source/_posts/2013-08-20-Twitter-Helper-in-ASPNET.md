@@ -1,4 +1,15 @@
-# Setting up the Twitter Helper
+---
+layout: post
+title: "Setting up the Twitter Helper with ASP.NET"
+date: 2013-08-26 15:09
+comments: true
+categories:  asp.net
+published: true
+---
+
+It is a simple tutorial on how to create your own twitter helpers in ASP.NET website.
+
+<!-- more -->
 
 ## Create Buttons with Helpers
 
@@ -18,7 +29,7 @@ It will be displayed as
 
 We can create a new button with configurations provided by twitter directly at [twitter.com/about/resources/buttons](https://twitter.com/about/resources/buttons). On the other hand, to build our own reusable helper button in ASP.NET website, create `Twitter.cshtml` in the folder `App_Code\`, and add the following to `App_Code\Twitter.cshtml`.
 
-``` cshtml
+``` html
 @using System.Globalization
 
 @* For more about the twitter follow button, please visit https://dev.twitter.com/docs/follow-button *@ 
@@ -43,7 +54,7 @@ We can create a new button with configurations provided by twitter directly at [
 
 After setting up the helper, it can be called in our page with `@Twitter.FollowButton()`. In our example, we should send at least one parameter specifying the `userName` we would like to follow. Assume we need a button following [The ASP.NET Team(@aspnet)](https://twitter.com/aspnet), showing the follower count, with a small size, in the language of spanish ([ISO-639-1 Language Code](http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)):
 
-``` cshtml
+``` html
 @Twitter.FollowButton(userName: "aspnet", showCount: true, largeButton: false, language: "es")
 ```
 
@@ -58,7 +69,7 @@ Similarly, we can both utilize the tool provided by [twitter.com/about/resources
 
 In order to create our own helper, add the following to `App_Code\Twitter.cshtml`.
 
-``` cshtml
+``` html
 @* For more about the tweet button, please visit https://dev.twitter.com/docs/tweet-button *@
 @helper TweetButton(string url = "",
             string tweetText = "",
@@ -85,7 +96,7 @@ In order to create our own helper, add the following to `App_Code\Twitter.cshtml
 
 Assume that we need a tweet button sharing the link to `http://www.asp.net/mvc`, with a large size and a hashtag `awesome`, and in the language of English.
 
-``` cshtml
+``` html
 @Twitter.TweetButton(url: "http://www.asp.net/mvc", largeButton: true, hashtag: "awesome")
 ```
 
