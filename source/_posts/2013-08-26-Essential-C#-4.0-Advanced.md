@@ -53,9 +53,47 @@ published: false
   - The ***f-reachable queue*** is a list of all the objects that are ready for
   garbage collection and that also have finalization implementations. `System.GC.SuppressFinalize(reference)` can remove reference instance from f-reachable queue.
   - Resource Utilization and Finalization Guidelines. Refer the book page 400.
-7. Resources Cleanup
+  - Generally, `~Destructor()` calls `Dispose()`
+  - **Lazy Initialization**: Defer the init of an object until it is required.
+    - `System.Lazy<T>`
+
+```
+// Lazy Initialization
+using System.IO;
+
+class DataCache
+{
+  // ...
+  
+  public DataCache(string FileStreamName)
+  {
+    _FileStream = new Lazy<TemporaryFileStream>(
+	    () => new TemporaryFileStream(FileStreamName));
+	// the lambda expression provides a means of passing the
+	//	instructions for what will happen, but not actually performing those
+	//	instructions until explicitly requested.
+  }
+  
+  public TemporaryFileStream FileStream
+  {
+    get
+	{
+	  return _FileStream.Value;
+	}
+  }
+  private Lazy<TemporaryFileStream> _FileStream;
+
+  // ...
+}
+```
 
 ## 10 Exception Handling 405
+
+1. Multiple Exception Types
+2. Catching Exception
+3. General Catch Block
+4. Guildelines
+5. Custom Exceptions
 
 ## 11 Generics 421
 
