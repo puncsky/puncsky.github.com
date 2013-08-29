@@ -4,7 +4,7 @@
   <title><![CDATA[Puncsky CS Notebook]]></title>
   <link href="http://www.puncsky.com/atom.xml" rel="self"/>
   <link href="http://www.puncsky.com/"/>
-  <updated>2013-08-29T00:12:00-07:00</updated>
+  <updated>2013-08-29T12:19:35-07:00</updated>
   <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -26,18 +26,38 @@
 
 
 <ol>
-<li>C# or Java</li>
+<li>C# or Java
+
+<ul>
 <li>A serious pure OOP and enterprise level PL is always necessary for the reason of productivity.</li>
-<li>C/C++</li>
+</ul>
+</li>
+<li>C/C++
+
+<ul>
 <li>The most powerful PL, which can be used to create almost everything.</li>
 <li>Help to understand things under the hood.</li>
 <li>C++: semi-OOP version of C, a horrible language which requires a life long time to study.</li>
-<li>Bash/Python</li>
+</ul>
+</li>
+<li>Bash/Python
+
+<ul>
 <li>Scripts make your life easier.</li>
-<li>Javascript</li>
+</ul>
+</li>
+<li>Javascript
+
+<ul>
 <li>Everything could be written in Javascript will be eventually written in Javascript.</li>
-<li>Lisp</li>
+</ul>
+</li>
+<li>Lisp
+
+<ul>
 <li>Help to understand the beauty of functional PL.</li>
+</ul>
+</li>
 </ol>
 
 
