@@ -4,7 +4,7 @@
   <title><![CDATA[Category: algorithm | Puncsky CS Notebook]]></title>
   <link href="http://www.puncsky.com/blog/categories/algorithm/atom.xml" rel="self"/>
   <link href="http://www.puncsky.com/"/>
-  <updated>2013-08-28T17:35:56-07:00</updated>
+  <updated>2013-08-28T23:28:27-07:00</updated>
   <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -18,7 +18,12 @@
     <link href="http://www.puncsky.com/blog/2013/01/08/clrs-2-advanced/"/>
     <updated>2013-01-08T16:43:00-08:00</updated>
     <id>http://www.puncsky.com/blog/2013/01/08/clrs-2-advanced</id>
-    <content type="html"><![CDATA[<h2>IV Advanced Design and Analysis Techniques Introduction 357</h2>
+    <content type="html"><![CDATA[<p>This post is the second pard of my series notes on the remarkable textbook <a href="http://mitpress.mit.edu/books/introduction-algorithms">Introduction to Algorithm</a> (a.k.a CLRS).</p>
+
+<!--more-->
+
+
+<h2>IV Advanced Design and Analysis Techniques Introduction 357</h2>
 
 <ul>
 <li>Three important but more sophisticated techniques used in designing and analyzing efficient algorithms:

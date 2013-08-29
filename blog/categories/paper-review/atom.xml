@@ -4,7 +4,7 @@
   <title><![CDATA[Category: paper_review | Puncsky CS Notebook]]></title>
   <link href="http://www.puncsky.com/blog/categories/paper-review/atom.xml" rel="self"/>
   <link href="http://www.puncsky.com/"/>
-  <updated>2013-08-28T17:35:56-07:00</updated>
+  <updated>2013-08-28T23:28:27-07:00</updated>
   <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -22,11 +22,14 @@
 
 <h3>Comments</h3>
 
-<p>Dynamo successfully builds a highly available and scalable data store, which sacrifice consistency under certain failure scenarios but is eventually consistent. The design is huge and involves a huge number of details. However, the paper could not specify all of them. Some meaningful parts are missing: what are the supporting techniques used in Dynamo? How it is compared to other existing KV distributed store systems? Are there any possible extensions or future works?</p>
+<p>Dynamo successfully builds a highly available and scalable data store, which sacrifices consistency under certain failure scenarios but the data storage is still eventually consistent. The system is complex and thus this paper involves a huge number of details. However, the paper could not specify all of them. Some interesting parts seem to be missing. What are the supporting techniques used in Dynamo? How is ti compared to other existing KV distributed store systems? Are there any possible extensions or future works?</p>
 
-<p>This paper assumes that security concerns could be ignored for its internal use. Theoretically, security problems is still possible. At least, how can the administrator detect these attacks? e.g. sybil attacks.</p>
+<p>This paper assumes that security concerns can be ignored for its internal use. Theoretically, security problems is still possible. At least, how can the administrator detect sybil attacks?</p>
 
-<p>The author tried three partition schemes. The latter versions decouple partitioning and partition placement. The placement is changeable at run time. Consequently, the strategy 3 has a better efficiency. And the system recovers faster and it is easier to archive. However, the key space is partitioned equally into Q partitions, and every node assume Q/S tokens per node. However, the strategy 3 in Figure 7 is a little confusing. In my opinion, the author should specify that the span each node is responsible for is SIMILAR IN SIZE to each other, instead of exactly EQUAL IN SIZE to each other.</p>
+<p>The author tried three partition schemes. The latter versions decouple partitioning and partition placement. The placement is changeable at run time. Consequently, the strategy 3 has a better efficiency. And the system recovers faster and it is easier to archive. However, the key space is partitioned equally into Q partitions, and every node assume Q/S tokens per node. The strategy 3 in Figure 7 is a little confusing. The author should specify that the span each node is responsible for is SIMILAR IN SIZE to each other, instead of exactly EQUAL IN SIZE to each other.</p>
+
+<!--more-->
+
 
 <h3>1. Problem</h3>
 
@@ -323,12 +326,15 @@ c) randomness -> hard to archive the entire key spaces.</li>
 
 <h3>Comments</h3>
 
-<p>Two things could be done to improve HadoopDB</p>
+<p>Two ways to improve HadoopDB</p>
 
 <ol>
-<li>Integrate the file system for local database with HDFS. In the design of HadoopDB, they are separated which means that the more space one part is preallocated and the less space the other part has. It is not scalable because the administrator has to divide by himself. We could investigate a way to let the database run on the HDFS directly. We can modify the database's file descriptor directly or we can add an additional layer between the database and the HDFS.</li>
-<li>Set up a better scheduler. It is mentioned in the paper that the original version of hadoop fair scheduler is not so good. It is locally greedy and simply does not consider the big picture much. "Quincy: Fair Scheduling for Distributed Computing Clusters" advances a graph data structure for global cost model, which has a very good performance, increasing the throughput up to 40%.</li>
+<li>Integrate the file system for local database with HDFS. In the design of HadoopDB, the file system and the database are separated, which means that the more space one part is preallocated and the less space the other part will occupy. This design is not scalable because the system administrator has to partition the space by hand. We could investigate a way to let the database run on the HDFS directly. The database's file descriptor can be adapted to HDFS directly. Or, even better, we can add an extra virtualized layer between the database and the HDFS.</li>
+<li>Set up a better scheduler. It is mentioned in the paper that the original version of hadoop fair scheduler is not so good. It is queue-based and locally greedy and simply does not consider the big picture much. "Quincy: Fair Scheduling for Distributed Computing Clusters" advances a flow-based algorithm, which has a very good performance by increasing the throughput up to 40%.</li>
 </ol>
+
+
+<!--more -->
 
 
 <h3>1. Problem</h3>

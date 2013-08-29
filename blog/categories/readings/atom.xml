@@ -4,7 +4,7 @@
   <title><![CDATA[Category: readings | Puncsky CS Notebook]]></title>
   <link href="http://www.puncsky.com/blog/categories/readings/atom.xml" rel="self"/>
   <link href="http://www.puncsky.com/"/>
-  <updated>2013-08-28T17:35:56-07:00</updated>
+  <updated>2013-08-28T23:28:27-07:00</updated>
   <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -18,9 +18,14 @@
     <link href="http://www.puncsky.com/blog/2013/06/11/%5B%3F%5D-ben-chu-chuang-gong-si-de-hui-yi-lu-%3C%3Cda-zao-facebook%3E%3E/"/>
     <updated>2013-06-11T20:38:00-07:00</updated>
     <id>http://www.puncsky.com/blog/2013/06/11/[?]-ben-chu-chuang-gong-si-de-hui-yi-lu-<<da-zao-facebook>></id>
-    <content type="html"><![CDATA[<p>这是一本不是那么地有趣的书，甚至都不算是一本书，而是国内某普通大学老师上课的讲义，兼具冗余繁杂、不分重点、事后诸葛亮的无趣。不可否认确实有一些新奇的东西在里面，但是无论怎么看都让人怀疑，是不是原作者整理了一下自己的工作心得、列了一份提纲，然后找了个写手根据提纲照本宣科地添加了些文字。难道作者写作目标群体是大一大二的学生？</p>
+    <content type="html"><![CDATA[<p>这是一本无趣的书，甚至都不能被称作一本书，而更像是国内某大学老师上课的讲义，兼具冗余繁杂、事后诸葛亮。不可否认，的确有一些新奇的东西在里面，但无论怎么看都不禁让人疑惑：是不是原作者根据工作心得列了一份提纲，然后随意找了个写手照本宣科地添加了些文字？难道作者的目标群体仅仅就是些大一大二的学生么？</p>
 
-<p>无论这本书写作水平、思想水平如何，毕竟来自大名鼎鼎的Facebook，我们这些后生们怎么着也得战战兢兢地读完啊……</p>
+<p>当然，无论这本书水平如何，毕竟来自大名鼎鼎的Facebook，我们这些后生们怎么着也得战战兢兢地读完啊……</p>
+
+<p>以下是我的阅读笔记：</p>
+
+<!-- more -->
+
 
 <ul>
 <li>扎克伯格每年都会给自己制定一项挑战，为了学习中文他每周在公司里搞一次小规模的中文讨论会。</li>
@@ -40,8 +45,8 @@
 <li>如何远离非一流人才呢?
 
 <ul>
-<li>首先,慢点招人。</li>
-<li>其次,炒鱿鱼要快。</li>
+<li>招人要慢。</li>
+<li>炒人要快。</li>
 </ul>
 </li>
 <li>与做研究不同的是,公司想要的是把想法迅速地、高质量的实现出来,然后在实践中不断改进。</li>
@@ -72,7 +77,7 @@
 <li>硅谷盛行工具文化,公司内部的工具可以极大的提高每个员工的工作效率,可以减少运营人员的数量。
 
 <ul>
-<li>Code Review的工具<a href="http://phabricator.org/">Phabricator (开源)</a></li>
+<li>Code Review的工具<a href="http://phabricator.org/">Phabricator</a></li>
 <li>除了自动化工具,还有一种工具是人为的,就是把最最重要的目标及相关的任务、目标日期、负责人等信息写到白板上,挂在离我们最近的墙上。每天一抬头就可以看到,每次开会都会路过,时刻提醒我们最最重要的事情是什么,这种工具对我们组非常有效。</li>
 </ul>
 </li>
@@ -155,7 +160,12 @@
     <link href="http://www.puncsky.com/blog/2013/06/01/2013nian-wu-yue-fen-yue-du-ji-lu/"/>
     <updated>2013-06-01T21:12:00-07:00</updated>
     <id>http://www.puncsky.com/blog/2013/06/01/2013nian-wu-yue-fen-yue-du-ji-lu</id>
-    <content type="html"><![CDATA[<p>在来到耶鲁的九个月中，迫于自高中以来最大的学习压力，阅读量较小，总共读了约莫13本书，其中4、6、10、11算是重读。一度赶在停产之前购置了Kindle DXG ，意图博览盗版书，后来才发现系统与Kindle 3 相比 简直烂到了极致，不仅不能做笔记，多看操作系统不再更新有问题，更凶残的是不原生支持中文。现在我来简单讲讲这些书的读后感。</p>
+    <content type="html"><![CDATA[<p>在来到耶鲁的九个月中，迫于自高中以来最大的学习压力，阅读量较小，总共读了约莫13本书，其中4、6、10、11算是重读。一度赶在停产之前购置了Kindle DXG ，意图博览盗版书，后来才发现系统与Kindle 3 相比 简直烂到了极致，不仅不能做笔记，更加凶残的是无法原生支持中文。连多看系统都已经不再为DXG更新。</p>
+
+<p>现在我来简单讲讲这些书的读后感。</p>
+
+<!--more-->
+
 
 <ol>
 <li>《目送》 龙应台
@@ -298,6 +308,9 @@
 <p>他们要么是想人之不敢想，打改革的擦边球，有勇气面对风险，风险有多大，他们最后就取得了多大的成就；要么是运用专业头脑，或者引进外国的先进技术或者理念，步步为营。后生们想要有所建树，最简单直接的办法就是单点快速突破，继而精益求精。</p>
 
 <p>以下是我整理的一些摘录。</p>
+
+<!-- more -->
+
 
 <h2>《激荡三十年》摘录</h2>
 
