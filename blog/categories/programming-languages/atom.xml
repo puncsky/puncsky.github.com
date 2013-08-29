@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: programming_languages | Puncsky CS Notebook]]></title>
-  <link href="http://puncsky.github.com/blog/categories/programming-languages/atom.xml" rel="self"/>
-  <link href="http://puncsky.github.com/"/>
-  <updated>2013-08-26T15:21:07-07:00</updated>
-  <id>http://puncsky.github.com/</id>
+  <link href="http://www.puncsky.com/blog/categories/programming-languages/atom.xml" rel="self"/>
+  <link href="http://www.puncsky.com/"/>
+  <updated>2013-08-28T17:35:56-07:00</updated>
+  <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[GC(Garbage Collection) in Java]]></title>
-    <link href="http://puncsky.github.com/blog/2013/01/14/gc-garbage-collection-in-java/"/>
+    <link href="http://www.puncsky.com/blog/2013/01/14/gc-garbage-collection-in-java/"/>
     <updated>2013-01-14T00:18:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2013/01/14/gc-garbage-collection-in-java</id>
+    <id>http://www.puncsky.com/blog/2013/01/14/gc-garbage-collection-in-java</id>
     <content type="html"><![CDATA[<p>本文摘录自<a href="http://www.amazon.com/Thinking-Java-4th-Bruce-Eckel/dp/0131872486">Thinking in Java</a></p>
 
 <h2>1. The method  <code>finalize()</code></h2>
@@ -106,9 +106,9 @@ Error: checked out.
   
   <entry>
     <title type="html"><![CDATA[OOP Final Term Notes]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/19/oop2/"/>
+    <link href="http://www.puncsky.com/blog/2012/12/19/oop2/"/>
     <updated>2012-12-19T02:01:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/19/oop2</id>
+    <id>http://www.puncsky.com/blog/2012/12/19/oop2</id>
     <content type="html"><![CDATA[<hr />
 
 <p>如果自己不定义constructor，C++会默认使用空的constructor。但是如果自己声明了，就一定要把定义写出来。</p>
@@ -675,9 +675,9 @@ class ProxyExample {
   
   <entry>
     <title type="html"><![CDATA[OOP Mid Term Notes]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/19/oop1/"/>
+    <link href="http://www.puncsky.com/blog/2012/12/19/oop1/"/>
     <updated>2012-12-19T02:01:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/19/oop1</id>
+    <id>http://www.puncsky.com/blog/2012/12/19/oop1</id>
     <content type="html"><![CDATA[<p>Referencing composed and base objects. site:http://zoo.cs.yale.edu/classes/cs427/</p>
 
 <h2>C++ Basics</h2>

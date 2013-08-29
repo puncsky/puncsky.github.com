@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Puncsky CS Notebook]]></title>
-  <link href="http://puncsky.github.com/atom.xml" rel="self"/>
-  <link href="http://puncsky.github.com/"/>
-  <updated>2013-08-26T15:21:07-07:00</updated>
-  <id>http://puncsky.github.com/</id>
+  <link href="http://www.puncsky.com/atom.xml" rel="self"/>
+  <link href="http://www.puncsky.com/"/>
+  <updated>2013-08-28T17:35:56-07:00</updated>
+  <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Setting up the Twitter Helper with ASP.NET]]></title>
-    <link href="http://puncsky.github.com/blog/2013/08/26/Twitter-Helper-in-ASPNET/"/>
+    <link href="http://www.puncsky.com/blog/2013/08/26/Twitter-Helper-in-ASPNET/"/>
     <updated>2013-08-26T15:09:00-07:00</updated>
-    <id>http://puncsky.github.com/blog/2013/08/26/Twitter-Helper-in-ASPNET</id>
+    <id>http://www.puncsky.com/blog/2013/08/26/Twitter-Helper-in-ASPNET</id>
     <content type="html"><![CDATA[<p>It is a simple tutorial on how to create your own twitter helpers in ASP.NET website.</p>
 
 <!-- more -->
@@ -251,9 +251,9 @@
   
   <entry>
     <title type="html"><![CDATA[Essential C# 4.0: Basics]]></title>
-    <link href="http://puncsky.github.com/blog/2013/08/14/Essential-C%23-4.0/"/>
+    <link href="http://www.puncsky.com/blog/2013/08/14/Essential-C%23-4.0/"/>
     <updated>2013-08-14T10:23:00-07:00</updated>
-    <id>http://puncsky.github.com/blog/2013/08/14/Essential-C#-4.0</id>
+    <id>http://www.puncsky.com/blog/2013/08/14/Essential-C#-4.0</id>
     <content type="html"><![CDATA[<p>No one can ever master a programming language (PL) by studying it only without looking into and comparing it with other ones. In addition, modern application software often requires a variety of components written in different PLs. Most importantly, language itself is not important at all; at least not important when compared to the fundamental ideas on architectures, frameworks, the design of the PL. A competing programmer can always get the hang of any PLs quickly.</p>
 
 <p>Consequently, I make a list of PLs I would study seriously in the future.</p>
@@ -1609,9 +1609,9 @@ or <code>ulong</code>, but not <code>char</code>.</li>
   
   <entry>
     <title type="html"><![CDATA[中国工程师在初创公司的经验总结--《打造Facebook》]]></title>
-    <link href="http://puncsky.github.com/blog/2013/06/11/%5B%3F%5D-ben-chu-chuang-gong-si-de-hui-yi-lu-%3C%3Cda-zao-facebook%3E%3E/"/>
+    <link href="http://www.puncsky.com/blog/2013/06/11/%5B%3F%5D-ben-chu-chuang-gong-si-de-hui-yi-lu-%3C%3Cda-zao-facebook%3E%3E/"/>
     <updated>2013-06-11T20:38:00-07:00</updated>
-    <id>http://puncsky.github.com/blog/2013/06/11/[?]-ben-chu-chuang-gong-si-de-hui-yi-lu-<<da-zao-facebook>></id>
+    <id>http://www.puncsky.com/blog/2013/06/11/[?]-ben-chu-chuang-gong-si-de-hui-yi-lu-<<da-zao-facebook>></id>
     <content type="html"><![CDATA[<p>这是一本不是那么地有趣的书，甚至都不算是一本书，而是国内某普通大学老师上课的讲义，兼具冗余繁杂、不分重点、事后诸葛亮的无趣。不可否认确实有一些新奇的东西在里面，但是无论怎么看都让人怀疑，是不是原作者整理了一下自己的工作心得、列了一份提纲，然后找了个写手根据提纲照本宣科地添加了些文字。难道作者写作目标群体是大一大二的学生？</p>
 
 <p>无论这本书写作水平、思想水平如何，毕竟来自大名鼎鼎的Facebook，我们这些后生们怎么着也得战战兢兢地读完啊……</p>
@@ -1746,9 +1746,9 @@ or <code>ulong</code>, but not <code>char</code>.</li>
   
   <entry>
     <title type="html"><![CDATA[2012年9月至2013年5月阅读记录]]></title>
-    <link href="http://puncsky.github.com/blog/2013/06/01/2013nian-wu-yue-fen-yue-du-ji-lu/"/>
+    <link href="http://www.puncsky.com/blog/2013/06/01/2013nian-wu-yue-fen-yue-du-ji-lu/"/>
     <updated>2013-06-01T21:12:00-07:00</updated>
-    <id>http://puncsky.github.com/blog/2013/06/01/2013nian-wu-yue-fen-yue-du-ji-lu</id>
+    <id>http://www.puncsky.com/blog/2013/06/01/2013nian-wu-yue-fen-yue-du-ji-lu</id>
     <content type="html"><![CDATA[<p>在来到耶鲁的九个月中，迫于自高中以来最大的学习压力，阅读量较小，总共读了约莫13本书，其中4、6、10、11算是重读。一度赶在停产之前购置了Kindle DXG ，意图博览盗版书，后来才发现系统与Kindle 3 相比 简直烂到了极致，不仅不能做笔记，多看操作系统不再更新有问题，更凶残的是不原生支持中文。现在我来简单讲讲这些书的读后感。</p>
 
 <ol>
@@ -1884,9 +1884,9 @@ or <code>ulong</code>, but not <code>char</code>.</li>
   
   <entry>
     <title type="html"><![CDATA[波澜壮阔的改革开放史话——《激荡三十年》读后感]]></title>
-    <link href="http://puncsky.github.com/blog/2013/06/01/bo-lan-zhuang-kuo-de-gai-ge-kai-fa-shi-hua-%3C%3Cji-dang-san-shi-nian-%3E%3E-du-hou-gan/"/>
+    <link href="http://www.puncsky.com/blog/2013/06/01/bo-lan-zhuang-kuo-de-gai-ge-kai-fa-shi-hua-%3C%3Cji-dang-san-shi-nian-%3E%3E-du-hou-gan/"/>
     <updated>2013-06-01T11:32:00-07:00</updated>
-    <id>http://puncsky.github.com/blog/2013/06/01/bo-lan-zhuang-kuo-de-gai-ge-kai-fa-shi-hua-<<ji-dang-san-shi-nian->>-du-hou-gan</id>
+    <id>http://www.puncsky.com/blog/2013/06/01/bo-lan-zhuang-kuo-de-gai-ge-kai-fa-shi-hua-<<ji-dang-san-shi-nian->>-du-hou-gan</id>
     <content type="html"><![CDATA[<p>自1978年改革开放以来，中国经济突飞猛进，摸着石头过河让这片蓝海充满了危险、机遇以及不确定性，然而混沌孕新生，乱世出英雄，一大批企业家们迅速地完成了原始积累；当然，我们也不能忘记路边的累累白骨：他们都是国富民强最直接的功臣，是新时代最伟大的英雄。</p>
 
 <p>他们要么是想人之不敢想，打改革的擦边球，有勇气面对风险，风险有多大，他们最后就取得了多大的成就；要么是运用专业头脑，或者引进外国的先进技术或者理念，步步为营。后生们想要有所建树，最简单直接的办法就是单点快速突破，继而精益求精。</p>
@@ -1999,9 +1999,9 @@ or <code>ulong</code>, but not <code>char</code>.</li>
   
   <entry>
     <title type="html"><![CDATA[人生十愿]]></title>
-    <link href="http://puncsky.github.com/blog/2013/05/14/ren-sheng-shi-yuan/"/>
+    <link href="http://www.puncsky.com/blog/2013/05/14/ren-sheng-shi-yuan/"/>
     <updated>2013-05-14T04:18:00-07:00</updated>
-    <id>http://puncsky.github.com/blog/2013/05/14/ren-sheng-shi-yuan</id>
+    <id>http://www.puncsky.com/blog/2013/05/14/ren-sheng-shi-yuan</id>
     <content type="html"><![CDATA[<p>毕业啦！</p>
 
 <p>世事总不尽如人意，而贪心如我者，尝试写下人生的十个愿望；倘若某日能够实现十之八九，也就算是此生无悔啦！</p>
@@ -2025,9 +2025,9 @@ or <code>ulong</code>, but not <code>char</code>.</li>
   
   <entry>
     <title type="html"><![CDATA[Dynamo: Amazon's Highly Available Key-value Store (SOSP'07)]]></title>
-    <link href="http://puncsky.github.com/blog/2013/04/06/dynamo-kv-store/"/>
+    <link href="http://www.puncsky.com/blog/2013/04/06/dynamo-kv-store/"/>
     <updated>2013-04-06T14:16:00-07:00</updated>
-    <id>http://puncsky.github.com/blog/2013/04/06/dynamo-kv-store</id>
+    <id>http://www.puncsky.com/blog/2013/04/06/dynamo-kv-store</id>
     <content type="html"><![CDATA[<p>From <a href="http://www.allthingsdistributed.com/2007/10/amazons_dynamo.html">Amazon</a></p>
 
 <h3>Comments</h3>
@@ -2326,9 +2326,9 @@ c) randomness -> hard to archive the entire key spaces.</li>
   
   <entry>
     <title type="html"><![CDATA[[Repost] Numbers everyone should know]]></title>
-    <link href="http://puncsky.github.com/blog/2013/01/30/zhuan-numbers-everyone-should-know/"/>
+    <link href="http://www.puncsky.com/blog/2013/01/30/zhuan-numbers-everyone-should-know/"/>
     <updated>2013-01-30T11:19:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2013/01/30/zhuan-numbers-everyone-should-know</id>
+    <id>http://www.puncsky.com/blog/2013/01/30/zhuan-numbers-everyone-should-know</id>
     <content type="html"><![CDATA[<p>I seldom repost unoriginal notes in this blog. However, this time&#8230;</p>
 
 <p>Jeff Dean, a brilliant engineer at Google, gave a talk a while ago listing the numbers every engineer should know. I copied these from here.</p>
@@ -2367,9 +2367,9 @@ c) randomness -> hard to archive the entire key spaces.</li>
   
   <entry>
     <title type="html"><![CDATA[HadoopDB (VLDB'09)]]></title>
-    <link href="http://puncsky.github.com/blog/2013/01/27/hadoopdb-vldb-09/"/>
+    <link href="http://www.puncsky.com/blog/2013/01/27/hadoopdb-vldb-09/"/>
     <updated>2013-01-27T15:50:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2013/01/27/hadoopdb-vldb-09</id>
+    <id>http://www.puncsky.com/blog/2013/01/27/hadoopdb-vldb-09</id>
     <content type="html"><![CDATA[<p><a href="http://db.cs.yale.edu/hadoopdb/hadoopdb.html">Yale DB</a></p>
 
 <h3>Comments</h3>
@@ -2509,9 +2509,9 @@ only support filter, select, aggregation</li>
   
   <entry>
     <title type="html"><![CDATA[GC(Garbage Collection) in Java]]></title>
-    <link href="http://puncsky.github.com/blog/2013/01/14/gc-garbage-collection-in-java/"/>
+    <link href="http://www.puncsky.com/blog/2013/01/14/gc-garbage-collection-in-java/"/>
     <updated>2013-01-14T00:18:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2013/01/14/gc-garbage-collection-in-java</id>
+    <id>http://www.puncsky.com/blog/2013/01/14/gc-garbage-collection-in-java</id>
     <content type="html"><![CDATA[<p>本文摘录自<a href="http://www.amazon.com/Thinking-Java-4th-Bruce-Eckel/dp/0131872486">Thinking in Java</a></p>
 
 <h2>1. The method  <code>finalize()</code></h2>
@@ -2629,9 +2629,9 @@ only support filter, select, aggregation</li>
   
   <entry>
     <title type="html"><![CDATA[CLRS 2: Advanced]]></title>
-    <link href="http://puncsky.github.com/blog/2013/01/08/clrs-2-advanced/"/>
+    <link href="http://www.puncsky.com/blog/2013/01/08/clrs-2-advanced/"/>
     <updated>2013-01-08T16:43:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2013/01/08/clrs-2-advanced</id>
+    <id>http://www.puncsky.com/blog/2013/01/08/clrs-2-advanced</id>
     <content type="html"><![CDATA[<h2>IV Advanced Design and Analysis Techniques Introduction 357</h2>
 
 <ul>
@@ -2927,9 +2927,9 @@ only support filter, select, aggregation</li>
   
   <entry>
     <title type="html"><![CDATA[CLRS 1: Basics]]></title>
-    <link href="http://puncsky.github.com/blog/2013/01/07/clrs-1-basics/"/>
+    <link href="http://www.puncsky.com/blog/2013/01/07/clrs-1-basics/"/>
     <updated>2013-01-07T14:55:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2013/01/07/clrs-1-basics</id>
+    <id>http://www.puncsky.com/blog/2013/01/07/clrs-1-basics</id>
     <content type="html"><![CDATA[<h2>I Foundations</h2>
 
 <h3>1 The Role of Algorithms in Computing 5</h3>
@@ -6304,9 +6304,9 @@ only support filter, select, aggregation</li>
   
   <entry>
     <title type="html"><![CDATA[迟到的世界末日]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/26/xie-zai-2012shi-jie-mo-ri-zhi-hou/"/>
+    <link href="http://www.puncsky.com/blog/2012/12/26/xie-zai-2012shi-jie-mo-ri-zhi-hou/"/>
     <updated>2012-12-26T07:56:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/26/xie-zai-2012shi-jie-mo-ri-zhi-hou</id>
+    <id>http://www.puncsky.com/blog/2012/12/26/xie-zai-2012shi-jie-mo-ri-zhi-hou</id>
     <content type="html"><![CDATA[<p>卖个关子，先谈“反求诸己”，文章的最后再谈“世界末日”、为什么世界末日会“迟到”。</p>
 
 <p>“反求诸己”是一件让人乐此不疲但又烦躁不堪的事情。思考人类终极命运这种问题难道不是令人沮丧的么？人固有一死，早死晚死都得死；尽管我们一再强调，有些尸体是重于泰山的，但“你会死”这种陈述终归不是什么好话。打情骂俏、调戏人的和反调戏的除外。可是，即便是这样，我们还是对生命的爱与执着这种“反熵(anti-entropy)”的事情乐此不疲，不是么？就好像，尽管李安大师《少年派的奇幻之旅》血腥重口版很可能是事实，我们仍然选择相信浪漫励志版，不是么？</p>
@@ -6428,9 +6428,9 @@ only support filter, select, aggregation</li>
   
   <entry>
     <title type="html"><![CDATA[请不要和我谈生活，我没有生活]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/26/bu-tan-sheng-huo/"/>
+    <link href="http://www.puncsky.com/blog/2012/12/26/bu-tan-sheng-huo/"/>
     <updated>2012-12-26T07:53:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/26/bu-tan-sheng-huo</id>
+    <id>http://www.puncsky.com/blog/2012/12/26/bu-tan-sheng-huo</id>
     <content type="html"><![CDATA[<p>隔壁的Bryan老兄每次寒暄 how&#8217;s it going? 的时候他也许会感到很奇怪，为啥对面这小兄弟怎么连招呼都打得一愣一愣的。而对面的小兄弟我，每次都本能地将其反应成“最近过得怎样？”，然后进一步考虑，该如何回答这个”特殊疑问句“，总不能每次都说&#8221;Not bad&#8221;吧；但实际的情况是，还真没有什么好说的，而且这句话本来就是“how are you?”类型的句子，是不需要认真回答的，一个hi/hello/hey 足矣。</p>
 
 <p>每次父母找我聊天，问东问西，总以为我在国外的生活应该是丰富多彩的，如果我问题回答地不够给力，他们就会反复感叹类似于好桑心啊好桑心，都没有共同语言啊，老了啦，之类的感叹。这让我十分汗颜，不是我不跟你们讲，而是我真没有什么好讲的，我不是在看书就是在刷微博就是在吃东西就是在去吃东西的路上就是梦里面吃东西，但这些事务并不是什么可以可以诉说甚至引以为豪的事情。大家往往以旅游、靓照、趴踢、大餐为乐为豪，是，确实很欢乐，我也超级喜欢，但是，我只是觉得，这些对我来说不重要，至少对于现在的我说不重要。</p>
@@ -6443,9 +6443,9 @@ only support filter, select, aggregation</li>
   
   <entry>
     <title type="html"><![CDATA[CLRS 3: Selected]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/22/clrs-3-selected/"/>
+    <link href="http://www.puncsky.com/blog/2012/12/22/clrs-3-selected/"/>
     <updated>2012-12-22T19:12:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/22/clrs-3-selected</id>
+    <id>http://www.puncsky.com/blog/2012/12/22/clrs-3-selected</id>
     <content type="html"><![CDATA[<h2>VII Selected Topics</h2>
 
 <p>Introduction 769</p>
@@ -6663,9 +6663,9 @@ only support filter, select, aggregation</li>
   
   <entry>
     <title type="html"><![CDATA[OOP Final Term Notes]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/19/oop2/"/>
+    <link href="http://www.puncsky.com/blog/2012/12/19/oop2/"/>
     <updated>2012-12-19T02:01:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/19/oop2</id>
+    <id>http://www.puncsky.com/blog/2012/12/19/oop2</id>
     <content type="html"><![CDATA[<hr />
 
 <p>如果自己不定义constructor，C++会默认使用空的constructor。但是如果自己声明了，就一定要把定义写出来。</p>
@@ -7318,9 +7318,9 @@ return 0; }
   
   <entry>
     <title type="html"><![CDATA[OOP Mid Term Notes]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/19/oop1/"/>
+    <link href="http://www.puncsky.com/blog/2012/12/19/oop1/"/>
     <updated>2012-12-19T02:01:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/19/oop1</id>
+    <id>http://www.puncsky.com/blog/2012/12/19/oop1</id>
     <content type="html"><![CDATA[<p>Referencing composed and base objects. site:http://zoo.cs.yale.edu/classes/cs427/</p>
 
 <h2>C++ Basics</h2>
@@ -7980,9 +7980,9 @@ vector examples</li>
   
   <entry>
     <title type="html"><![CDATA[Fast Crash Recovery in RAMCloud (SOSP'11)]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/13/fast-crash-recovery-in-ramcloud/"/>
+    <link href="http://www.puncsky.com/blog/2012/12/13/fast-crash-recovery-in-ramcloud/"/>
     <updated>2012-12-13T12:22:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/13/fast-crash-recovery-in-ramcloud</id>
+    <id>http://www.puncsky.com/blog/2012/12/13/fast-crash-recovery-in-ramcloud</id>
     <content type="html"><![CDATA[<p><a href="http://www.stanford.edu/~ouster/cgi-bin/home.php">Stanford</a>, <a href="http://www.stanford.edu/~ouster/cgi-bin/papers/ramcloud-recovery.pdf">paper</a>, <a href="https://ramcloud.stanford.edu/wiki/display/ramcloud/RAMCloud+Presentations">slides</a>, <a href="http://www.youtube.com/watch?v=RE3CmdEGv4M">video</a></p>
 
 <h3>1. Problem</h3>
@@ -8042,9 +8042,9 @@ vector examples</li>
   
   <entry>
     <title type="html"><![CDATA[CleanOS: Limiting Mobile Data Exposure with Idle Eviction (OSDI'12)]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/06/cleanos/"/>
+    <link href="http://www.puncsky.com/blog/2012/12/06/cleanos/"/>
     <updated>2012-12-06T06:40:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/06/cleanos</id>
+    <id>http://www.puncsky.com/blog/2012/12/06/cleanos</id>
     <content type="html"><![CDATA[<p><a href="http://systems.cs.columbia.edu/projects/cleanos/">Columbia University</a>, <a href="https://www.usenix.org/system/files/conference/osdi12/osdi12-final-203.pdf">paper</a> <a href="https://www.usenix.org/sites/default/files/conference/protected-files/tang_osdi12_slides.pdf">slides</a>, <a href="https://www.usenix.org/conference/osdi12/cleanos-increasing-mobile-data-control-cloud-based-eviction">video</a></p>
 
 <h3>1. Problem</h3>
@@ -8130,9 +8130,9 @@ sdoEvicted(appName, sdoID)
   
   <entry>
     <title type="html"><![CDATA[Chord: A Scalable Peer-to-peer Lookup Service for Internet Applications]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/06/chord/"/>
+    <link href="http://www.puncsky.com/blog/2012/12/06/chord/"/>
     <updated>2012-12-06T06:29:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/06/chord</id>
+    <id>http://www.puncsky.com/blog/2012/12/06/chord</id>
     <content type="html"><![CDATA[<p><a href="http://pdos.lcs.mit.edu/chord/">MIT PDOS</a>, <a href="http://pdos.csail.mit.edu/papers/chord:sigcomm01/chord_sigcomm.pdf">paper</a>, <a href="http://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=5&amp;cad=rja&amp;ved=0CGEQFjAE&amp;url=http%3A%2F%2Fpdos.csail.mit.edu%2Frtm%2Fslides%2Fsigcomm01.ppt&amp;ei=tYLAUNjmLoSt0AGb7YCoBw&amp;usg=AFQjCNHmlld_WDglWjj7TP_coYsk1O_l-A&amp;sig2=SO8yiWfEsi_V2VEI-F2pmw">slides</a></p>
 
 <h3>1. Problem</h3>

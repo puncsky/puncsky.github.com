@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: programming_language | Puncsky CS Notebook]]></title>
-  <link href="http://puncsky.github.com/blog/categories/programming-language/atom.xml" rel="self"/>
-  <link href="http://puncsky.github.com/"/>
-  <updated>2013-08-26T15:21:07-07:00</updated>
-  <id>http://puncsky.github.com/</id>
+  <link href="http://www.puncsky.com/blog/categories/programming-language/atom.xml" rel="self"/>
+  <link href="http://www.puncsky.com/"/>
+  <updated>2013-08-28T17:35:56-07:00</updated>
+  <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Essential C# 4.0: Basics]]></title>
-    <link href="http://puncsky.github.com/blog/2013/08/14/Essential-C%23-4.0/"/>
+    <link href="http://www.puncsky.com/blog/2013/08/14/Essential-C%23-4.0/"/>
     <updated>2013-08-14T10:23:00-07:00</updated>
-    <id>http://puncsky.github.com/blog/2013/08/14/Essential-C#-4.0</id>
+    <id>http://www.puncsky.com/blog/2013/08/14/Essential-C#-4.0</id>
     <content type="html"><![CDATA[<p>No one can ever master a programming language (PL) by studying it only without looking into and comparing it with other ones. In addition, modern application software often requires a variety of components written in different PLs. Most importantly, language itself is not important at all; at least not important when compared to the fundamental ideas on architectures, frameworks, the design of the PL. A competing programmer can always get the hang of any PLs quickly.</p>
 
 <p>Consequently, I make a list of PLs I would study seriously in the future.</p>

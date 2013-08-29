@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: algorithm | Puncsky CS Notebook]]></title>
-  <link href="http://puncsky.github.com/blog/categories/algorithm/atom.xml" rel="self"/>
-  <link href="http://puncsky.github.com/"/>
-  <updated>2013-08-26T15:21:07-07:00</updated>
-  <id>http://puncsky.github.com/</id>
+  <link href="http://www.puncsky.com/blog/categories/algorithm/atom.xml" rel="self"/>
+  <link href="http://www.puncsky.com/"/>
+  <updated>2013-08-28T17:35:56-07:00</updated>
+  <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[CLRS 2: Advanced]]></title>
-    <link href="http://puncsky.github.com/blog/2013/01/08/clrs-2-advanced/"/>
+    <link href="http://www.puncsky.com/blog/2013/01/08/clrs-2-advanced/"/>
     <updated>2013-01-08T16:43:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2013/01/08/clrs-2-advanced</id>
+    <id>http://www.puncsky.com/blog/2013/01/08/clrs-2-advanced</id>
     <content type="html"><![CDATA[<h2>IV Advanced Design and Analysis Techniques Introduction 357</h2>
 
 <ul>
@@ -303,9 +303,9 @@
   
   <entry>
     <title type="html"><![CDATA[CLRS 1: Basics]]></title>
-    <link href="http://puncsky.github.com/blog/2013/01/07/clrs-1-basics/"/>
+    <link href="http://www.puncsky.com/blog/2013/01/07/clrs-1-basics/"/>
     <updated>2013-01-07T14:55:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2013/01/07/clrs-1-basics</id>
+    <id>http://www.puncsky.com/blog/2013/01/07/clrs-1-basics</id>
     <content type="html"><![CDATA[<h2>I Foundations</h2>
 
 <h3>1 The Role of Algorithms in Computing 5</h3>

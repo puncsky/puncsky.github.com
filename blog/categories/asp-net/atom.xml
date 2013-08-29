@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: asp.net | Puncsky CS Notebook]]></title>
-  <link href="http://puncsky.github.com/blog/categories/asp-net/atom.xml" rel="self"/>
-  <link href="http://puncsky.github.com/"/>
-  <updated>2013-08-26T15:21:07-07:00</updated>
-  <id>http://puncsky.github.com/</id>
+  <link href="http://www.puncsky.com/blog/categories/asp-net/atom.xml" rel="self"/>
+  <link href="http://www.puncsky.com/"/>
+  <updated>2013-08-28T17:35:56-07:00</updated>
+  <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Setting up the Twitter Helper with ASP.NET]]></title>
-    <link href="http://puncsky.github.com/blog/2013/08/26/Twitter-Helper-in-ASPNET/"/>
+    <link href="http://www.puncsky.com/blog/2013/08/26/Twitter-Helper-in-ASPNET/"/>
     <updated>2013-08-26T15:09:00-07:00</updated>
-    <id>http://puncsky.github.com/blog/2013/08/26/Twitter-Helper-in-ASPNET</id>
+    <id>http://www.puncsky.com/blog/2013/08/26/Twitter-Helper-in-ASPNET</id>
     <content type="html"><![CDATA[<p>It is a simple tutorial on how to create your own twitter helpers in ASP.NET website.</p>
 
 <!-- more -->

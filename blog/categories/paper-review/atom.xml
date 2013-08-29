@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: paper_review | Puncsky CS Notebook]]></title>
-  <link href="http://puncsky.github.com/blog/categories/paper-review/atom.xml" rel="self"/>
-  <link href="http://puncsky.github.com/"/>
-  <updated>2013-08-26T15:21:07-07:00</updated>
-  <id>http://puncsky.github.com/</id>
+  <link href="http://www.puncsky.com/blog/categories/paper-review/atom.xml" rel="self"/>
+  <link href="http://www.puncsky.com/"/>
+  <updated>2013-08-28T17:35:56-07:00</updated>
+  <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Dynamo: Amazon's Highly Available Key-value Store (SOSP'07)]]></title>
-    <link href="http://puncsky.github.com/blog/2013/04/06/dynamo-kv-store/"/>
+    <link href="http://www.puncsky.com/blog/2013/04/06/dynamo-kv-store/"/>
     <updated>2013-04-06T14:16:00-07:00</updated>
-    <id>http://puncsky.github.com/blog/2013/04/06/dynamo-kv-store</id>
+    <id>http://www.puncsky.com/blog/2013/04/06/dynamo-kv-store</id>
     <content type="html"><![CDATA[<p>From <a href="http://www.allthingsdistributed.com/2007/10/amazons_dynamo.html">Amazon</a></p>
 
 <h3>Comments</h3>
@@ -316,9 +316,9 @@ c) randomness -> hard to archive the entire key spaces.</li>
   
   <entry>
     <title type="html"><![CDATA[HadoopDB (VLDB'09)]]></title>
-    <link href="http://puncsky.github.com/blog/2013/01/27/hadoopdb-vldb-09/"/>
+    <link href="http://www.puncsky.com/blog/2013/01/27/hadoopdb-vldb-09/"/>
     <updated>2013-01-27T15:50:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2013/01/27/hadoopdb-vldb-09</id>
+    <id>http://www.puncsky.com/blog/2013/01/27/hadoopdb-vldb-09</id>
     <content type="html"><![CDATA[<p><a href="http://db.cs.yale.edu/hadoopdb/hadoopdb.html">Yale DB</a></p>
 
 <h3>Comments</h3>
@@ -458,9 +458,9 @@ only support filter, select, aggregation</li>
   
   <entry>
     <title type="html"><![CDATA[CryptDB: Protecting Confidentiality with Encrypted Query Processing (SOSP '11)]]></title>
-    <link href="http://puncsky.github.com/blog/2012/11/26/cryptdb/"/>
+    <link href="http://www.puncsky.com/blog/2012/11/26/cryptdb/"/>
     <updated>2012-11-26T19:45:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/11/26/cryptdb</id>
+    <id>http://www.puncsky.com/blog/2012/11/26/cryptdb</id>
     <content type="html"><![CDATA[<p><a href="http://css.csail.mit.edu/cryptdb/">MIT CSAIL</a>, <a href="http://people.csail.mit.edu/nickolai/papers/raluca-cryptdb.pdf">papers</a>, <a href="http://www.sigops.org/sosp/sosp11/current/2011-Cascais/07-popa.pptx">slides</a></p>
 
 <h3>1. Problem</h3>
@@ -752,9 +752,9 @@ only support filter, select, aggregation</li>
   
   <entry>
     <title type="html"><![CDATA[如何阅读一篇论文？]]></title>
-    <link href="http://puncsky.github.com/blog/2012/11/21/ru-he-yue-du-%5B%3F%5D-pian-lun-wen-%3F/"/>
+    <link href="http://www.puncsky.com/blog/2012/11/21/ru-he-yue-du-%5B%3F%5D-pian-lun-wen-%3F/"/>
     <updated>2012-11-21T16:15:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/11/21/ru-he-yue-du-[?]-pian-lun-wen-?</id>
+    <id>http://www.puncsky.com/blog/2012/11/21/ru-he-yue-du-[?]-pian-lun-wen-?</id>
     <content type="html"><![CDATA[<p>阅读是人生的终极命题之一。人生苦短，我们需要阅读来继承前人的衣钵，我们需要笔记来对抗过往的遗忘，我们需要写作来连接自我和人世沧桑。</p>
 
 <p>那么，<a href="http://blizzard.cs.uwaterloo.ca/keshav/home/Papers/data/07/paper-reading.pdf">如何最高效地阅读一篇论文呢？</a></p>
@@ -817,9 +817,9 @@ only support filter, select, aggregation</li>
   
   <entry>
     <title type="html"><![CDATA[HadoopDB: an architectural hybrid of MapReduce and DBMS technologies for analytical workloads (VLDB '09)]]></title>
-    <link href="http://puncsky.github.com/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/"/>
+    <link href="http://www.puncsky.com/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/"/>
     <updated>2012-11-20T16:20:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09</id>
+    <id>http://www.puncsky.com/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09</id>
     <content type="html"><![CDATA[<p><a href="http://db.cs.yale.edu/hadoopdb/">Yale DB</a></p>
 
 <h3>1. Problem</h3>
