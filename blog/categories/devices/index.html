@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>HadoopDB (VLDB'09) - Puncsky CS Notebook</title>
+  <title>Category: devices - Puncsky CS Notebook</title>
   <meta name="author" content="Tian">
 
   
-  <meta name="description" content="Life and computer science notebook from Puncsky">
+  <meta name="description" content="Category: devices">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.puncsky.com/blog/2013/01/27/hadoopdb-vldb-09">
+  <link rel="canonical" href="http://www.puncsky.comblog/categories/devices">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -109,237 +109,38 @@
   <div class="container">
     <div class="row-fluid">
       
-<article class="hentry span9" role="article">
+<article role="article" class="span9">
 
   
   <header class="page-header">
-    
-      <h1 class="entry-title">HadoopDB (VLDB'09)</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-27T15:50:00-08:00" pubdate data-updated="true">Jan 27<span>th</span>, 2013</time>
-        
-         | <a href="#disqus_thread">Comments</a>
-        
-      </p>
+    <h1 class="entry-title">Category: Devices</h1>
     
   </header>
+  
+  <div id="blog-archives" class="category">
 
 
-<div class="entry-content"><p><a href="http://db.cs.yale.edu/hadoopdb/hadoopdb.html">Yale DB</a></p>
 
-<h3>Comments</h3>
+  
+  <h1>2013</h1>
 
-<p>Two ways to improve HadoopDB</p>
+<article>
+  <div class="well">
 
-<ol>
-<li>Integrate the file system for local database with HDFS. In the design of HadoopDB, the file system and the database are separated, which means that the more space one part is preallocated and the less space the other part will occupy. This design is not scalable because the system administrator has to partition the space by hand. We could investigate a way to let the database run on the HDFS directly. The database&#8217;s file descriptor can be adapted to HDFS directly. Or, even better, we can add an extra virtualized layer between the database and the HDFS.</li>
-<li>Set up a better scheduler. It is mentioned in the paper that the original version of hadoop fair scheduler is not so good. It is queue-based and locally greedy and simply does not consider the big picture much. &#8220;Quincy: Fair Scheduling for Distributed Computing Clusters&#8221; advances a flow-based algorithm, which has a very good performance by increasing the throughput up to 40%.</li>
-</ol>
+<h2><a href="/blog/2013/09/02/ipadmini/">我的iPad安装的应用</a></h2>
+<time datetime="2013-09-02T18:06:00-07:00" pubdate><span class='month'>Sep</span> <span class='day'>02</span> <span class='year'>2013</span></time>
 
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/devices/'>devices</a></span>
+</footer>
 
-<!--more -->
-
-
-<h3>1. Problem</h3>
-
-<p>Large analytical data management with commodity clusters</p>
-
-<h3>2. Challenges</h3>
-
-<ul>
-<li>Performance and efficiency
-
-<ul>
-<li>hadoop
-
-<ul>
-<li>is not for structured data analysis</li>
-<li>scale well</li>
-<li>open source, without cost</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>scalability, fault-tolerance, and flexibility
-
-<ul>
-<li>Previous parallel db fit into tens of nodes, not thousand of nodes.
-
-<ul>
-<li>not scale well for failures, heterogeneous machines, performance untested</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-
-<h3>3. Solutions</h3>
-
-<ul>
-<li>MapReduce (Hadoop) + parallel db (or single-node DBs) = HadoopDB
-  Translation layer: Hive
-  Communication layer: Hadoop
-  Database layer: PostgreSQL (or MySQL, &#8230; JDBC)</li>
-<li>Components
-
-<ol>
-<li>Database Connector
-
-<ul>
-<li>Interface among dbs on nodes</li>
-<li>extends InputFormat class -> InputFormat Implementation lib</li>
-<li>JDBC-complaint</li>
-</ul>
-</li>
-<li>Catalog
-
-<ul>
-<li>metainformation as XML = connection para + metadata</li>
-</ul>
-</li>
-<li>Data Loader
-
-<ul>
-<li>Global Hasher: MR, repartition raw data from HDFS to NO. of nodes</li>
-<li>Local Hasher: copy from HDFS, repartition the partition into chunks</li>
-<li>Better load balance than Hadoop</li>
-</ul>
-</li>
-<li>SQL - MR - SQL (SMS) Planner
-
-<ul>
-<li>extend Hive for
-
-<ul>
-<li>open and low cost</li>
-<li>each table stored separately in HDFS, low performance in multi-table trans.</li>
-</ul>
-</li>
-<li>intercept normal Hive flow in
-
-<ol>
-<li>update MetaStore before query execution</li>
-<li>between query plan generation and MR jobs
- retrieve fields, determine partition keys
- traverse DAG bottom-up
-only support filter, select, aggregation</li>
-</ol>
-</li>
-</ul>
-</li>
-</ol>
-</li>
-<li>Extend performance [23] with fault tolerance and heterogeneous node exp
-
-<ul>
-<li>TODO: modify the current task scheduler, connect not straggler node but the replicas.</li>
-</ul>
-</li>
-<li>Exp on EC2
-
-<ul>
-<li>Hadoop</li>
-<li>HadoopDB</li>
-<li>Vertica</li>
-<li>DBMS-X</li>
-</ul>
-</li>
-</ul>
-
-
-<h3>4. Conclusion</h3>
-
-<ul>
-<li>HadoopDB&#8217;s performance &lt; parallel db for
-  PostgreSQL (not column-store, not compression)
-  Hadoop and Hive are young</li>
-<li>performance, heterogeneous environ., fault tolerance, flexibility</li>
-</ul>
-
-
-<h3>Related Readings</h3>
-
-<p>[23] A Comparison of Approaches to Large Scale Data Analysis
-[6] Scope [11] Hive [24] C-store [4] What is the right way to measure scale?</p>
 </div>
 
+</article>
 
-  <footer>
-    <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Tian</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-27T15:50:00-08:00" pubdate data-updated="true">Jan 27<span>th</span>, 2013</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/paper-review/'>paper_review</a>
-  
-</span>
-
-
-    </p>
-    
-      <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.puncsky.com/blog/2013/01/27/hadoopdb-vldb-09/" data-via="" data-counturl="http://www.puncsky.com/blog/2013/01/27/hadoopdb-vldb-09/" >Tweet</a>
-  
-  
-  
 </div>
 
-    
-    
-    <section>
-      <h1>Comments</h1>
-      <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-    </section>
-    
-    <ul class="pager">
-      
-      <li class="previous"><a class="basic-alignment left"
-        href="/blog/2013/01/14/gc-garbage-collection-in-java/" title="Previous Post:
-        GC(Garbage Collection) in Java">&laquo; GC(Garbage Collection) in Java</a></li>
-      
-      <li><a href="/blog/archives">Blog Archives</a></li>
-      
-      <li class="next"><a class="basic-alignment right" href="/blog/2013/04/06/dynamo-kv-store/"
-        title="Next Post: Dynamo: Amazon's Highly Available Key-value Store (SOSP'07)">Dynamo: Amazon's Highly Available Key-value Store (SOSP'07)
-        &raquo;</a></li>
-      
-    </ul>
-  </footer>
+  
 </article>
 
 <aside class="sidebar-nav span3">
@@ -405,10 +206,7 @@ only support filter, select, aggregation</li>
       var disqus_shortname = 'puncsky';
       
         
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://www.puncsky.com/blog/2013/01/27/hadoopdb-vldb-09/';
-        var disqus_url = 'http://www.puncsky.com/blog/2013/01/27/hadoopdb-vldb-09/';
-        var disqus_script = 'embed.js';
+        var disqus_script = 'count.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
