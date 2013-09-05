@@ -10,10 +10,12 @@ categories: paper_review
 
 ### Comments
 
-Two things could be done to improve HadoopDB
+Two ways to improve HadoopDB
 
-1. Integrate the file system for local database with HDFS. In the design of HadoopDB, they are separated which means that the more space one part is preallocated and the less space the other part has. It is not scalable because the administrator has to divide by himself. We could investigate a way to let the database run on the HDFS directly. We can modify the database's file descriptor directly or we can add an additional layer between the database and the HDFS.
-2. Set up a better scheduler. It is mentioned in the paper that the original version of hadoop fair scheduler is not so good. It is locally greedy and simply does not consider the big picture much. "Quincy: Fair Scheduling for Distributed Computing Clusters" advances a graph data structure for global cost model, which has a very good performance, increasing the throughput up to 40%.
+1. Integrate the file system for local database with HDFS. In the design of HadoopDB, the file system and the database are separated, which means that the more space one part is preallocated and the less space the other part will occupy. This design is not scalable because the system administrator has to partition the space by hand. We could investigate a way to let the database run on the HDFS directly. The database's file descriptor can be adapted to HDFS directly. Or, even better, we can add an extra virtualized layer between the database and the HDFS.
+2. Set up a better scheduler. It is mentioned in the paper that the original version of hadoop fair scheduler is not so good. It is queue-based and locally greedy and simply does not consider the big picture much. "Quincy: Fair Scheduling for Distributed Computing Clusters" advances a flow-based algorithm, which has a very good performance by increasing the throughput up to 40%.
+
+<!--more -->
 
 ###1. Problem
 

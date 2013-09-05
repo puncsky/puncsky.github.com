@@ -6,6 +6,10 @@ comments: true
 categories: algorithm
 ---
 
+This post is the second pard of my series notes on the remarkable textbook [Introduction to Algorithm](http://mitpress.mit.edu/books/introduction-algorithms) (a.k.a CLRS).
+
+<!--more-->
+
 ## IV Advanced Design and Analysis Techniques Introduction 357
 
 - Three important but more sophisticated techniques used in designing and analyzing efficient algorithms:

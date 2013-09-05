@@ -14,11 +14,24 @@
 
 @mixin selection($bg, $color: inherit, $text-shadow: none){
   * {
+    &::-moz-selection { background: #ed1556; color: $bg; }
+    &::-webkit-selection { background: #ed1556; color: $bg; }
+    &::selection { background: #ed1556; color: $bg; }
+  }
+}
+
+
+/* puncsky backup
+@mixin selection($bg, $color: inherit, $text-shadow: none){
+  * {
     &::-moz-selection { background: $bg; color: $color; text-shadow: $text-shadow; }
     &::-webkit-selection { background: $bg; color: $color; text-shadow: $text-shadow; }
     &::selection { background: $bg; color: $color; text-shadow: $text-shadow; }
   }
 }
+*/
+
+
 
 @function text-color($color, $dark: dark, $light: light){
   $text-color: ( (red($color)*299) + (green($color)*587) + (blue($color)*114) ) / 1000;

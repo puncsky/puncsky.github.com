@@ -2,7 +2,7 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://puncsky.github.com
+url: http://www.puncsky.com
 title: Puncsky CS Notebook
 subtitle: Just a notebook about life and computer
 author: Tian 
@@ -89,8 +89,8 @@ delicious_user:
 delicious_count: 3
 
 # Disqus Comments
-disqus_short_name:
-disqus_show_comment_count: false
+disqus_short_name: puncsky
+disqus_show_comment_count: true
 
 # Google Analytics
 google_analytics_tracking_id: UA-43072488-1

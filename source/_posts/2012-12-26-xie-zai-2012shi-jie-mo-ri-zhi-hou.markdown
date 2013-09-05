@@ -33,7 +33,7 @@ categories: life
 
 我逐渐患上了一种奇特的拖延症。多年前，我成为了Sir Winston Churchill的["I have only one purpose, the destruction of Hitler, and my life is much simplified thereby."](http://www.yingyudaxue.com/books/advanced-english/speech-on-hitlers-invasion-of-the-u-s-s-r)这句话的脑残粉。从那以后，每当我打算专心做一件事情的时候，其他的所有都会被抛诸脑后。可惜的是，这些事都不是一天两天能够做完的，而我记性又不大好，这就导致，每当这些事情完成的时候，那些被抛诸脑后的事情也就已然类似于抛猪脑后了。读书少是表现之一，所以，多年来的这些总结都在反复提醒自己多读多写。
 
-另外一个表现是，**尽管我很幸运的能够遇见很多对我照顾有加的前辈和亲友，我都一直心怀感激，但因为我这个不好的拖延加遗忘症，导致疏于联络。这很可能是我这辈子最最于心有愧的事情。**
+另外一个表现是 <!--more-->，**尽管我很幸运的能够遇见很多对我照顾有加的前辈和亲友，我都一直心怀感激，但因为我这个不好的拖延加遗忘症，导致疏于联络。这很可能是我这辈子最最于心有愧的事情。**
 
 再次，我一直幼稚地想要说再见。
 

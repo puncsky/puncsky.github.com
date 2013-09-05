@@ -7,24 +7,24 @@ categories:  programming_language
 published: true 
 ---
 
-No one can ever master a programming language (PL) by studying it only without looking into and comparing it with other ones. In addition, modern application software often requires a variety of components written in different PLs. Most importantly, language itself is not important at all; at least not important when compared to the fundamental ideas on architectures, frameworks, the design of the PL. A competing programmer can always get the hang of any PLs quickly.
+No one can ever master a programming language (PL) by studying it only without looking into and comparing it with other ones. Modern application software often requires a variety of components written in different PLs. Most importantly, language itself is not important at all; at least not important when compared to the fundamental ideas on architectures, frameworks, the design of the PL. A competing programmer can always get the hang of any PLs quickly.
 
 Consequently, I make a list of PLs I would study seriously in the future.
 
 <!-- more -->
 
 1. C# or Java
-  - A serious pure OOP and enterprise level PL is always necessary for the reason of productivity.
+    - A serious pure OOP and enterprise level PL is always necessary for the reason of productivity.
 2. C/C++
-  - The most powerful PL, which can be used to create almost everything.
-  - Help to understand things under the hood.
-  - C++: semi-OOP version of C, a horrible language which requires a life long time to study.
+    - The most powerful PL, which can be used to create almost everything.
+    - Help to understand things under the hood.
+    - C++: semi-OOP version of C, a horrible language which requires a life long time to study.
 3. Bash/Python
-  - Scripts make your life easier.
+    - Scripts make your life easier.
 4. Javascript
-  - Everything could be written in Javascript will be eventually written in Javascript.
+    - Everything could be written in Javascript will be eventually written in Javascript.
 5. Lisp
-  - Help to understand the beauty of functional PL.
+    - Help to understand the beauty of functional PL.
 
 
 The following part is my notes on the book *Essential C#*, which is redeemed as the best book for C# learners.

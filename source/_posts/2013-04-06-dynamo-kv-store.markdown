@@ -10,11 +10,13 @@ From [Amazon](http://www.allthingsdistributed.com/2007/10/amazons_dynamo.html)
 
 ### Comments
 
-Dynamo successfully builds a highly available and scalable data store, which sacrifice consistency under certain failure scenarios but is eventually consistent. The design is huge and involves a huge number of details. However, the paper could not specify all of them. Some meaningful parts are missing: what are the supporting techniques used in Dynamo? How it is compared to other existing KV distributed store systems? Are there any possible extensions or future works?
+Dynamo successfully builds a highly available and scalable data store, which sacrifices consistency under certain failure scenarios but the data storage is still eventually consistent. The system is complex and thus this paper involves a huge number of details. However, the paper could not specify all of them. Some interesting parts seem to be missing. What are the supporting techniques used in Dynamo? How is it compared to other existing KV distributed store systems? Are there any possible extensions or future works?
 
-This paper assumes that security concerns could be ignored for its internal use. Theoretically, security problems is still possible. At least, how can the administrator detect these attacks? e.g. sybil attacks.
+This paper assumes that security concerns can be ignored for its internal use. Theoretically, security problems is still possible. At least, how can the administrator detect sybil attacks?
 
-The author tried three partition schemes. The latter versions decouple partitioning and partition placement. The placement is changeable at run time. Consequently, the strategy 3 has a better efficiency. And the system recovers faster and it is easier to archive. However, the key space is partitioned equally into Q partitions, and every node assume Q/S tokens per node. However, the strategy 3 in Figure 7 is a little confusing. In my opinion, the author should specify that the span each node is responsible for is SIMILAR IN SIZE to each other, instead of exactly EQUAL IN SIZE to each other. 
+The author tried three partition schemes. The latter versions decouple partitioning and partition placement. The placement is changeable at run time. Consequently, the strategy 3 has a better efficiency. And the system recovers faster and it is easier to archive. However, the key space is partitioned equally into Q partitions, and every node assume Q/S tokens per node. The strategy 3 in Figure 7 is a little confusing. The author should specify that the span each node is responsible for is SIMILAR IN SIZE to each other, instead of exactly EQUAL IN SIZE to each other. 
+
+<!--more-->
 
 ### 1. Problem
 

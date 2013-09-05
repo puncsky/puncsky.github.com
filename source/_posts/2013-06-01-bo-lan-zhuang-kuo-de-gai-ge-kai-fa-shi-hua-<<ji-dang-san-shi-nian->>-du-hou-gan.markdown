@@ -12,6 +12,8 @@ categories: entrepreneurship, readings
 
 以下是我整理的一些摘录。
 
+<!-- more -->
+
 ##《激荡三十年》摘录
 
 作者：吴晓波
