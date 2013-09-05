@@ -4,7 +4,7 @@
   <title><![CDATA[Category: paper_review | Puncsky CS Notebook]]></title>
   <link href="http://www.puncsky.com/blog/categories/paper-review/atom.xml" rel="self"/>
   <link href="http://www.puncsky.com/"/>
-  <updated>2013-09-02T20:18:11-07:00</updated>
+  <updated>2013-09-05T14:00:58-07:00</updated>
   <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -22,7 +22,7 @@
 
 <h3>Comments</h3>
 
-<p>Dynamo successfully builds a highly available and scalable data store, which sacrifices consistency under certain failure scenarios but the data storage is still eventually consistent. The system is complex and thus this paper involves a huge number of details. However, the paper could not specify all of them. Some interesting parts seem to be missing. What are the supporting techniques used in Dynamo? How is ti compared to other existing KV distributed store systems? Are there any possible extensions or future works?</p>
+<p>Dynamo successfully builds a highly available and scalable data store, which sacrifices consistency under certain failure scenarios but the data storage is still eventually consistent. The system is complex and thus this paper involves a huge number of details. However, the paper could not specify all of them. Some interesting parts seem to be missing. What are the supporting techniques used in Dynamo? How is it compared to other existing KV distributed store systems? Are there any possible extensions or future works?</p>
 
 <p>This paper assumes that security concerns can be ignored for its internal use. Theoretically, security problems is still possible. At least, how can the administrator detect sybil attacks?</p>
 

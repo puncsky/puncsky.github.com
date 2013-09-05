@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming_language | Puncsky CS Notebook]]></title>
   <link href="http://www.puncsky.com/blog/categories/programming-language/atom.xml" rel="self"/>
   <link href="http://www.puncsky.com/"/>
-  <updated>2013-09-02T20:18:11-07:00</updated>
+  <updated>2013-09-05T14:00:58-07:00</updated>
   <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -14,11 +14,798 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Essential C# 4.0: Intermediate]]></title>
+    <link href="http://www.puncsky.com/blog/2013/09/05/Essential-C%23-4.0-Intermediate/"/>
+    <updated>2013-09-05T14:00:00-07:00</updated>
+    <id>http://www.puncsky.com/blog/2013/09/05/Essential-C#-4.0-Intermediate</id>
+    <content type="html"><![CDATA[<h2>9 Well-Formed Types 357</h2>
+
+<ol>
+<li>Overriding Object Members</li>
+<li>Guidelines for overriding <code>System.Object</code> members. Reference on request.</li>
+<li><code>GetHashCode()</code></li>
+<li><code>ReferenceEquals()</code> Object Identity vs. <code>Equals()</code> Equal Object Values</li>
+<li>Calling <code>ReferenceEquals()</code> on <em>value types</em> will always return false since</li>
+<li>Operator Overloading</li>
+<li><code>public static</code>
+
+<ul>
+<li>avoid recursive loop <code>(leftHandSide == null)</code> when check equality</li>
+<li>One of the parameters of a operator must be the containing type</li>
+</ul>
+</li>
+<li>Referencing other Assemblies</li>
+<li>Assembly Target: <code>csc /target:library /out:Coordinates.dll Coordinate.cs IAngle.cs</code>
+
+<ul>
+<li>console executable</li>
+<li>class library</li>
+<li>windows executable</li>
+<li>module</li>
+</ul>
+</li>
+<li>Refrence an Assembly <code>csc /R:Coordinates.dll Program.cs</code></li>
+<li>By default, a class without any access modifier is defined as <code>internal</code> (accessible from within the assembly only).</li>
+<li>Defining Namespaces</li>
+<li><strong><em>namespace alias qualifier</em></strong>
+
+<ul>
+<li><code>csc /R:CoordPlus=CoordinatesPlus.dll /R:Coordinates.dll Program.cs</code></li>
+<li><code>extern alias CoordPlus;</code> before all <code>using</code> statements</li>
+<li><code>using CoordPlus.Blah.Blah;</code> equally or <code>using CoordPlus.Blah.Blah</code></li>
+<li>How about global scope? <code>using global::Blah.Blah</code> (different from <code>using global.Blah.Blah</code> which means the real namespace of <code>global</code>)</li>
+</ul>
+</li>
+<li>XML Comments</li>
+<li><code>///</code>, <code>&lt;summary&gt;</code>, <code>&lt;remarks&gt;</code>, <code>&lt;param name="blah"&gt; &lt;param&gt;</code>, <code>&lt;returns&gt;</code>, <code>&lt;date&gt;</code></li>
+<li>Generate an XML doc file <code>csc /doc:Comments.xml DataStorage.cs</code></li>
+<li>tools to generate docs: GhostDoc, NDoc</li>
+<li>GC</li>
+<li><strong>Weak reference</strong> save the reference for future reuse (memory cache) <code>private WeakReference Data;</code></li>
+<li>Finalizer: <code>~ClassName()</code> like <a href="http://www.puncsky.com/blog/2013/01/14/gc-garbage-collection-in-java/">Java's <code>finalize()</code></a></li>
+<li>Deterministic finaliztion with the <code>using</code> statement
+
+<ul>
+<li>The <code>IDisposable</code> interface defines
+the details of the pattern with a single method called <code>Dispose()</code>, which
+developers call on a resource class to “dispose” of the consumed</li>
+<li>HOWEVER, there is a chance that an exception will occur before the dispose call
+resources. If this
+happens, Dispose() will not be invoked and the resource cleanup will
+have to rely on the finalizer.</li>
+<li>SO 2 ways:
+
+<ol>
+<li>try / finally</li>
+<li><code>using</code> statement and <strong>all variables are of the same type and they implement <code>IDisposable</code></strong></li>
+</ol>
+</li>
+</ul>
+</li>
+<li>The <strong><em>f-reachable queue</em></strong> is a list of all the objects that are ready for
+garbage collection and that also have finalization implementations. <code>System.GC.SuppressFinalize(reference)</code> can remove reference instance from f-reachable queue.</li>
+<li>Resource Utilization and Finalization Guidelines. Refer the book page 400.</li>
+<li>Generally, <code>~Destructor()</code> calls <code>Dispose()</code></li>
+<li><strong>Lazy Initialization</strong>: Defer the init of an object until it is required.
+
+<ul>
+<li><code>System.Lazy&lt;T&gt;</code></li>
+</ul>
+</li>
+</ol>
+
+
+<p>```
+// Lazy Initialization
+using System.IO;</p>
+
+<p>class DataCache
+{
+  // ...</p>
+
+<p>  public DataCache(string FileStreamName)
+  {</p>
+
+<pre><code>_FileStream = new Lazy&lt;TemporaryFileStream&gt;(
+    () =&gt; new TemporaryFileStream(FileStreamName));
+// the lambda expression provides a means of passing the
+//  instructions for what will happen, but not actually performing those
+//  instructions until explicitly requested.
+</code></pre>
+
+<p>  }</p>
+
+<p>  public TemporaryFileStream FileStream
+  {</p>
+
+<pre><code>get
+{
+  return _FileStream.Value;
+}
+</code></pre>
+
+<p>  }
+  private Lazy<TemporaryFileStream> _FileStream;</p>
+
+<p>  // ...
+}
+```</p>
+
+<h2>10 Exception Handling 405</h2>
+
+<ol>
+<li>Multiple Exception Types</li>
+<li>Catching Exception</li>
+<li>General Catch Block</li>
+<li>Guildelines</li>
+<li>Custom Exceptions</li>
+</ol>
+
+
+<h2>11 Generics 421</h2>
+
+<ol>
+<li>Generics
+
+<ul>
+<li>name rule as <code>EntityCollection&lt;TEntity&gt;</code></li>
+<li><code>public class Tuple&lt;T1, T2, T3, T4, T5, T6, T7, TRest&gt;: ... {...}</code>, <code>TRest</code> can be used to store another tuple.</li>
+<li><code>Tuple.Create("555-55-5555", new Contact("Tim Pan"));</code> == <code>new Tuple&lt;string, Contact&gt;("555-55-5555", new Contact("Tim Pan"));</code></li>
+</ul>
+</li>
+<li><strong><em>Constraints</em></strong>: To avoid a runtime exception and instead provide a compile-time error, C# enables you to supply an optional list of <strong>constraints</strong> for each type parameter declared in the generic class by using <code>where</code>.
+
+<ul>
+<li>Interface Constraints</li>
+<li>Base Class Constraints</li>
+<li><code>struct</code>/<code>class</code> Constraints</li>
+<li>Multiple Constraints</li>
+<li><strong>Constructor Constraints</strong>: ensure default ctor like <code>new ctor()</code></li>
+</ul>
+</li>
+<li>Generic Methods
+
+<ul>
+<li>explicit cast is preferred at most of the times.</li>
+</ul>
+</li>
+<li>Variance <code>Type1&lt;Type2&gt;</code> and <code>Type3&lt;Type2&gt;</code> are not <em>covariant</em>.
+
+<ul>
+<li>Covariance TODO: Read Again
+
+<ul>
+<li>with <code>out</code> for getters</li>
+<li>with <code>in</code> for setters</li>
+</ul>
+</li>
+<li>Contra variance</li>
+</ul>
+</li>
+<li>Generic Internals
+
+<ul>
+<li><em>Language Contrast</em>: Sun's implementation of generics for Java occurs within the compiler entirely, not within the JVM. JVM cannot support generics for value types.</li>
+</ul>
+</li>
+</ol>
+
+
+<p>```
+// Needing the type parameter to support an interface or exception thrown
+public class BinaryTree<T>
+{</p>
+
+<pre><code>// ...
+public Pair&lt;BinaryTree&lt;T&gt;&gt; SubItems
+{
+    get { return _SubItems; }
+    set {
+        IComparable&lt;T&gt; first;
+        first = (IComparable&lt;T&gt;)value.First.Item;
+
+        if (first.CompareTo(value.Second.Item) &lt; 0)
+        {
+            // first is less than second.
+        }
+        else
+        {
+            // second is less than first.
+        }
+        _SubItems = value;
+    }
+}
+private Pair&lt;BinaryTree&lt;T&gt;&gt; _SubItems;
+</code></pre>
+
+<p>}</p>
+
+<p>// Declaring the interface constrant
+public class BinaryTree<T></p>
+
+<pre><code>where T: System.IComparable&lt;T&gt;
+</code></pre>
+
+<p>{</p>
+
+<pre><code>// ...
+public Pair&lt;BinaryTree&lt;T&gt;&gt; SubItems
+{
+    get{ return _SubItems; }
+    set
+    {
+        IComparable&lt;T&gt; first;
+        // Notice that the cast can now be eliminated.
+        first = value.First.Item;
+
+        if (first.CompareTo(value.Second.Item) &lt; 0)
+        {
+            // first is less than second
+        }
+        else
+        {
+            // second is less than or equal to first
+        }
+        _SubItems = value;
+    }
+}
+private Pair&lt;BinaryTree&lt;T&gt;&gt; _SubItems;
+</code></pre>
+
+<p>}
+```</p>
+
+<p>```
+// multiple constraints
+// an AND relationship is assumed
+public class EntityDictionary&lt;TKey, TValue></p>
+
+<pre><code>: Dictionary&lt;TKey, TValue&gt;
+where TKey : IComparable&lt;TKey&gt;, IFormattable
+where TValue : EntityBase
+</code></pre>
+
+<p>{</p>
+
+<pre><code>// ...
+</code></pre>
+
+<p>}
+```</p>
+
+<p>```
+// constructor constraints ensure default ctors only
+// Ctors with parameters are NOT supported
+public class EntityDictionary&lt;TKey, TValue> :</p>
+
+<pre><code>Dictionary&lt;TKey, TValue&gt;
+where TKey: IComparable&lt;TKey&gt;, IFormattable
+where TValue : EntityBase&lt;TKey&gt;, new()
+</code></pre>
+
+<p>{</p>
+
+<pre><code>//...
+TValue newEntity = new TValue();
+//...
+</code></pre>
+
+<p>}
+```</p>
+
+<h2>12 Delegates and Lambda Expressions 469</h2>
+
+<ol>
+<li>Introducing Delegates
+
+<ul>
+<li>Why Delegates
+
+<ul>
+<li>C/C++ method pointer == <strong><em>delegate</em></strong>, which encapsulates methods as objects, enabling an indirect method call bound at runtime.</li>
+</ul>
+</li>
+<li>Delegate As Data Types
+
+<ul>
+<li>Although all delegate data types derive indirectly from <code>System.Delegate</code>, the C# compiler does not allow you to define a class that derives directly or indirectly (via <code>System.MulticastDelegate</code>) from <code>System.Delegate</code>.</li>
+</ul>
+</li>
+<li>Delegate Internals
+
+<ul>
+<li>TODO</li>
+</ul>
+</li>
+<li>Instantiating Delegates</li>
+</ul>
+</li>
+<li>Anonymous Methods
+
+<ul>
+<li><code>BubbleSort(items, delegate(int first, int second){return first&lt;second})</code></li>
+<li>can be <em>parameterless</em>: Parameterless Anonymous Methods</li>
+<li>System-Defined Delegates: <code>Func&lt;&gt;</code>
+
+<ul>
+<li><code>Func&lt;&gt;</code> can also be used for generic delegate.</li>
+<li><code>Func&lt;int, int, bool&gt;</code> the last type is the return type.</li>
+<li><code>System.Action</code> should be used for delegates that have no return.</li>
+<li>However, the delegate's name provides a more explicit indication of what it is for, whereas Func&lt;> provides nothing more than an understanding of the method signature.</li>
+<li><strong><em>Generic <code>Func</code> delegate and explicitely defined delegate are not compatible</em></strong>. e.g. <code>Func&lt;int, int, bool&gt;</code> and <code>ComparisonHandler</code> are not compatible. <strong><em>But some degree of casting is allowed.</em></strong></li>
+</ul>
+</li>
+<li>All anonymous delegates are immutable.</li>
+</ul>
+</li>
+<li>Lambda Expressions
+
+<ul>
+<li>anonymous functions = lambda expressions (expression lambda + statement lambda) + anonymous methods</li>
+<li>Statement Lambdas
+
+<ul>
+<li><code>BubbleSort(items, (int first, int second) =&gt; {return first &lt; second;})</code>
+
+<ul>
+<li><em>go/goes to</em>, <em>becomes</em>, <em>such that</em>: "integers <code>first</code> and <code>second</code> <em>go</em> to returning the result of <code>first</code> less than <code>second</code>"</li>
+</ul>
+</li>
+<li><code>BubbleSort(items, (first, second) =&gt; {return first &lt; second;})</code>
+
+<ul>
+<li>statement lambdas can omit parameter types as long as the compiler can infer the types</li>
+</ul>
+</li>
+<li>typically a statement lambda uses only two or three statements in its statement block.</li>
+</ul>
+</li>
+<li>Expression Lambdas
+
+<ul>
+<li>no statement block, only an expression</li>
+<li><code>names.Where(name =&gt; name.Contains(" "))</code>, "names where names dot contains a space"</li>
+</ul>
+</li>
+<li>you cannot use the typeof() operator (see Chapter 17) on an anonymous method, and calling GetType() is possible only after assigning or casting the anonymous method to a delegate variable.</li>
+<li>TODO: internals
+
+<ul>
+<li>Closure—a data structure (class in C#) that contains an expression and the variables (public fields in C#) necessary to evaluate the expression.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Expression Trees
+
+<ul>
+<li>Used to store lambda expressions as data for passing or translating.</li>
+<li>Expression trees are object graphs</li>
+<li>composed of read-only collection of parameters, a return type, and a body-- which is another expression.</li>
+<li>Lambda Expressions vs. Expression Trees
+
+<ul>
+<li>compiled into a delegate in CIL</li>
+<li>compiled into a data structure of type "System.Linq.Expressions.Expression"</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+
+
+<p>```
+using System;
+class DelegateSample {</p>
+
+<pre><code>public static void BubbleSort(int[] items, ComparisonHandler comparisonMethod) {
+    int i;
+    int j;
+    int temp;
+
+    if (items == null) return;
+    if (comparisonMethod == null) throw new ArgumentNullException("comparisonMethod");
+
+    for (i = items.Length - 1; i &gt;= 0; i--) {
+        for (j = 1; j &lt;= i; j++) {
+            if (comparisonMethod(items[j - 1], items[j])) {
+                temp = items[j - 1];
+                items[j - 1] = items[j];
+                items[j] = temp;
+            }
+        }
+    }
+}
+
+public delegate bool ComparisonHandler(int first, int second);
+
+public static bool GreaterThan(int first, int second) {
+    return first &gt; second;
+}
+
+public static bool AlphabeticalGreaterThan(int first, int second) {
+    int comparison;
+    comparison = (first.ToString().CompareTo(second.ToString()));
+
+    return comparison &gt; 0;
+}
+
+static void Main() {
+    int[] items = new int[100];
+    Random random = new Random();
+    for (int i = 0; i &lt; items.Length; i++) {
+        items[i] = random.Next(0, 100);
+    }
+
+    BubbleSort(items, GreaterThan);
+    // In C# 2.0, we can also use BubbleSort(items, new ComparisonHandler(GreaterThan))
+
+    for (int i = 0; i &lt; items.Length; i++) {
+        Console.WriteLine(items[i]);
+    }
+
+    Console.ReadLine();
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<h2>13 Events 507</h2>
+
+<p>publish-subscribe design pattern</p>
+
+<ol>
+<li>Coding the Observer Pattern with Multicast Delegates (with operator+, +=, ...)
+
+<ul>
+<li>See the examples below</li>
+<li>TODO: P518 Multicast Delegate Internals</li>
+<li>How to handle exceptions from subscribers?
+
+<ul>
+<li><code>foreach(TDelegate handler in delegates.GetInvocationList())</code>See examples below</li>
+</ul>
+</li>
+<li>How to handle multiple returns from multicast delegates?
+
+<ul>
+<li>Also <code>foreach(TDelegate handler in delegates.GetInvocationList())</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Events
+
+<ul>
+<li>introduced to overcome 2 delegate shortages
+
+<ol>
+<li>Encapsulating the Subscription
+
+<ul>
+<li>User may use <code>=</code> instead of <code>+=</code> by mistake</li>
+</ul>
+</li>
+<li>Encapsulating the publication
+
+<ul>
+<li>Delegates may be invoked outside the containing class</li>
+</ul>
+</li>
+<li>easy to forget to check for null before invoking the delegate</li>
+</ol>
+</li>
+<li><code>event</code> keyword before the delegate type and follows a empty delegate assignment
+
+<ul>
+<li>e.g. <code>public event TemperatureChangeHandler OnTemperatureChange = delegate { };</code></li>
+<li><code>event</code> ensures that any reassignment of the delegate could occur only from within the class.</li>
+<li>an empty delegate <code>delegate {}</code> represents a collection of zero listeners.</li>
+</ul>
+</li>
+<li>customize with <code>add</code> and <code>remove</code></li>
+</ul>
+</li>
+</ol>
+
+
+<p>```
+// delegate's implementation of subscriber-publisher
+using System;</p>
+
+<p>// Heater and Cooler Event Subscriber Implementations
+class Cooler {</p>
+
+<pre><code>public Cooler(float temperature) {
+    Temperature = temperature;
+} 
+
+public float Temperature {
+    get { return _Temperature; }
+    set { _Temperature = value; }
+}
+
+private float _Temperature;
+
+public void OnTemperatureChanged(float newTemperature) {
+    if (newTemperature &gt; Temperature) {
+        System.Console.WriteLine("Cooler: On");
+    }
+    else {
+        System.Console.WriteLine("Cooler: Off");
+    }
+}
+</code></pre>
+
+<p>}</p>
+
+<p>class Heater {</p>
+
+<pre><code>public Heater(float temperature) {
+    Temperature = temperature;
+}
+
+public float Temperature {
+    get { return _Temperature; }
+    set { _Temperature = value; }
+}
+private float _Temperature;
+
+public void OnTemperatureChanged(float newTemperature) {
+    if (newTemperature &lt; Temperature) {
+        System.Console.WriteLine("Heater: On");
+    }
+    else {
+        System.Console.WriteLine("Heater: Off");
+    }
+}
+</code></pre>
+
+<p>}</p>
+
+<p>// Defining the Event Publisher, <code>Thermostat</code>
+public class Thermostat {</p>
+
+<pre><code>// Define the delegate data type
+public delegate void TemperatureChangeHandler(float newTemperature);
+
+// Define the event Publisher
+public TemperatureChangeHandler OnTemperatureChange {
+    get { return _OnTemperatureChange; }
+    set { _OnTemperatureChange = value; }
+}
+private TemperatureChangeHandler _OnTemperatureChange;
+
+public float CurrentTemperature {
+    get { return _CurrentTemperature; }
+    set {
+        if (value != CurrentTemperature) {
+            _CurrentTemperature = value;
+
+            TemperatureChangeHandler localOnChange = OnTemperatureChange;
+
+            if (localOnChange != null) {
+                // call subscribers
+                OnTemperatureChange(value); // multicast delegates
+            }
+        }
+    }
+}
+public float CurrentTemperatureHandlingError {
+    get { return _CurrentTemperature; }
+    set {
+        if (value != CurrentTemperature) {
+            _CurrentTemperature = value;
+
+            if (OnTemperatureChange != null) {
+                foreach (TemperatureChangeHandler handler in OnTemperatureChange.GetInvocationList()) {
+                    try {
+                        handler(value);
+                    }
+                    catch (Exception e) {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+            }
+        }
+    }
+}
+private float _CurrentTemperature;
+</code></pre>
+
+<p>}</p>
+
+<p>class Program {</p>
+
+<pre><code>public static void Main() {
+    Thermostat thermostat = new Thermostat();
+    Heater heater = new Heater(60);
+    Cooler cooler = new Cooler(80);
+    string temperature;
+
+    // Register subscribers
+    thermostat.OnTemperatureChange += heater.OnTemperatureChanged;
+    thermostat.OnTemperatureChange += cooler.OnTemperatureChanged;
+
+    Console.Write("Enter temperature: ");
+    temperature = Console.ReadLine();
+    thermostat.CurrentTemperature = int.Parse(temperature);
+
+    // Delegate Operators +=, -=, +, -
+    Thermostat.TemperatureChangeHandler delegate1;
+    Thermostat.TemperatureChangeHandler delegate2;
+    Thermostat.TemperatureChangeHandler delegate3;
+
+    delegate1 = heater.OnTemperatureChanged;
+    delegate2 = cooler.OnTemperatureChanged;
+
+    Console.WriteLine("Invoke both delegates:");
+    delegate3 = delegate1;
+    delegate3 += delegate2;
+    delegate3(90);
+
+    Console.WriteLine("Invoke only delegate2");
+    delegate3 -= delegate1;
+    delegate3(30);
+
+    // Error handling
+    thermostat.OnTemperatureChange += (newTemperature) =&gt; { throw new ApplicationException(); };
+    thermostat.CurrentTemperatureHandlingError = int.Parse(temperature) + 1;
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>```
+// event implementation of subscriber-publisher
+using System;</p>
+
+<p>// Heater and Cooler Event Subscriber Implementations
+class Cooler {</p>
+
+<pre><code>public Cooler(float temperature) {
+    Temperature = temperature;
+} 
+
+public float Temperature {
+    get { return _Temperature; }
+    set { _Temperature = value; }
+}
+
+private float _Temperature;
+
+public void OnTemperatureChanged(object sender, Thermostat.TemperatureArgs args) {
+    if (args.NewTemperature &gt; Temperature) {
+        System.Console.WriteLine("Cooler: On");
+    }
+    else {
+        System.Console.WriteLine("Cooler: Off");
+    }
+}
+</code></pre>
+
+<p>}</p>
+
+<p>class Heater {</p>
+
+<pre><code>public Heater(float temperature) {
+    Temperature = temperature;
+}
+
+public float Temperature {
+    get { return _Temperature; }
+    set { _Temperature = value; }
+}
+private float _Temperature;
+
+public void OnTemperatureChanged(object sender, Thermostat.TemperatureArgs args) {
+    if (args.NewTemperature &lt; Temperature) {
+        System.Console.WriteLine("Heater: On");
+    }
+    else {
+        System.Console.WriteLine("Heater: Off");
+    }
+}
+</code></pre>
+
+<p>}</p>
+
+<p>// Defining the Event Publisher, <code>Thermostat</code>
+public class Thermostat {</p>
+
+<pre><code>public class TemperatureArgs: System.EventArgs { // conventions
+    public TemperatureArgs(float newTemperature) {
+        NewTemperature = newTemperature;
+    }
+
+    public float NewTemperature {
+        get { return _newTemperature; }
+        set { _newTemperature = value; }
+    }
+    private float _newTemperature;
+}
+
+// Define the delegate data type
+// It is a norm:
+//      sender: reference of the to the object that invoke the delegate 
+//      args:   if of type `System.EventArgs` or derives from `System.EventArgs` but contains additional data
+public delegate void TemperatureChangeHandler(object sender, TemperatureArgs newTemperature);
+
+// Define the event publisher
+// delegate类型之前加event，赋一个空的delegate
+// an empty delegate represents a collection of zero listeners
+public event TemperatureChangeHandler OnTemperatureChange = delegate {};
+
+public float CurrentTemperature {
+    get { return _CurrentTemperature; }
+    set {
+        if (value != CurrentTemperature) {
+            _CurrentTemperature = value;
+            // If there are any subscribers
+            // then notify them of changes in 
+            // temperature
+            if (OnTemperatureChange != null) {
+                // Call subscribers
+                OnTemperatureChange(this, new TemperatureArgs(value));
+            }
+        }
+    }
+}
+private float _CurrentTemperature;
+</code></pre>
+
+<p>}</p>
+
+<p>class Program {</p>
+
+<pre><code>public static void Main() {
+    Thermostat thermostat = new Thermostat();
+    Heater heater = new Heater(60);
+    Cooler cooler = new Cooler(80);
+    string temperature;
+
+    // Register subscribers
+    thermostat.OnTemperatureChange += heater.OnTemperatureChanged;
+    thermostat.OnTemperatureChange += cooler.OnTemperatureChanged;
+
+    Console.Write("Enter temperature: ");
+    temperature = Console.ReadLine();
+    thermostat.CurrentTemperature = int.Parse(temperature);
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>```
+// Define the event publisher
+public event TemperatureChangeHandler OnTemperatureChange {</p>
+
+<pre><code>add
+{
+    System.Delegate.Remove(_OnTemperatureChange, value);
+}
+remove
+{
+    System.Delegate.Combine(value, _OnTemperatureChange);
+
+} 
+</code></pre>
+
+<p>}
+protected TemperatureChangeHandler _OnTemperatureChange;
+```</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Essential C# 4.0: Basics]]></title>
     <link href="http://www.puncsky.com/blog/2013/08/14/Essential-C%23-4.0/"/>
     <updated>2013-08-14T10:23:00-07:00</updated>
     <id>http://www.puncsky.com/blog/2013/08/14/Essential-C#-4.0</id>
-    <content type="html"><![CDATA[<p>No one can ever master a programming language (PL) by studying it only without looking into and comparing it with other ones. In addition, modern application software often requires a variety of components written in different PLs. Most importantly, language itself is not important at all; at least not important when compared to the fundamental ideas on architectures, frameworks, the design of the PL. A competing programmer can always get the hang of any PLs quickly.</p>
+    <content type="html"><![CDATA[<p>No one can ever master a programming language (PL) by studying it only without looking into and comparing it with other ones. Modern application software often requires a variety of components written in different PLs. Most importantly, language itself is not important at all; at least not important when compared to the fundamental ideas on architectures, frameworks, the design of the PL. A competing programmer can always get the hang of any PLs quickly.</p>
 
 <p>Consequently, I make a list of PLs I would study seriously in the future.</p>
 
