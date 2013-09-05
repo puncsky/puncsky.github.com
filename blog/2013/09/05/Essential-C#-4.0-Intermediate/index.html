@@ -139,7 +139,20 @@
   </header>
 
 
-<div class="entry-content"><h2>9 Well-Formed Types 357</h2>
+<div class="entry-content"><p>This is the second part of my serials of notes on learning C#.</p>
+
+<p>A productive-focused language like C# has so much <em>syntax sugar</em> that I feel not so comfortable with it, because I used to be a C++ programmer and everything in the C++ kingdom appears to be straight forward, although, at the same time, tend to be fallible.</p>
+
+<p>The most serious problem I find about Microsoft&#8217;s tools is that up there exist so many auto-generated codes that I cannot know them all in details. I mean, that is good, you can ship as much stuff as possible within limited time. The problem is, it is not good for curious people like me, nor for the beginner. Back in school, when we build something, we build it <em>from scratch</em>. Perhaps, <em>reinvent the wheel</em> is the best way to learn the wheel. IEDs such as Visual Studio and Eclipse make people so lazy and forget to remember and to think.</p>
+
+<p>Consequently, in my spare time, I would do write every code with VIM.</p>
+
+<p>The following is my notes from Chapter 9 through Chapter 13.</p>
+
+<!--more-->
+
+
+<h2>9 Well-Formed Types 357</h2>
 
 <ol>
 <li>Overriding Object Members</li>
@@ -165,7 +178,7 @@
 <li>module</li>
 </ul>
 </li>
-<li>Refrence an Assembly <code>csc /R:Coordinates.dll Program.cs</code></li>
+<li>Reference an Assembly <code>csc /R:Coordinates.dll Program.cs</code></li>
 <li>By default, a class without any access modifier is defined as <code>internal</code> (accessible from within the assembly only).</li>
 <li>Defining Namespaces</li>
 <li><strong><em>namespace alias qualifier</em></strong>
@@ -184,7 +197,7 @@
 <li>GC</li>
 <li><strong>Weak reference</strong> save the reference for future reuse (memory cache) <code>private WeakReference Data;</code></li>
 <li>Finalizer: <code>~ClassName()</code> like <a href="http://www.puncsky.com/blog/2013/01/14/gc-garbage-collection-in-java/">Java&#8217;s <code>finalize()</code></a></li>
-<li>Deterministic finaliztion with the <code>using</code> statement
+<li>Deterministic finalization with the <code>using</code> statement
 
 <ul>
 <li>The <code>IDisposable</code> interface defines
@@ -278,7 +291,7 @@ garbage collection and that also have finalization implementations. <code>System
 <li>Multiple Exception Types</li>
 <li>Catching Exception</li>
 <li>General Catch Block</li>
-<li>Guildelines</li>
+<li>Guidelines</li>
 <li>Custom Exceptions</li>
 </ol>
 
