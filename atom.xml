@@ -4,7 +4,7 @@
   <title><![CDATA[Puncsky CS Notebook]]></title>
   <link href="http://www.puncsky.com/atom.xml" rel="self"/>
   <link href="http://www.puncsky.com/"/>
-  <updated>2013-09-06T11:08:08-07:00</updated>
+  <updated>2013-09-06T11:15:44-07:00</updated>
   <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Essential C# 4.0: Intermediate]]></title>
-    <link href="http://www.puncsky.com/blog/2013/09/05/Essential-C%23-4.0-Intermediate/"/>
+    <link href="http://www.puncsky.com/blog/2013/09/05/essential-c-sharp-intermediate/"/>
     <updated>2013-09-05T14:00:00-07:00</updated>
-    <id>http://www.puncsky.com/blog/2013/09/05/Essential-C#-4.0-Intermediate</id>
+    <id>http://www.puncsky.com/blog/2013/09/05/essential-c-sharp-intermediate</id>
     <content type="html"><![CDATA[<p>This is the second part of my serials of notes on learning C#.</p>
 
 <p>A productive-focused language like C# has so much <em>syntax sugar</em> that I feel not so comfortable with, because I used to be a C++ programmer and everything in the C++ kingdom appears to be straight forward, although, at the same time, tend to be fallible.</p>
@@ -74,7 +74,8 @@
 
 <pre><code> - `csc /R:CoordPlus=CoordinatesPlus.dll /R:Coordinates.dll Program.cs`
  - `extern alias CoordPlus;` before all `using` statements
- - `using CoordPlus:Blah.Blah;` equally or `using CoordPlus.Blah.Blah;`
+ - `using CoordPlus:
+ Blah.Blah;` equally or `using CoordPlus.Blah.Blah;`
  - How about global scope? `using global::Blah.Blah` (different from `using global.Blah.Blah` which means the real namespace of `global`)
 </code></pre></li>
 </ul>
@@ -1217,9 +1218,9 @@ garbage collection and that also have finalization implementations. <code>System
   
   <entry>
     <title type="html"><![CDATA[Essential C# 4.0: Basics]]></title>
-    <link href="http://www.puncsky.com/blog/2013/08/14/Essential-C%23-4.0/"/>
+    <link href="http://www.puncsky.com/blog/2013/08/14/essential-c-sharp-basics/"/>
     <updated>2013-08-14T10:23:00-07:00</updated>
-    <id>http://www.puncsky.com/blog/2013/08/14/Essential-C#-4.0</id>
+    <id>http://www.puncsky.com/blog/2013/08/14/essential-c-sharp-basics</id>
     <content type="html"><![CDATA[<p>No one can ever master a programming language (PL) by studying it only without looking into and comparing it with other ones. Modern application software often requires a variety of components written in different PLs. Most importantly, language itself is not important at all; at least not important when compared to the fundamental ideas on architectures, frameworks, the design of the PL. A competing programmer can always get the hang of any PLs quickly.</p>
 
 <p>Consequently, I make a list of PLs I would study seriously in the future.</p>
@@ -1566,34 +1567,54 @@ method does not return a value.</li>
 <h2>3 Operators and Control Flow 83</h2>
 
 <ol>
-<li>Operators</li>
-<li>Thread-Safe Incrementing and Decrementing, use thread-safe <code>Increment()</code> and <code>Decrement()</code> in <code>System.Threading.Interlocked</code> class</li>
-<li>Boolean Expressionn</li>
-<li>XOR for eXclusive OR</li>
-<li>Conditional Operator (?)
+<li>Operators
+
+<ul>
+<li> Thread-Safe Incrementing and Decrementing, use thread-safe <code>Increment()</code> and <code>Decrement()</code> in <code>System.Threading.Interlocked</code> class</li>
+</ul>
+</li>
+<li>Boolean Expressionn
+
+<ul>
+<li> XOR for eXclusive OR</li>
+<li> Conditional Operator (?)
 
 <ul>
 <li>Shortcut to the conditional operator: <strong>Null Coalescing Operator (<code>??</code>)</strong> evaluates an expression for null and returns a second expression if the value is null.</li>
 </ul>
 </li>
+</ul>
+</li>
 <li>Bitwise Operators</li>
-<li>Control Flow Statements</li>
-<li><code>foreach (type variable in collection) { /* do something */ }</code>
+<li>Control Flow Statements
+
+<ul>
+<li> <code>foreach (type variable in collection) { /* do something */ }</code>
 
 <ul>
 <li><code>variable</code> is read-only, and its scope is limited to the <code>foreach loop</code></li>
 </ul>
 </li>
-<li>Jump Statements</li>
-<li><em>Language Contrast</em>: Unlike C++, C# does not allow a <code>switch</code> statement to fall through from one <code>case</code> block to the next if the <code>case</code> includes a statement. A jump statement is always required following the statement within a case.</li>
-<li><em>Language Contrast</em>: C# prevents using goto into something, and allows its use only within or out of something.</li>
-<li><strong><em>Preprocessor Directives</em></strong></li>
-<li><em>Language Contrast</em>: C/C++ contain a preprocessor. Preprocessor directives generally tell the compiler how to
+</ul>
+</li>
+<li>Jump Statements
+
+<ul>
+<li> <em>Language Contrast</em>: Unlike C++, C# does not allow a <code>switch</code> statement to fall through from one <code>case</code> block to the next if the <code>case</code> includes a statement. A jump statement is always required following the statement within a case.</li>
+<li> <em>Language Contrast</em>: C# prevents using goto into something, and allows its use only within or out of something.</li>
+</ul>
+</li>
+<li><strong><em>Preprocessor Directives</em></strong>
+
+<ul>
+<li> <em>Language Contrast</em>: C/C++ contain a preprocessor. Preprocessor directives generally tell the compiler how to
 compile the code in a file and do not participate in the compilation process
 itself. In contrast, the C# compiler handles preprocessor directives as part
 of the regular lexical analysis of the source code. As a result, C# does not
 support preprocessor macros beyond defining a constant. In fact, the term
 preprocessor is generally a misnomer for C#.</li>
+</ul>
+</li>
 </ol>
 
 
@@ -1709,30 +1730,40 @@ preprocessor is generally a misnomer for C#.</li>
 <h2>4 Methods and Parameters 149</h2>
 
 <ol>
-<li>Calling a Method</li>
-<li>Namespace
+<li>Calling a Method
+
+<ul>
+<li> Namespace
 
 <ul>
 <li>Everything should appear within a class definition.</li>
 </ul>
 </li>
-<li>Type Name</li>
-<li>Scope</li>
-<li>Method Name</li>
-<li>Parameters</li>
-<li>Method Return
+<li> Type Name</li>
+<li> Scope</li>
+<li> Method Name</li>
+<li> Parameters</li>
+<li> Method Return
 
 <ul>
 <li><em>Language Contrast</em>:Unlike C++, C# classes never separate the implementation from the declaration. Cleaner and more readable.</li>
 </ul>
 </li>
+</ul>
+</li>
 <li>Declaring a Method</li>
-<li>The Using Directive</li>
-<li><em>Language Contrast</em> Java uses wildcards in <code>import</code> directive, while C# requires each namespace to be imported explicitly.</li>
-<li><code>using</code> could be nested in other namespaces but seldom used in this way.</li>
-<li><strong><em>Aliasing</em></strong> a namespace or type: <code>using CountDownTimer = System.Timers.Timer;</code></li>
-<li>Parameters</li>
-<li>Value Parameters
+<li>The Using Directive
+
+<ul>
+<li> <em>Language Contrast</em> Java uses wildcards in <code>import</code> directive, while C# requires each namespace to be imported explicitly.</li>
+<li> <code>using</code> could be nested in other namespaces but seldom used in this way.</li>
+<li> <strong><em>Aliasing</em></strong> a namespace or type: <code>using CountDownTimer = System.Timers.Timer;</code></li>
+</ul>
+</li>
+<li>Parameters
+
+<ul>
+<li> Value Parameters
 
 <ul>
 <li><code>static int Main(string[] args)</code> By convention, a return other than zero indicates an error.
@@ -1748,15 +1779,15 @@ preprocessor is generally a misnomer for C#.</li>
 <li>By default, parameters are passed by value</li>
 </ul>
 </li>
-<li><strong><em>Reference Parameters (<code>ref</code>)</em></strong>
+<li> <strong><em>Reference Parameters (<code>ref</code>)</em></strong>
 
 <ul>
 <li>declare <code>ref Type variable</code> in the function&#8217;s list of args and call it with <code>ref variable</code></li>
 </ul>
 </li>
-<li><strong><em>Output Parameters (<code>out</code>)</em></strong></li>
-<li><strong><em>Parameter Arrays (<code>params</code>)</em></strong></li>
-<li>Optional Parameters
+<li> <strong><em>Output Parameters (<code>out</code>)</em></strong></li>
+<li> <strong><em>Parameter Arrays (<code>params</code>)</em></strong></li>
+<li> Optional Parameters
 
 <ul>
 <li>optional parameters
@@ -1766,11 +1797,17 @@ time-resolved value</li>
 <li><strong>named parameters</strong></li>
 </ul>
 </li>
+</ul>
+</li>
 <li>Method Overloading</li>
-<li>Exception Handling</li>
-<li><strong><em>generic catch</em></strong>: <code>try { } catch { }</code> <em>Language Contrast</em> C++: <code>try { } catch (...) { }</code>. JAVA: <code>Exception</code> is the base class for all exceptions, so <code>try { } catch (Exception e) { }</code>.</li>
-<li>Avoid using exception handling to deal with expected situations</li>
-<li><code>bool int.TryParse(textVariable, out number)</code></li>
+<li>Exception Handling
+
+<ul>
+<li> <strong><em>generic catch</em></strong>: <code>try { } catch { }</code> <em>Language Contrast</em> C++: <code>try { } catch (...) { }</code>. JAVA: <code>Exception</code> is the base class for all exceptions, so <code>try { } catch (Exception e) { }</code>.</li>
+<li> Avoid using exception handling to deal with expected situations</li>
+<li> <code>bool int.TryParse(textVariable, out number)</code></li>
+</ul>
+</li>
 </ol>
 
 
@@ -1939,75 +1976,93 @@ time-resolved value</li>
 
 <ol>
 <li>Declaring and Instantiating a Class</li>
-<li>Instance Fields</li>
-<li>Declaring</li>
-<li>Accessing</li>
-<li>Const and readonly modifiers</li>
+<li>Instance Fields
+
+<ul>
+<li> Declaring</li>
+<li> Accessing</li>
+<li> Const and readonly modifiers</li>
+</ul>
+</li>
 <li>Instance Methods</li>
-<li>Access Modifiers</li>
-<li><code>public</code>, <code>private</code>, <code>protected</code>, <code>internal</code>, <code>protected internal</code></li>
-<li>Properties</li>
-<li>Declaring
+<li>Access Modifiers
+
+<ul>
+<li> <code>public</code>, <code>private</code>, <code>protected</code>, <code>internal</code>, <code>protected internal</code></li>
+</ul>
+</li>
+<li>Properties
+
+<ul>
+<li> Declaring
 
 <ul>
 <li><em>Language Contrast</em> Programmers should view <code>new</code> as a call to instantiate an object, <em>not as a call to allocate memory</em>. It just retrieves memory from the memory manager.</li>
 </ul>
 </li>
-<li>Naming Conventions
+<li> Naming Conventions
 
 <ul>
 <li>property name <code>FirstName</code>, then field name <code>_FirstName</code>(preferred), <code>_firstName</code>, or <code>m_FirstName</code>(C++ style).</li>
 </ul>
 </li>
-<li>Using Properties with Validation</li>
-<li>Read-Only and Write-Only</li>
-<li>Access Modifiers on Getters and Setters
+<li> Using Properties with Validation</li>
+<li> Read-Only and Write-Only</li>
+<li> Access Modifiers on Getters and Setters
 
 <ul>
 <li>e.g. <code>private set()</code></li>
 </ul>
 </li>
-<li>Properties as Virtual Fields
+<li> Properties as Virtual Fields
 
 <ul>
 <li>They can even do not exist physically</li>
 </ul>
 </li>
-<li>Properties and Method Calls <strong>Not Allowed</strong> as <code>ref</code> or <code>out</code> Parameter Values</li>
-<li>Constructors &amp; Finalizers</li>
-<li>Declaring</li>
-<li>Default constructors
+<li> Properties and Method Calls <strong>Not Allowed</strong> as <code>ref</code> or <code>out</code> Parameter Values</li>
+</ul>
+</li>
+<li>Constructors &amp; Finalizers
+
+<ul>
+<li> Declaring</li>
+<li> Default constructors
 
 <ul>
 <li>Once there is a explicitely defined constructor, the default one (without parameters) is no longer provided.</li>
 </ul>
 </li>
-<li>Object Initializers <code>Employee emp1 = new Employee("Inigo", "Montoya") { Title = "Computer Nerd", Salary = "Not Enough"};</code>
+<li> Object Initializers <code>Employee emp1 = new Employee("Inigo", "Montoya") { Title = "Computer Nerd", Salary = "Not Enough"};</code>
 
 <ul>
 <li>Collection Initializers</li>
 </ul>
 </li>
-<li>Overloading Constructors</li>
-<li>Constractor Chaining: Calling another Constructor Using <code>this</code>
+<li> Overloading Constructors</li>
+<li> Constractor Chaining: Calling another Constructor Using <code>this</code>
 
 <ul>
 <li><code>public Employee(int id, string fristName, string lastName): this(firstName, lastName) { Id = id ; }</code></li>
 </ul>
 </li>
-<li>Generalize initialization: Refactor init process in the ctor into a private init method</li>
-<li>Finalizers
+<li> Generalize initialization: Refactor init process in the ctor into a private init method</li>
+<li> Finalizers
 
 <ul>
 <li>Like JAVA, unlike C++</li>
 </ul>
 </li>
-<li>Static</li>
-<li><em>Language Contrast</em> The equivalent of a global field or function within the realm of C# is a static field or function</li>
-<li>Static Fields</li>
-<li>Static Methods</li>
-<li>Static Constructors</li>
-<li>Static Classes
+</ul>
+</li>
+<li>Static
+
+<ul>
+<li> <em>Language Contrast</em> The equivalent of a global field or function within the realm of C# is a static field or function</li>
+<li> Static Fields</li>
+<li> Static Methods</li>
+<li> Static Constructors</li>
+<li> Static Classes
 
 <ol>
 <li>it prevents a programmer from writing code that
@@ -2017,18 +2072,26 @@ instance fields or methods within the class. Since the class cannot be
 instantiated, instance members would be pointless.</li>
 </ol>
 </li>
-<li><code>const</code> fields are <code>static</code> automatically, and declaring a <code>const</code> field as <code>static</code> explicitly will cause a compile error</li>
-<li><strong><em><code>readonly</code> modifier is available only for fields (not for local variables)</em></strong> it is modifiable only from inside the constructor or directly during declaration. 似乎是把C++中<code>const</code>可以ctor初始化的功能拆成<code>readonly</code>了.</li>
-<li><strong><em>Extension Methods</em></strong> requirements</li>
-<li>The first parameter corresponds to the type on which the method
+<li> <code>const</code> fields are <code>static</code> automatically, and declaring a <code>const</code> field as <code>static</code> explicitly will cause a compile error</li>
+<li> <strong><em><code>readonly</code> modifier is available only for fields (not for local variables)</em></strong> it is modifiable only from inside the constructor or directly during declaration. 似乎是把C++中<code>const</code>可以ctor初始化的功能拆成<code>readonly</code>了.</li>
+</ul>
+</li>
+<li><strong><em>Extension Methods</em></strong> requirements
+
+<ul>
+<li> The first parameter corresponds to the type on which the method
 extends or operates.</li>
-<li>To designate the extension method, prefix the extended type with the
+<li> To designate the extension method, prefix the extended type with the
 this modifier.</li>
-<li>To access the method as an extension method, import the extending
+<li> To access the method as an extension method, import the extending
 type’s namespace via a using directive (or place the extending class in
 the same namespace as the calling code).</li>
-<li>Special Classes</li>
-<li><code>partial</code> Classes
+</ul>
+</li>
+<li>Special Classes
+
+<ul>
+<li> <code>partial</code> Classes
 
 <ul>
 <li>the general purpose of a partial class is to allow the splitting of a class definition across multiple files</li>
@@ -2038,7 +2101,7 @@ included, it can be located in one of the sister partial class definitions,
 likely in a separate file.</li>
 </ul>
 </li>
-<li>Nested Classes
+<li> Nested Classes
 
 <ul>
 <li>One unique characteristic of nested classes is the ability to specify private
@@ -2050,15 +2113,19 @@ they indicate potentially poor code that is likely to be confusing
 and hard to discover.</li>
 </ul>
 </li>
+</ul>
+</li>
 </ol>
 
 
 <h2>6 Inheritance 269</h2>
 
 <ol>
-<li>Derivation</li>
-<li>Extension methods are also inherited.</li>
-<li><em>Language Contrast:</em> Different from C++, C# is a <strong>single-inheritance</strong> programming language, as is the CIL. Derive from only one class a time.
+<li>Derivation
+
+<ul>
+<li> Extension methods are also inherited.</li>
+<li> <em>Language Contrast:</em> Different from C++, C# is a <strong>single-inheritance</strong> programming language, as is the CIL. Derive from only one class a time.
 
 <ul>
 <li>avoid using a multiple-inheritance class</li>
@@ -2072,48 +2139,70 @@ and hard to discover.</li>
 </li>
 </ul>
 </li>
-<li>Overriding</li>
-<li><em>Language Contrast:</em> Java &#8211; Virtual Methods by Default. Java and C++ &#8211; Implicit Overriding. However, in C#, in order to override a method, both the base class and the derived class members must match and have corresponding <code>virtual</code> and <code>override</code> keywords.</li>
-<li>ctor: <em>Language Contrast:</em> Dispatch Method Calls during Construction
+</ul>
+</li>
+<li>Overriding
+
+<ul>
+<li> <em>Language Contrast:</em> Java &#8211; Virtual Methods by Default. Java and C++ &#8211; Implicit Overriding. However, in C#, in order to override a method, both the base class and the derived class members must match and have corresponding <code>virtual</code> and <code>override</code> keywords.</li>
+<li> ctor: <em>Language Contrast:</em> Dispatch Method Calls during Construction
 
 <ul>
 <li>C++: the type is associated with the base type rather than the derived type, and virtual methods call the base implementation.</li>
 <li>C#: dispatches virtual method calls to the most derived type.</li>
 </ul>
 </li>
-<li>only instance members can be virtual. The CLR uses the concrete
+<li> only instance members can be virtual. The CLR uses the concrete
 type, specified at instantiation time, to determine where to dispatch a
 virtual method call, so static virtual methods are meaningless and the
 compiler prohibits them.</li>
-<li><code>new</code> modifier for methods. <strong><em>If neither <code>override</code> nor <code>new</code> is specified, then <code>new</code> will be assumed, thereby maintaining the desired version safety.</em></strong></li>
-<li><em>upcasting</em>: please see the example codes below. <em>downcasting</em>: ?dangerous?</li>
-<li><em>sealed</em> modifier for methods. prevent overriding</li>
-<li><em>base</em> member
+<li> <code>new</code> modifier for methods. <strong><em>If neither <code>override</code> nor <code>new</code> is specified, then <code>new</code> will be assumed, thereby maintaining the desired version safety.</em></strong></li>
+<li> <em>upcasting</em>: please see the example codes below. <em>downcasting</em>: ?dangerous?</li>
+<li> <em>sealed</em> modifier for methods. prevent overriding</li>
+<li> <em>base</em> member
 
 <ul>
 <li>ctor <code>public Contact(string name) : base(name) { Name = name; }</code></li>
 </ul>
 </li>
-<li>Abstract Classes</li>
-<li><em>Language Contrast</em>
+</ul>
+</li>
+<li>Abstract Classes
+
+<ul>
+<li> <em>Language Contrast</em>
 
 <ul>
 <li>C++ pure virtual function with <code>=0</code>. It does not require the class itself to have any special declaration.</li>
 <li>C# and Java require <code>abstract</code> if the class has <code>abstract</code> member</li>
 </ul>
 </li>
-<li>polymorphism.
+<li> polymorphism.
 
 <ul>
 <li>base.foo() to derived1.foo(), derived2.foo(), derived3.foo() overriding</li>
 </ul>
 </li>
-<li><code>System.Object</code></li>
-<li>Every class is derived from <code>System.Object</code></li>
-<li><strong><em><code>is</code> operator</em></strong></li>
-<li>verify the underlying type with <code>is</code> operator, e.g. <code>if (data is string) data = Encrypt((string) data);</code></li>
-<li><strong><em><code>as</code> operator</em></strong></li>
-<li>conversion to a data type, and assign null if the source type is not inherently (within the inheritance chain). Avoid additional try/catch handling code. e.g. <code>Print(data as Document);</code></li>
+</ul>
+</li>
+<li><code>System.Object</code>
+
+<ul>
+<li> Every class is derived from <code>System.Object</code></li>
+</ul>
+</li>
+<li><strong><em><code>is</code> operator</em></strong>
+
+<ul>
+<li> verify the underlying type with <code>is</code> operator, e.g. <code>if (data is string) data = Encrypt((string) data);</code></li>
+</ul>
+</li>
+<li><strong><em><code>as</code> operator</em></strong>
+
+<ul>
+<li> conversion to a data type, and assign null if the source type is not inherently (within the inheritance chain). Avoid additional try/catch handling code. e.g. <code>Print(data as Document);</code></li>
+</ul>
+</li>
 </ol>
 
 
@@ -2504,33 +2593,19 @@ compiler prohibits them.</li>
 <li>Polymorphism</li>
 <li>Interface Implementation
 
-<ul>
-<li>Declaring a class to implement an interface is similar to deriving from a
+<pre><code>- Declaring a class to implement an interface is similar to deriving from a
 base class in that the implemented interfaces appear in a comma-separated
 list along with the base class (order is not significant between interfaces).
-<strong><em>The only difference is that classes can implement multiple interfaces.</em></strong></li>
-<li>The base class specifier (if there is one) must come first: <code>public class Contact : PdaItem, IListable, IComparable {...</code></li>
-<li><strong><em>Explicit(more often) vs Implicit</em></strong> <a href="http://stackoverflow.com/questions/143405/c-sharp-interfaces-implicit-implementation-versus-explicit-implementation">Stackoverflow</a> ??
-
-<ul>
-<li>Explicit: mechanism code, or avoid overriding,
-
-<ul>
-<li><code>ITrace.Dump()</code> to save info to files in <code>Person</code></li>
-</ul>
-</li>
-<li>Implicit: semantic/model/core code
-
-<ul>
-<li>Including an implicit <code>Compress()</code> implementation on a <code>ZipCompression</code>
-class is a perfectly reasonable choice, since <code>Compress()</code> is a core
-part of the <code>ZipCompression</code> class’s behavior.</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
+***The only difference is that classes can implement multiple interfaces.***
+- The base class specifier (if there is one) must come first: `public class Contact : PdaItem, IListable, IComparable {...`
+- ***Explicit(more often) vs Implicit*** [Stackoverflow](http://stackoverflow.com/questions/143405/c-sharp-interfaces-implicit-implementation-versus-explicit-implementation) ??
+  - Explicit: mechanism code, or avoid overriding,
+    - `ITrace.Dump()` to save info to files in `Person`
+  - Implicit: semantic/model/core code
+    - Including an implicit `Compress()` implementation on a `ZipCompression`
+    class is a perfectly reasonable choice, since `Compress()` is a core
+    part of the `ZipCompression` class’s behavior.
+</code></pre></li>
 <li>Interface Inheritance
 
 <ul>
@@ -2580,17 +2655,23 @@ part of the <code>ZipCompression</code> class’s behavior.</li>
 <p>All the C# primitive types are value types except <code>string</code> and <code>object</code>. How to define user&#8217;s own value types? <code>struct</code></p>
 
 <ol>
-<li>Structs (derive from <code>System.Object</code> -> <code>System.ValueType</code>)</li>
-<li>Recommend: Once you have instantiated a value type, you should not be able to modify the same instance.</li>
-<li>*C# prevents explict definition of default constructors (parameterless)</li>
-<li><code>struct</code> fields can not be initialized at declaration time.</li>
-<li>Unlike <code>class</code>, <code>struct</code> does not support finalizers. There is no need for the GC.</li>
-<li><em>Language Contrast</em>: In C++, the difference between structs and classes is simply that by
+<li>Structs (derive from <code>System.Object</code> -> <code>System.ValueType</code>)
+
+<ul>
+<li> Recommend: Once you have instantiated a value type, you should not be able to modify the same instance.</li>
+<li> *C# prevents explict definition of default constructors (parameterless)</li>
+<li> <code>struct</code> fields can not be initialized at declaration time.</li>
+<li> Unlike <code>class</code>, <code>struct</code> does not support finalizers. There is no need for the GC.</li>
+<li> <em>Language Contrast</em>: In C++, the difference between structs and classes is simply that by
 default, a struct’s members are public. C# doesn’t include this subtle distinction.
 The contrast is far greater in C#, where struct significantly
 changes the memory behavior from that of a class.</li>
-<li><code>T default(T)</code> to get the default value</li>
-<li><strong><em>Boxing</em></strong>: upcasting <code>ValueType</code> to <code>Object</code></li>
+<li> <code>T default(T)</code> to get the default value</li>
+</ul>
+</li>
+<li><strong><em>Boxing</em></strong>: upcasting <code>ValueType</code> to <code>Object</code>
+
+<ol>
 <li>First, memory is allocated on the heap that will contain the value
 type’s data and a little overhead (a SyncBlockIndex and method
 table pointer).</li>
@@ -2598,20 +2679,26 @@ table pointer).</li>
 into the allocated location on the heap.</li>
 <li>Finally, the object or interface reference is updated to point at the
 location on the heap.</li>
-<li><strong><em>unboxing</em></strong> TODO start from page 339</li>
-<li><strong><em><code>lock</code> statement</em></strong></li>
-<li>Enums</li>
-<li>An enum always has an underlying type, which may be <code>int</code>(default), <code>uint</code>, <code>long</code>,
+<li> <strong><em>unboxing</em></strong> TODO start from page 339</li>
+<li> <strong><em><code>lock</code> statement</em></strong></li>
+</ol>
+</li>
+<li>Enums
+
+<ul>
+<li> An enum always has an underlying type, which may be <code>int</code>(default), <code>uint</code>, <code>long</code>,
 or <code>ulong</code>, but not <code>char</code>.</li>
-<li>Cast between enums via <code>System.Array</code></li>
-<li>Cast between enums and strings via
+<li> Cast between enums via <code>System.Array</code></li>
+<li> Cast between enums and strings via
 
 <ul>
 <li><em>enum -> string</em>.</li>
 <li><em>string -> enum</em>. <code>Enum.Parse()</code></li>
 </ul>
 </li>
-<li>Enums as bit flags with <code>[Flags]</code> FlagsAttribute to perform bit operations.</li>
+<li> Enums as bit flags with <code>[Flags]</code> FlagsAttribute to perform bit operations.</li>
+</ul>
+</li>
 </ol>
 
 ]]></content>
