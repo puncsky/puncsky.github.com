@@ -290,15 +290,17 @@
 </li>
 </ul>
 </li>
-<li>More Types</li>
-<li>Boolean</li>
-<li>Character
+<li>More Types
+
+<ul>
+<li> Boolean</li>
+<li> Character
 
 <ul>
 <li>Escape Sequence: <code>\uxxxx</code> unicode char in hex, e.g. <code>\u0029</code></li>
 </ul>
 </li>
-<li>Strings
+<li> Strings
 
 <ul>
 <li>verbatim string (with prefix <code>@</code>)
@@ -325,18 +327,26 @@
 </li>
 </ul>
 </li>
-<li>null and void</li>
-<li>In C++, void is a data type commonly used as void<em><em>. In C#, <code>void</code> </em>is not
+</ul>
+</li>
+<li>null and void
+
+<ul>
+<li> In C++, void is a data type commonly used as void<em><em>. In C#, <code>void</code> </em>is not
 considered a data type</em> in the same way. Rather, it is used to identify that a
 method does not return a value.</li>
-<li><code>var</code> introduced to support anonymous types, e.g. <code>var patent1 = new { Title = "Bifocals", YearOfPublication = "1884" };</code>. Avoid to use in other cases.
+<li> <code>var</code> introduced to support anonymous types, e.g. <code>var patent1 = new { Title = "Bifocals", YearOfPublication = "1884" };</code>. Avoid to use in other cases.
 
 <ul>
 <li>avoid anonymous types until working with lambda and query expressions that associate data from different types or you you are horizontally projecting the data so that for a particular type, there is less data overall.</li>
 </ul>
 </li>
-<li><strong>Categories of Types</strong></li>
-<li>Value Types: all the C# primitive types except <code>string</code> and <code>object</code>, all derive from <code>System.ValueType</code>
+</ul>
+</li>
+<li><strong>Categories of Types</strong>
+
+<ul>
+<li> Value Types: all the C# primitive types except <code>string</code> and <code>object</code>, all derive from <code>System.ValueType</code>
 
 <ul>
 <li>data copied by value</li>
@@ -344,7 +354,7 @@ method does not return a value.</li>
 <li>stack</li>
 </ul>
 </li>
-<li>Reference Types: <code>string</code>, <code>object</code>, any custom classes, most classes
+<li> Reference Types: <code>string</code>, <code>object</code>, any custom classes, most classes
 
 <ul>
 <li><strong><em>IMPORTANT</em></strong> string is passed by value and cloned when pass it to a method, BUT</li>
@@ -352,17 +362,21 @@ method does not return a value.</li>
 <li>heap</li>
 </ul>
 </li>
-<li><strong>Nullable Modifier</strong>, value types can be null, like <code>int? count = null;</code></li>
-<li>Conversions</li>
-<li>Explicit Cast
+<li> <strong>Nullable Modifier</strong>, value types can be null, like <code>int? count = null;</code></li>
+</ul>
+</li>
+<li>Conversions
+
+<ul>
+<li> Explicit Cast
 
 <ul>
 <li><strong><em>checked and unchecked block</em></strong> whether to throw overflow exceptions</li>
 <li>No numbers to booleans conversion</li>
 </ul>
 </li>
-<li>Implicit Cast</li>
-<li>Conversion Without Casting
+<li> Implicit Cast</li>
+<li> Conversion Without Casting
 
 <ul>
 <li><code>Parse(T1 to, T2 from)</code></li>
@@ -370,15 +384,19 @@ method does not return a value.</li>
 <li><code>bool TryParse(T1 to,T2 from, T1 number)</code></li>
 </ul>
 </li>
-<li>Arrays</li>
-<li>Declaring
+</ul>
+</li>
+<li>Arrays
+
+<ul>
+<li> Declaring
 
 <ul>
 <li><code>string[] languages;</code> square brackets identify the <strong>rank</strong> (# of dimensions)</li>
 <li>before the variable. <em>Language Contrast</em>: different from C++/JAVA, <code>int numbers[]</code> is not allowed.</li>
 </ul>
 </li>
-<li>Instantiating
+<li> Instantiating
 
 <ul>
 <li><strong>IMPORTANT the same applied to other similar cases</strong>
@@ -391,7 +409,7 @@ method does not return a value.</li>
 <li><code>new string[size];</code></li>
 </ul>
 </li>
-<li><p>Assigning</p>
+<li><p> Assigning</p>
 
 <ul>
 <li>multi-dimensional
@@ -403,17 +421,19 @@ method does not return a value.</li>
 </li>
 </ul>
 </li>
-<li><p>Using</p>
+<li><p> Using</p>
 
 <ul>
 <li><code>Sort()</code>, <code>BinarySearch()</code>, <code>Reverse()</code>, <code>Clear()</code>, &#8230;</li>
 <li>Redimension? <code>System.Array.Resize()</code></li>
 </ul>
 </li>
-<li>String as Arrays
+<li> String as Arrays
 
 <ul>
 <li><code>.ToCharArray()</code></li>
+</ul>
+</li>
 </ul>
 </li>
 </ol>
