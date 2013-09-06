@@ -141,7 +141,7 @@
 
 <div class="entry-content"><p>This is the second part of my serials of notes on learning C#.</p>
 
-<p>A productive-focused language like C# has so much <em>syntax sugar</em> that I feel not so comfortable with it, because I used to be a C++ programmer and everything in the C++ kingdom appears to be straight forward, although, at the same time, tend to be fallible.</p>
+<p>A productive-focused language like C# has so much <em>syntax sugar</em> that I feel not so comfortable with, because I used to be a C++ programmer and everything in the C++ kingdom appears to be straight forward, although, at the same time, tend to be fallible.</p>
 
 <p>The most serious problem I find about Microsoft&#8217;s tools is that up there exist so many auto-generated codes that I cannot know them all in details. I mean, that is good, you can ship as much stuff as possible within limited time. The problem is, it is not good for curious people like me, nor for the beginner. Back in school, when we build something, we build it <em>from scratch</em>. Perhaps, <em>reinvent the wheel</em> is the best way to learn the wheel. IEDs such as Visual Studio and Eclipse make people so lazy and forget to remember and to think.</p>
 
@@ -155,75 +155,85 @@
 <h2>9 Well-Formed Types 357</h2>
 
 <ol>
-<li>Overriding Object Members</li>
-<li>Guidelines for overriding <code>System.Object</code> members. Reference on request.</li>
-<li><code>GetHashCode()</code></li>
-<li><code>ReferenceEquals()</code> Object Identity vs. <code>Equals()</code> Equal Object Values</li>
-<li>Calling <code>ReferenceEquals()</code> on <em>value types</em> will always return false since</li>
-<li>Operator Overloading</li>
-<li><code>public static</code>
+<li>Overriding Object Members
 
 <ul>
-<li>avoid recursive loop <code>(leftHandSide == null)</code> when check equality</li>
-<li>One of the parameters of a operator must be the containing type</li>
+<li> Guidelines for overriding <code>System.Object</code> members. Reference on request.</li>
+<li> <code>GetHashCode()</code></li>
+<li> <code>ReferenceEquals()</code> Object Identity vs. <code>Equals()</code> Equal Object Values</li>
+<li> Calling <code>ReferenceEquals()</code> on <em>value types</em> will always return false since</li>
 </ul>
 </li>
-<li>Referencing other Assemblies</li>
-<li>Assembly Target: <code>csc /target:library /out:Coordinates.dll Coordinate.cs IAngle.cs</code>
+<li>Operator Overloading
 
 <ul>
-<li>console executable</li>
-<li>class library</li>
-<li>windows executable</li>
-<li>module</li>
+<li> <code>public static</code>
+
+<pre><code> - avoid recursive loop `(leftHandSide == null)` when check equality
+ - One of the parameters of a operator must be the containing type
+</code></pre></li>
 </ul>
 </li>
-<li>Reference an Assembly <code>csc /R:Coordinates.dll Program.cs</code></li>
-<li>By default, a class without any access modifier is defined as <code>internal</code> (accessible from within the assembly only).</li>
-<li>Defining Namespaces</li>
-<li><strong><em>namespace alias qualifier</em></strong>
+<li>Referencing other Assemblies
 
 <ul>
-<li><code>csc /R:CoordPlus=CoordinatesPlus.dll /R:Coordinates.dll Program.cs</code></li>
-<li><code>extern alias CoordPlus;</code> before all <code>using</code> statements</li>
-<li><code>using CoordPlus.Blah.Blah;</code> equally or <code>using CoordPlus.Blah.Blah</code></li>
-<li>How about global scope? <code>using global::Blah.Blah</code> (different from <code>using global.Blah.Blah</code> which means the real namespace of <code>global</code>)</li>
+<li> Assembly Target: <code>csc /target:library /out:Coordinates.dll Coordinate.cs IAngle.cs</code>
+
+<pre><code> - console executable
+ - class library
+ - windows executable
+ - module
+</code></pre></li>
+<li> Reference an Assembly <code>csc /R:Coordinates.dll Program.cs</code></li>
+<li> By default, a class without any access modifier is defined as <code>internal</code> (accessible from within the assembly only).</li>
 </ul>
 </li>
-<li>XML Comments</li>
-<li><code>///</code>, <code>&lt;summary&gt;</code>, <code>&lt;remarks&gt;</code>, <code>&lt;param name="blah"&gt; &lt;param&gt;</code>, <code>&lt;returns&gt;</code>, <code>&lt;date&gt;</code></li>
-<li>Generate an XML doc file <code>csc /doc:Comments.xml DataStorage.cs</code></li>
-<li>tools to generate docs: GhostDoc, NDoc</li>
-<li>GC</li>
-<li><strong>Weak reference</strong> save the reference for future reuse (memory cache) <code>private WeakReference Data;</code></li>
-<li>Finalizer: <code>~ClassName()</code> like <a href="http://www.puncsky.com/blog/2013/01/14/gc-garbage-collection-in-java/">Java&#8217;s <code>finalize()</code></a></li>
-<li>Deterministic finalization with the <code>using</code> statement
+<li>Defining Namespaces
 
 <ul>
-<li>The <code>IDisposable</code> interface defines
-the details of the pattern with a single method called <code>Dispose()</code>, which
-developers call on a resource class to “dispose” of the consumed</li>
-<li>HOWEVER, there is a chance that an exception will occur before the dispose call
-resources. If this
-happens, Dispose() will not be invoked and the resource cleanup will
-have to rely on the finalizer.</li>
-<li>SO 2 ways:
+<li> <strong><em>namespace alias qualifier</em></strong>
 
-<ol>
-<li>try / finally</li>
-<li><code>using</code> statement and <strong>all variables are of the same type and they implement <code>IDisposable</code></strong></li>
-</ol>
-</li>
+<pre><code> - `csc /R:CoordPlus=CoordinatesPlus.dll /R:Coordinates.dll Program.cs`
+ - `extern alias CoordPlus;` before all `using` statements
+ - `using CoordPlus:Blah.Blah;` equally or `using CoordPlus.Blah.Blah;`
+ - How about global scope? `using global::Blah.Blah` (different from `using global.Blah.Blah` which means the real namespace of `global`)
+</code></pre></li>
 </ul>
 </li>
-<li>The <strong><em>f-reachable queue</em></strong> is a list of all the objects that are ready for
+<li>XML Comments
+
+<ul>
+<li> <code>///</code>, <code>&lt;summary&gt;</code>, <code>&lt;remarks&gt;</code>, <code>&lt;param name="blah"&gt; &lt;param&gt;</code>, <code>&lt;returns&gt;</code>, <code>&lt;date&gt;</code></li>
+<li> Generate an XML doc file <code>csc /doc:Comments.xml DataStorage.cs</code></li>
+<li> tools to generate docs: GhostDoc, NDoc</li>
+</ul>
+</li>
+<li>GC
+
+<ul>
+<li> <strong>Weak reference</strong> save the reference for future reuse (memory cache) <code>private WeakReference Data;</code></li>
+<li> Finalizer: <code>~ClassName()</code> like <a href="http://www.puncsky.com/blog/2013/01/14/gc-garbage-collection-in-java/">Java&#8217;s <code>finalize()</code></a></li>
+<li> Deterministic finalization with the <code>using</code> statement
+
+<pre><code> - The `IDisposable` interface defines
+ the details of the pattern with a single method called `Dispose()`, which
+ developers call on a resource class to “dispose” of the consumed
+ - HOWEVER, there is a chance that an exception will occur before the dispose call
+ resources. If this
+ happens, Dispose() will not be invoked and the resource cleanup will
+ have to rely on the finalizer.
+ - SO 2 ways:
+   1. try / finally
+   2. `using` statement and **all variables are of the same type and they implement `IDisposable`**
+</code></pre></li>
+<li> The <strong><em>f-reachable queue</em></strong> is a list of all the objects that are ready for
 garbage collection and that also have finalization implementations. <code>System.GC.SuppressFinalize(reference)</code> can remove reference instance from f-reachable queue.</li>
-<li>Resource Utilization and Finalization Guidelines. Refer the book page 400.</li>
-<li>Generally, <code>~Destructor()</code> calls <code>Dispose()</code></li>
-<li><strong>Lazy Initialization</strong>: Defer the init of an object until it is required.
+<li> Resource Utilization and Finalization Guidelines. Refer the book page 400.</li>
+<li> Generally, <code>~Destructor()</code> calls <code>Dispose()</code></li>
+<li> <strong>Lazy Initialization</strong>: Defer the init of an object until it is required.
 
-<ul>
-<li><code>System.Lazy&lt;T&gt;</code></li>
+<pre><code> - `System.Lazy&lt;T&gt;`
+</code></pre></li>
 </ul>
 </li>
 </ol>
