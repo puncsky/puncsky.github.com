@@ -4,7 +4,7 @@
   <title><![CDATA[Puncsky CS Notebook]]></title>
   <link href="http://www.puncsky.com/atom.xml" rel="self"/>
   <link href="http://www.puncsky.com/"/>
-  <updated>2013-09-07T18:30:09-07:00</updated>
+  <updated>2013-09-07T18:31:13-07:00</updated>
   <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -12,6 +12,51 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Trip to Mt. Rainier and San Juan Islands]]></title>
+    <link href="http://www.puncsky.com/blog/2013/09/07/trips-to-mt-rainier-and-san-juan-islands/"/>
+    <updated>2013-09-07T18:30:00-07:00</updated>
+    <id>http://www.puncsky.com/blog/2013/09/07/trips-to-mt-rainier-and-san-juan-islands</id>
+    <content type="html"><![CDATA[<p>Travel in person is of no importance to me at all.</p>
+
+<p>Surely I have already known that the world is wonderful and full of unexpected surprises. Like many other groups of people, traveling around the world is also one of my childhood dreams. Wandering around leads to stumbling upon. Travel is admittedly the right way to discover <a href="http://en.wikipedia.org/wiki/Black_swan_theory">&#8220;the black swan&#8221;</a>, in which an unpredictable slight event can make a significant difference.</p>
+
+<p>However, for a Internet guy like me, of course, Internet is exactly the greatest treasure and playground. Everything I read and work on everyday comes from it &#8211; books, papers, SNS news feed, blogs, source code, etc. So, how dare I still shamelessly claim that I would love to travel?</p>
+
+<p>It is the person I travel with that really matters to me. Reading is a personal issue. Thinking is a personal issue. Deep love is also a personal issue. Like the Protoss (a kind of aliens) in Starcraft, it seems that the highest state of human society tends to be independent. And loneliness is  our final fate. Hardly are there a chance for friends to get together and enjoy a journey in life like this.</p>
+
+<p>Personally, exhausted with my CS profession, I have little friends in the US. My social life in Yale is almost zero. It is a trade-off, so you know my choice under my weak CS background.</p>
+
+<p>Last week, we visited Mt. Rainer and San Juan Islands. I had long admired the breathtaking beauty of the Emerald City, and with <a href="https://www.google.com/search?site=imghp&amp;tbm=isch&amp;q=space+needle+mount+rainier">a unforgettable view of the space needle accompanied by the Mt. Rainier in the far-away background</a>. Actually, that is one of my postcards serving as bookmarks for my GRE-related materials. Years later, Hmm, doesn&#8217;t it taste so nice to have a small dream come true? :D</p>
+
+<p>Thank you my friends for the wonderful trip.</p>
+
+<h2>Day 1 Mt. Rainer</h2>
+
+<p>It is better to reach the visitor center early for a better parking position. Otherwise, the queue will be meandering down the hill&#8230; It sounds funny, but trust me; you won&#8217;t like it.</p>
+
+<p><img src="http://puncsky.github.com/images/mt_rainier.jpg" alt="Mt Rainier" /></p>
+
+<p><img src="http://puncsky.github.com/images/reflection_lake.jpg" alt="The Reflection Lake" /></p>
+
+<p>It was quite common to see parents climbing with cute babies or kids, which is so heartwarming&#8230;</p>
+
+<p><img src="http://puncsky.github.com/images/parent_and_kid.jpg" alt="Parent and Kid" /></p>
+
+<h2>Day 2 San Juan Islands</h2>
+
+<p>San Juan Islands are located to the north coast of the Washington State and near to Canada. They are famous for sea-kayaking and orca whale-watching.</p>
+
+<p><img src="http://puncsky.github.com/images/san_juan_islands.jpg" alt="San Juan Islands" /></p>
+
+<p>Our top priority was to watch the whales. Fortunately, and most importantly, thanks to Miss Yang, we saw THREE KINDS OF WHALES! <strong>It was the first time ever in the past over 25 years!</strong> Wasn&#8217;t it amazing? However, a whale watching without a powerful long-focus lens was just a disaster!</p>
+
+<p><img src="http://puncsky.github.com/images/orca_whales.jpg" alt="ORCA Whales: A Family" /></p>
+
+<p><img src="images/whale.jpg" alt="Whale" /></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Essential C# 4.0: Intermediate]]></title>
@@ -9098,101 +9143,6 @@ sdoEvicted(appName, sdoID)
 <h3>4. Conclusion</h3>
 
 <p>Chord uses consistent hashing, distributed hash tables, and novel finger tables to provide lookup services for P2P systems. Each node maintains only O(logN) other nodes. The arrivals and departures acquire only O(log<sup>2</sup> N) messages. The successor list can deal with failure effectively. Chord is simple, scalable, and efficient.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Cells: a virtual mobile smartphone architecture (SOSP '11)]]></title>
-    <link href="http://www.puncsky.com/blog/2012/12/01/cells/"/>
-    <updated>2012-12-01T19:52:00-08:00</updated>
-    <id>http://www.puncsky.com/blog/2012/12/01/cells</id>
-    <content type="html"><![CDATA[<p><a href="http://systems.cs.columbia.edu/archive/pub/2011/10/cells-a-virtual-mobile-smartphone-architecture/">Columbia University</a>, <a href="http://www.sigops.org/sosp/sosp11/current/2011-Cascais/printable/13-andrus.pdf">papers</a>, <a href="http://www.sigops.org/sosp/sosp11/current/2011-Cascais/13-andrus-slides.pdf">slides</a>, <a href="http://www.youtube.com/watch?v=XBBJ8873vqE">video</a></p>
-
-<h3>1. Problem</h3>
-
-<p>The popularity of smartphones results in the need that a user may purchase several smartphones for different uses. Virtual machine (VM) mechanisms may be the solution, which enables separate and isolated instances of a smartphone software stack to run on the same ARM hardware.</p>
-
-<h3>2. Challenges</h3>
-
-<p>Traditional VMs for desktops and servers can not be applied to smartphones for</p>
-
-<ol>
-<li>limited resources can not fully support running an another entire OS</li>
-<li>existing design cannot leverage new devices, such as GPS, camera, GPUs, &#8230;</li>
-</ol>
-
-
-<h3>3. Solution</h3>
-
-<p>Key observation: <strong>one app at a time</strong></p>
-
-<!--more-->
-
-
-<ul>
-<li>Cells, a new, lightweight virtualization architecture for enabling multiple virtual phones (VPs) to run simultaneously on the same smartphone hardware with high performance.
-
-<ul>
-<li>not entire OS virtualization but multiple isolated virtual phones (VP) on a single OS.</li>
-<li>a novel file system layout based on unioning which minimizes memory consumption</li>
-</ul>
-</li>
-<li>Architecture
-
-<ul>
-<li>one foreground VP for displaying and multiple background VPs</li>
-<li>remap OS resource id to virtual ones and then each VP has its own private virtual namespaces</li>
-<li>foreground VP has direct access to hardware. If the foreground VP does not acquire exclusive access, the hardware can be shared by background VPs.
-
-<ul>
-<li>Kernel-Level Device Virtualization to support transparency and performance by introducing <em>device namespace</em></li>
-<li>User-Level Device Virtualization to support portability and transparency by proxy</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Graphics
-
-<ul>
-<li>Linux framebuffer (FB) provides an abstraction to a physical display, so a new FB device driver <strong>mux_fb</strong>  is introduced between virtual addresses and physical addresses, providing an identical device interface to all VPs.</li>
-<li>The foreground VP uses the GPU directly, but background VPs use GPU render into their respective <em>backing buffers</em>.</li>
-</ul>
-</li>
-<li>Power Management
-
-<ul>
-<li><em>early suspend</em> interface: it is blocked by Cells for background VPs</li>
-<li><em>fbearlysuspend</em> interface: Cells makes it namespace-aware. Block &amp; unblock.</li>
-<li><em>weak locks</em> interface: The same weak lock can be locked and unlocked independently by multiple device namespaces.</li>
-</ul>
-</li>
-<li>Phone calls: combination use of VoIP and cellular network
-
-<ul>
-<li>VoIP provides telephone numbers for VPs</li>
-<li>Proxy libraries</li>
-</ul>
-</li>
-</ul>
-
-
-<p>Implementation &amp; evaluation</p>
-
-<ul>
-<li>Up to 5 VPs on Nexus 1, Nexus S &#8230;</li>
-<li>Modest memory overhead (less than 2%)</li>
-<li>Imperceptible switch time among VPs</li>
-</ul>
-
-
-<h3>4. Conclusion</h3>
-
-<ul>
-<li>First OS virtualization fully supports smartphone hardware with native performance</li>
-<li>One app at a time -> foreground and background usage model</li>
-<li>No need of modifications for applications</li>
-</ul>
-
 ]]></content>
   </entry>
   
