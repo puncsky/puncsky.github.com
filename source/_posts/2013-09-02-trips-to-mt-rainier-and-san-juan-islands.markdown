@@ -11,7 +11,7 @@ Travel in person is of no importance to me at all.
 
 Surely I have already known that the world is wonderful and full of unexpected surprises. Like many other groups of people, traveling around the world is also one of my childhood dreams. Wandering around leads to stumbling upon. Travel is admittedly the right way to discover ["the black swan"](http://en.wikipedia.org/wiki/Black_swan_theory), in which an unpredictable slight event can make a significant difference. 
 
-However, for a Internet guy like me, of course, Internet is exactly the greatest treasure and playground. Everything I read and work on everyday comes from it -- books, papers, SNS news feed, blogs, source code, etc. So, how dare I still shamelessly claim that I would love to travel?
+However, for an Internet guy like me, of course, Internet is exactly the greatest treasure and playground. Everything I read and work on everyday comes from it -- books, papers, SNS news feed, blogs, source code, etc. So, how dare I still shamelessly claim that I would love to travel?
 
 **It is the person I travel with that really matters to me.** Reading is a personal issue. Thinking is a personal issue. Deep love is also a personal issue. Like the Protoss (a kind of aliens) in Starcraft, it seems that the highest state of human society tends to be highly independent. And even better or worse, loneliness seems to be our final fate. Hardly are there a chance like this for friends to get together and enjoy a journey in life.
 
