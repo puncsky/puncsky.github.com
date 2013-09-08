@@ -25,22 +25,25 @@ Thank you my friends for the wonderful trip.
 
 It is better to reach the visitor center early for a better parking position. Otherwise, the queue will be meandering down the hill... It sounds funny, but trust me; you won't like it.
 
-![Mt Rainier](http://puncsky.github.com/images/mt_rainier.jpg)
+![Mt Rainier](https://raw.github.com/puncsky/puncsky.github.com/source/images/mt_rainier.jpg)
 
-![The Reflection Lake](http://puncsky.github.com/images/reflection_lake.jpg)
+![The Reflection Lake](https://raw.github.com/puncsky/puncsky.github.com/source/images/reflection_lake.jpg)
+
+<!--more-->
 
 It was quite common to see parents climbing with cute babies or kids, which is so heartwarming...
 
-![Parent and Kid](http://puncsky.github.com/images/parent_and_kid.jpg)
+<img src="https://raw.github.com/puncsky/puncsky.github.com/source/images/parent_and_kid.jpg" alt="Parent and Kid" height="450" width="300">
+
 
 ## Day 2 San Juan Islands
 
 San Juan Islands are located to the north coast of the Washington State and near to Canada. They are famous for sea-kayaking and orca whale-watching. 
 
-![San Juan Islands](http://puncsky.github.com/images/san_juan_islands.jpg)
+![San Juan Islands](https://raw.github.com/puncsky/puncsky.github.com/source/images/san_juan_islands.jpg)
 
 Our top priority was to watch the whales. Fortunately, and most importantly, thanks to Miss Yang, we saw THREE KINDS OF WHALES! **It was the first time ever in the past over 25 years!** Wasn't it amazing? However, a whale watching without a powerful long-focus lens was just a disaster!
 
-![ORCA Whales: A Family](http://puncsky.github.com/images/orca_whales.jpg)
+![ORCA Whales: A Family](https://raw.github.com/puncsky/puncsky.github.com/source/images/orca_whales.jpg)
 
-![Whale](images/whale.jpg)
+![Whale](https://raw.github.com/puncsky/puncsky.github.com/source/images/whale.jpg)
