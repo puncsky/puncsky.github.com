@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Puncsky CS Notebook]]></title>
-  <link href="http://puncsky.github.com/atom.xml" rel="self"/>
-  <link href="http://puncsky.github.com/"/>
-  <updated>2013-08-09T22:43:09-07:00</updated>
-  <id>http://puncsky.github.com/</id>
+  <link href="http://www.puncsky.com/atom.xml" rel="self"/>
+  <link href="http://www.puncsky.com/"/>
+  <updated>2013-09-07T18:56:36-07:00</updated>
+  <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
     
@@ -14,13 +14,2761 @@
 
   
   <entry>
-    <title type="html"><![CDATA[中国工程师在初创公司的经验总结--《打造Facebook》]]></title>
-    <link href="http://puncsky.github.com/blog/2013/06/11/%5B%3F%5D-ben-chu-chuang-gong-si-de-hui-yi-lu-%3C%3Cda-zao-facebook%3E%3E/"/>
-    <updated>2013-06-11T20:38:00-07:00</updated>
-    <id>http://puncsky.github.com/blog/2013/06/11/[?]-ben-chu-chuang-gong-si-de-hui-yi-lu-<<da-zao-facebook>></id>
-    <content type="html"><![CDATA[<p>这是一本不是那么地有趣的书，甚至都不算是一本书，而是国内某普通大学老师上课的讲义，兼具冗余繁杂、不分重点、事后诸葛亮的无趣。不可否认确实有一些新奇的东西在里面，但是无论怎么看都让人怀疑，是不是原作者整理了一下自己的工作心得、列了一份提纲，然后找了个写手根据提纲照本宣科地添加了些文字。难道作者写作目标群体是大一大二的学生？</p>
+    <title type="html"><![CDATA[Trip to Mt. Rainier and San Juan Islands]]></title>
+    <link href="http://www.puncsky.com/blog/2013/09/07/trips-to-mt-rainier-and-san-juan-islands/"/>
+    <updated>2013-09-07T18:30:00-07:00</updated>
+    <id>http://www.puncsky.com/blog/2013/09/07/trips-to-mt-rainier-and-san-juan-islands</id>
+    <content type="html"><![CDATA[<p>Travel in person is of no importance to me at all.</p>
 
-<p>无论这本书写作水平、思想水平如何，毕竟来自大名鼎鼎的Facebook，我们这些后生们怎么着也得战战兢兢地读完啊……</p>
+<p>Surely I have already known that the world is wonderful and full of unexpected surprises. Like many other groups of people, traveling around the world is also one of my childhood dreams. Wandering around leads to stumbling upon. Travel is admittedly the right way to discover <a href="http://en.wikipedia.org/wiki/Black_swan_theory">&#8220;the black swan&#8221;</a>, in which an unpredictable slight event can make a significant difference.</p>
+
+<p>However, for a Internet guy like me, of course, Internet is exactly the greatest treasure and playground. Everything I read and work on everyday comes from it &#8211; books, papers, SNS news feed, blogs, source code, etc. So, how dare I still shamelessly claim that I would love to travel?</p>
+
+<p>It is the person I travel with that really matters to me. Reading is a personal issue. Thinking is a personal issue. Deep love is also a personal issue. Like the Protoss (a kind of aliens) in Starcraft, it seems that the highest state of human society tends to be independent. And loneliness is  our final fate. Hardly are there a chance for friends to get together and enjoy a journey in life like this.</p>
+
+<p>Personally, exhausted with my CS profession, I have little friends in the US. My social life in Yale is almost zero. It is a trade-off, so you know my choice under my weak CS background.</p>
+
+<p>Last week, we visited Mt. Rainer and San Juan Islands. I had long admired the breathtaking beauty of the Emerald City, and with <a href="https://www.google.com/search?site=imghp&amp;tbm=isch&amp;q=space+needle+mount+rainier">a unforgettable view of the space needle accompanied by the Mt. Rainier in the far-away background</a>. Actually, that is one of my postcards serving as bookmarks for my GRE-related materials. Years later, Hmm, doesn&#8217;t it taste so nice to have a small dream come true? :D</p>
+
+<p>Thank you my friends for the wonderful trip.</p>
+
+<h2>Day 1 Mt. Rainer</h2>
+
+<p>It is better to reach the visitor center early for a better parking position. Otherwise, the queue will be meandering down the hill&#8230; It sounds funny, but trust me; you won&#8217;t like it.</p>
+
+<p><img src="https://raw.github.com/puncsky/puncsky.github.com/source/images/mt_rainier.jpg" alt="Mt Rainier" /></p>
+
+<p><img src="https://raw.github.com/puncsky/puncsky.github.com/source/images/reflection_lake.jpg" alt="The Reflection Lake" /></p>
+
+<!--more-->
+
+
+<p>It was quite common to see parents climbing with cute babies or kids, which is so heartwarming&#8230;</p>
+
+<p><img src="https://raw.github.com/puncsky/puncsky.github.com/source/images/parent_and_kid.jpg" alt="Parent and Kid" height="450" width="300"></p>
+
+<h2>Day 2 San Juan Islands</h2>
+
+<p>San Juan Islands are located to the north coast of the Washington State and near to Canada. They are famous for sea-kayaking and orca whale-watching.</p>
+
+<p><img src="https://raw.github.com/puncsky/puncsky.github.com/source/images/san_juan_islands.jpg" alt="San Juan Islands" /></p>
+
+<p>Our top priority was to watch the whales. Fortunately, and most importantly, thanks to Miss Yang, we saw THREE KINDS OF WHALES! <strong>It was the first time ever in the past over 25 years!</strong> Wasn&#8217;t it amazing? However, a whale watching without a powerful long-focus lens was just a disaster!</p>
+
+<p><img src="https://raw.github.com/puncsky/puncsky.github.com/source/images/orca_whales.jpg" alt="ORCA Whales: A Family" /></p>
+
+<p><img src="https://raw.github.com/puncsky/puncsky.github.com/source/images/whale.jpg" alt="Whale" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Essential C# 4.0: Intermediate]]></title>
+    <link href="http://www.puncsky.com/blog/2013/09/05/essential-c-sharp-intermediate/"/>
+    <updated>2013-09-05T14:00:00-07:00</updated>
+    <id>http://www.puncsky.com/blog/2013/09/05/essential-c-sharp-intermediate</id>
+    <content type="html"><![CDATA[<p><a href="http://www.puncsky.com/blog/2013/08/14/essential-c-sharp-basics/">Essential C# 4.0: Basics</a>
+Essential C# 4.0: Intermediate
+<a href="">Essential C# 4.0: Advanced</a></p>
+
+<p>This is the second part of my serials of notes on learning C#.</p>
+
+<p>A productive-focused language like C# has so much <em>syntax sugar</em> that I feel not so comfortable with, because I used to be a C++ programmer and everything in the C++ kingdom appears to be straight forward, although, at the same time, tend to be fallible.</p>
+
+<p>The most serious problem I find about Microsoft&#8217;s tools is that up there exist so many auto-generated codes that I cannot know them all in details. I mean, that is good, you can ship as much stuff as possible within limited time. The problem is, it is not good for curious people like me, nor for the beginner. Back in school, when we build something, we build it <em>from scratch</em>. Perhaps, <em>reinvent the wheel</em> is the best way to learn the wheel. IEDs such as Visual Studio and Eclipse make people so lazy and forget to remember and to think.</p>
+
+<p>Consequently, in my spare time, I would do write every code with VIM.</p>
+
+<p>The following is my notes from Chapter 9 through Chapter 13.</p>
+
+<!--more-->
+
+
+<h2>9 Well-Formed Types 357</h2>
+
+<ol>
+<li>Overriding Object Members
+
+<ul>
+<li> Guidelines for overriding <code>System.Object</code> members. Reference on request.</li>
+<li> <code>GetHashCode()</code></li>
+<li> <code>ReferenceEquals()</code> Object Identity vs. <code>Equals()</code> Equal Object Values</li>
+<li> Calling <code>ReferenceEquals()</code> on <em>value types</em> will always return false since</li>
+</ul>
+</li>
+<li>Operator Overloading
+
+<ul>
+<li> <code>public static</code>
+
+<pre><code> - avoid recursive loop `(leftHandSide == null)` when check equality
+ - One of the parameters of a operator must be the containing type
+</code></pre></li>
+</ul>
+</li>
+<li>Referencing other Assemblies
+
+<ul>
+<li> Assembly Target: <code>csc /target:library /out:Coordinates.dll Coordinate.cs IAngle.cs</code>
+
+<pre><code> - console executable
+ - class library
+ - windows executable
+ - module
+</code></pre></li>
+<li> Reference an Assembly <code>csc /R:Coordinates.dll Program.cs</code></li>
+<li> By default, a class without any access modifier is defined as <code>internal</code> (accessible from within the assembly only).</li>
+</ul>
+</li>
+<li>Defining Namespaces
+
+<ul>
+<li> <strong><em>namespace alias qualifier</em></strong>
+
+<pre><code> - `csc /R:CoordPlus=CoordinatesPlus.dll /R:Coordinates.dll Program.cs`
+ - `extern alias CoordPlus;` before all `using` statements
+ - `using CoordPlus:
+ Blah.Blah;` equally or `using CoordPlus.Blah.Blah;`
+ - How about global scope? `using global::Blah.Blah` (different from `using global.Blah.Blah` which means the real namespace of `global`)
+</code></pre></li>
+</ul>
+</li>
+<li>XML Comments
+
+<ul>
+<li> <code>///</code>, <code>&lt;summary&gt;</code>, <code>&lt;remarks&gt;</code>, <code>&lt;param name="blah"&gt; &lt;param&gt;</code>, <code>&lt;returns&gt;</code>, <code>&lt;date&gt;</code></li>
+<li> Generate an XML doc file <code>csc /doc:Comments.xml DataStorage.cs</code></li>
+<li> tools to generate docs: GhostDoc, NDoc</li>
+</ul>
+</li>
+<li>GC
+
+<ul>
+<li> <strong>Weak reference</strong> save the reference for future reuse (memory cache) <code>private WeakReference Data;</code></li>
+<li> Finalizer: <code>~ClassName()</code> like <a href="http://www.puncsky.com/blog/2013/01/14/gc-garbage-collection-in-java/">Java&#8217;s <code>finalize()</code></a></li>
+<li> Deterministic finalization with the <code>using</code> statement
+
+<pre><code> - The `IDisposable` interface defines
+ the details of the pattern with a single method called `Dispose()`, which
+ developers call on a resource class to “dispose” of the consumed
+ - HOWEVER, there is a chance that an exception will occur before the dispose call
+ resources. If this
+ happens, Dispose() will not be invoked and the resource cleanup will
+ have to rely on the finalizer.
+ - SO 2 ways:
+   1. try / finally
+   2. `using` statement and **all variables are of the same type and they implement `IDisposable`**
+</code></pre></li>
+<li> The <strong><em>f-reachable queue</em></strong> is a list of all the objects that are ready for
+garbage collection and that also have finalization implementations. <code>System.GC.SuppressFinalize(reference)</code> can remove reference instance from f-reachable queue.</li>
+<li> Resource Utilization and Finalization Guidelines. Refer the book page 400.</li>
+<li> Generally, <code>~Destructor()</code> calls <code>Dispose()</code></li>
+<li> <strong>Lazy Initialization</strong>: Defer the init of an object until it is required.
+
+<pre><code> - `System.Lazy&lt;T&gt;`
+</code></pre></li>
+</ul>
+</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Lazy Initialization
+</span><span class='line'>using System.IO;
+</span><span class='line'>
+</span><span class='line'>class DataCache
+</span><span class='line'>{
+</span><span class='line'>  // ...
+</span><span class='line'>  
+</span><span class='line'>  public DataCache(string FileStreamName)
+</span><span class='line'>  {
+</span><span class='line'>    _FileStream = new Lazy&lt;TemporaryFileStream&gt;(
+</span><span class='line'>      () =&gt; new TemporaryFileStream(FileStreamName));
+</span><span class='line'>  // the lambda expression provides a means of passing the
+</span><span class='line'>  //  instructions for what will happen, but not actually performing those
+</span><span class='line'>  //  instructions until explicitly requested.
+</span><span class='line'>  }
+</span><span class='line'>  
+</span><span class='line'>  public TemporaryFileStream FileStream
+</span><span class='line'>  {
+</span><span class='line'>    get
+</span><span class='line'>  {
+</span><span class='line'>    return _FileStream.Value;
+</span><span class='line'>  }
+</span><span class='line'>  }
+</span><span class='line'>  private Lazy&lt;TemporaryFileStream&gt; _FileStream;
+</span><span class='line'>
+</span><span class='line'>  // ...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>10 Exception Handling 405</h2>
+
+<ol>
+<li>Multiple Exception Types</li>
+<li>Catching Exception</li>
+<li>General Catch Block</li>
+<li>Guidelines</li>
+<li>Custom Exceptions</li>
+</ol>
+
+
+<h2>11 Generics 421</h2>
+
+<ol>
+<li>Generics
+
+<ul>
+<li>name rule as <code>EntityCollection&lt;TEntity&gt;</code></li>
+<li><code>public class Tuple&lt;T1, T2, T3, T4, T5, T6, T7, TRest&gt;: ... {...}</code>, <code>TRest</code> can be used to store another tuple.</li>
+<li><code>Tuple.Create("555-55-5555", new Contact("Tim Pan"));</code> == <code>new Tuple&lt;string, Contact&gt;("555-55-5555", new Contact("Tim Pan"));</code></li>
+</ul>
+</li>
+<li><strong><em>Constraints</em></strong>: To avoid a runtime exception and instead provide a compile-time error, C# enables you to supply an optional list of <strong>constraints</strong> for each type parameter declared in the generic class by using <code>where</code>.
+
+<ul>
+<li>Interface Constraints</li>
+<li>Base Class Constraints</li>
+<li><code>struct</code>/<code>class</code> Constraints</li>
+<li>Multiple Constraints</li>
+<li><strong>Constructor Constraints</strong>: ensure default ctor like <code>new ctor()</code></li>
+</ul>
+</li>
+<li>Generic Methods
+
+<ul>
+<li>explicit cast is preferred at most of the times.</li>
+</ul>
+</li>
+<li>Variance <code>Type1&lt;Type2&gt;</code> and <code>Type3&lt;Type2&gt;</code> are not <em>covariant</em>.
+
+<ul>
+<li>Covariance TODO: Read Again
+
+<ul>
+<li>with <code>out</code> for getters</li>
+<li>with <code>in</code> for setters</li>
+</ul>
+</li>
+<li>Contra variance</li>
+</ul>
+</li>
+<li>Generic Internals
+
+<ul>
+<li><em>Language Contrast</em>: Sun&#8217;s implementation of generics for Java occurs within the compiler entirely, not within the JVM. JVM cannot support generics for value types.</li>
+</ul>
+</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Needing the type parameter to support an interface or exception thrown
+</span><span class='line'>public class BinaryTree&lt;T&gt;
+</span><span class='line'>{
+</span><span class='line'>  // ...
+</span><span class='line'>  public Pair&lt;BinaryTree&lt;T&gt;&gt; SubItems
+</span><span class='line'>  {
+</span><span class='line'>      get { return _SubItems; }
+</span><span class='line'>      set {
+</span><span class='line'>          IComparable&lt;T&gt; first;
+</span><span class='line'>          first = (IComparable&lt;T&gt;)value.First.Item;
+</span><span class='line'>              
+</span><span class='line'>          if (first.CompareTo(value.Second.Item) &lt; 0)
+</span><span class='line'>          {
+</span><span class='line'>              // first is less than second.
+</span><span class='line'>          }
+</span><span class='line'>          else
+</span><span class='line'>          {
+</span><span class='line'>              // second is less than first.
+</span><span class='line'>          }
+</span><span class='line'>          _SubItems = value;
+</span><span class='line'>      }
+</span><span class='line'>  }
+</span><span class='line'>  private Pair&lt;BinaryTree&lt;T&gt;&gt; _SubItems;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>// Declaring the interface constrant
+</span><span class='line'>public class BinaryTree&lt;T&gt;
+</span><span class='line'>  where T: System.IComparable&lt;T&gt;
+</span><span class='line'>{
+</span><span class='line'>  // ...
+</span><span class='line'>  public Pair&lt;BinaryTree&lt;T&gt;&gt; SubItems
+</span><span class='line'>  {
+</span><span class='line'>      get{ return _SubItems; }
+</span><span class='line'>      set
+</span><span class='line'>      {
+</span><span class='line'>          IComparable&lt;T&gt; first;
+</span><span class='line'>          // Notice that the cast can now be eliminated.
+</span><span class='line'>          first = value.First.Item;
+</span><span class='line'>          
+</span><span class='line'>          if (first.CompareTo(value.Second.Item) &lt; 0)
+</span><span class='line'>          {
+</span><span class='line'>              // first is less than second
+</span><span class='line'>          }
+</span><span class='line'>          else
+</span><span class='line'>          {
+</span><span class='line'>              // second is less than or equal to first
+</span><span class='line'>          }
+</span><span class='line'>          _SubItems = value;
+</span><span class='line'>      }
+</span><span class='line'>  }
+</span><span class='line'>  private Pair&lt;BinaryTree&lt;T&gt;&gt; _SubItems;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// multiple constraints
+</span><span class='line'>// an AND relationship is assumed
+</span><span class='line'>public class EntityDictionary&lt;TKey, TValue&gt;
+</span><span class='line'>  : Dictionary&lt;TKey, TValue&gt;
+</span><span class='line'>  where TKey : IComparable&lt;TKey&gt;, IFormattable
+</span><span class='line'>  where TValue : EntityBase
+</span><span class='line'>{
+</span><span class='line'>  // ...
+</span><span class='line'>} </span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// constructor constraints ensure default ctors only
+</span><span class='line'>// Ctors with parameters are NOT supported
+</span><span class='line'>public class EntityDictionary&lt;TKey, TValue&gt; :
+</span><span class='line'>  Dictionary&lt;TKey, TValue&gt;
+</span><span class='line'>  where TKey: IComparable&lt;TKey&gt;, IFormattable
+</span><span class='line'>  where TValue : EntityBase&lt;TKey&gt;, new()
+</span><span class='line'>{
+</span><span class='line'>  //...
+</span><span class='line'>  TValue newEntity = new TValue();
+</span><span class='line'>  //...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>12 Delegates and Lambda Expressions 469</h2>
+
+<ol>
+<li>Introducing Delegates
+
+<ul>
+<li>Why Delegates
+
+<ul>
+<li>C/C++ method pointer == <strong><em>delegate</em></strong>, which encapsulates methods as objects, enabling an indirect method call bound at runtime.</li>
+</ul>
+</li>
+<li>Delegate As Data Types
+
+<ul>
+<li>Although all delegate data types derive indirectly from <code>System.Delegate</code>, the C# compiler does not allow you to define a class that derives directly or indirectly (via <code>System.MulticastDelegate</code>) from <code>System.Delegate</code>.</li>
+</ul>
+</li>
+<li>Delegate Internals
+
+<ul>
+<li>TODO</li>
+</ul>
+</li>
+<li>Instantiating Delegates</li>
+</ul>
+</li>
+<li>Anonymous Methods
+
+<ul>
+<li><code>BubbleSort(items, delegate(int first, int second){return first&lt;second})</code></li>
+<li>can be <em>parameterless</em>: Parameterless Anonymous Methods</li>
+<li>System-Defined Delegates: <code>Func&lt;&gt;</code>
+
+<ul>
+<li><code>Func&lt;&gt;</code> can also be used for generic delegate.</li>
+<li><code>Func&lt;int, int, bool&gt;</code> the last type is the return type.</li>
+<li><code>System.Action</code> should be used for delegates that have no return.</li>
+<li>However, the delegate&#8217;s name provides a more explicit indication of what it is for, whereas Func&lt;> provides nothing more than an understanding of the method signature.</li>
+<li><strong><em>Generic <code>Func</code> delegate and explicitely defined delegate are not compatible</em></strong>. e.g. <code>Func&lt;int, int, bool&gt;</code> and <code>ComparisonHandler</code> are not compatible. <strong><em>But some degree of casting is allowed.</em></strong></li>
+</ul>
+</li>
+<li>All anonymous delegates are immutable.</li>
+</ul>
+</li>
+<li>Lambda Expressions
+
+<ul>
+<li>anonymous functions = lambda expressions (expression lambda + statement lambda) + anonymous methods</li>
+<li>Statement Lambdas
+
+<ul>
+<li><code>BubbleSort(items, (int first, int second) =&gt; {return first &lt; second;})</code>
+
+<ul>
+<li><em>go/goes to</em>, <em>becomes</em>, <em>such that</em>: &#8220;integers <code>first</code> and <code>second</code> <em>go</em> to returning the result of <code>first</code> less than <code>second</code>&#8221;</li>
+</ul>
+</li>
+<li><code>BubbleSort(items, (first, second) =&gt; {return first &lt; second;})</code>
+
+<ul>
+<li>statement lambdas can omit parameter types as long as the compiler can infer the types</li>
+</ul>
+</li>
+<li>typically a statement lambda uses only two or three statements in its statement block.</li>
+</ul>
+</li>
+<li>Expression Lambdas
+
+<ul>
+<li>no statement block, only an expression</li>
+<li><code>names.Where(name =&gt; name.Contains(" "))</code>, &#8220;names where names dot contains a space&#8221;</li>
+</ul>
+</li>
+<li>you cannot use the typeof() operator (see Chapter 17) on an anonymous method, and calling GetType() is possible only after assigning or casting the anonymous method to a delegate variable.</li>
+<li>TODO: internals
+
+<ul>
+<li>Closure—a data structure (class in C#) that contains an expression and the variables (public fields in C#) necessary to evaluate the expression.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Expression Trees
+
+<ul>
+<li>Used to store lambda expressions as data for passing or translating.</li>
+<li>Expression trees are object graphs</li>
+<li>composed of read-only collection of parameters, a return type, and a body&#8211; which is another expression.</li>
+<li>Lambda Expressions vs. Expression Trees
+
+<ul>
+<li>compiled into a delegate in CIL</li>
+<li>compiled into a data structure of type &#8220;System.Linq.Expressions.Expression&#8221;</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>using System;
+</span><span class='line'>class DelegateSample {
+</span><span class='line'>    public static void BubbleSort(int[] items, ComparisonHandler comparisonMethod) {
+</span><span class='line'>        int i;
+</span><span class='line'>        int j;
+</span><span class='line'>        int temp;
+</span><span class='line'>
+</span><span class='line'>        if (items == null) return;
+</span><span class='line'>        if (comparisonMethod == null) throw new ArgumentNullException("comparisonMethod");
+</span><span class='line'>
+</span><span class='line'>        for (i = items.Length - 1; i &gt;= 0; i--) {
+</span><span class='line'>            for (j = 1; j &lt;= i; j++) {
+</span><span class='line'>                if (comparisonMethod(items[j - 1], items[j])) {
+</span><span class='line'>                    temp = items[j - 1];
+</span><span class='line'>                    items[j - 1] = items[j];
+</span><span class='line'>                    items[j] = temp;
+</span><span class='line'>                }
+</span><span class='line'>            }
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    public delegate bool ComparisonHandler(int first, int second);
+</span><span class='line'>    
+</span><span class='line'>    public static bool GreaterThan(int first, int second) {
+</span><span class='line'>        return first &gt; second;
+</span><span class='line'>    }
+</span><span class='line'>  
+</span><span class='line'>  public static bool AlphabeticalGreaterThan(int first, int second) {
+</span><span class='line'>      int comparison;
+</span><span class='line'>      comparison = (first.ToString().CompareTo(second.ToString()));
+</span><span class='line'>      
+</span><span class='line'>      return comparison &gt; 0;
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>    static void Main() {
+</span><span class='line'>        int[] items = new int[100];
+</span><span class='line'>        Random random = new Random();
+</span><span class='line'>        for (int i = 0; i &lt; items.Length; i++) {
+</span><span class='line'>            items[i] = random.Next(0, 100);
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        BubbleSort(items, GreaterThan);
+</span><span class='line'>      // In C# 2.0, we can also use BubbleSort(items, new ComparisonHandler(GreaterThan))
+</span><span class='line'>
+</span><span class='line'>        for (int i = 0; i &lt; items.Length; i++) {
+</span><span class='line'>            Console.WriteLine(items[i]);
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        Console.ReadLine();
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>13 Events 507</h2>
+
+<p>publish-subscribe design pattern</p>
+
+<ol>
+<li>Coding the Observer Pattern with Multicast Delegates (with operator+, +=, &#8230;)
+
+<ul>
+<li>See the examples below</li>
+<li>TODO: P518 Multicast Delegate Internals</li>
+<li>How to handle exceptions from subscribers?
+
+<ul>
+<li><code>foreach(TDelegate handler in delegates.GetInvocationList())</code>See examples below</li>
+</ul>
+</li>
+<li>How to handle multiple returns from multicast delegates?
+
+<ul>
+<li>Also <code>foreach(TDelegate handler in delegates.GetInvocationList())</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Events
+
+<ul>
+<li>introduced to overcome 2 delegate shortages
+
+<ol>
+<li>Encapsulating the Subscription
+
+<ul>
+<li>User may use <code>=</code> instead of <code>+=</code> by mistake</li>
+</ul>
+</li>
+<li>Encapsulating the publication
+
+<ul>
+<li>Delegates may be invoked outside the containing class</li>
+</ul>
+</li>
+<li>easy to forget to check for null before invoking the delegate</li>
+</ol>
+</li>
+<li><code>event</code> keyword before the delegate type and follows a empty delegate assignment
+
+<ul>
+<li>e.g. <code>public event TemperatureChangeHandler OnTemperatureChange = delegate { };</code></li>
+<li><code>event</code> ensures that any reassignment of the delegate could occur only from within the class.</li>
+<li>an empty delegate <code>delegate {}</code> represents a collection of zero listeners.</li>
+</ul>
+</li>
+<li>customize with <code>add</code> and <code>remove</code></li>
+</ul>
+</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// delegate's implementation of subscriber-publisher
+</span><span class='line'>using System;
+</span><span class='line'>
+</span><span class='line'>// Heater and Cooler Event Subscriber Implementations
+</span><span class='line'>class Cooler {
+</span><span class='line'>    public Cooler(float temperature) {
+</span><span class='line'>        Temperature = temperature;
+</span><span class='line'>    } 
+</span><span class='line'>
+</span><span class='line'>    public float Temperature {
+</span><span class='line'>        get { return _Temperature; }
+</span><span class='line'>        set { _Temperature = value; }
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    private float _Temperature;
+</span><span class='line'>
+</span><span class='line'>    public void OnTemperatureChanged(float newTemperature) {
+</span><span class='line'>        if (newTemperature &gt; Temperature) {
+</span><span class='line'>            System.Console.WriteLine("Cooler: On");
+</span><span class='line'>        }
+</span><span class='line'>        else {
+</span><span class='line'>            System.Console.WriteLine("Cooler: Off");
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>class Heater {
+</span><span class='line'>    public Heater(float temperature) {
+</span><span class='line'>        Temperature = temperature;
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    public float Temperature {
+</span><span class='line'>        get { return _Temperature; }
+</span><span class='line'>        set { _Temperature = value; }
+</span><span class='line'>    }
+</span><span class='line'>    private float _Temperature;
+</span><span class='line'>
+</span><span class='line'>    public void OnTemperatureChanged(float newTemperature) {
+</span><span class='line'>        if (newTemperature &lt; Temperature) {
+</span><span class='line'>            System.Console.WriteLine("Heater: On");
+</span><span class='line'>        }
+</span><span class='line'>        else {
+</span><span class='line'>            System.Console.WriteLine("Heater: Off");
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>// Defining the Event Publisher, `Thermostat`
+</span><span class='line'>public class Thermostat {
+</span><span class='line'>    // Define the delegate data type
+</span><span class='line'>    public delegate void TemperatureChangeHandler(float newTemperature);
+</span><span class='line'>
+</span><span class='line'>    // Define the event Publisher
+</span><span class='line'>    public TemperatureChangeHandler OnTemperatureChange {
+</span><span class='line'>        get { return _OnTemperatureChange; }
+</span><span class='line'>        set { _OnTemperatureChange = value; }
+</span><span class='line'>    }
+</span><span class='line'>    private TemperatureChangeHandler _OnTemperatureChange;
+</span><span class='line'>
+</span><span class='line'>    public float CurrentTemperature {
+</span><span class='line'>        get { return _CurrentTemperature; }
+</span><span class='line'>        set {
+</span><span class='line'>            if (value != CurrentTemperature) {
+</span><span class='line'>                _CurrentTemperature = value;
+</span><span class='line'>
+</span><span class='line'>                TemperatureChangeHandler localOnChange = OnTemperatureChange;
+</span><span class='line'>                
+</span><span class='line'>                if (localOnChange != null) {
+</span><span class='line'>                    // call subscribers
+</span><span class='line'>                    OnTemperatureChange(value); // multicast delegates
+</span><span class='line'>                }
+</span><span class='line'>            }
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>    public float CurrentTemperatureHandlingError {
+</span><span class='line'>        get { return _CurrentTemperature; }
+</span><span class='line'>        set {
+</span><span class='line'>            if (value != CurrentTemperature) {
+</span><span class='line'>                _CurrentTemperature = value;
+</span><span class='line'>
+</span><span class='line'>                if (OnTemperatureChange != null) {
+</span><span class='line'>                    foreach (TemperatureChangeHandler handler in OnTemperatureChange.GetInvocationList()) {
+</span><span class='line'>                        try {
+</span><span class='line'>                            handler(value);
+</span><span class='line'>                        }
+</span><span class='line'>                        catch (Exception e) {
+</span><span class='line'>                            Console.WriteLine(e.Message);
+</span><span class='line'>                        }
+</span><span class='line'>                    }
+</span><span class='line'>                }
+</span><span class='line'>            }
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>    private float _CurrentTemperature;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>class Program {
+</span><span class='line'>    public static void Main() {
+</span><span class='line'>        Thermostat thermostat = new Thermostat();
+</span><span class='line'>        Heater heater = new Heater(60);
+</span><span class='line'>        Cooler cooler = new Cooler(80);
+</span><span class='line'>        string temperature;
+</span><span class='line'>
+</span><span class='line'>        // Register subscribers
+</span><span class='line'>        thermostat.OnTemperatureChange += heater.OnTemperatureChanged;
+</span><span class='line'>        thermostat.OnTemperatureChange += cooler.OnTemperatureChanged;
+</span><span class='line'>
+</span><span class='line'>        Console.Write("Enter temperature: ");
+</span><span class='line'>        temperature = Console.ReadLine();
+</span><span class='line'>        thermostat.CurrentTemperature = int.Parse(temperature);
+</span><span class='line'>
+</span><span class='line'>        // Delegate Operators +=, -=, +, -
+</span><span class='line'>        Thermostat.TemperatureChangeHandler delegate1;
+</span><span class='line'>        Thermostat.TemperatureChangeHandler delegate2;
+</span><span class='line'>        Thermostat.TemperatureChangeHandler delegate3;
+</span><span class='line'>
+</span><span class='line'>        delegate1 = heater.OnTemperatureChanged;
+</span><span class='line'>        delegate2 = cooler.OnTemperatureChanged;
+</span><span class='line'>
+</span><span class='line'>        Console.WriteLine("Invoke both delegates:");
+</span><span class='line'>        delegate3 = delegate1;
+</span><span class='line'>        delegate3 += delegate2;
+</span><span class='line'>        delegate3(90);
+</span><span class='line'>
+</span><span class='line'>        Console.WriteLine("Invoke only delegate2");
+</span><span class='line'>        delegate3 -= delegate1;
+</span><span class='line'>        delegate3(30);
+</span><span class='line'>
+</span><span class='line'>        // Error handling
+</span><span class='line'>        thermostat.OnTemperatureChange += (newTemperature) =&gt; { throw new ApplicationException(); };
+</span><span class='line'>        thermostat.CurrentTemperatureHandlingError = int.Parse(temperature) + 1;
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// event implementation of subscriber-publisher
+</span><span class='line'>using System;
+</span><span class='line'>
+</span><span class='line'>// Heater and Cooler Event Subscriber Implementations
+</span><span class='line'>class Cooler {
+</span><span class='line'>    public Cooler(float temperature) {
+</span><span class='line'>        Temperature = temperature;
+</span><span class='line'>    } 
+</span><span class='line'>
+</span><span class='line'>    public float Temperature {
+</span><span class='line'>        get { return _Temperature; }
+</span><span class='line'>        set { _Temperature = value; }
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    private float _Temperature;
+</span><span class='line'>
+</span><span class='line'>    public void OnTemperatureChanged(object sender, Thermostat.TemperatureArgs args) {
+</span><span class='line'>        if (args.NewTemperature &gt; Temperature) {
+</span><span class='line'>            System.Console.WriteLine("Cooler: On");
+</span><span class='line'>        }
+</span><span class='line'>        else {
+</span><span class='line'>            System.Console.WriteLine("Cooler: Off");
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>class Heater {
+</span><span class='line'>    public Heater(float temperature) {
+</span><span class='line'>        Temperature = temperature;
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    public float Temperature {
+</span><span class='line'>        get { return _Temperature; }
+</span><span class='line'>        set { _Temperature = value; }
+</span><span class='line'>    }
+</span><span class='line'>    private float _Temperature;
+</span><span class='line'>
+</span><span class='line'>    public void OnTemperatureChanged(object sender, Thermostat.TemperatureArgs args) {
+</span><span class='line'>        if (args.NewTemperature &lt; Temperature) {
+</span><span class='line'>            System.Console.WriteLine("Heater: On");
+</span><span class='line'>        }
+</span><span class='line'>        else {
+</span><span class='line'>            System.Console.WriteLine("Heater: Off");
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>// Defining the Event Publisher, `Thermostat`
+</span><span class='line'>public class Thermostat {
+</span><span class='line'>    public class TemperatureArgs: System.EventArgs { // conventions
+</span><span class='line'>        public TemperatureArgs(float newTemperature) {
+</span><span class='line'>            NewTemperature = newTemperature;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        public float NewTemperature {
+</span><span class='line'>            get { return _newTemperature; }
+</span><span class='line'>            set { _newTemperature = value; }
+</span><span class='line'>        }
+</span><span class='line'>        private float _newTemperature;
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    // Define the delegate data type
+</span><span class='line'>    // It is a norm:
+</span><span class='line'>    //      sender: reference of the to the object that invoke the delegate 
+</span><span class='line'>    //      args:   if of type `System.EventArgs` or derives from `System.EventArgs` but contains additional data
+</span><span class='line'>    public delegate void TemperatureChangeHandler(object sender, TemperatureArgs newTemperature);
+</span><span class='line'>
+</span><span class='line'>    // Define the event publisher
+</span><span class='line'>    // delegate类型之前加event，赋一个空的delegate
+</span><span class='line'>    // an empty delegate represents a collection of zero listeners
+</span><span class='line'>    public event TemperatureChangeHandler OnTemperatureChange = delegate {};
+</span><span class='line'>
+</span><span class='line'>    public float CurrentTemperature {
+</span><span class='line'>        get { return _CurrentTemperature; }
+</span><span class='line'>        set {
+</span><span class='line'>            if (value != CurrentTemperature) {
+</span><span class='line'>                _CurrentTemperature = value;
+</span><span class='line'>                // If there are any subscribers
+</span><span class='line'>                // then notify them of changes in 
+</span><span class='line'>                // temperature
+</span><span class='line'>                if (OnTemperatureChange != null) {
+</span><span class='line'>                    // Call subscribers
+</span><span class='line'>                    OnTemperatureChange(this, new TemperatureArgs(value));
+</span><span class='line'>                }
+</span><span class='line'>            }
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>    private float _CurrentTemperature;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>class Program {
+</span><span class='line'>    public static void Main() {
+</span><span class='line'>        Thermostat thermostat = new Thermostat();
+</span><span class='line'>        Heater heater = new Heater(60);
+</span><span class='line'>        Cooler cooler = new Cooler(80);
+</span><span class='line'>        string temperature;
+</span><span class='line'>
+</span><span class='line'>        // Register subscribers
+</span><span class='line'>        thermostat.OnTemperatureChange += heater.OnTemperatureChanged;
+</span><span class='line'>        thermostat.OnTemperatureChange += cooler.OnTemperatureChanged;
+</span><span class='line'>
+</span><span class='line'>        Console.Write("Enter temperature: ");
+</span><span class='line'>        temperature = Console.ReadLine();
+</span><span class='line'>        thermostat.CurrentTemperature = int.Parse(temperature);
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Define the event publisher
+</span><span class='line'>public event TemperatureChangeHandler OnTemperatureChange {
+</span><span class='line'>  add
+</span><span class='line'>  {
+</span><span class='line'>      System.Delegate.Remove(_OnTemperatureChange, value);
+</span><span class='line'>  }
+</span><span class='line'>  remove
+</span><span class='line'>  {
+</span><span class='line'>      System.Delegate.Combine(value, _OnTemperatureChange);
+</span><span class='line'>      
+</span><span class='line'>  } 
+</span><span class='line'>}
+</span><span class='line'>protected TemperatureChangeHandler _OnTemperatureChange;</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[我的iPad安装的应用]]></title>
+    <link href="http://www.puncsky.com/blog/2013/09/02/ipadmini/"/>
+    <updated>2013-09-02T18:06:00-07:00</updated>
+    <id>http://www.puncsky.com/blog/2013/09/02/ipadmini</id>
+    <content type="html"><![CDATA[<p>我是电子设备阅读控，曾经使用过Kindle 3, Kindle DXG, Meizu 1, Motorola Milestone 1, Macbook Pro, AOC USB Portable Monitor，文曲星 等等一系列不同尺寸的设备阅读各色书籍。<strong>但是迄今为止，还从未有一款能够像iPad mini这般赏心悦目</strong>。为什么？因为我也同几乎所有人一样，都喜欢控制的感觉，都喜欢色彩丰富的体验；而iPad mini正是如此的流畅(responsive)，小巧，绚丽。流畅之处在于，轻轻一划便可做笔记、摘录、翻页、查词典；小巧之处在于，在保证舒适阅读的前提，尽可能地缩小尺寸，你可以在任何地方享受阅读的乐趣。</p>
+
+<p>至于色彩，不要开玩笑LCD屏幕伤眼睛了，盯着过于明亮或者过于晦暗的事物过久都会伤眼睛；而绝大多数人可以用电脑屏幕目不转睛地看一整天视频，却抱怨不过几小时的阅读伤眼睛……真滑稽。</p>
+
+<p>iPad不适合严肃阅读？阅读行为从来就和阅读手段没有直接的关系。<strong>认为平板游戏让人分心的人们或许从未体验过电子游戏的真正魅力</strong>。当然，对于论文这种需要前后高频率反复对照、有大量图表公式、需要用不同尺寸颜色的笔来即时标注的读物，尤其当这篇论文是双栏排版（在计算机各大会议中最为流行）的时候，打印机仍旧是最佳选择。</p>
+
+<p>据称，人们绝大多数使用的应用只有七个，所以在此我强烈推荐我最喜欢的七个应用：</p>
+
+<h3>1. Duokan (Free)</h3>
+
+<p>书籍购买与阅读的一体化解决方案，你所想象得到的阅读需求它几乎都能够满足：买正版书、讨论、整理、摘录、笔记、阅读数据统计等等一系列贴心的设计。数据排版精美、价格合理，整个应用赏心悦目。最重要的是，多看书城支持国际行用卡支付，对于我们这些海外游子而言，着实是一处令人热泪盈眶的存在。唯一可惜的是，阅读器没有网页浏览器的版本，尽管它支持iOS/Android/Kindle等移动设备。</p>
+
+<h3>2. GoodReader (Free/$4.99)</h3>
+
+<p>既然阅读，就必然需要对任何文本格式做任何可能的处理，GoodReader似乎支持绝大部分的文本格式。而对我而言，PDF足矣。此前还从未有任何体验会让我惊呼：这货在PDF上做标注如有神助！</p>
+
+<h3>3. Kindle (Free)</h3>
+
+<p>某些资源在互联网上死也搜不到开放的版本，这时候只能求助于亚马逊了；尽管设计体验一般，书籍略贵，但是全平台支持，绝对够用。</p>
+
+<h3>4. 豆瓣阅读 HD (Free)</h3>
+
+<p>与豆瓣无缝衔接，与Duokan（多看）书城互为补充。有比较强大的网页版本的阅读器，尽管iOS的应用暂时不好用，不支持笔记等操作。不支持国际信用卡支付。</p>
+
+<h3>5. 读知乎 (Free)</h3>
+
+<p>尝试了解“我不知道自己不知道什么事情”对我来说很重要，而知乎能够帮助我发现更大的世界。</p>
+
+<h3>6. TeamViewer (Free)</h3>
+
+<p>极为方便的远程桌面应用，无论是自己在多台电脑间交互、还是远程协助他人，这个都是不二之选。</p>
+
+<h3>7. StumbleUpon (Free)</h3>
+
+<p>原理同5，同样是为了尝试了解“我不知道自己不知道什么事情”。人生往往需要不期而遇的惊喜！</p>
+
+<p>最后，我已经放弃了阅读新闻的习惯：几乎所有人都知道的新闻99%对我是没有价值的，不看也罢。至于Google Reader的替代品，Feedly原来做得极差，最新版本的好了许多，Digg Reader和<a href="http://theoldreader.com/">the Old Reader</a>都不错.</p>
+
+<p>EOF</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Essential C# 4.0: Basics]]></title>
+    <link href="http://www.puncsky.com/blog/2013/08/14/essential-c-sharp-basics/"/>
+    <updated>2013-08-14T10:23:00-07:00</updated>
+    <id>http://www.puncsky.com/blog/2013/08/14/essential-c-sharp-basics</id>
+    <content type="html"><![CDATA[<p>No one can ever master a programming language (PL) by studying it only without looking into and comparing it with other ones. Modern application software often requires a variety of components written in different PLs. Most importantly, language itself is not important at all; at least not important when compared to the fundamental ideas on architectures, frameworks, the design of the PL. A competing programmer can always get the hang of any PLs quickly.</p>
+
+<p>Consequently, I make a list of PLs I would study seriously in the future.</p>
+
+<!-- more -->
+
+
+<ol>
+<li>C# or Java
+
+<ul>
+<li>A serious pure OOP and enterprise level PL is always necessary for the reason of productivity.</li>
+</ul>
+</li>
+<li>C/C++
+
+<ul>
+<li>The most powerful PL, which can be used to create almost everything.</li>
+<li>Help to understand things under the hood.</li>
+<li>C++: semi-OOP version of C, a horrible language which requires a life long time to study.</li>
+</ul>
+</li>
+<li>Bash/Python
+
+<ul>
+<li>Scripts make your life easier.</li>
+</ul>
+</li>
+<li>Javascript
+
+<ul>
+<li>Everything could be written in Javascript will be eventually written in Javascript.</li>
+</ul>
+</li>
+<li>Lisp
+
+<ul>
+<li>Help to understand the beauty of functional PL.</li>
+</ul>
+</li>
+</ol>
+
+
+<p>The following part is my notes on the book <em>Essential C#</em>, which is redeemed as the best book for C# learners.</p>
+
+<h1>Essential C# 4.0</h1>
+
+<h2>1 Introducing C# 1</h2>
+
+<p><img src="http://upload.wikimedia.org/wikipedia/commons/6/6f/CLR_diag.svg" alt="CLR converts CIL to native code" /></p>
+
+<p>HelloWorld.exe is an <em>assembly</em>.</p>
+
+<p>Dynamic Link Library (DLL) is also an <em>assembly</em>.</p>
+
+<p><em>Language Contrast</em>: Java—Filename Must Match Class Name</p>
+
+<p>keywords, identifiers. keywords may be used as identifiers if they include “@” as a prefix.</p>
+
+<ul>
+<li><strong>Pascal Casing</strong>: Type&#8217;s name should begin with a capital letter and a <em>noun</em>&#8230;</li>
+<li><strong>Camel Casing</strong>: same except that the first letter is lowercase.</li>
+</ul>
+
+
+<p>method, statement</p>
+
+<p><em>Language Contrast</em>: C++/Java &#8211; <code>main()</code> is all lowercase</p>
+
+<p><strong>Strings are immutable.</strong></p>
+
+<p>composite formatting.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>System.Console.WriteLine("Your full name is {0} {1}.", firstName, lastName);
+</span><span class='line'>//                        -------format string-------  ----format item-----
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Comment Types
+
+<ul>
+<li>Delimited comments</li>
+<li>Single-line comments</li>
+<li>XML delimited comments <code>/**comment**/</code></li>
+<li>XML single-line comments <code>///comment</code></li>
+</ul>
+</li>
+</ul>
+
+
+<p>C# src &#8211;(C# compiler)&#8211;> common intermediate language(CIL) &#8211;(justintime compiling)&#8211;> machine code</p>
+
+<p>Virtual Execution System(VES)</p>
+
+<ul>
+<li>whether require runtime to execution?
+
+<ul>
+<li>managed code and managed execution</li>
+<li>unmanaged code and unmanaged execution</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>2 Data Types 31</h2>
+
+<ol>
+<li>Numeric Types
+
+<ul>
+<li> Integer Types
+
+<ul>
+<li>Base Class Library (BCL)</li>
+</ul>
+</li>
+<li> Float-Point Types</li>
+<li> Decimal
+
+<ul>
+<li>greater precision than the floating-point types, but a smaller range.</li>
+<li>conversions from floating-point types to the decimal type may result in overflow errors.</li>
+<li>calculations with decimal are slightly slower.</li>
+</ul>
+</li>
+<li> Literal Values
+
+<ul>
+<li>a representation of a constant value within source code.</li>
+<li><strong>hardcoding</strong>: place a value directly into src
+
+<ul>
+<li>numbers with a decimal point will default to <code>double</code></li>
+<li><code>decimal</code>? append an m (or M): <code>1.32525456874526m</code>
+
+<ul>
+<li>no suffix -> <code>int</code> <code>uint</code>, <code>long</code>, <code>ulong</code>.</li>
+<li>suffix <code>U</code>/<code>L</code>/<code>UL</code>/<code>LU</code></li>
+<li>infix <code>E</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>More Types
+
+<ul>
+<li> Boolean</li>
+<li> Character
+
+<ul>
+<li>Escape Sequence: <code>\uxxxx</code> unicode char in hex, e.g. <code>\u0029</code></li>
+</ul>
+</li>
+<li> Strings
+
+<ul>
+<li>verbatim string (with prefix <code>@</code>)
+
+<ul>
+<li>signify that a backslash should not be interpreted as the beginning of an escape sequence.</li>
+<li>a newline cannot be placed directly within a string that is not prefaced with the @ symbol.</li>
+<li>The only escape sequence the verbatim string does support is &#8220;&#8221;, which signifies double quotes and does not terminate the string.</li>
+</ul>
+</li>
+<li><strong>immutable</strong>
+
+<ul>
+<li>How to modify? <code>System.Text.StringBuilder</code></li>
+</ul>
+</li>
+<li>New Line
+
+<ul>
+<li>Win : <code>\r\n</code></li>
+<li>*nix: <code>\n</code></li>
+<li><code>Console.WriteLine()</code> or <code>Console.Write(Environment.NewLine);</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>null and void
+
+<ul>
+<li> In C++, void is a data type commonly used as void<em><em>. In C#, <code>void</code> </em>is not
+considered a data type</em> in the same way. Rather, it is used to identify that a
+method does not return a value.</li>
+<li> <code>var</code> introduced to support anonymous types, e.g. <code>var patent1 = new { Title = "Bifocals", YearOfPublication = "1884" };</code>. Avoid to use in other cases.
+
+<ul>
+<li>avoid anonymous types until working with lambda and query expressions that associate data from different types or you you are horizontally projecting the data so that for a particular type, there is less data overall.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Categories of Types</strong>
+
+<ul>
+<li> Value Types: all the C# primitive types except <code>string</code> and <code>object</code>, all derive from <code>System.ValueType</code>
+
+<ul>
+<li>data copied by value</li>
+<li>for &lt; 16 bytes</li>
+<li>stack</li>
+</ul>
+</li>
+<li> Reference Types: <code>string</code>, <code>object</code>, any custom classes, most classes
+
+<ul>
+<li><strong><em>IMPORTANT</em></strong> string is passed by value and cloned when pass it to a method, BUT</li>
+<li>data copied by reference</li>
+<li>heap</li>
+</ul>
+</li>
+<li> <strong>Nullable Modifier</strong>, value types can be null, like <code>int? count = null;</code></li>
+</ul>
+</li>
+<li>Conversions
+
+<ul>
+<li> Explicit Cast
+
+<ul>
+<li><strong><em>checked and unchecked block</em></strong> whether to throw overflow exceptions</li>
+<li>No numbers to booleans conversion</li>
+</ul>
+</li>
+<li> Implicit Cast</li>
+<li> Conversion Without Casting
+
+<ul>
+<li><code>Parse(T1 to, T2 from)</code></li>
+<li><code>System.Convert</code></li>
+<li><code>bool TryParse(T1 to,T2 from, T1 number)</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Arrays
+
+<ul>
+<li> Declaring
+
+<ul>
+<li><code>string[] languages;</code> square brackets identify the <strong>rank</strong> (# of dimensions)</li>
+<li>before the variable. <em>Language Contrast</em>: different from C++/JAVA, <code>int numbers[]</code> is not allowed.</li>
+</ul>
+</li>
+<li> Instantiating
+
+<ul>
+<li><strong>IMPORTANT the same applied to other similar cases</strong>
+
+<ul>
+<li>If only one statement: <code>string[] languages = { "C#", "COBOL", "Java" };</code></li>
+<li>If multiple lines: <code>string[] languages; languages = new string[]{"C#", "COBOL", "JAVA" };</code></li>
+</ul>
+</li>
+<li><code>new string[size];</code></li>
+</ul>
+</li>
+<li><p> Assigning</p>
+
+<ul>
+<li>multi-dimensional
+
+<ol>
+<li><strong><em>consistently sized array</em></strong> <code>int[,,,]</code></li>
+<li><strong><em>jagged array</em></strong> <code>int[][][]</code></li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p> Using</p>
+
+<ul>
+<li><code>Sort()</code>, <code>BinarySearch()</code>, <code>Reverse()</code>, <code>Clear()</code>, &#8230;</li>
+<li>Redimension? <code>System.Array.Resize()</code></li>
+</ul>
+</li>
+<li> String as Arrays
+
+<ul>
+<li><code>.ToCharArray()</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// instantiating
+</span><span class='line'>int[,] cells = {
+</span><span class='line'>{1, 0, 2},
+</span><span class='line'>{0, 2, 0},
+</span><span class='line'>{1, 2, 1}
+</span><span class='line'>};
+</span><span class='line'>
+</span><span class='line'>int[][] cells = {
+</span><span class='line'>new int[]{1, 0, 2},
+</span><span class='line'>new int[]{0, 2, 0},
+</span><span class='line'>new int[]{1, 2, 1}
+</span><span class='line'>};</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// handle conversion overflow with checked and unchecked
+</span><span class='line'>checked {
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>unchecked {
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>3 Operators and Control Flow 83</h2>
+
+<ol>
+<li>Operators
+
+<ul>
+<li> Thread-Safe Incrementing and Decrementing, use thread-safe <code>Increment()</code> and <code>Decrement()</code> in <code>System.Threading.Interlocked</code> class</li>
+</ul>
+</li>
+<li>Boolean Expressionn
+
+<ul>
+<li> XOR for eXclusive OR</li>
+<li> Conditional Operator (?)
+
+<ul>
+<li>Shortcut to the conditional operator: <strong>Null Coalescing Operator (<code>??</code>)</strong> evaluates an expression for null and returns a second expression if the value is null.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Bitwise Operators</li>
+<li>Control Flow Statements
+
+<ul>
+<li> <code>foreach (type variable in collection) { /* do something */ }</code>
+
+<ul>
+<li><code>variable</code> is read-only, and its scope is limited to the <code>foreach loop</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Jump Statements
+
+<ul>
+<li> <em>Language Contrast</em>: Unlike C++, C# does not allow a <code>switch</code> statement to fall through from one <code>case</code> block to the next if the <code>case</code> includes a statement. A jump statement is always required following the statement within a case.</li>
+<li> <em>Language Contrast</em>: C# prevents using goto into something, and allows its use only within or out of something.</li>
+</ul>
+</li>
+<li><strong><em>Preprocessor Directives</em></strong>
+
+<ul>
+<li> <em>Language Contrast</em>: C/C++ contain a preprocessor. Preprocessor directives generally tell the compiler how to
+compile the code in a file and do not participate in the compilation process
+itself. In contrast, the C# compiler handles preprocessor directives as part
+of the regular lexical analysis of the source code. As a result, C# does not
+support preprocessor macros beyond defining a constant. In fact, the term
+preprocessor is generally a misnomer for C#.</li>
+</ul>
+</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Null Coalescing Operator
+</span><span class='line'>string fileName;
+</span><span class='line'>// ...
+</span><span class='line'>string fullName = fileName??"default.txt";
+</span><span class='line'>// ...</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Preprocessor Directives
+</span><span class='line'>
+</span><span class='line'>#if CSHARP2
+</span><span class='line'>System.Console.Clear();
+</span><span class='line'>#endif
+</span><span class='line'>
+</span><span class='line'>#if LINUX
+</span><span class='line'>...
+</span><span class='line'>#elif WINDOWS
+</span><span class='line'>...
+</span><span class='line'>#endif
+</span><span class='line'>
+</span><span class='line'>// you can define a preprocessor symbol in two way
+</span><span class='line'>// first,
+</span><span class='line'>#define CSHARP2
+</span><span class='line'>// second, in CLI
+</span><span class='line'>// &gt;csc.exe /define:CSHARP2 TicTacToe.cs
+</span><span class='line'>
+</span><span class='line'>#warning "Some move allowed multiple times."
+</span><span class='line'>// Performing main compilation...
+</span><span class='line'>// ...\tictactoe.cs(471,16): warning CS1030: #warning: ’"Same move allowed
+</span><span class='line'>// multiple times."’
+</span><span class='line'>// Build complete -- 0 errors, 1 warnings
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>// Note that warning numbers are prefixed with the letters CS in the compiler output.
+</span><span class='line'>// to disable warnings, first,
+</span><span class='line'>#pragma warning disable 1030
+</span><span class='line'>// second,
+</span><span class='line'>// &gt; csc /doc:generate.xml /nowarn:1591 /out:generate.exe Program.cs
+</span><span class='line'>
+</span><span class='line'>#pragma warning restore 1030
+</span><span class='line'>// one of the most common warnings to disable is CS1591, as this appears when you elect to
+</span><span class='line'>// generate XML documentation using the /doc compiler option, but you neglect to document
+</span><span class='line'>// all of the public items within your program.
+</span><span class='line'>
+</span><span class='line'>// specify line numbers
+</span><span class='line'>#line 113 "TicTacToe.cs"
+</span><span class='line'>#warning "Same move allowed multiple times."
+</span><span class='line'>#line defualt
+</span><span class='line'>// display line 113 and then restore
+</span><span class='line'>
+</span><span class='line'>// for visual editors to open/collapse
+</span><span class='line'>#region Display Tic-tac-toe Board
+</span><span class='line'>...
+</span><span class='line'>#endregion Display Tic-tac-toe Board
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>4 Methods and Parameters 149</h2>
+
+<ol>
+<li>Calling a Method
+
+<ul>
+<li> Namespace
+
+<ul>
+<li>Everything should appear within a class definition.</li>
+</ul>
+</li>
+<li> Type Name</li>
+<li> Scope</li>
+<li> Method Name</li>
+<li> Parameters</li>
+<li> Method Return
+
+<ul>
+<li><em>Language Contrast</em>:Unlike C++, C# classes never separate the implementation from the declaration. Cleaner and more readable.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Declaring a Method</li>
+<li>The Using Directive
+
+<ul>
+<li> <em>Language Contrast</em> Java uses wildcards in <code>import</code> directive, while C# requires each namespace to be imported explicitly.</li>
+<li> <code>using</code> could be nested in other namespaces but seldom used in this way.</li>
+<li> <strong><em>Aliasing</em></strong> a namespace or type: <code>using CountDownTimer = System.Timers.Timer;</code></li>
+</ul>
+</li>
+<li>Parameters
+
+<ul>
+<li> Value Parameters
+
+<ul>
+<li><code>static int Main(string[] args)</code> By convention, a return other than zero indicates an error.
+
+<ul>
+<li><em>Language Contrast</em>, CLI arguments start from <code>args[0]</code>. The name of the program is omitted.</li>
+<li>access the CLI arguments through <code>args</code> or <code>System.Environment.GetCommandLineArgs()</code></li>
+<li><strong><em>Multiple <code>Main()</code> Methods in a program</em></strong>? use <code>&gt;csc.exe /m main.cs</code></li>
+</ul>
+</li>
+<li>call stack, <em>stack unwinding</em>, <em>call site</em>调用地点</li>
+<li><code>string</code> as parameters are passed by value</li>
+<li>By default, parameters are passed by value</li>
+</ul>
+</li>
+<li> <strong><em>Reference Parameters (<code>ref</code>)</em></strong>
+
+<ul>
+<li>declare <code>ref Type variable</code> in the function&#8217;s list of args and call it with <code>ref variable</code></li>
+</ul>
+</li>
+<li> <strong><em>Output Parameters (<code>out</code>)</em></strong></li>
+<li> <strong><em>Parameter Arrays (<code>params</code>)</em></strong></li>
+<li> Optional Parameters
+
+<ul>
+<li>optional parameters
+must appear after all required parameters (those that don’t have default
+values). Also, the fact that the default value needs to be a constant, compile-
+time-resolved value</li>
+<li><strong>named parameters</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Method Overloading</li>
+<li>Exception Handling
+
+<ul>
+<li> <strong><em>generic catch</em></strong>: <code>try { } catch { }</code> <em>Language Contrast</em> C++: <code>try { } catch (...) { }</code>. JAVA: <code>Exception</code> is the base class for all exceptions, so <code>try { } catch (Exception e) { }</code>.</li>
+<li> Avoid using exception handling to deal with expected situations</li>
+<li> <code>bool int.TryParse(textVariable, out number)</code></li>
+</ul>
+</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Aliasing a namespace or type
+</span><span class='line'>using Timer = System.Timers.Timer;
+</span><span class='line'>
+</span><span class='line'>class HelloWorld
+</span><span class='line'>{
+</span><span class='line'>  static void Main()
+</span><span class='line'>  {
+</span><span class='line'>    Timer timer;
+</span><span class='line'>  // ...
+</span><span class='line'>  }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Refrence Parameters
+</span><span class='line'>class Program
+</span><span class='line'>{
+</span><span class='line'>  static void Main() {
+</span><span class='line'>    string first = "first";
+</span><span class='line'>  string second = "second";
+</span><span class='line'>  Swap(ref first, ref second);
+</span><span class='line'>
+</span><span class='line'>    System.Console.WriteLine(@"first = ""{0}"", second = ""{1}""", first, second);
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  static void Swap(ref string first, ref string second) {
+</span><span class='line'>    string tmp = first;
+</span><span class='line'>  first = second;
+</span><span class='line'>  second = tmp;
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Parameter Arrays
+</span><span class='line'>class PathEx
+</span><span class='line'>{
+</span><span class='line'>  static void Main()
+</span><span class='line'>  {
+</span><span class='line'>    string fullName;
+</span><span class='line'>  fullName = Combine(
+</span><span class='line'>      Directory.GetCurrentDirectory();
+</span><span class='line'>      "bin", "config", "index.html");
+</span><span class='line'>    Console.WriteLine(fullName);
+</span><span class='line'>  fullName = Combine(
+</span><span class='line'>      Environment.SystemDirectory,
+</span><span class='line'>      "Temp", "index.html");
+</span><span class='line'>    Console.WriteLine(fullName);
+</span><span class='line'>  fullName = Combine(
+</span><span class='line'>      new string[] {
+</span><span class='line'>          "C:\", "Data",
+</span><span class='line'>          "HomeDir", "index.html"} );
+</span><span class='line'>  Console.WriteLine(fullName);
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>    static string Combine(params string[] paths)
+</span><span class='line'>  {
+</span><span class='line'>      string result = string.Empty;
+</span><span class='line'>      foreach (string path in paths) {
+</span><span class='line'>          result = System.IO.Path.Combine(result, path);
+</span><span class='line'>      }
+</span><span class='line'>      return result;
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// named arguments
+</span><span class='line'>class Program
+</span><span class='line'>{
+</span><span class='line'>  static void Main()
+</span><span class='line'>  {
+</span><span class='line'>    DisplayGreeting(firstName: "Tim", lastName: "Pan");
+</span><span class='line'>  }
+</span><span class='line'>  public void DisplayGreeting(
+</span><span class='line'>    string firstName,
+</span><span class='line'>  string middleName = default(string),
+</span><span class='line'>  string lastName = default(string))
+</span><span class='line'>  {
+</span><span class='line'>    // ...
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>5 Classes 201</h2>
+
+<ol>
+<li>Declaring and Instantiating a Class</li>
+<li>Instance Fields
+
+<ul>
+<li> Declaring</li>
+<li> Accessing</li>
+<li> Const and readonly modifiers</li>
+</ul>
+</li>
+<li>Instance Methods</li>
+<li>Access Modifiers
+
+<ul>
+<li> <code>public</code>, <code>private</code>, <code>protected</code>, <code>internal</code>, <code>protected internal</code></li>
+</ul>
+</li>
+<li>Properties
+
+<ul>
+<li> Declaring
+
+<ul>
+<li><em>Language Contrast</em> Programmers should view <code>new</code> as a call to instantiate an object, <em>not as a call to allocate memory</em>. It just retrieves memory from the memory manager.</li>
+</ul>
+</li>
+<li> Naming Conventions
+
+<ul>
+<li>property name <code>FirstName</code>, then field name <code>_FirstName</code>(preferred), <code>_firstName</code>, or <code>m_FirstName</code>(C++ style).</li>
+</ul>
+</li>
+<li> Using Properties with Validation</li>
+<li> Read-Only and Write-Only</li>
+<li> Access Modifiers on Getters and Setters
+
+<ul>
+<li>e.g. <code>private set()</code></li>
+</ul>
+</li>
+<li> Properties as Virtual Fields
+
+<ul>
+<li>They can even do not exist physically</li>
+</ul>
+</li>
+<li> Properties and Method Calls <strong>Not Allowed</strong> as <code>ref</code> or <code>out</code> Parameter Values</li>
+</ul>
+</li>
+<li>Constructors &amp; Finalizers
+
+<ul>
+<li> Declaring</li>
+<li> Default constructors
+
+<ul>
+<li>Once there is a explicitely defined constructor, the default one (without parameters) is no longer provided.</li>
+</ul>
+</li>
+<li> Object Initializers <code>Employee emp1 = new Employee("Inigo", "Montoya") { Title = "Computer Nerd", Salary = "Not Enough"};</code>
+
+<ul>
+<li>Collection Initializers</li>
+</ul>
+</li>
+<li> Overloading Constructors</li>
+<li> Constractor Chaining: Calling another Constructor Using <code>this</code>
+
+<ul>
+<li><code>public Employee(int id, string fristName, string lastName): this(firstName, lastName) { Id = id ; }</code></li>
+</ul>
+</li>
+<li> Generalize initialization: Refactor init process in the ctor into a private init method</li>
+<li> Finalizers
+
+<ul>
+<li>Like JAVA, unlike C++</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Static
+
+<ul>
+<li> <em>Language Contrast</em> The equivalent of a global field or function within the realm of C# is a static field or function</li>
+<li> Static Fields</li>
+<li> Static Methods</li>
+<li> Static Constructors</li>
+<li> Static Classes
+
+<ol>
+<li>it prevents a programmer from writing code that
+instantiates the SimpleMath class.</li>
+<li>it prevents the declaration of any
+instance fields or methods within the class. Since the class cannot be
+instantiated, instance members would be pointless.</li>
+</ol>
+</li>
+<li> <code>const</code> fields are <code>static</code> automatically, and declaring a <code>const</code> field as <code>static</code> explicitly will cause a compile error</li>
+<li> <strong><em><code>readonly</code> modifier is available only for fields (not for local variables)</em></strong> it is modifiable only from inside the constructor or directly during declaration. 似乎是把C++中<code>const</code>可以ctor初始化的功能拆成<code>readonly</code>了.</li>
+</ul>
+</li>
+<li><strong><em>Extension Methods</em></strong> requirements
+
+<ul>
+<li> The first parameter corresponds to the type on which the method
+extends or operates.</li>
+<li> To designate the extension method, prefix the extended type with the
+this modifier.</li>
+<li> To access the method as an extension method, import the extending
+type’s namespace via a using directive (or place the extending class in
+the same namespace as the calling code).</li>
+</ul>
+</li>
+<li>Special Classes
+
+<ul>
+<li> <code>partial</code> Classes
+
+<ul>
+<li>the general purpose of a partial class is to allow the splitting of a class definition across multiple files</li>
+<li><code>partial</code> methods allow for a declaration of a method without requiring
+an implementation. However, when the optional implementation is
+included, it can be located in one of the sister partial class definitions,
+likely in a separate file.</li>
+</ul>
+</li>
+<li> Nested Classes
+
+<ul>
+<li>One unique characteristic of nested classes is the ability to specify private
+as an access modifier for the class itself</li>
+<li>Another interesting characteristic of nested classes is that they can
+access any member on the containing class, including private members.</li>
+<li>treat public nested classes suspiciously;
+they indicate potentially poor code that is likely to be confusing
+and hard to discover.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+
+
+<h2>6 Inheritance 269</h2>
+
+<ol>
+<li>Derivation
+
+<ul>
+<li> Extension methods are also inherited.</li>
+<li> <em>Language Contrast:</em> Different from C++, C# is a <strong>single-inheritance</strong> programming language, as is the CIL. Derive from only one class a time.
+
+<ul>
+<li>avoid using a multiple-inheritance class</li>
+<li><code>sealed</code> class cannot be derived. <em>Language Contrast:</em> C# sealed class = Java final class. In java, <code>final</code> can be applied to
+
+<ol>
+<li>classes. = C# sealed class</li>
+<li><strong>methods, cannot be overridden in a derived class. This is default in C#, unless you declare a method as <code>virtual</code></strong>, and in a derived class this can be prevented for further classes with <code>sealed</code> again.</li>
+<li>fields and variables, can be initialized only once. = C# readonly</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Overriding
+
+<ul>
+<li> <em>Language Contrast:</em> Java &#8211; Virtual Methods by Default. Java and C++ &#8211; Implicit Overriding. However, in C#, in order to override a method, both the base class and the derived class members must match and have corresponding <code>virtual</code> and <code>override</code> keywords.</li>
+<li> ctor: <em>Language Contrast:</em> Dispatch Method Calls during Construction
+
+<ul>
+<li>C++: the type is associated with the base type rather than the derived type, and virtual methods call the base implementation.</li>
+<li>C#: dispatches virtual method calls to the most derived type.</li>
+</ul>
+</li>
+<li> only instance members can be virtual. The CLR uses the concrete
+type, specified at instantiation time, to determine where to dispatch a
+virtual method call, so static virtual methods are meaningless and the
+compiler prohibits them.</li>
+<li> <code>new</code> modifier for methods. <strong><em>If neither <code>override</code> nor <code>new</code> is specified, then <code>new</code> will be assumed, thereby maintaining the desired version safety.</em></strong></li>
+<li> <em>upcasting</em>: please see the example codes below. <em>downcasting</em>: ?dangerous?</li>
+<li> <em>sealed</em> modifier for methods. prevent overriding</li>
+<li> <em>base</em> member
+
+<ul>
+<li>ctor <code>public Contact(string name) : base(name) { Name = name; }</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Abstract Classes
+
+<ul>
+<li> <em>Language Contrast</em>
+
+<ul>
+<li>C++ pure virtual function with <code>=0</code>. It does not require the class itself to have any special declaration.</li>
+<li>C# and Java require <code>abstract</code> if the class has <code>abstract</code> member</li>
+</ul>
+</li>
+<li> polymorphism.
+
+<ul>
+<li>base.foo() to derived1.foo(), derived2.foo(), derived3.foo() overriding</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>System.Object</code>
+
+<ul>
+<li> Every class is derived from <code>System.Object</code></li>
+</ul>
+</li>
+<li><strong><em><code>is</code> operator</em></strong>
+
+<ul>
+<li> verify the underlying type with <code>is</code> operator, e.g. <code>if (data is string) data = Encrypt((string) data);</code></li>
+</ul>
+</li>
+<li><strong><em><code>as</code> operator</em></strong>
+
+<ul>
+<li> conversion to a data type, and assign null if the source type is not inherently (within the inheritance chain). Avoid additional try/catch handling code. e.g. <code>Print(data as Document);</code></li>
+</ul>
+</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// C++ Dispatch method calls during construction</span>
+</span><span class='line'><span class="c1">// It will call method in the same class although it is virtual</span>
+</span><span class='line'><span class="cp">#include &lt;iostream&gt;</span>
+</span><span class='line'><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
+</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'>    <span class="n">A</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;A ctor()&quot;</span> <span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">Foo</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;A Foo()&quot;</span> <span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">B</span><span class="o">:</span> <span class="k">public</span> <span class="n">A</span> <span class="p">{</span>
+</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'>    <span class="n">B</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;B ctor()&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="kt">void</span> <span class="n">Foo</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;B Foo()&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">C</span><span class="o">:</span> <span class="k">public</span> <span class="n">B</span> <span class="p">{</span>
+</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'>    <span class="n">C</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;C ctor&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="kt">void</span> <span class="n">Foo</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;C Foo()&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">A</span><span class="o">*</span> <span class="n">a</span> <span class="o">=</span> <span class="k">new</span> <span class="n">C</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">delete</span> <span class="n">a</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// output&gt;</span>
+</span><span class='line'><span class="c1">// A ctor()</span>
+</span><span class='line'><span class="c1">// A Foo()</span>
+</span><span class='line'><span class="c1">// B ctor()</span>
+</span><span class='line'><span class="c1">// B Foo()</span>
+</span><span class='line'><span class="c1">// C ctor</span>
+</span><span class='line'><span class="c1">// C Foo()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// C#</span>
+</span><span class='line'><span class="k">using</span> <span class="n">System</span><span class="p">;</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Tmp</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">static</span> <span class="kt">int</span> <span class="n">Main</span><span class="p">(</span><span class="n">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">A</span> <span class="n">a</span> <span class="o">=</span> <span class="k">new</span> <span class="n">C</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">A</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;A ctor&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="k">virtual</span> <span class="kt">void</span> <span class="n">Foo</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;A Foo()&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">B</span><span class="o">:</span> <span class="n">A</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">B</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;B ctor&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">override</span> <span class="kt">void</span> <span class="n">Foo</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;B Foo()&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">C</span><span class="o">:</span> <span class="n">B</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">C</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;C ctor&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">override</span> <span class="kt">void</span> <span class="n">Foo</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;C Foo()&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// output&gt;</span>
+</span><span class='line'><span class="c1">// A ctor</span>
+</span><span class='line'><span class="c1">// C Foo()</span>
+</span><span class='line'><span class="c1">// B ctor</span>
+</span><span class='line'><span class="c1">// C Foo()</span>
+</span><span class='line'><span class="c1">// C ctor</span>
+</span><span class='line'><span class="c1">// C Foo()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// upcasting in C#</span>
+</span><span class='line'><span class="c1">// `new` modifier for methods </span>
+</span><span class='line'><span class="k">using</span> <span class="n">System</span><span class="p">;</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Tmp</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">static</span> <span class="kt">int</span> <span class="n">Main</span><span class="p">(</span><span class="n">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">D1</span> <span class="n">d1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">D1</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">D2</span> <span class="n">d2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">D2</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">C</span> <span class="n">c</span> <span class="o">=</span> <span class="n">d1</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">B</span> <span class="n">b</span> <span class="o">=</span> <span class="n">c</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">A</span> <span class="n">a</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">d1</span><span class="p">.</span><span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">d2</span><span class="p">.</span><span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">c</span><span class="p">.</span><span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">b</span><span class="p">.</span><span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">a</span><span class="p">.</span><span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="kt">void</span> <span class="n">Foo</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;A Foo()&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">B</span><span class="o">:</span> <span class="n">A</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="k">new</span> <span class="k">virtual</span> <span class="kt">void</span> <span class="n">Foo</span><span class="p">()</span> <span class="p">{</span> <span class="c1">// warning if without new</span>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;B Foo()&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">C</span><span class="o">:</span> <span class="n">B</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">override</span> <span class="kt">void</span> <span class="n">Foo</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;C Foo()&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">D1</span><span class="o">:</span> <span class="n">C</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="k">new</span> <span class="kt">void</span> <span class="n">Foo</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;D1 Foo()&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">D2</span><span class="o">:</span> <span class="n">C</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="kt">void</span> <span class="n">Foo</span><span class="p">()</span> <span class="p">{</span>  <span class="c1">// warning to add `new` by default</span>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;D2 Foo()&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// D1 Foo()</span>
+</span><span class='line'><span class="c1">// D2 Foo()</span>
+</span><span class='line'><span class="c1">// C Foo()</span>
+</span><span class='line'><span class="c1">// C Foo()</span>
+</span><span class='line'><span class="c1">// A Foo()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// upcasting in C++</span>
+</span><span class='line'><span class="c1">// A -&gt; B -&gt; C -&gt; D</span>
+</span><span class='line'><span class="c1">// A::Foo()</span>
+</span><span class='line'><span class="c1">// virtual B::Foo()</span>
+</span><span class='line'><span class="c1">// virtual C::Foo()</span>
+</span><span class='line'><span class="c1">// D:Foo()</span>
+</span><span class='line'><span class="c1">// ...</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>     <span class="n">D</span><span class="o">*</span> <span class="n">d</span> <span class="o">=</span> <span class="k">new</span> <span class="n">D</span><span class="p">();</span>
+</span><span class='line'>     <span class="n">C</span><span class="o">*</span> <span class="n">c</span> <span class="o">=</span> <span class="n">d</span><span class="p">;</span>
+</span><span class='line'>     <span class="n">B</span><span class="o">*</span> <span class="n">b</span> <span class="o">=</span> <span class="n">c</span><span class="p">;</span>
+</span><span class='line'>     <span class="n">A</span><span class="o">*</span> <span class="n">a</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>     <span class="n">d</span><span class="o">-&gt;</span><span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>     <span class="n">c</span><span class="o">-&gt;</span><span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>     <span class="n">b</span><span class="o">-&gt;</span><span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>     <span class="n">a</span><span class="o">-&gt;</span><span class="n">Foo</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>     <span class="k">delete</span> <span class="n">d</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'> <span class="p">}</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'><span class="c1">// D Foo()</span>
+</span><span class='line'><span class="c1">// D Foo()</span>
+</span><span class='line'><span class="c1">// D Foo()</span>
+</span><span class='line'><span class="c1">// A Foo()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>7 Interfaces 305</h2>
+
+<ul>
+<li><code>IPascalCase</code>, no implementation, no data (no fields, but properties)</li>
+<li>Polymorphism</li>
+<li>Interface Implementation
+
+<pre><code>- Declaring a class to implement an interface is similar to deriving from a
+base class in that the implemented interfaces appear in a comma-separated
+list along with the base class (order is not significant between interfaces).
+***The only difference is that classes can implement multiple interfaces.***
+- The base class specifier (if there is one) must come first: `public class Contact : PdaItem, IListable, IComparable {...`
+- ***Explicit(more often) vs Implicit*** [Stackoverflow](http://stackoverflow.com/questions/143405/c-sharp-interfaces-implicit-implementation-versus-explicit-implementation) ??
+  - Explicit: mechanism code, or avoid overriding,
+    - `ITrace.Dump()` to save info to files in `Person`
+  - Implicit: semantic/model/core code
+    - Including an implicit `Compress()` implementation on a `ZipCompression`
+    class is a perfectly reasonable choice, since `Compress()` is a core
+    part of the `ZipCompression` class’s behavior.
+</code></pre></li>
+<li>Interface Inheritance
+
+<ul>
+<li>upcasting is always successful (<code>Base b = new Derived()</code>)</li>
+<li>downcasting is not, so requires an explict cast</li>
+<li>Explicit Implementation should match the exact corresponding level in the hierachy.</li>
+</ul>
+</li>
+<li>Versioning</li>
+<li>Extension Methods on Interfaces</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// Explicit interface implementation</span>
+</span><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">Contact</span> <span class="o">:</span> <span class="n">PdaItem</span><span class="p">,</span> <span class="n">IListable</span><span class="p">,</span> <span class="n">IComprarable</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// ...</span>
+</span><span class='line'>  <span class="n">string</span><span class="p">[]</span> <span class="n">IListable</span><span class="p">.</span><span class="n">ColumnValues</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// ...</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="c1">// ...</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// ...</span>
+</span><span class='line'>    <span class="n">values</span> <span class="o">=</span> <span class="p">((</span><span class="n">IListable</span><span class="p">)</span><span class="n">contact2</span><span class="p">).</span><span class="n">ColumnValues</span><span class="p">;</span>
+</span><span class='line'><span class="c1">// ...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>8 Value Types 331</h2>
+
+<p>All the C# primitive types are value types except <code>string</code> and <code>object</code>. How to define user&#8217;s own value types? <code>struct</code></p>
+
+<ol>
+<li>Structs (derive from <code>System.Object</code> -> <code>System.ValueType</code>)
+
+<ul>
+<li> Recommend: Once you have instantiated a value type, you should not be able to modify the same instance.</li>
+<li> *C# prevents explict definition of default constructors (parameterless)</li>
+<li> <code>struct</code> fields can not be initialized at declaration time.</li>
+<li> Unlike <code>class</code>, <code>struct</code> does not support finalizers. There is no need for the GC.</li>
+<li> <em>Language Contrast</em>: In C++, the difference between structs and classes is simply that by
+default, a struct’s members are public. C# doesn’t include this subtle distinction.
+The contrast is far greater in C#, where struct significantly
+changes the memory behavior from that of a class.</li>
+<li> <code>T default(T)</code> to get the default value</li>
+</ul>
+</li>
+<li><strong><em>Boxing</em></strong>: upcasting <code>ValueType</code> to <code>Object</code>
+
+<ol>
+<li>First, memory is allocated on the heap that will contain the value
+type’s data and a little overhead (a SyncBlockIndex and method
+table pointer).</li>
+<li>Next, a memory copy occurs from the value type’s data on the stack,
+into the allocated location on the heap.</li>
+<li>Finally, the object or interface reference is updated to point at the
+location on the heap.</li>
+<li> <strong><em>unboxing</em></strong> TODO start from page 339</li>
+<li> <strong><em><code>lock</code> statement</em></strong></li>
+</ol>
+</li>
+<li>Enums
+
+<ul>
+<li> An enum always has an underlying type, which may be <code>int</code>(default), <code>uint</code>, <code>long</code>,
+or <code>ulong</code>, but not <code>char</code>.</li>
+<li> Cast between enums via <code>System.Array</code></li>
+<li> Cast between enums and strings via
+
+<ul>
+<li><em>enum -> string</em>.</li>
+<li><em>string -> enum</em>. <code>Enum.Parse()</code></li>
+</ul>
+</li>
+<li> Enums as bit flags with <code>[Flags]</code> FlagsAttribute to perform bit operations.</li>
+</ul>
+</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[中国工程师在初创公司的经验总结--《打造Facebook》]]></title>
+    <link href="http://www.puncsky.com/blog/2013/06/11/%5B%3F%5D-ben-chu-chuang-gong-si-de-hui-yi-lu-%3C%3Cda-zao-facebook%3E%3E/"/>
+    <updated>2013-06-11T20:38:00-07:00</updated>
+    <id>http://www.puncsky.com/blog/2013/06/11/[?]-ben-chu-chuang-gong-si-de-hui-yi-lu-<<da-zao-facebook>></id>
+    <content type="html"><![CDATA[<p>这是一本无趣的书，甚至都不能被称作一本书，而更像是国内某大学老师上课的讲义，兼具冗余繁杂、事后诸葛亮。不可否认，的确有一些新奇的东西在里面，但无论怎么看都不禁让人疑惑：是不是原作者根据工作心得列了一份提纲，然后随意找了个写手照本宣科地添加了些文字？难道作者的目标群体仅仅就是些大一大二的学生么？</p>
+
+<p>当然，无论这本书水平如何，毕竟来自大名鼎鼎的Facebook，我们这些后生们怎么着也得战战兢兢地读完啊……</p>
+
+<p>以下是我的阅读笔记：</p>
+
+<!-- more -->
+
 
 <ul>
 <li>扎克伯格每年都会给自己制定一项挑战，为了学习中文他每周在公司里搞一次小规模的中文讨论会。</li>
@@ -40,8 +2788,8 @@
 <li>如何远离非一流人才呢?
 
 <ul>
-<li>首先,慢点招人。</li>
-<li>其次,炒鱿鱼要快。</li>
+<li>招人要慢。</li>
+<li>炒人要快。</li>
 </ul>
 </li>
 <li>与做研究不同的是,公司想要的是把想法迅速地、高质量的实现出来,然后在实践中不断改进。</li>
@@ -72,7 +2820,7 @@
 <li>硅谷盛行工具文化,公司内部的工具可以极大的提高每个员工的工作效率,可以减少运营人员的数量。
 
 <ul>
-<li>Code Review的工具<a href="http://phabricator.org/">Phabricator (开源)</a></li>
+<li>Code Review的工具<a href="http://phabricator.org/">Phabricator</a></li>
 <li>除了自动化工具,还有一种工具是人为的,就是把最最重要的目标及相关的任务、目标日期、负责人等信息写到白板上,挂在离我们最近的墙上。每天一抬头就可以看到,每次开会都会路过,时刻提醒我们最最重要的事情是什么,这种工具对我们组非常有效。</li>
 </ul>
 </li>
@@ -152,10 +2900,15 @@
   
   <entry>
     <title type="html"><![CDATA[2012年9月至2013年5月阅读记录]]></title>
-    <link href="http://puncsky.github.com/blog/2013/06/01/2013nian-wu-yue-fen-yue-du-ji-lu/"/>
+    <link href="http://www.puncsky.com/blog/2013/06/01/2013nian-wu-yue-fen-yue-du-ji-lu/"/>
     <updated>2013-06-01T21:12:00-07:00</updated>
-    <id>http://puncsky.github.com/blog/2013/06/01/2013nian-wu-yue-fen-yue-du-ji-lu</id>
-    <content type="html"><![CDATA[<p>在来到耶鲁的九个月中，迫于自高中以来最大的学习压力，阅读量较小，总共读了约莫13本书，其中4、6、10、11算是重读。一度赶在停产之前购置了Kindle DXG ，意图博览盗版书，后来才发现系统与Kindle 3 相比 简直烂到了极致，不仅不能做笔记，多看操作系统不再更新有问题，更凶残的是不原生支持中文。现在我来简单讲讲这些书的读后感。</p>
+    <id>http://www.puncsky.com/blog/2013/06/01/2013nian-wu-yue-fen-yue-du-ji-lu</id>
+    <content type="html"><![CDATA[<p>在来到耶鲁的九个月中，迫于自高中以来最大的学习压力，阅读量较小，总共读了约莫13本书，其中4、6、10、11算是重读。一度赶在停产之前购置了Kindle DXG ，意图博览盗版书，后来才发现系统与Kindle 3 相比 简直烂到了极致，不仅不能做笔记，更加凶残的是无法原生支持中文。连多看系统都已经不再为DXG更新。</p>
+
+<p>现在我来简单讲讲这些书的读后感。</p>
+
+<!--more-->
+
 
 <ol>
 <li>《目送》 龙应台
@@ -290,14 +3043,17 @@
   
   <entry>
     <title type="html"><![CDATA[波澜壮阔的改革开放史话——《激荡三十年》读后感]]></title>
-    <link href="http://puncsky.github.com/blog/2013/06/01/bo-lan-zhuang-kuo-de-gai-ge-kai-fa-shi-hua-%3C%3Cji-dang-san-shi-nian-%3E%3E-du-hou-gan/"/>
+    <link href="http://www.puncsky.com/blog/2013/06/01/bo-lan-zhuang-kuo-de-gai-ge-kai-fa-shi-hua-%3C%3Cji-dang-san-shi-nian-%3E%3E-du-hou-gan/"/>
     <updated>2013-06-01T11:32:00-07:00</updated>
-    <id>http://puncsky.github.com/blog/2013/06/01/bo-lan-zhuang-kuo-de-gai-ge-kai-fa-shi-hua-<<ji-dang-san-shi-nian->>-du-hou-gan</id>
+    <id>http://www.puncsky.com/blog/2013/06/01/bo-lan-zhuang-kuo-de-gai-ge-kai-fa-shi-hua-<<ji-dang-san-shi-nian->>-du-hou-gan</id>
     <content type="html"><![CDATA[<p>自1978年改革开放以来，中国经济突飞猛进，摸着石头过河让这片蓝海充满了危险、机遇以及不确定性，然而混沌孕新生，乱世出英雄，一大批企业家们迅速地完成了原始积累；当然，我们也不能忘记路边的累累白骨：他们都是国富民强最直接的功臣，是新时代最伟大的英雄。</p>
 
 <p>他们要么是想人之不敢想，打改革的擦边球，有勇气面对风险，风险有多大，他们最后就取得了多大的成就；要么是运用专业头脑，或者引进外国的先进技术或者理念，步步为营。后生们想要有所建树，最简单直接的办法就是单点快速突破，继而精益求精。</p>
 
 <p>以下是我整理的一些摘录。</p>
+
+<!-- more -->
+
 
 <h2>《激荡三十年》摘录</h2>
 
@@ -405,9 +3161,9 @@
   
   <entry>
     <title type="html"><![CDATA[人生十愿]]></title>
-    <link href="http://puncsky.github.com/blog/2013/05/14/ren-sheng-shi-yuan/"/>
+    <link href="http://www.puncsky.com/blog/2013/05/14/ren-sheng-shi-yuan/"/>
     <updated>2013-05-14T04:18:00-07:00</updated>
-    <id>http://puncsky.github.com/blog/2013/05/14/ren-sheng-shi-yuan</id>
+    <id>http://www.puncsky.com/blog/2013/05/14/ren-sheng-shi-yuan</id>
     <content type="html"><![CDATA[<p>毕业啦！</p>
 
 <p>世事总不尽如人意，而贪心如我者，尝试写下人生的十个愿望；倘若某日能够实现十之八九，也就算是此生无悔啦！</p>
@@ -431,18 +3187,21 @@
   
   <entry>
     <title type="html"><![CDATA[Dynamo: Amazon's Highly Available Key-value Store (SOSP'07)]]></title>
-    <link href="http://puncsky.github.com/blog/2013/04/06/dynamo-kv-store/"/>
+    <link href="http://www.puncsky.com/blog/2013/04/06/dynamo-kv-store/"/>
     <updated>2013-04-06T14:16:00-07:00</updated>
-    <id>http://puncsky.github.com/blog/2013/04/06/dynamo-kv-store</id>
+    <id>http://www.puncsky.com/blog/2013/04/06/dynamo-kv-store</id>
     <content type="html"><![CDATA[<p>From <a href="http://www.allthingsdistributed.com/2007/10/amazons_dynamo.html">Amazon</a></p>
 
 <h3>Comments</h3>
 
-<p>Dynamo successfully builds a highly available and scalable data store, which sacrifice consistency under certain failure scenarios but is eventually consistent. The design is huge and involves a huge number of details. However, the paper could not specify all of them. Some meaningful parts are missing: what are the supporting techniques used in Dynamo? How it is compared to other existing KV distributed store systems? Are there any possible extensions or future works?</p>
+<p>Dynamo successfully builds a highly available and scalable data store, which sacrifices consistency under certain failure scenarios but the data storage is still eventually consistent. The system is complex and thus this paper involves a huge number of details. However, the paper could not specify all of them. Some interesting parts seem to be missing. What are the supporting techniques used in Dynamo? How is it compared to other existing KV distributed store systems? Are there any possible extensions or future works?</p>
 
-<p>This paper assumes that security concerns could be ignored for its internal use. Theoretically, security problems is still possible. At least, how can the administrator detect these attacks? e.g. sybil attacks.</p>
+<p>This paper assumes that security concerns can be ignored for its internal use. Theoretically, security problems is still possible. At least, how can the administrator detect sybil attacks?</p>
 
-<p>The author tried three partition schemes. The latter versions decouple partitioning and partition placement. The placement is changeable at run time. Consequently, the strategy 3 has a better efficiency. And the system recovers faster and it is easier to archive. However, the key space is partitioned equally into Q partitions, and every node assume Q/S tokens per node. However, the strategy 3 in Figure 7 is a little confusing. In my opinion, the author should specify that the span each node is responsible for is SIMILAR IN SIZE to each other, instead of exactly EQUAL IN SIZE to each other.</p>
+<p>The author tried three partition schemes. The latter versions decouple partitioning and partition placement. The placement is changeable at run time. Consequently, the strategy 3 has a better efficiency. And the system recovers faster and it is easier to archive. However, the key space is partitioned equally into Q partitions, and every node assume Q/S tokens per node. The strategy 3 in Figure 7 is a little confusing. The author should specify that the span each node is responsible for is SIMILAR IN SIZE to each other, instead of exactly EQUAL IN SIZE to each other.</p>
+
+<!--more-->
+
 
 <h3>1. Problem</h3>
 
@@ -731,61 +3490,23 @@ c) randomness -> hard to archive the entire key spaces.</li>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[[Repost] Numbers everyone should know]]></title>
-    <link href="http://puncsky.github.com/blog/2013/01/30/zhuan-numbers-everyone-should-know/"/>
-    <updated>2013-01-30T11:19:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2013/01/30/zhuan-numbers-everyone-should-know</id>
-    <content type="html"><![CDATA[<p>I seldom repost unoriginal notes in this blog. However, this time&#8230;</p>
-
-<p>Jeff Dean, a brilliant engineer at Google, gave a talk a while ago listing the numbers every engineer should know. I copied these from here.</p>
-
-<hr />
-
-<table>
- <tbody><tr><td>  L1 cache reference                   </td><td class="c"> 0.5 ns                               
- </td></tr><tr><td>  Branch mispredict                    </td><td class="c"> 5 ns                                 
- </td></tr><tr><td>  L2 cache reference                   </td><td class="c"> 7 ns                                 
- </td></tr><tr><td>  Mutex lock/unlock                    </td><td class="c"> 100 ns                               
- </td></tr><tr><td>  Main memory reference                </td><td class="c"> 100 ns                               
- </td></tr><tr><td>  Compress 1K bytes with Zippy         </td><td class="c"> 10,000 ns       </td><td class="c"> 0.01 ms 
- </td></tr><tr><td>  Send 1K bytes over 1 Gbps network    </td><td class="c"> 10,000 ns       </td><td class="c"> 0.01 ms 
- </td></tr><tr><td>  Read 1 MB sequentially from memory   </td><td class="c"> 250,000 ns      </td><td class="c"> 0.25 ms 
- </td></tr><tr><td>  Round trip within same datacenter    </td><td class="c"> 500,000 ns      </td><td class="c"> 0.5 ms  
- </td></tr><tr><td>  Disk seek                            </td><td class="c"> 10,000,000 ns   </td><td class="c"> 10 ms   
- </td></tr><tr><td>  Read 1 MB sequentially from network  </td><td class="c"> 10,000,000 ns    </td><td class="c"> 10 ms   
- </td></tr><tr><td>  Read 1 MB sequentially from disk     </td><td class="c"> 30,000,000 ns   </td><td class="c"> 30 ms   
- </td></tr><tr><td>  Send packet CA-&gt;Netherlands-&gt;CA      </td><td class="c"> 150,000,000 ns  </td><td class="c"> 150 ms  
- </td></tr></tbody>
-</table>
-
-
-<hr />
-
-<p>Where</p>
-
-<ul>
-<li>1 ns = 10<sup>(-9)</sup> seconds</li>
-<li>1 ms = 10<sup>(-3)</sup> seconds</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[HadoopDB (VLDB'09)]]></title>
-    <link href="http://puncsky.github.com/blog/2013/01/27/hadoopdb-vldb-09/"/>
+    <link href="http://www.puncsky.com/blog/2013/01/27/hadoopdb-vldb-09/"/>
     <updated>2013-01-27T15:50:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2013/01/27/hadoopdb-vldb-09</id>
+    <id>http://www.puncsky.com/blog/2013/01/27/hadoopdb-vldb-09</id>
     <content type="html"><![CDATA[<p><a href="http://db.cs.yale.edu/hadoopdb/hadoopdb.html">Yale DB</a></p>
 
 <h3>Comments</h3>
 
-<p>Two things could be done to improve HadoopDB</p>
+<p>Two ways to improve HadoopDB</p>
 
 <ol>
-<li>Integrate the file system for local database with HDFS. In the design of HadoopDB, they are separated which means that the more space one part is preallocated and the less space the other part has. It is not scalable because the administrator has to divide by himself. We could investigate a way to let the database run on the HDFS directly. We can modify the database&#8217;s file descriptor directly or we can add an additional layer between the database and the HDFS.</li>
-<li>Set up a better scheduler. It is mentioned in the paper that the original version of hadoop fair scheduler is not so good. It is locally greedy and simply does not consider the big picture much. &#8220;Quincy: Fair Scheduling for Distributed Computing Clusters&#8221; advances a graph data structure for global cost model, which has a very good performance, increasing the throughput up to 40%.</li>
+<li>Integrate the file system for local database with HDFS. In the design of HadoopDB, the file system and the database are separated, which means that the more space one part is preallocated and the less space the other part will occupy. This design is not scalable because the system administrator has to partition the space by hand. We could investigate a way to let the database run on the HDFS directly. The database&#8217;s file descriptor can be adapted to HDFS directly. Or, even better, we can add an extra virtualized layer between the database and the HDFS.</li>
+<li>Set up a better scheduler. It is mentioned in the paper that the original version of hadoop fair scheduler is not so good. It is queue-based and locally greedy and simply does not consider the big picture much. &#8220;Quincy: Fair Scheduling for Distributed Computing Clusters&#8221; advances a flow-based algorithm, which has a very good performance by increasing the throughput up to 40%.</li>
 </ol>
+
+
+<!--more -->
 
 
 <h3>1. Problem</h3>
@@ -915,9 +3636,9 @@ only support filter, select, aggregation</li>
   
   <entry>
     <title type="html"><![CDATA[GC(Garbage Collection) in Java]]></title>
-    <link href="http://puncsky.github.com/blog/2013/01/14/gc-garbage-collection-in-java/"/>
+    <link href="http://www.puncsky.com/blog/2013/01/14/gc-garbage-collection-in-java/"/>
     <updated>2013-01-14T00:18:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2013/01/14/gc-garbage-collection-in-java</id>
+    <id>http://www.puncsky.com/blog/2013/01/14/gc-garbage-collection-in-java</id>
     <content type="html"><![CDATA[<p>本文摘录自<a href="http://www.amazon.com/Thinking-Java-4th-Bruce-Eckel/dp/0131872486">Thinking in Java</a></p>
 
 <h2>1. The method  <code>finalize()</code></h2>
@@ -1035,10 +3756,15 @@ only support filter, select, aggregation</li>
   
   <entry>
     <title type="html"><![CDATA[CLRS 2: Advanced]]></title>
-    <link href="http://puncsky.github.com/blog/2013/01/08/clrs-2-advanced/"/>
+    <link href="http://www.puncsky.com/blog/2013/01/08/clrs-2-advanced/"/>
     <updated>2013-01-08T16:43:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2013/01/08/clrs-2-advanced</id>
-    <content type="html"><![CDATA[<h2>IV Advanced Design and Analysis Techniques Introduction 357</h2>
+    <id>http://www.puncsky.com/blog/2013/01/08/clrs-2-advanced</id>
+    <content type="html"><![CDATA[<p>This post is the second pard of my series notes on the remarkable textbook <a href="http://mitpress.mit.edu/books/introduction-algorithms">Introduction to Algorithm</a> (a.k.a CLRS).</p>
+
+<!--more-->
+
+
+<h2>IV Advanced Design and Analysis Techniques Introduction 357</h2>
 
 <ul>
 <li>Three important but more sophisticated techniques used in designing and analyzing efficient algorithms:
@@ -1333,9 +4059,9 @@ only support filter, select, aggregation</li>
   
   <entry>
     <title type="html"><![CDATA[CLRS 1: Basics]]></title>
-    <link href="http://puncsky.github.com/blog/2013/01/07/clrs-1-basics/"/>
+    <link href="http://www.puncsky.com/blog/2013/01/07/clrs-1-basics/"/>
     <updated>2013-01-07T14:55:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2013/01/07/clrs-1-basics</id>
+    <id>http://www.puncsky.com/blog/2013/01/07/clrs-1-basics</id>
     <content type="html"><![CDATA[<h2>I Foundations</h2>
 
 <h3>1 The Role of Algorithms in Computing 5</h3>
@@ -4710,9 +7436,9 @@ only support filter, select, aggregation</li>
   
   <entry>
     <title type="html"><![CDATA[迟到的世界末日]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/26/xie-zai-2012shi-jie-mo-ri-zhi-hou/"/>
+    <link href="http://www.puncsky.com/blog/2012/12/26/xie-zai-2012shi-jie-mo-ri-zhi-hou/"/>
     <updated>2012-12-26T07:56:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/26/xie-zai-2012shi-jie-mo-ri-zhi-hou</id>
+    <id>http://www.puncsky.com/blog/2012/12/26/xie-zai-2012shi-jie-mo-ri-zhi-hou</id>
     <content type="html"><![CDATA[<p>卖个关子，先谈“反求诸己”，文章的最后再谈“世界末日”、为什么世界末日会“迟到”。</p>
 
 <p>“反求诸己”是一件让人乐此不疲但又烦躁不堪的事情。思考人类终极命运这种问题难道不是令人沮丧的么？人固有一死，早死晚死都得死；尽管我们一再强调，有些尸体是重于泰山的，但“你会死”这种陈述终归不是什么好话。打情骂俏、调戏人的和反调戏的除外。可是，即便是这样，我们还是对生命的爱与执着这种“反熵(anti-entropy)”的事情乐此不疲，不是么？就好像，尽管李安大师《少年派的奇幻之旅》血腥重口版很可能是事实，我们仍然选择相信浪漫励志版，不是么？</p>
@@ -4743,7 +7469,7 @@ only support filter, select, aggregation</li>
 
 <p>我逐渐患上了一种奇特的拖延症。多年前，我成为了Sir Winston Churchill的<a href="http://www.yingyudaxue.com/books/advanced-english/speech-on-hitlers-invasion-of-the-u-s-s-r">&#8220;I have only one purpose, the destruction of Hitler, and my life is much simplified thereby.&#8221;</a>这句话的脑残粉。从那以后，每当我打算专心做一件事情的时候，其他的所有都会被抛诸脑后。可惜的是，这些事都不是一天两天能够做完的，而我记性又不大好，这就导致，每当这些事情完成的时候，那些被抛诸脑后的事情也就已然类似于抛猪脑后了。读书少是表现之一，所以，多年来的这些总结都在反复提醒自己多读多写。</p>
 
-<p>另外一个表现是，<strong>尽管我很幸运的能够遇见很多对我照顾有加的前辈和亲友，我都一直心怀感激，但因为我这个不好的拖延加遗忘症，导致疏于联络。这很可能是我这辈子最最于心有愧的事情。</strong></p>
+<p>另外一个表现是 <!--more-->，<strong>尽管我很幸运的能够遇见很多对我照顾有加的前辈和亲友，我都一直心怀感激，但因为我这个不好的拖延加遗忘症，导致疏于联络。这很可能是我这辈子最最于心有愧的事情。</strong></p>
 
 <p>再次，我一直幼稚地想要说再见。</p>
 
@@ -4834,9 +7560,9 @@ only support filter, select, aggregation</li>
   
   <entry>
     <title type="html"><![CDATA[请不要和我谈生活，我没有生活]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/26/bu-tan-sheng-huo/"/>
+    <link href="http://www.puncsky.com/blog/2012/12/26/bu-tan-sheng-huo/"/>
     <updated>2012-12-26T07:53:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/26/bu-tan-sheng-huo</id>
+    <id>http://www.puncsky.com/blog/2012/12/26/bu-tan-sheng-huo</id>
     <content type="html"><![CDATA[<p>隔壁的Bryan老兄每次寒暄 how&#8217;s it going? 的时候他也许会感到很奇怪，为啥对面这小兄弟怎么连招呼都打得一愣一愣的。而对面的小兄弟我，每次都本能地将其反应成“最近过得怎样？”，然后进一步考虑，该如何回答这个”特殊疑问句“，总不能每次都说&#8221;Not bad&#8221;吧；但实际的情况是，还真没有什么好说的，而且这句话本来就是“how are you?”类型的句子，是不需要认真回答的，一个hi/hello/hey 足矣。</p>
 
 <p>每次父母找我聊天，问东问西，总以为我在国外的生活应该是丰富多彩的，如果我问题回答地不够给力，他们就会反复感叹类似于好桑心啊好桑心，都没有共同语言啊，老了啦，之类的感叹。这让我十分汗颜，不是我不跟你们讲，而是我真没有什么好讲的，我不是在看书就是在刷微博就是在吃东西就是在去吃东西的路上就是梦里面吃东西，但这些事务并不是什么可以可以诉说甚至引以为豪的事情。大家往往以旅游、靓照、趴踢、大餐为乐为豪，是，确实很欢乐，我也超级喜欢，但是，我只是觉得，这些对我来说不重要，至少对于现在的我说不重要。</p>
@@ -4848,230 +7574,10 @@ only support filter, select, aggregation</li>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[CLRS 3: Selected]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/22/clrs-3-selected/"/>
-    <updated>2012-12-22T19:12:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/22/clrs-3-selected</id>
-    <content type="html"><![CDATA[<h2>VII Selected Topics</h2>
-
-<p>Introduction 769</p>
-
-<h3>27 Multithreaded Algorithms 772</h3>
-
-<ul>
-<li>serial algorithms</li>
-<li>parallel algorithms
-
-<ul>
-<li>No agreement on a single architectural model for parallel computers
-
-<ul>
-<li>shared memory (multicore)
-
-<ul>
-<li><strong><em>static threads</em></strong> -> complex schedule and load-balance -> concurrency platforms
-
-<ul>
-<li><strong>dynamic multithreading platform</strong>
-
-<ul>
-<li>2 features: 1. nested parallelism. Subroutine can be spawned. (divide-and-conquer) 2. parallel loops.</li>
-<li>3 keywords: parallel, spawn, sync.</li>
-<li>Platforms: Cilk, Cilk++, OpenMP, Task Parallel Library, Threading Building Blocks, Intel TBB.</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>distributed memory</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-
-<h4>27.1 The basics of dynamic multithreading</h4>
-
-<ul>
-<li>The keyword <strong>spawn</strong> does not say, however, that a procedure must execute concurrently with its spawned children, only that it <em>may</em>. It is up to a scheduler at run time.</li>
-<li>A procedure cannot safely use the values returned by its spawned children until after it executes a sync statement</li>
-</ul>
-
-
-<p>算Fibonacci，recursion 的时候，spawn一个，自己算一个，sync，对这两个结果求和。</p>
-
-<h5>A model for multithreaded execution</h5>
-
-<ul>
-<li>Linear speedup: T1/Tp = Θ(P); Perfect linear speedup: T1/Tp = P</li>
-</ul>
-
-
-<p>27.2 Multithreaded matrix multiplication 792
-27.3 Multithreaded merge sort 797</p>
-
-<h3>28 Matrix Operations 813</h3>
-
-<ul>
-<li>numerical stability: limited precision</li>
-<li>numerically unstable</li>
-</ul>
-
-
-<p>28.1 Solving systems of linear equations 813
-28.2 Inverting matrices 827
-28.3 Symmetric positive-definite matrices and least-squares approximation 832</p>
-
-<h3>29 Linear Programming 843</h3>
-
-<p>29.1 Standard and slack forms 850
-29.2 Formulating problems as linear programs 859 29.3 The simplex algorithm 864
-29.4 Duality 879
-29.5 The initial basic feasible solution 886</p>
-
-<h3>30 Polynomials and the FFT 898</h3>
-
-<ul>
-<li>Fast Fourier transform, or FFT, can reduce the time to multiply polynomials to Θ(n lg n).</li>
-</ul>
-
-
-<p>30.1 Representing polynomials 900 30.2 The DFT and FFT 906
-30.3 Efficient FFT implementations 915</p>
-
-<h3>31 Number-Theoretic Algorithms 926</h3>
-
-<ul>
-<li>Cryptographic schemes based on large prime numbers.</li>
-</ul>
-
-
-<p>31.1 Elementary number-theoretic notions 927
-31.2 Greatest common divisor 933
-31.3 Modular arithmetic 939
-31.4 Solving modular linear equations 946
-31.5 The Chinese remainder theorem 950
-31.6 Powers of an element 954
-31.7 The RSA public-key cryptosystem 958
-31.8 Primality testing 965
-31.9 Integer factorization 975</p>
-
-<h3>32 String Matching 985</h3>
-
-<ul>
-<li>T[n]: text</li>
-<li>P[m]: pattern (m &lt;= n)</li>
-<li>s: shift - pattern P occurs beginning at position <em>s+1</em> in text T
-
-<ul>
-<li>valid shift</li>
-<li>invalid shift</li>
-</ul>
-</li>
-</ul>
-
-
-<h4>32.1 The naive string-matching algorithm 988</h4>
-
-<p>O((n-m+1)*m)</p>
-
-<h4>32.2 The Rabin-Karp algorithm 990</h4>
-
-<ul>
-<li>把字符串转换成一位一位的数字，用霍纳法则</li>
-<li>Θ(m) preprocessing, worst-case Θ((n-m+1)*m)</li>
-<li>used to detect plagiarism</li>
-</ul>
-
-
-<h4>32.3 String matching with finite automata 995</h4>
-
-<h4>32.4 The Knuth-Morris-Pratt algorithm 1002</h4>
-
-<h3>33 Computational Geometry 1014</h3>
-
-<p>33.1 Line-segment properties 1015
-33.2 Determining whether any pair of segments intersects 1021 33.3 Finding the convex hull 1029
-33.4 Finding the closest pair of points 1039</p>
-
-<h3>34 NP-Completeness 1048</h3>
-
-<ul>
-<li>Problems which can be solved by polynomial-time algorithms are <strong>tractable/easy</strong>. Otherwise, <strong>intractable/hard</strong></li>
-<li>Three classes of problems:
-
-<ol>
-<li>P.   solvable in polynomial time O(n<sup>k)</sup></li>
-<li>NP.  verifiable (there exists a certifier) in polynomial time. (NP: nondeterministic polynomial-time)</li>
-<li>NPC. NP-complete
-
-<ul>
-<li>If any NP-complete problem can be solved in polynomial time, then every problem in NP has a polynomial-time algorithm.</li>
-<li>Many CS scientists believe NP-complete problems are intractable.</li>
-<li>e.g. circuit-satisfiability problem</li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-
-
-<h4>34.1 Polynomial time 1053</h4>
-
-<h4>34.2 Polynomial-time verification 1061</h4>
-
-<ul>
-<li>Certifiers and Certificates:  Hamiltonian Cycle
-
-<ul>
-<li><strong>HAM-CYCLE</strong>.  Given an undirected graph G = (V, E), does there exist a simple cycle C that visits every node?</li>
-<li><strong>Certificate</strong>.  A permutation of the n nodes.</li>
-<li><strong>Certifier</strong>.  Check that the permutation contains each node in V exactly once, and that there is an edge between each pair of adjacent nodes in the permutation.</li>
-<li><strong>Conclusion</strong>.  HAM-CYCLE is in NP.</li>
-</ul>
-</li>
-<li>P,NP,EXP
-
-<ul>
-<li>P. Decision problems for which there is a poly-time algorithm.</li>
-<li>EXP.  Decision problems for which there is an exponential-time algorithm.</li>
-<li>NP.  Decision problems for which there is a poly-time certifier.</li>
-</ul>
-</li>
-<li>P ⊆ NP, NP ⊆ EXP</li>
-<li><strong><em>Does P = NP?</em></strong>
-
-<ul>
-<li><strong>If yes</strong>, Efficient algorithms for 3-COLOR, TSP, FACTOR, SAT&#8230;</li>
-<li><strong>If no</strong>, No efficient algorithms for 3-COLOR, TSP, FACTOR, SAT&#8230;</li>
-</ul>
-</li>
-</ul>
-
-
-<p><img src="http://upload.wikimedia.org/wikipedia/commons/a/a0/P_np_np-complete_np-hard.svg" alt="P?=NP" /></p>
-
-<h4>34.3 NP-completeness and reducibility 1067</h4>
-
-<p>34.4 NP-completeness proofs 1078
-34.5 NP-complete problems 1086</p>
-
-<h3>35 Approximation Algorithms 1106</h3>
-
-<p>35.1 The vertex-cover problem 1108
-35.2 The traveling-salesman problem 1111
-35.3 The set-covering problem 1117
-35.4 Randomization and linear programming 1123 35.5 The subset-sum problem 1128</p>
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[OOP Final Term Notes]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/19/oop2/"/>
+    <link href="http://www.puncsky.com/blog/2012/12/19/oop2/"/>
     <updated>2012-12-19T02:01:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/19/oop2</id>
+    <id>http://www.puncsky.com/blog/2012/12/19/oop2</id>
     <content type="html"><![CDATA[<hr />
 
 <p>如果自己不定义constructor，C++会默认使用空的constructor。但是如果自己声明了，就一定要把定义写出来。</p>
@@ -5724,9 +8230,9 @@ return 0; }
   
   <entry>
     <title type="html"><![CDATA[OOP Mid Term Notes]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/19/oop1/"/>
+    <link href="http://www.puncsky.com/blog/2012/12/19/oop1/"/>
     <updated>2012-12-19T02:01:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/19/oop1</id>
+    <id>http://www.puncsky.com/blog/2012/12/19/oop1</id>
     <content type="html"><![CDATA[<p>Referencing composed and base objects. site:http://zoo.cs.yale.edu/classes/cs427/</p>
 
 <h2>C++ Basics</h2>
@@ -6386,9 +8892,9 @@ vector examples</li>
   
   <entry>
     <title type="html"><![CDATA[Fast Crash Recovery in RAMCloud (SOSP'11)]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/13/fast-crash-recovery-in-ramcloud/"/>
+    <link href="http://www.puncsky.com/blog/2012/12/13/fast-crash-recovery-in-ramcloud/"/>
     <updated>2012-12-13T12:22:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/13/fast-crash-recovery-in-ramcloud</id>
+    <id>http://www.puncsky.com/blog/2012/12/13/fast-crash-recovery-in-ramcloud</id>
     <content type="html"><![CDATA[<p><a href="http://www.stanford.edu/~ouster/cgi-bin/home.php">Stanford</a>, <a href="http://www.stanford.edu/~ouster/cgi-bin/papers/ramcloud-recovery.pdf">paper</a>, <a href="https://ramcloud.stanford.edu/wiki/display/ramcloud/RAMCloud+Presentations">slides</a>, <a href="http://www.youtube.com/watch?v=RE3CmdEGv4M">video</a></p>
 
 <h3>1. Problem</h3>
@@ -6448,9 +8954,9 @@ vector examples</li>
   
   <entry>
     <title type="html"><![CDATA[CleanOS: Limiting Mobile Data Exposure with Idle Eviction (OSDI'12)]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/06/cleanos/"/>
+    <link href="http://www.puncsky.com/blog/2012/12/06/cleanos/"/>
     <updated>2012-12-06T06:40:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/06/cleanos</id>
+    <id>http://www.puncsky.com/blog/2012/12/06/cleanos</id>
     <content type="html"><![CDATA[<p><a href="http://systems.cs.columbia.edu/projects/cleanos/">Columbia University</a>, <a href="https://www.usenix.org/system/files/conference/osdi12/osdi12-final-203.pdf">paper</a> <a href="https://www.usenix.org/sites/default/files/conference/protected-files/tang_osdi12_slides.pdf">slides</a>, <a href="https://www.usenix.org/conference/osdi12/cleanos-increasing-mobile-data-control-cloud-based-eviction">video</a></p>
 
 <h3>1. Problem</h3>
@@ -6536,9 +9042,9 @@ sdoEvicted(appName, sdoID)
   
   <entry>
     <title type="html"><![CDATA[Chord: A Scalable Peer-to-peer Lookup Service for Internet Applications]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/06/chord/"/>
+    <link href="http://www.puncsky.com/blog/2012/12/06/chord/"/>
     <updated>2012-12-06T06:29:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/06/chord</id>
+    <id>http://www.puncsky.com/blog/2012/12/06/chord</id>
     <content type="html"><![CDATA[<p><a href="http://pdos.lcs.mit.edu/chord/">MIT PDOS</a>, <a href="http://pdos.csail.mit.edu/papers/chord:sigcomm01/chord_sigcomm.pdf">paper</a>, <a href="http://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=5&amp;cad=rja&amp;ved=0CGEQFjAE&amp;url=http%3A%2F%2Fpdos.csail.mit.edu%2Frtm%2Fslides%2Fsigcomm01.ppt&amp;ei=tYLAUNjmLoSt0AGb7YCoBw&amp;usg=AFQjCNHmlld_WDglWjj7TP_coYsk1O_l-A&amp;sig2=SO8yiWfEsi_V2VEI-F2pmw">slides</a></p>
 
 <h3>1. Problem</h3>
@@ -6640,225 +9146,6 @@ sdoEvicted(appName, sdoID)
 <h3>4. Conclusion</h3>
 
 <p>Chord uses consistent hashing, distributed hash tables, and novel finger tables to provide lookup services for P2P systems. Each node maintains only O(logN) other nodes. The arrivals and departures acquire only O(log<sup>2</sup> N) messages. The successor list can deal with failure effectively. Chord is simple, scalable, and efficient.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Cells: a virtual mobile smartphone architecture (SOSP '11)]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/01/cells/"/>
-    <updated>2012-12-01T19:52:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/01/cells</id>
-    <content type="html"><![CDATA[<p><a href="http://systems.cs.columbia.edu/archive/pub/2011/10/cells-a-virtual-mobile-smartphone-architecture/">Columbia University</a>, <a href="http://www.sigops.org/sosp/sosp11/current/2011-Cascais/printable/13-andrus.pdf">papers</a>, <a href="http://www.sigops.org/sosp/sosp11/current/2011-Cascais/13-andrus-slides.pdf">slides</a>, <a href="http://www.youtube.com/watch?v=XBBJ8873vqE">video</a></p>
-
-<h3>1. Problem</h3>
-
-<p>The popularity of smartphones results in the need that a user may purchase several smartphones for different uses. Virtual machine (VM) mechanisms may be the solution, which enables separate and isolated instances of a smartphone software stack to run on the same ARM hardware.</p>
-
-<h3>2. Challenges</h3>
-
-<p>Traditional VMs for desktops and servers can not be applied to smartphones for</p>
-
-<ol>
-<li>limited resources can not fully support running an another entire OS</li>
-<li>existing design cannot leverage new devices, such as GPS, camera, GPUs, &#8230;</li>
-</ol>
-
-
-<h3>3. Solution</h3>
-
-<p>Key observation: <strong>one app at a time</strong></p>
-
-<!--more-->
-
-
-<ul>
-<li>Cells, a new, lightweight virtualization architecture for enabling multiple virtual phones (VPs) to run simultaneously on the same smartphone hardware with high performance.
-
-<ul>
-<li>not entire OS virtualization but multiple isolated virtual phones (VP) on a single OS.</li>
-<li>a novel file system layout based on unioning which minimizes memory consumption</li>
-</ul>
-</li>
-<li>Architecture
-
-<ul>
-<li>one foreground VP for displaying and multiple background VPs</li>
-<li>remap OS resource id to virtual ones and then each VP has its own private virtual namespaces</li>
-<li>foreground VP has direct access to hardware. If the foreground VP does not acquire exclusive access, the hardware can be shared by background VPs.
-
-<ul>
-<li>Kernel-Level Device Virtualization to support transparency and performance by introducing <em>device namespace</em></li>
-<li>User-Level Device Virtualization to support portability and transparency by proxy</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Graphics
-
-<ul>
-<li>Linux framebuffer (FB) provides an abstraction to a physical display, so a new FB device driver <strong>mux_fb</strong>  is introduced between virtual addresses and physical addresses, providing an identical device interface to all VPs.</li>
-<li>The foreground VP uses the GPU directly, but background VPs use GPU render into their respective <em>backing buffers</em>.</li>
-</ul>
-</li>
-<li>Power Management
-
-<ul>
-<li><em>early suspend</em> interface: it is blocked by Cells for background VPs</li>
-<li><em>fbearlysuspend</em> interface: Cells makes it namespace-aware. Block &amp; unblock.</li>
-<li><em>weak locks</em> interface: The same weak lock can be locked and unlocked independently by multiple device namespaces.</li>
-</ul>
-</li>
-<li>Phone calls: combination use of VoIP and cellular network
-
-<ul>
-<li>VoIP provides telephone numbers for VPs</li>
-<li>Proxy libraries</li>
-</ul>
-</li>
-</ul>
-
-
-<p>Implementation &amp; evaluation</p>
-
-<ul>
-<li>Up to 5 VPs on Nexus 1, Nexus S &#8230;</li>
-<li>Modest memory overhead (less than 2%)</li>
-<li>Imperceptible switch time among VPs</li>
-</ul>
-
-
-<h3>4. Conclusion</h3>
-
-<ul>
-<li>First OS virtualization fully supports smartphone hardware with native performance</li>
-<li>One app at a time -> foreground and background usage model</li>
-<li>No need of modifications for applications</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[王功权先生给年轻人的四点建议]]></title>
-    <link href="http://puncsky.github.com/blog/2012/11/27/wang-gong-quan-jiang-zuo/"/>
-    <updated>2012-11-27T16:34:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/11/27/wang-gong-quan-jiang-zuo</id>
-    <content type="html"><![CDATA[<h3>概述</h3>
-
-<p>方才在和朋友们一起去管理学院参加了王功权先生的讲座，期间做了一些笔记，稍作整理记录在此。王功权先生似乎并没有为这次演讲做过多的准备，也不愿意表现地太过正式，毕竟谈人生这种事情，还是需要明月夜短松冈这种微醺的情怀的。实际的情况可能是，他在从哥伦比亚大学过来的路上稍微用iPhone写了个提纲，讲述之前看了几眼，便开始侃侃而谈，当然，情到深处之时，还是让人颇有触动的，不愧为一位诗人。以下的记录纯属个人笔记，有我个人理解的偏差，并不能确保准确地反映王功权先生的观点，也不反映我自己的观点。</p>
-
-<p>他讲述的这四点建议分别是：</p>
-
-<ol>
-<li>规划未来不如调整现在</li>
-<li>志存高远</li>
-<li>选择意味着放弃</li>
-<li>在美国就业，在中国创业</li>
-</ol>
-
-
-<p>在其后的问答环节中，他回答同学们提出的两个问题：</p>
-
-<ol>
-<li>简要介绍您现在在哥伦比亚大学东亚研究所研究的“公民社会”这一议题？</li>
-<li>对经济管理类毕业生就业领域选择有那些建议？</li>
-</ol>
-
-
-<!--more-->
-
-
-<h3>规划未来不如调整现在</h3>
-
-<p>首先，王功权先生非常谦虚地表示，外界对他们的评价说”有远见卓识“是不正确的，他从未有过非常长远的规划，很多次人生的重大转折都只是出于对现状有着强烈的不满，然后追随心意做出选择。另外，他在讲述的过程中更是反复强调，他认为他的道路不值得模仿。</p>
-
-<p>在大学毕业步入省委机关宣传部四年后，他每天的生活非常平淡：处长和他同处一个办公室，两个人每天躲在报纸背后，偶尔四目相交，处长会和他谈论人生道理什么的，但是当时的他虽然表面上毕恭毕敬地聆听着，实际上只是看着领导的嘴一张一合。他从从处长那里看到自己将来的影子，对现状产生了强烈的恐惧，于是依然决然地辞职了。当时，为了怕自己后悔，他将辞职信一式五份投递到机关上下各部门，不给自己留任何退路。他向同学借了五百块便奔了去海南。后来因缘际会，受过八九牵连被关押、降过职，但无论做什么事情都兢兢业业，升职很快。后来，他不想因为一碗饭而丢失一位朋友，彻底离开体制内。</p>
-
-<p>其后他和朋友白手起家一起创立海南农高投联合开发总公司（万通前身）。因为当时《公司法》还没有出来，直接给银行交纳七千块，便可托银行代理注册“初始资金上千万”的空壳公司。他感觉到不光荣，很尴尬，尽管假借时代的潮流，公司后来的发展一日千里。在与政府官员打交道的过程中，他又一次次地目睹了那些体制内现有的流弊。一开始送一条领带就能办成大事，后来送领带当然是远远不够的不够的。吃饭、搓澡也是必须的，甚至出现同一个饭桌开两场，同一个晚上搓澡三次的情况。因为当年受过关押，他认为即便把钱撕掉也不要给官员，坚守原则，从不行贿。</p>
-
-<p>他再一次不愿意如是这般如履薄冰地生活，便辞职开始到硅谷担任IDG高技术创业投资基金高级合伙人，后来尽管获得了巨大的成功，可是功成名就之后感觉实在太忙，百忙之中抽空积累不少手稿，希望能够整理成书，于是意图退出创投领域。但是，这时候，他发现仅仅是自己投钱还不甘心，希望考量自己是否有募资的能力、是否能够赢得国际市场的信任，便接受恰好鼎晖投资的邀请，负责创办鼎晖创业投资基金，取得了不少成就。</p>
-
-<p>再后来就发生了引起轩然大波的那次私奔事件……一时间遍尝人情冷暖、人世沧桑。最近一年多来，他在哥伦比亚大学东亚研究所研究“公民社会”。</p>
-
-<p>最后他总结道，<strong>他从不在感觉不好的事情上停留，尽管这句话总是说起来容易做起来难</strong>。</p>
-
-<h3>志存高远</h3>
-
-<p>这里的<strong>志存高远并不是说要为国家、人类做多大的贡献，而仅仅是要看得远一点。每个人总会有那些“从前碌碌却因何？到如今，回头试想真无趣！”的体验。看得远一点，未来的自己就不会轻易地为现在短视的选择而后悔。</strong></p>
-
-<p>走在时代车轮的前面有可能被轧死，走在时代车轮的后面有可能被弃死，走在时代车轮的上面有可能被摔死，紧跟时代车轮的旁边最合适。无论如何，只要个人脉搏与时代浪潮共鸣，无论成败，都是弄潮儿。</p>
-
-<p>特别地，他表示为中国如此多的年轻人有志跻身公务员行列感到悲哀，因为在未来，政府精兵简政是时代的必然。</p>
-
-<h3>选择意味着放弃</h3>
-
-<p>选择一件事，就放弃了除这件事之外的所有东西。选择了科研就不要想赚钱，选择了创业就不要想过安稳的日子，选择了安稳就不要想一鸣惊人自己当老板。因为，<strong>打工练就的经验80%是对创业没用的</strong>，打工注重的是卓有成效地完成上级的任务，而“完成任务”是很难帮助回答创业者需要面对的最基本的三个问题的：</p>
-
-<ol>
-<li>我干什么？
-
-<ul>
-<li>自己决定去做资本正确的事情，而不是简单地完成任务。</li>
-</ul>
-</li>
-<li>钱从哪来？
-
-<ul>
-<li>创业本身就是解决钱的问题。没有条件就要创造条件。</li>
-</ul>
-</li>
-<li>谁跟我干？
-
-<ul>
-<li>怎么能让他们跟我干？</li>
-</ul>
-</li>
-</ol>
-
-
-<p>王先生并没有具体指导大家应该怎么做，但是他表示年轻人应该有着年轻人特有的朝气和豪气：<strong>拿青春赌明天，年轻就是资本。拿出五年来赌，五年后的情况不会比现在差。</strong>因为刚毕业，你本来就什么都没有……至于男生的个人问题，他表示<strong>没钱就不爱你的女生咱不要好吗？</strong></p>
-
-<p>最后，他总结道，<strong>即便失败，也要会总结教训，尝试就是赢</strong>。失败，不是让你失去所有，而是让你学到“这样不对”。</p>
-
-<h3>在美国就业在中国创业</h3>
-
-<p>王先生首先强调，这里不是说党国好，只是无法否认的是，中国广袤的市场和机遇是其他土地无法比拟的。中国留学生在美国创业要比在中国困难很多。这里并不是建议大家毕业就回国，实际上，<strong>两到三年美国大机构的工作经验特别重要，teamwork的能力特别重要</strong>。</p>
-
-<p>那么，在什么领域创业呢？<strong>走社会良性的道路，做能够创造真正价值的事业。</strong>人性本善，每个人的内心深处是有真善美的，公道自在人心。无论做什么，自己将来总是能够本能地意识到到现在的自己过去做得对不对。比如他自己就觉得自己私奔一场，羞于开口。</p>
-
-<p>前一阵子有朋友邀请他加盟去重庆铸造中国最高的金融大厦，把重庆打造成金融中心。他反问道：重庆真的需要成为中国最高的金融大厦吗？重庆真的需要成为金融中心吗？中国真的需要一个新的金融中心吗？</p>
-
-<h3>Q&amp;A</h3>
-
-<h4>公民社会？</h4>
-
-<p>中国政治体制转型是社会上下的、党内外的共识，不走邪路、不走老路，怎么走？不知道。山雨欲来风满楼。要改革，两条路：</p>
-
-<ol>
-<li>乱摸，总结教训 （摸着石头过河）</li>
-<li>借鉴</li>
-</ol>
-
-
-<p>党的选择自然是第一点。虽然不知道怎么走，仍旧有一些共识：</p>
-
-<ul>
-<li>要稳定，不应该有暴力型的动乱 （跳出 暴力-轮回）</li>
-<li>改革党和国家的领导体制（温总理），这是宪法层面的问题，<strong>宪政民主</strong></li>
-<li>不改造政治文化，所以有<strong>公民社会</strong>的议题，维护公民权利，约束政府的权利</li>
-<li>不反对党，党内外一致反对的是专制。开放党 禁很难，但可以通过民众推动政府改革</li>
-</ul>
-
-
-<p>公民社会强调社会化管理，强调NGO组织在社会管理中的作用，它既不属于政府，也不属于追求盈利的私人。具体案例非常复杂，王先生没有细讲，但是他很高兴地看到，在广东，NGO已经可以不再强制需要挂靠上级主管部门了。</p>
-
-<h4>年轻人在创业/就业领域选择？</h4>
-
-<p>王先生表示，要慎重进入对权利比较依赖的部门，特权/权力的削弱是大的趋势，大型国企很可能在将来会被解构。年轻人最好依赖市场竞争而不是国家权力，要进入出于蓝海的领域，比如教育、医疗。</p>
-
-<p>至于房地产，房地产行业与城市人口增多是最直接的线性相关的，不管土地财政依赖不依赖，不管政府政策调控不调控。只要有大量的人口涌进城市，城市房地产就会兴旺。</p>
-
-<p>至于私募股权基金，私募股权基金不是主流产品，在中国之所以火爆，是因为媒体抄得火爆。实际上其中的竞争是非常激烈的，对于青年来说是极其危险的。这个行业只适合经验丰富的人。年轻人就牛皮哄哄地做这个行业，天天跟老总打交道，四处找错，这样不好。当然，如果有应届毕业生有志进入这个领域，他也欢迎，因为是金子总会发光 ：D</p>
 ]]></content>
   </entry>
   

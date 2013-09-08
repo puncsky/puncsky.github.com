@@ -1,0 +1,1447 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Essential C# 4.0: Intermediate - Puncsky CS Notebook</title>
+  <meta name="author" content="Tian">
+
+  
+  <meta name="description" content="Life and computer science notebook from Puncsky">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.puncsky.com/blog/2013/09/05/essential-c-sharp-intermediate">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    body {
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .sharing, .meta, .pager {
+      margin: 20px 0px 20px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/libs/jquery.js"></script>
+  <script src="/javascripts/libs/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/bootstrap.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Puncsky CS Notebook" type="application/atom+xml">
+  <!--
+<link href="http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,500italic,700italic,300,400,500,700,800" rel="stylesheet" type="text/css">
+-->
+
+<link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-43072488-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <nav role="navigation"><div class="navbar navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
+      <a class="brand" href="/">Puncsky CS Notebook</a>
+
+      <div class="nav-collapse">
+        <ul class="nav">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+
+        <ul class="nav pull-right" data-subscription="rss">
+          <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+          
+        </ul>
+
+        
+          <form class="pull-right navbar-search" action="http://google.com/search" method="get">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:www.puncsky.com" />
+              <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</nav>
+  <div class="container">
+    <div class="row-fluid">
+      
+<article class="hentry span9" role="article">
+
+  
+  <header class="page-header">
+    
+      <h1 class="entry-title">Essential C# 4.0: Intermediate</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-05T14:00:00-07:00" pubdate data-updated="true">Sep 5<span>th</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="http://www.puncsky.com/blog/2013/08/14/essential-c-sharp-basics/">Essential C# 4.0: Basics</a>
+Essential C# 4.0: Intermediate
+<a href="">Essential C# 4.0: Advanced</a></p>
+
+<p>This is the second part of my serials of notes on learning C#.</p>
+
+<p>A productive-focused language like C# has so much <em>syntax sugar</em> that I feel not so comfortable with, because I used to be a C++ programmer and everything in the C++ kingdom appears to be straight forward, although, at the same time, tend to be fallible.</p>
+
+<p>The most serious problem I find about Microsoft&#8217;s tools is that up there exist so many auto-generated codes that I cannot know them all in details. I mean, that is good, you can ship as much stuff as possible within limited time. The problem is, it is not good for curious people like me, nor for the beginner. Back in school, when we build something, we build it <em>from scratch</em>. Perhaps, <em>reinvent the wheel</em> is the best way to learn the wheel. IEDs such as Visual Studio and Eclipse make people so lazy and forget to remember and to think.</p>
+
+<p>Consequently, in my spare time, I would do write every code with VIM.</p>
+
+<p>The following is my notes from Chapter 9 through Chapter 13.</p>
+
+<!--more-->
+
+
+<h2>9 Well-Formed Types 357</h2>
+
+<ol>
+<li>Overriding Object Members
+
+<ul>
+<li> Guidelines for overriding <code>System.Object</code> members. Reference on request.</li>
+<li> <code>GetHashCode()</code></li>
+<li> <code>ReferenceEquals()</code> Object Identity vs. <code>Equals()</code> Equal Object Values</li>
+<li> Calling <code>ReferenceEquals()</code> on <em>value types</em> will always return false since</li>
+</ul>
+</li>
+<li>Operator Overloading
+
+<ul>
+<li> <code>public static</code>
+
+<pre><code> - avoid recursive loop `(leftHandSide == null)` when check equality
+ - One of the parameters of a operator must be the containing type
+</code></pre></li>
+</ul>
+</li>
+<li>Referencing other Assemblies
+
+<ul>
+<li> Assembly Target: <code>csc /target:library /out:Coordinates.dll Coordinate.cs IAngle.cs</code>
+
+<pre><code> - console executable
+ - class library
+ - windows executable
+ - module
+</code></pre></li>
+<li> Reference an Assembly <code>csc /R:Coordinates.dll Program.cs</code></li>
+<li> By default, a class without any access modifier is defined as <code>internal</code> (accessible from within the assembly only).</li>
+</ul>
+</li>
+<li>Defining Namespaces
+
+<ul>
+<li> <strong><em>namespace alias qualifier</em></strong>
+
+<pre><code> - `csc /R:CoordPlus=CoordinatesPlus.dll /R:Coordinates.dll Program.cs`
+ - `extern alias CoordPlus;` before all `using` statements
+ - `using CoordPlus:
+ Blah.Blah;` equally or `using CoordPlus.Blah.Blah;`
+ - How about global scope? `using global::Blah.Blah` (different from `using global.Blah.Blah` which means the real namespace of `global`)
+</code></pre></li>
+</ul>
+</li>
+<li>XML Comments
+
+<ul>
+<li> <code>///</code>, <code>&lt;summary&gt;</code>, <code>&lt;remarks&gt;</code>, <code>&lt;param name="blah"&gt; &lt;param&gt;</code>, <code>&lt;returns&gt;</code>, <code>&lt;date&gt;</code></li>
+<li> Generate an XML doc file <code>csc /doc:Comments.xml DataStorage.cs</code></li>
+<li> tools to generate docs: GhostDoc, NDoc</li>
+</ul>
+</li>
+<li>GC
+
+<ul>
+<li> <strong>Weak reference</strong> save the reference for future reuse (memory cache) <code>private WeakReference Data;</code></li>
+<li> Finalizer: <code>~ClassName()</code> like <a href="http://www.puncsky.com/blog/2013/01/14/gc-garbage-collection-in-java/">Java&#8217;s <code>finalize()</code></a></li>
+<li> Deterministic finalization with the <code>using</code> statement
+
+<pre><code> - The `IDisposable` interface defines
+ the details of the pattern with a single method called `Dispose()`, which
+ developers call on a resource class to “dispose” of the consumed
+ - HOWEVER, there is a chance that an exception will occur before the dispose call
+ resources. If this
+ happens, Dispose() will not be invoked and the resource cleanup will
+ have to rely on the finalizer.
+ - SO 2 ways:
+   1. try / finally
+   2. `using` statement and **all variables are of the same type and they implement `IDisposable`**
+</code></pre></li>
+<li> The <strong><em>f-reachable queue</em></strong> is a list of all the objects that are ready for
+garbage collection and that also have finalization implementations. <code>System.GC.SuppressFinalize(reference)</code> can remove reference instance from f-reachable queue.</li>
+<li> Resource Utilization and Finalization Guidelines. Refer the book page 400.</li>
+<li> Generally, <code>~Destructor()</code> calls <code>Dispose()</code></li>
+<li> <strong>Lazy Initialization</strong>: Defer the init of an object until it is required.
+
+<pre><code> - `System.Lazy&lt;T&gt;`
+</code></pre></li>
+</ul>
+</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Lazy Initialization
+</span><span class='line'>using System.IO;
+</span><span class='line'>
+</span><span class='line'>class DataCache
+</span><span class='line'>{
+</span><span class='line'>  // ...
+</span><span class='line'>  
+</span><span class='line'>  public DataCache(string FileStreamName)
+</span><span class='line'>  {
+</span><span class='line'>    _FileStream = new Lazy&lt;TemporaryFileStream&gt;(
+</span><span class='line'>      () =&gt; new TemporaryFileStream(FileStreamName));
+</span><span class='line'>  // the lambda expression provides a means of passing the
+</span><span class='line'>  //  instructions for what will happen, but not actually performing those
+</span><span class='line'>  //  instructions until explicitly requested.
+</span><span class='line'>  }
+</span><span class='line'>  
+</span><span class='line'>  public TemporaryFileStream FileStream
+</span><span class='line'>  {
+</span><span class='line'>    get
+</span><span class='line'>  {
+</span><span class='line'>    return _FileStream.Value;
+</span><span class='line'>  }
+</span><span class='line'>  }
+</span><span class='line'>  private Lazy&lt;TemporaryFileStream&gt; _FileStream;
+</span><span class='line'>
+</span><span class='line'>  // ...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>10 Exception Handling 405</h2>
+
+<ol>
+<li>Multiple Exception Types</li>
+<li>Catching Exception</li>
+<li>General Catch Block</li>
+<li>Guidelines</li>
+<li>Custom Exceptions</li>
+</ol>
+
+
+<h2>11 Generics 421</h2>
+
+<ol>
+<li>Generics
+
+<ul>
+<li>name rule as <code>EntityCollection&lt;TEntity&gt;</code></li>
+<li><code>public class Tuple&lt;T1, T2, T3, T4, T5, T6, T7, TRest&gt;: ... {...}</code>, <code>TRest</code> can be used to store another tuple.</li>
+<li><code>Tuple.Create("555-55-5555", new Contact("Tim Pan"));</code> == <code>new Tuple&lt;string, Contact&gt;("555-55-5555", new Contact("Tim Pan"));</code></li>
+</ul>
+</li>
+<li><strong><em>Constraints</em></strong>: To avoid a runtime exception and instead provide a compile-time error, C# enables you to supply an optional list of <strong>constraints</strong> for each type parameter declared in the generic class by using <code>where</code>.
+
+<ul>
+<li>Interface Constraints</li>
+<li>Base Class Constraints</li>
+<li><code>struct</code>/<code>class</code> Constraints</li>
+<li>Multiple Constraints</li>
+<li><strong>Constructor Constraints</strong>: ensure default ctor like <code>new ctor()</code></li>
+</ul>
+</li>
+<li>Generic Methods
+
+<ul>
+<li>explicit cast is preferred at most of the times.</li>
+</ul>
+</li>
+<li>Variance <code>Type1&lt;Type2&gt;</code> and <code>Type3&lt;Type2&gt;</code> are not <em>covariant</em>.
+
+<ul>
+<li>Covariance TODO: Read Again
+
+<ul>
+<li>with <code>out</code> for getters</li>
+<li>with <code>in</code> for setters</li>
+</ul>
+</li>
+<li>Contra variance</li>
+</ul>
+</li>
+<li>Generic Internals
+
+<ul>
+<li><em>Language Contrast</em>: Sun&#8217;s implementation of generics for Java occurs within the compiler entirely, not within the JVM. JVM cannot support generics for value types.</li>
+</ul>
+</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Needing the type parameter to support an interface or exception thrown
+</span><span class='line'>public class BinaryTree&lt;T&gt;
+</span><span class='line'>{
+</span><span class='line'>  // ...
+</span><span class='line'>  public Pair&lt;BinaryTree&lt;T&gt;&gt; SubItems
+</span><span class='line'>  {
+</span><span class='line'>      get { return _SubItems; }
+</span><span class='line'>      set {
+</span><span class='line'>          IComparable&lt;T&gt; first;
+</span><span class='line'>          first = (IComparable&lt;T&gt;)value.First.Item;
+</span><span class='line'>              
+</span><span class='line'>          if (first.CompareTo(value.Second.Item) &lt; 0)
+</span><span class='line'>          {
+</span><span class='line'>              // first is less than second.
+</span><span class='line'>          }
+</span><span class='line'>          else
+</span><span class='line'>          {
+</span><span class='line'>              // second is less than first.
+</span><span class='line'>          }
+</span><span class='line'>          _SubItems = value;
+</span><span class='line'>      }
+</span><span class='line'>  }
+</span><span class='line'>  private Pair&lt;BinaryTree&lt;T&gt;&gt; _SubItems;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>// Declaring the interface constrant
+</span><span class='line'>public class BinaryTree&lt;T&gt;
+</span><span class='line'>  where T: System.IComparable&lt;T&gt;
+</span><span class='line'>{
+</span><span class='line'>  // ...
+</span><span class='line'>  public Pair&lt;BinaryTree&lt;T&gt;&gt; SubItems
+</span><span class='line'>  {
+</span><span class='line'>      get{ return _SubItems; }
+</span><span class='line'>      set
+</span><span class='line'>      {
+</span><span class='line'>          IComparable&lt;T&gt; first;
+</span><span class='line'>          // Notice that the cast can now be eliminated.
+</span><span class='line'>          first = value.First.Item;
+</span><span class='line'>          
+</span><span class='line'>          if (first.CompareTo(value.Second.Item) &lt; 0)
+</span><span class='line'>          {
+</span><span class='line'>              // first is less than second
+</span><span class='line'>          }
+</span><span class='line'>          else
+</span><span class='line'>          {
+</span><span class='line'>              // second is less than or equal to first
+</span><span class='line'>          }
+</span><span class='line'>          _SubItems = value;
+</span><span class='line'>      }
+</span><span class='line'>  }
+</span><span class='line'>  private Pair&lt;BinaryTree&lt;T&gt;&gt; _SubItems;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// multiple constraints
+</span><span class='line'>// an AND relationship is assumed
+</span><span class='line'>public class EntityDictionary&lt;TKey, TValue&gt;
+</span><span class='line'>  : Dictionary&lt;TKey, TValue&gt;
+</span><span class='line'>  where TKey : IComparable&lt;TKey&gt;, IFormattable
+</span><span class='line'>  where TValue : EntityBase
+</span><span class='line'>{
+</span><span class='line'>  // ...
+</span><span class='line'>} </span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// constructor constraints ensure default ctors only
+</span><span class='line'>// Ctors with parameters are NOT supported
+</span><span class='line'>public class EntityDictionary&lt;TKey, TValue&gt; :
+</span><span class='line'>  Dictionary&lt;TKey, TValue&gt;
+</span><span class='line'>  where TKey: IComparable&lt;TKey&gt;, IFormattable
+</span><span class='line'>  where TValue : EntityBase&lt;TKey&gt;, new()
+</span><span class='line'>{
+</span><span class='line'>  //...
+</span><span class='line'>  TValue newEntity = new TValue();
+</span><span class='line'>  //...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>12 Delegates and Lambda Expressions 469</h2>
+
+<ol>
+<li>Introducing Delegates
+
+<ul>
+<li>Why Delegates
+
+<ul>
+<li>C/C++ method pointer == <strong><em>delegate</em></strong>, which encapsulates methods as objects, enabling an indirect method call bound at runtime.</li>
+</ul>
+</li>
+<li>Delegate As Data Types
+
+<ul>
+<li>Although all delegate data types derive indirectly from <code>System.Delegate</code>, the C# compiler does not allow you to define a class that derives directly or indirectly (via <code>System.MulticastDelegate</code>) from <code>System.Delegate</code>.</li>
+</ul>
+</li>
+<li>Delegate Internals
+
+<ul>
+<li>TODO</li>
+</ul>
+</li>
+<li>Instantiating Delegates</li>
+</ul>
+</li>
+<li>Anonymous Methods
+
+<ul>
+<li><code>BubbleSort(items, delegate(int first, int second){return first&lt;second})</code></li>
+<li>can be <em>parameterless</em>: Parameterless Anonymous Methods</li>
+<li>System-Defined Delegates: <code>Func&lt;&gt;</code>
+
+<ul>
+<li><code>Func&lt;&gt;</code> can also be used for generic delegate.</li>
+<li><code>Func&lt;int, int, bool&gt;</code> the last type is the return type.</li>
+<li><code>System.Action</code> should be used for delegates that have no return.</li>
+<li>However, the delegate&#8217;s name provides a more explicit indication of what it is for, whereas Func&lt;> provides nothing more than an understanding of the method signature.</li>
+<li><strong><em>Generic <code>Func</code> delegate and explicitely defined delegate are not compatible</em></strong>. e.g. <code>Func&lt;int, int, bool&gt;</code> and <code>ComparisonHandler</code> are not compatible. <strong><em>But some degree of casting is allowed.</em></strong></li>
+</ul>
+</li>
+<li>All anonymous delegates are immutable.</li>
+</ul>
+</li>
+<li>Lambda Expressions
+
+<ul>
+<li>anonymous functions = lambda expressions (expression lambda + statement lambda) + anonymous methods</li>
+<li>Statement Lambdas
+
+<ul>
+<li><code>BubbleSort(items, (int first, int second) =&gt; {return first &lt; second;})</code>
+
+<ul>
+<li><em>go/goes to</em>, <em>becomes</em>, <em>such that</em>: &#8220;integers <code>first</code> and <code>second</code> <em>go</em> to returning the result of <code>first</code> less than <code>second</code>&#8221;</li>
+</ul>
+</li>
+<li><code>BubbleSort(items, (first, second) =&gt; {return first &lt; second;})</code>
+
+<ul>
+<li>statement lambdas can omit parameter types as long as the compiler can infer the types</li>
+</ul>
+</li>
+<li>typically a statement lambda uses only two or three statements in its statement block.</li>
+</ul>
+</li>
+<li>Expression Lambdas
+
+<ul>
+<li>no statement block, only an expression</li>
+<li><code>names.Where(name =&gt; name.Contains(" "))</code>, &#8220;names where names dot contains a space&#8221;</li>
+</ul>
+</li>
+<li>you cannot use the typeof() operator (see Chapter 17) on an anonymous method, and calling GetType() is possible only after assigning or casting the anonymous method to a delegate variable.</li>
+<li>TODO: internals
+
+<ul>
+<li>Closure—a data structure (class in C#) that contains an expression and the variables (public fields in C#) necessary to evaluate the expression.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Expression Trees
+
+<ul>
+<li>Used to store lambda expressions as data for passing or translating.</li>
+<li>Expression trees are object graphs</li>
+<li>composed of read-only collection of parameters, a return type, and a body&#8211; which is another expression.</li>
+<li>Lambda Expressions vs. Expression Trees
+
+<ul>
+<li>compiled into a delegate in CIL</li>
+<li>compiled into a data structure of type &#8220;System.Linq.Expressions.Expression&#8221;</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>using System;
+</span><span class='line'>class DelegateSample {
+</span><span class='line'>    public static void BubbleSort(int[] items, ComparisonHandler comparisonMethod) {
+</span><span class='line'>        int i;
+</span><span class='line'>        int j;
+</span><span class='line'>        int temp;
+</span><span class='line'>
+</span><span class='line'>        if (items == null) return;
+</span><span class='line'>        if (comparisonMethod == null) throw new ArgumentNullException("comparisonMethod");
+</span><span class='line'>
+</span><span class='line'>        for (i = items.Length - 1; i &gt;= 0; i--) {
+</span><span class='line'>            for (j = 1; j &lt;= i; j++) {
+</span><span class='line'>                if (comparisonMethod(items[j - 1], items[j])) {
+</span><span class='line'>                    temp = items[j - 1];
+</span><span class='line'>                    items[j - 1] = items[j];
+</span><span class='line'>                    items[j] = temp;
+</span><span class='line'>                }
+</span><span class='line'>            }
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    public delegate bool ComparisonHandler(int first, int second);
+</span><span class='line'>    
+</span><span class='line'>    public static bool GreaterThan(int first, int second) {
+</span><span class='line'>        return first &gt; second;
+</span><span class='line'>    }
+</span><span class='line'>  
+</span><span class='line'>  public static bool AlphabeticalGreaterThan(int first, int second) {
+</span><span class='line'>      int comparison;
+</span><span class='line'>      comparison = (first.ToString().CompareTo(second.ToString()));
+</span><span class='line'>      
+</span><span class='line'>      return comparison &gt; 0;
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>    static void Main() {
+</span><span class='line'>        int[] items = new int[100];
+</span><span class='line'>        Random random = new Random();
+</span><span class='line'>        for (int i = 0; i &lt; items.Length; i++) {
+</span><span class='line'>            items[i] = random.Next(0, 100);
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        BubbleSort(items, GreaterThan);
+</span><span class='line'>      // In C# 2.0, we can also use BubbleSort(items, new ComparisonHandler(GreaterThan))
+</span><span class='line'>
+</span><span class='line'>        for (int i = 0; i &lt; items.Length; i++) {
+</span><span class='line'>            Console.WriteLine(items[i]);
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        Console.ReadLine();
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>13 Events 507</h2>
+
+<p>publish-subscribe design pattern</p>
+
+<ol>
+<li>Coding the Observer Pattern with Multicast Delegates (with operator+, +=, &#8230;)
+
+<ul>
+<li>See the examples below</li>
+<li>TODO: P518 Multicast Delegate Internals</li>
+<li>How to handle exceptions from subscribers?
+
+<ul>
+<li><code>foreach(TDelegate handler in delegates.GetInvocationList())</code>See examples below</li>
+</ul>
+</li>
+<li>How to handle multiple returns from multicast delegates?
+
+<ul>
+<li>Also <code>foreach(TDelegate handler in delegates.GetInvocationList())</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Events
+
+<ul>
+<li>introduced to overcome 2 delegate shortages
+
+<ol>
+<li>Encapsulating the Subscription
+
+<ul>
+<li>User may use <code>=</code> instead of <code>+=</code> by mistake</li>
+</ul>
+</li>
+<li>Encapsulating the publication
+
+<ul>
+<li>Delegates may be invoked outside the containing class</li>
+</ul>
+</li>
+<li>easy to forget to check for null before invoking the delegate</li>
+</ol>
+</li>
+<li><code>event</code> keyword before the delegate type and follows a empty delegate assignment
+
+<ul>
+<li>e.g. <code>public event TemperatureChangeHandler OnTemperatureChange = delegate { };</code></li>
+<li><code>event</code> ensures that any reassignment of the delegate could occur only from within the class.</li>
+<li>an empty delegate <code>delegate {}</code> represents a collection of zero listeners.</li>
+</ul>
+</li>
+<li>customize with <code>add</code> and <code>remove</code></li>
+</ul>
+</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// delegate's implementation of subscriber-publisher
+</span><span class='line'>using System;
+</span><span class='line'>
+</span><span class='line'>// Heater and Cooler Event Subscriber Implementations
+</span><span class='line'>class Cooler {
+</span><span class='line'>    public Cooler(float temperature) {
+</span><span class='line'>        Temperature = temperature;
+</span><span class='line'>    } 
+</span><span class='line'>
+</span><span class='line'>    public float Temperature {
+</span><span class='line'>        get { return _Temperature; }
+</span><span class='line'>        set { _Temperature = value; }
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    private float _Temperature;
+</span><span class='line'>
+</span><span class='line'>    public void OnTemperatureChanged(float newTemperature) {
+</span><span class='line'>        if (newTemperature &gt; Temperature) {
+</span><span class='line'>            System.Console.WriteLine("Cooler: On");
+</span><span class='line'>        }
+</span><span class='line'>        else {
+</span><span class='line'>            System.Console.WriteLine("Cooler: Off");
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>class Heater {
+</span><span class='line'>    public Heater(float temperature) {
+</span><span class='line'>        Temperature = temperature;
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    public float Temperature {
+</span><span class='line'>        get { return _Temperature; }
+</span><span class='line'>        set { _Temperature = value; }
+</span><span class='line'>    }
+</span><span class='line'>    private float _Temperature;
+</span><span class='line'>
+</span><span class='line'>    public void OnTemperatureChanged(float newTemperature) {
+</span><span class='line'>        if (newTemperature &lt; Temperature) {
+</span><span class='line'>            System.Console.WriteLine("Heater: On");
+</span><span class='line'>        }
+</span><span class='line'>        else {
+</span><span class='line'>            System.Console.WriteLine("Heater: Off");
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>// Defining the Event Publisher, `Thermostat`
+</span><span class='line'>public class Thermostat {
+</span><span class='line'>    // Define the delegate data type
+</span><span class='line'>    public delegate void TemperatureChangeHandler(float newTemperature);
+</span><span class='line'>
+</span><span class='line'>    // Define the event Publisher
+</span><span class='line'>    public TemperatureChangeHandler OnTemperatureChange {
+</span><span class='line'>        get { return _OnTemperatureChange; }
+</span><span class='line'>        set { _OnTemperatureChange = value; }
+</span><span class='line'>    }
+</span><span class='line'>    private TemperatureChangeHandler _OnTemperatureChange;
+</span><span class='line'>
+</span><span class='line'>    public float CurrentTemperature {
+</span><span class='line'>        get { return _CurrentTemperature; }
+</span><span class='line'>        set {
+</span><span class='line'>            if (value != CurrentTemperature) {
+</span><span class='line'>                _CurrentTemperature = value;
+</span><span class='line'>
+</span><span class='line'>                TemperatureChangeHandler localOnChange = OnTemperatureChange;
+</span><span class='line'>                
+</span><span class='line'>                if (localOnChange != null) {
+</span><span class='line'>                    // call subscribers
+</span><span class='line'>                    OnTemperatureChange(value); // multicast delegates
+</span><span class='line'>                }
+</span><span class='line'>            }
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>    public float CurrentTemperatureHandlingError {
+</span><span class='line'>        get { return _CurrentTemperature; }
+</span><span class='line'>        set {
+</span><span class='line'>            if (value != CurrentTemperature) {
+</span><span class='line'>                _CurrentTemperature = value;
+</span><span class='line'>
+</span><span class='line'>                if (OnTemperatureChange != null) {
+</span><span class='line'>                    foreach (TemperatureChangeHandler handler in OnTemperatureChange.GetInvocationList()) {
+</span><span class='line'>                        try {
+</span><span class='line'>                            handler(value);
+</span><span class='line'>                        }
+</span><span class='line'>                        catch (Exception e) {
+</span><span class='line'>                            Console.WriteLine(e.Message);
+</span><span class='line'>                        }
+</span><span class='line'>                    }
+</span><span class='line'>                }
+</span><span class='line'>            }
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>    private float _CurrentTemperature;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>class Program {
+</span><span class='line'>    public static void Main() {
+</span><span class='line'>        Thermostat thermostat = new Thermostat();
+</span><span class='line'>        Heater heater = new Heater(60);
+</span><span class='line'>        Cooler cooler = new Cooler(80);
+</span><span class='line'>        string temperature;
+</span><span class='line'>
+</span><span class='line'>        // Register subscribers
+</span><span class='line'>        thermostat.OnTemperatureChange += heater.OnTemperatureChanged;
+</span><span class='line'>        thermostat.OnTemperatureChange += cooler.OnTemperatureChanged;
+</span><span class='line'>
+</span><span class='line'>        Console.Write("Enter temperature: ");
+</span><span class='line'>        temperature = Console.ReadLine();
+</span><span class='line'>        thermostat.CurrentTemperature = int.Parse(temperature);
+</span><span class='line'>
+</span><span class='line'>        // Delegate Operators +=, -=, +, -
+</span><span class='line'>        Thermostat.TemperatureChangeHandler delegate1;
+</span><span class='line'>        Thermostat.TemperatureChangeHandler delegate2;
+</span><span class='line'>        Thermostat.TemperatureChangeHandler delegate3;
+</span><span class='line'>
+</span><span class='line'>        delegate1 = heater.OnTemperatureChanged;
+</span><span class='line'>        delegate2 = cooler.OnTemperatureChanged;
+</span><span class='line'>
+</span><span class='line'>        Console.WriteLine("Invoke both delegates:");
+</span><span class='line'>        delegate3 = delegate1;
+</span><span class='line'>        delegate3 += delegate2;
+</span><span class='line'>        delegate3(90);
+</span><span class='line'>
+</span><span class='line'>        Console.WriteLine("Invoke only delegate2");
+</span><span class='line'>        delegate3 -= delegate1;
+</span><span class='line'>        delegate3(30);
+</span><span class='line'>
+</span><span class='line'>        // Error handling
+</span><span class='line'>        thermostat.OnTemperatureChange += (newTemperature) =&gt; { throw new ApplicationException(); };
+</span><span class='line'>        thermostat.CurrentTemperatureHandlingError = int.Parse(temperature) + 1;
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// event implementation of subscriber-publisher
+</span><span class='line'>using System;
+</span><span class='line'>
+</span><span class='line'>// Heater and Cooler Event Subscriber Implementations
+</span><span class='line'>class Cooler {
+</span><span class='line'>    public Cooler(float temperature) {
+</span><span class='line'>        Temperature = temperature;
+</span><span class='line'>    } 
+</span><span class='line'>
+</span><span class='line'>    public float Temperature {
+</span><span class='line'>        get { return _Temperature; }
+</span><span class='line'>        set { _Temperature = value; }
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    private float _Temperature;
+</span><span class='line'>
+</span><span class='line'>    public void OnTemperatureChanged(object sender, Thermostat.TemperatureArgs args) {
+</span><span class='line'>        if (args.NewTemperature &gt; Temperature) {
+</span><span class='line'>            System.Console.WriteLine("Cooler: On");
+</span><span class='line'>        }
+</span><span class='line'>        else {
+</span><span class='line'>            System.Console.WriteLine("Cooler: Off");
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>class Heater {
+</span><span class='line'>    public Heater(float temperature) {
+</span><span class='line'>        Temperature = temperature;
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    public float Temperature {
+</span><span class='line'>        get { return _Temperature; }
+</span><span class='line'>        set { _Temperature = value; }
+</span><span class='line'>    }
+</span><span class='line'>    private float _Temperature;
+</span><span class='line'>
+</span><span class='line'>    public void OnTemperatureChanged(object sender, Thermostat.TemperatureArgs args) {
+</span><span class='line'>        if (args.NewTemperature &lt; Temperature) {
+</span><span class='line'>            System.Console.WriteLine("Heater: On");
+</span><span class='line'>        }
+</span><span class='line'>        else {
+</span><span class='line'>            System.Console.WriteLine("Heater: Off");
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>// Defining the Event Publisher, `Thermostat`
+</span><span class='line'>public class Thermostat {
+</span><span class='line'>    public class TemperatureArgs: System.EventArgs { // conventions
+</span><span class='line'>        public TemperatureArgs(float newTemperature) {
+</span><span class='line'>            NewTemperature = newTemperature;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        public float NewTemperature {
+</span><span class='line'>            get { return _newTemperature; }
+</span><span class='line'>            set { _newTemperature = value; }
+</span><span class='line'>        }
+</span><span class='line'>        private float _newTemperature;
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    // Define the delegate data type
+</span><span class='line'>    // It is a norm:
+</span><span class='line'>    //      sender: reference of the to the object that invoke the delegate 
+</span><span class='line'>    //      args:   if of type `System.EventArgs` or derives from `System.EventArgs` but contains additional data
+</span><span class='line'>    public delegate void TemperatureChangeHandler(object sender, TemperatureArgs newTemperature);
+</span><span class='line'>
+</span><span class='line'>    // Define the event publisher
+</span><span class='line'>    // delegate类型之前加event，赋一个空的delegate
+</span><span class='line'>    // an empty delegate represents a collection of zero listeners
+</span><span class='line'>    public event TemperatureChangeHandler OnTemperatureChange = delegate {};
+</span><span class='line'>
+</span><span class='line'>    public float CurrentTemperature {
+</span><span class='line'>        get { return _CurrentTemperature; }
+</span><span class='line'>        set {
+</span><span class='line'>            if (value != CurrentTemperature) {
+</span><span class='line'>                _CurrentTemperature = value;
+</span><span class='line'>                // If there are any subscribers
+</span><span class='line'>                // then notify them of changes in 
+</span><span class='line'>                // temperature
+</span><span class='line'>                if (OnTemperatureChange != null) {
+</span><span class='line'>                    // Call subscribers
+</span><span class='line'>                    OnTemperatureChange(this, new TemperatureArgs(value));
+</span><span class='line'>                }
+</span><span class='line'>            }
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>    private float _CurrentTemperature;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>class Program {
+</span><span class='line'>    public static void Main() {
+</span><span class='line'>        Thermostat thermostat = new Thermostat();
+</span><span class='line'>        Heater heater = new Heater(60);
+</span><span class='line'>        Cooler cooler = new Cooler(80);
+</span><span class='line'>        string temperature;
+</span><span class='line'>
+</span><span class='line'>        // Register subscribers
+</span><span class='line'>        thermostat.OnTemperatureChange += heater.OnTemperatureChanged;
+</span><span class='line'>        thermostat.OnTemperatureChange += cooler.OnTemperatureChanged;
+</span><span class='line'>
+</span><span class='line'>        Console.Write("Enter temperature: ");
+</span><span class='line'>        temperature = Console.ReadLine();
+</span><span class='line'>        thermostat.CurrentTemperature = int.Parse(temperature);
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Define the event publisher
+</span><span class='line'>public event TemperatureChangeHandler OnTemperatureChange {
+</span><span class='line'>  add
+</span><span class='line'>  {
+</span><span class='line'>      System.Delegate.Remove(_OnTemperatureChange, value);
+</span><span class='line'>  }
+</span><span class='line'>  remove
+</span><span class='line'>  {
+</span><span class='line'>      System.Delegate.Combine(value, _OnTemperatureChange);
+</span><span class='line'>      
+</span><span class='line'>  } 
+</span><span class='line'>}
+</span><span class='line'>protected TemperatureChangeHandler _OnTemperatureChange;</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Tian</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-05T14:00:00-07:00" pubdate data-updated="true">Sep 5<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/programming-language/'>programming_language</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.puncsky.com/blog/2013/09/05/essential-c-sharp-intermediate/" data-via="" data-counturl="http://www.puncsky.com/blog/2013/09/05/essential-c-sharp-intermediate/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    
+    <ul class="pager">
+      
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/2013/09/02/ipadmini/" title="Previous Post:
+        我的iPad安装的应用">&laquo; 我的iPad安装的应用</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+      <li class="next"><a class="basic-alignment right" href="/blog/2013/09/07/trips-to-mt-rainier-and-san-juan-islands/"
+        title="Next Post: Trip to Mt. Rainier and San Juan Islands">Trip to Mt. Rainier and San Juan Islands
+        &raquo;</a></li>
+      
+    </ul>
+  </footer>
+</article>
+
+<aside class="sidebar-nav span3">
+  
+    <section class="well">
+  <script src="/javascripts/onmouseoverpuncsky.js" type="text/javascript"> </script>
+  <img onmouseover="enlight(this)" onmouseout="darken(this)" src="/puncsky-gray.png" alt="puncsky" style="max-width:100%;">
+  <h4>Puncsky</h4>
+  <p><i>who strives on and lives to strive</i></p>
+  <p><a href="https://www.github.com/puncsky/">Github</a></p>
+</section>
+<section class="well">
+  <ul id="recent_posts" class="nav nav-list">
+    <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2013/09/07/trips-to-mt-rainier-and-san-juan-islands/">Trip to Mt. Rainier and San Juan Islands</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/09/05/essential-c-sharp-intermediate/">Essential C# 4.0: Intermediate</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/09/02/ipadmini/">我的iPad安装的应用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/14/essential-c-sharp-basics/">Essential C# 4.0: Basics</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/11/%5B%3F%5D-ben-chu-chuang-gong-si-de-hui-yi-lu-%3C%3Cda-zao-facebook%3E%3E/">中国工程师在初创公司的经验总结--《打造Facebook》</a>
+      </li>
+    
+  </ul>
+</section>
+<section class="well">
+	<div id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://www.puncsky.com', 'user' : 1100959, 'server' : '2', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2013-06-24', 'lang' : 'en', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www2.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www2.clustrmaps.com/user/92810cc9f"><img src="http://www2.clustrmaps.com/stats/maps-no_clusters/www.puncsky.com-thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo" class="page-footer"><hr>
+<p>
+  Copyright &copy; 2013 - Tian -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'puncsky';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -13,13 +13,13 @@ Surely I have already known that the world is wonderful and full of unexpected s
 
 However, for a Internet guy like me, of course, Internet is exactly the greatest treasure and playground. Everything I read and work on everyday comes from it -- books, papers, SNS news feed, blogs, source code, etc. So, how dare I still shamelessly claim that I would love to travel?
 
-It is the person I travel with that really matters to me. Reading is a personal issue. Thinking is a personal issue. Deep love is also a personal issue. Like the Protoss (a kind of aliens) in Starcraft, it seems that the highest state of human society tends to be independent. And loneliness is  our final fate. Hardly are there a chance for friends to get together and enjoy a journey in life like this.
+**It is the person I travel with that really matters to me.** Reading is a personal issue. Thinking is a personal issue. Deep love is also a personal issue. Like the Protoss (a kind of aliens) in Starcraft, it seems that the highest state of human society tends to be highly independent. And even better or worse, loneliness seems to be our final fate. Hardly are there a chance like this for friends to get together and enjoy a journey in life.
 
 Personally, exhausted with my CS profession, I have little friends in the US. My social life in Yale is almost zero. It is a trade-off, so you know my choice under my weak CS background.
 
 Last week, we visited Mt. Rainer and San Juan Islands. I had long admired the breathtaking beauty of the Emerald City, and with [a unforgettable view of the space needle accompanied by the Mt. Rainier in the far-away background](https://www.google.com/search?site=imghp&tbm=isch&q=space+needle+mount+rainier). Actually, that is one of my postcards serving as bookmarks for my GRE-related materials. Years later, Hmm, doesn't it taste so nice to have a small dream come true? :D
 
-Thank you my friends for the wonderful trip.
+Thank you my friends, not for the wonderful trip, but for you.
 
 ## Day 1 Mt. Rainer
 
@@ -42,8 +42,12 @@ San Juan Islands are located to the north coast of the Washington State and near
 
 ![San Juan Islands](https://raw.github.com/puncsky/puncsky.github.com/source/images/san_juan_islands.jpg)
 
-Our top priority was to watch the whales. Fortunately, and most importantly, thanks to Miss Yang, we saw THREE KINDS OF WHALES! **It was the first time ever in the past over 25 years!** Wasn't it amazing? However, a whale watching without a powerful long-focus lens was just a disaster!
+Our top priority was to watch the whales. Fortunately, and most importantly, thanks to Miss Yang, we saw THREE KINDS OF WHALES! **It was the first time ever in the past over 25 years in this region!** Wasn't it amazing? However, a whale watching without a powerful long-focus lens was just a disaster!
 
 ![ORCA Whales: A Family](https://raw.github.com/puncsky/puncsky.github.com/source/images/orca_whales.jpg)
 
 ![Whale](https://raw.github.com/puncsky/puncsky.github.com/source/images/whale.jpg)
+
+![Beautiful Sea](https://raw.github.com/puncsky/puncsky.github.com/source/images/beautiful_sea.jpg)
+
+EOF

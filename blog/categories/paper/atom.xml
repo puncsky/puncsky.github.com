@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Paper | Puncsky CS Notebook]]></title>
-  <link href="http://puncsky.github.com/blog/categories/paper/atom.xml" rel="self"/>
-  <link href="http://puncsky.github.com/"/>
-  <updated>2013-08-09T22:43:09-07:00</updated>
-  <id>http://puncsky.github.com/</id>
+  <link href="http://www.puncsky.com/blog/categories/paper/atom.xml" rel="self"/>
+  <link href="http://www.puncsky.com/"/>
+  <updated>2013-09-07T18:56:36-07:00</updated>
+  <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Fast Crash Recovery in RAMCloud (SOSP'11)]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/13/fast-crash-recovery-in-ramcloud/"/>
+    <link href="http://www.puncsky.com/blog/2012/12/13/fast-crash-recovery-in-ramcloud/"/>
     <updated>2012-12-13T12:22:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/13/fast-crash-recovery-in-ramcloud</id>
+    <id>http://www.puncsky.com/blog/2012/12/13/fast-crash-recovery-in-ramcloud</id>
     <content type="html"><![CDATA[<p><a href="http://www.stanford.edu/~ouster/cgi-bin/home.php">Stanford</a>, <a href="http://www.stanford.edu/~ouster/cgi-bin/papers/ramcloud-recovery.pdf">paper</a>, <a href="https://ramcloud.stanford.edu/wiki/display/ramcloud/RAMCloud+Presentations">slides</a>, <a href="http://www.youtube.com/watch?v=RE3CmdEGv4M">video</a></p>
 
 <h3>1. Problem</h3>
@@ -77,9 +77,9 @@
   
   <entry>
     <title type="html"><![CDATA[CleanOS: Limiting Mobile Data Exposure with Idle Eviction (OSDI'12)]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/06/cleanos/"/>
+    <link href="http://www.puncsky.com/blog/2012/12/06/cleanos/"/>
     <updated>2012-12-06T06:40:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/06/cleanos</id>
+    <id>http://www.puncsky.com/blog/2012/12/06/cleanos</id>
     <content type="html"><![CDATA[<p><a href="http://systems.cs.columbia.edu/projects/cleanos/">Columbia University</a>, <a href="https://www.usenix.org/system/files/conference/osdi12/osdi12-final-203.pdf">paper</a> <a href="https://www.usenix.org/sites/default/files/conference/protected-files/tang_osdi12_slides.pdf">slides</a>, <a href="https://www.usenix.org/conference/osdi12/cleanos-increasing-mobile-data-control-cloud-based-eviction">video</a></p>
 
 <h3>1. Problem</h3>
@@ -165,9 +165,9 @@ sdoEvicted(appName, sdoID)
   
   <entry>
     <title type="html"><![CDATA[Chord: A Scalable Peer-to-peer Lookup Service for Internet Applications]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/06/chord/"/>
+    <link href="http://www.puncsky.com/blog/2012/12/06/chord/"/>
     <updated>2012-12-06T06:29:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/06/chord</id>
+    <id>http://www.puncsky.com/blog/2012/12/06/chord</id>
     <content type="html"><![CDATA[<p><a href="http://pdos.lcs.mit.edu/chord/">MIT PDOS</a>, <a href="http://pdos.csail.mit.edu/papers/chord:sigcomm01/chord_sigcomm.pdf">paper</a>, <a href="http://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=5&amp;cad=rja&amp;ved=0CGEQFjAE&amp;url=http%3A%2F%2Fpdos.csail.mit.edu%2Frtm%2Fslides%2Fsigcomm01.ppt&amp;ei=tYLAUNjmLoSt0AGb7YCoBw&amp;usg=AFQjCNHmlld_WDglWjj7TP_coYsk1O_l-A&amp;sig2=SO8yiWfEsi_V2VEI-F2pmw">slides</a></p>
 
 <h3>1. Problem</h3>
@@ -274,9 +274,9 @@ sdoEvicted(appName, sdoID)
   
   <entry>
     <title type="html"><![CDATA[Cells: a virtual mobile smartphone architecture (SOSP '11)]]></title>
-    <link href="http://puncsky.github.com/blog/2012/12/01/cells/"/>
+    <link href="http://www.puncsky.com/blog/2012/12/01/cells/"/>
     <updated>2012-12-01T19:52:00-08:00</updated>
-    <id>http://puncsky.github.com/blog/2012/12/01/cells</id>
+    <id>http://www.puncsky.com/blog/2012/12/01/cells</id>
     <content type="html"><![CDATA[<p><a href="http://systems.cs.columbia.edu/archive/pub/2011/10/cells-a-virtual-mobile-smartphone-architecture/">Columbia University</a>, <a href="http://www.sigops.org/sosp/sosp11/current/2011-Cascais/printable/13-andrus.pdf">papers</a>, <a href="http://www.sigops.org/sosp/sosp11/current/2011-Cascais/13-andrus-slides.pdf">slides</a>, <a href="http://www.youtube.com/watch?v=XBBJ8873vqE">video</a></p>
 
 <h3>1. Problem</h3>
