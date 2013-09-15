@@ -4,7 +4,7 @@
   <title><![CDATA[Puncsky CS Notebook]]></title>
   <link href="http://www.puncsky.com/atom.xml" rel="self"/>
   <link href="http://www.puncsky.com/"/>
-  <updated>2013-09-14T18:46:03-07:00</updated>
+  <updated>2013-09-14T22:27:50-07:00</updated>
   <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -39,7 +39,7 @@
 
 <p>The <a href="http://www.sigops.org/sosp/sosp09/papers/isard-sosp09.pdf">Quincy paper</a> is rather theoretical organized and involves a large number of mathematical details, which reasonably makes itself hard to understand. The following sections explains our implementation.</p>
 
-<h2>Architecture</h2>
+<h2>1. Architecture</h2>
 
 <p><em>Figure 1</em> displays an outline of our architecture. There exist three kinds of nodes and accordingly three levels of hierarchy in the cluster. Computing nodes are connected via a rack switch, and placed in the same rack. Rack switches are connected via a core switch. Core switches and rack switches do not undertake computing works but can still be presented in the Hadoop system as nodes.</p>
 
@@ -62,17 +62,17 @@
 
 <p>There may be many jobs sharing the cluster resources at the same time. When a job comes into the JobTracker&#8217;s job queue, the JobTracker resorts the queue by the priority and the start time of these jobs. A job is composed of the map tasks and the reduce tasks. When the job comes out of the queue and starts to run, the JobTracker will analyze the input data&#8217;s distribution over those TaskTrackers and initialize a list of preferred tasks for each TaskTracker, rack switch, and core switch, as shown in <em>figure 1</em>. A task will occur on the preferred list of some node if its data splits are stored in that node <em>or</em> in any of its child nodes. Then the JobTracker&#8217;s scheduler matches tasks to the TaskTrackers and launch them to run the tasks on their own newly-assigned lists. At the same time, the JobTracker keeps collecting status information from TaskTrackers until all the tasks finish. If failure happens in the TaskTracker, the JobTracker will restart the task from that TaskTracker or enable a new TaskTracker to execute the task. The scheduler can kill a task on a TaskTracker with preemption if there is a more suitable arrangement.</p>
 
-<h2>Hadoop Default Scheduler</h2>
+<h2>2. Hadoop Default Scheduler</h2>
 
 <p>After the initialization of preferred lists, the JobTracker assign a series of actions, including the tasks waiting for execution, into the response to heartbeat from the matched TaskTracker. The matched TaskTracker receives the heartbeat response and adds the actions to the task queue.</p>
 
-<h3>Queue-based Greedy Scheduler without Fairness</h3>
+<h3>2.1 Queue-based Greedy Scheduler without Fairness</h3>
 
 <p>In the task assignment, the JobTracker&#8217;s task scheduler first calculates the max workload for every job, and leaves certain padding slots for speculative tasks. The speculative task backs up some running task, in case that the running task is too slow and impede the job&#8217;s progress. Map tasks are assigned before reduce tasks. Data-local and rack-local tasks are assigned before non-local tasks.</p>
 
 <p>The default setup for Hadoop is a queue-based greedy scheduler. The preferred task lists of every node can be deemed as queues. Each computing node has a queue of tasks which can be executed without pulling data from other places. Each computing node in a rack shares a rack queue in case that computing node can execute tasks with pulling data splits from other nodes in the same rack, when the local list has already been finished. Since racks are connected with a core switch, racks also share a global queue. For every assignment, node will compute the previously failed tasks first, then the non-running local and non-local tasks, and finally the speculative tasks.</p>
 
-<h3>Queue-based Greedy and Fair Scheduler</h3>
+<h3>2.2 Queue-based Greedy and Fair Scheduler</h3>
 
 <p>When only one job is running on the cluster, that job will use the entire cluster. What will happen if multiple jobs are submitted? The default&#8217;s sorting by priority and start time only ensures that more significant and earlier submitted jobs are dequeued first. However, the Hadoop fair scheduler arranges jobs into pools. Computing resources are divided fairly between these pools. A pool can be occupied by only one user (by default) or shared by a user group. Within the pool, jobs can be scheduled evenly or first-in-first-serve.</p>
 
@@ -80,11 +80,11 @@
 
 <p>Hadoop default scheduler sets up a wait time to enable a portion of the cluster wait to get better locality, preventing a job&#8217;s tasks from becoming sticky to a TaskTracker.</p>
 
-<h2>Quincy Scheduler</h2>
+<h2>3. Quincy Scheduler</h2>
 
 <p><a href="Quincy:%20Fair%20Scheduling%20for%20Distributed%20Computing%20Clusters">Quincy</a> introduces a new framework transforming the scheduling into a global min cost max flow problem. Running a particular task on some machine incurs a data calculation cost and, potentially, a data transfer cost. Killing a running task also incurs a wasted time cost. If different kinds of costs can be expressed in the same unit, then we can investigate an algorithm to minimize the total cost of the scheduling.</p>
 
-<h3>Min Cost Max Flow</h3>
+<h3>3.1 Min Cost Max Flow</h3>
 
 <p>In a flow network, a directed graph $G=(V, E)$ has $source \in V$ and $sink \in V$. For each edge $(u,v)\in E$, there are $capacity(u,v)\in\mathbb{N}$, $flow(u,v)\in\mathbb{N}$ and $cost(u,v)\in\mathbb{R}$.</p>
 
@@ -94,7 +94,7 @@
 
 <p><a href="http://web.mit.edu/~ecprice/acm/acm08/MinCostMaxFlow.java">Edmonds-Karp algorithm</a> is used to calculate the min cost flow with $O(V\cdot E ^ 2)$ in our implementation.</p>
 
-<h3>Initialization of the Matrix</h3>
+<h3>3.2 Initialization of the Matrix</h3>
 
 <p><em>Figure 2</em> shows the graph along with the same topology in <em>Figure 1</em>. Since supplies are from a variety of sources &#8211; task nodes and unscheduled nodes, the graph is a multi-source single-sink flow. Our implementation adds a virtual source to transform the flow into a single-source one.</p>
 
@@ -106,7 +106,7 @@
 <p align="middle"><i>Figure 2: Min-Cost Max Flow Graph</i></p>
 
 
-<h4>Capacity</h4>
+<h4>3.2.1 Capacity</h4>
 
 <p>Each task node has a supply of 1, so $capacity(source, task) = 1$. The <em>unscheduled</em> is used to control the fairness. Tasks flowing to the unscheduled will not be assigned to computing nodes at this time. Each job must have and only has one unscheduled node with $$capacity(source, unscheduled) = F_j - N_j$$ where $F_j$ is the max number of running tasks job j may has. $N_j$ is the number of TaskTrackers assigned to this job.</p>
 
@@ -120,7 +120,7 @@
 
 <p>From each computing node, there is only one edge with $capacity(computing node, sink) = numberOfTaskSlots$. The number of task slots is 2 by Hadoop&#8217;s default for map tasks. The value is 1 for reduce tasks.</p>
 
-<h4>Cost</h4>
+<h4>3.2.2 Cost</h4>
 
 <p>The cost of scheduling a task $t_n ^ j$ job $j$ with $n$ tasks onto a computing node is $\alpha_n ^ j = \psi  R ^ X(t_n ^ j) + \xi  X ^ X(t_n ^ j)$, where $\psi$ is the cost to transfer one GB across a rack switch, $\xi$ is the cost to transfer one GB across the core switch. $(R ^ X(t_n ^ j), X ^ X(t_n ^ j))$ is the upper bounds of the transferred data size across a rack switch and across a core switch.</p>
 
@@ -132,11 +132,11 @@
 
 <p>In our current version for testing, the wait-time factor $\omega=0.5$, $\psi = 1$ per GB, $\xi = 2$ per GB. $\psi$ and $\xi$ can be set larger to achieve a better locality.</p>
 
-<h3>Assignment and Update</h3>
+<h3>3.3 Assignment and Update</h3>
 
 <p>After initialization, the min cost flow matrix will be recalculated every time before a new task is assigned to a TaskTracker. When the job is running on the cluster, the capacity matrix and cost matrix will be updated if a task is finished. An edge from the finished task to the sink will be set with a capacity 1 and cost $-1000-\nu ^ j_n$.</p>
 
-<h3>Preemption and Fairness</h3>
+<h3>3.4 Preemption and Fairness</h3>
 
 <p>There exist four versions of quincy.</p>
 
