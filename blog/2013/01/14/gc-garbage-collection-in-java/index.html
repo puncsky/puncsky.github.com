@@ -45,13 +45,19 @@
   <script src="/javascripts/libs/bootstrap.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Puncsky CS Notebook" type="application/atom+xml">
-  <!--
-<link href="http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic" rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,500italic,700italic,300,400,500,700,800" rel="stylesheet" type="text/css">
--->
-
-<link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js">
+  MathJax.Hub.Config({
+   extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+   jax: ["input/TeX", "output/HTML-CSS"],
+   tex2jax: {
+       inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+       displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+   },
+   "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
 
   
   <script type="text/javascript">
@@ -331,6 +337,10 @@
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2013/09/14/h-quincy/">H-Quincy: Fair Scheduling for Hadoop Clusters</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/09/07/trips-to-mt-rainier-and-san-juan-islands/">Trip to Mt. Rainier and San Juan Islands</a>
       </li>
     
@@ -344,10 +354,6 @@
     
       <li class="post">
         <a href="/blog/2013/08/14/essential-c-sharp-basics/">Essential C# 4.0: Basics</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/11/%5B%3F%5D-ben-chu-chuang-gong-si-de-hui-yi-lu-%3C%3Cda-zao-facebook%3E%3E/">中国工程师在初创公司的经验总结--《打造Facebook》</a>
       </li>
     
   </ul>

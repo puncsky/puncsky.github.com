@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Chord: A Scalable Peer-to-peer Lookup Service for Internet Applications - Puncsky CS Notebook</title>
+  <title>Category: distributed_systems - Puncsky CS Notebook</title>
   <meta name="author" content="Tian">
 
   
-  <meta name="description" content="Life and computer science notebook from Puncsky">
+  <meta name="description" content="Category: distributed_systems">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.puncsky.com/blog/2012/12/06/chord">
+  <link rel="canonical" href="http://www.puncsky.comblog/categories/distributed-systems">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -115,201 +115,38 @@
   <div class="container">
     <div class="row-fluid">
       
-<article class="hentry span9" role="article">
+<article role="article" class="span9">
 
   
   <header class="page-header">
-    
-      <h1 class="entry-title">Chord: A Scalable Peer-to-peer Lookup Service for Internet Applications</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-06T06:29:00-08:00" pubdate data-updated="true">Dec 6<span>th</span>, 2012</time>
-        
-         | <a href="#disqus_thread">Comments</a>
-        
-      </p>
+    <h1 class="entry-title">Category: Distributed_systems</h1>
     
   </header>
+  
+  <div id="blog-archives" class="category">
 
 
-<div class="entry-content"><p><a href="http://pdos.lcs.mit.edu/chord/">MIT PDOS</a>, <a href="http://pdos.csail.mit.edu/papers/chord:sigcomm01/chord_sigcomm.pdf">paper</a>, <a href="http://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=5&amp;cad=rja&amp;ved=0CGEQFjAE&amp;url=http%3A%2F%2Fpdos.csail.mit.edu%2Frtm%2Fslides%2Fsigcomm01.ppt&amp;ei=tYLAUNjmLoSt0AGb7YCoBw&amp;usg=AFQjCNHmlld_WDglWjj7TP_coYsk1O_l-A&amp;sig2=SO8yiWfEsi_V2VEI-F2pmw">slides</a></p>
 
-<h3>1. Problem</h3>
+  
+  <h1>2013</h1>
 
-<p><em>A lookup protocol</em>: How to locate the node that stores a data item in a dynamic P2P system with frequent node arrivals and departures? In other words, given a key, it maps the key onto a node.</p>
+<article>
+  <div class="well">
 
-<!--more-->
+<h2><a href="/blog/2013/09/14/h-quincy/">H-Quincy: Fair Scheduling for Hadoop Clusters</a></h2>
+<time datetime="2013-09-14T16:49:00-07:00" pubdate><span class='month'>Sep</span> <span class='day'>14</span> <span class='year'>2013</span></time>
 
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/big-data/'>big_data</a>, <a class='category' href='/blog/categories/distributed-systems/'>distributed_systems</a>, <a class='category' href='/blog/categories/hadoop/'>hadoop</a></span>
+</footer>
 
-<h3>2. Challenges</h3>
-
-<ul>
-<li>Scalability
-
-<ul>
-<li>Previous consistent hashing needs to know <strong>most</strong> other nodes</li>
-</ul>
-</li>
-<li>Robustness</li>
-<li>Efficiency
-
-<ul>
-<li>Centralized lookup (Napster): O(N)</li>
-<li>Flooded queries (Gnutella): Worst case O(N)</li>
-</ul>
-</li>
-<li>Simplicity</li>
-</ul>
-
-
-<h3>3. Solution</h3>
-
-<p>Chord: Just <code>IPaddress Lookup(key)</code> service, no data storage.</p>
-
-<p>Distributed Hash Table (DHT)</p>
-
-<p><strong>Consistent Hashing</strong>: Key ID and Node ID are in the <strong>same ID space</strong> with SHA-1. A key is stored at is successor (node with next higher ID). For each node &#8230;</p>
-
-<h4>Simple Lookup Algorithm (O(n))</h4>
-
-<p>Each node picks a random ID in a circular numeric space, and supervises a region of ID space immediately following its ID. The data shall be stored in its successor.</p>
-
-<pre><code>Lookup(my-id, key-id)
-    n = my sucessor
-    if my-id &lt; n &lt; key-id
-        call Lookup(id) on node n   // next hop
-    else
-        return my successor         // done
-</code></pre>
-
-<h4>Lookup with finger tables (log(N))</h4>
-
-<p>Finger i points to successor of n+2<sup>i.</sup></p>
-
-<pre><code>Lookup(my-id, key)
-    look in local finger table for highest node m s.t. my-id &lt; n &lt; key-id
-    if n exists
-        call Lookup(id) on node n   // next hop
-    else
-        return my successor         // done
-</code></pre>
-
-<p>How to join a new node? For example, join N36 (Node 36) between N25 and N40.</p>
-
-<ol>
-<li>Lookup(36) and get N40&#8217;s IP</li>
-<li>N36 sets its own successor pointer point to N40</li>
-<li>Copy keys 26~36 from N40 to N36</li>
-<li>Set N25&#8217;s successor pointer point to N36, and update finger pointers in the background</li>
-</ol>
-
-
-<p>How to deal with failure (a node doesn&#8217;t know correct successor)?</p>
-
-<ul>
-<li>Successor lists. Each node knows <em>r</em> immediate successors.
-
-<ul>
-<li>Assume 1/2 of nodes fail.</li>
-<li>P(successor list all dead) (1/2)<sup>r</sup></li>
-<li>P(no broken nodes)=(1-(1/2)<sup>r)<sup>N</sup></sup></li>
-</ul>
-</li>
-</ul>
-
-
-<h4>Lookup with fault tolerance</h4>
-
-<pre><code>Lookup(my-id, key-id)
-    look in local finger table and sucessor-list for highest node n s.t. my-id &lt; n &lt; key-id
-    if n exists
-        call Lookup(id) on node n   // next hop
-        if call failed
-            remove n from finger table
-            return Lookup(my-id, key-id)
-    else return my sucessor         // done
-</code></pre>
-
-<h3>4. Conclusion</h3>
-
-<p>Chord uses consistent hashing, distributed hash tables, and novel finger tables to provide lookup services for P2P systems. Each node maintains only O(logN) other nodes. The arrivals and departures acquire only O(log<sup>2</sup> N) messages. The successor list can deal with failure effectively. Chord is simple, scalable, and efficient.</p>
 </div>
 
+</article>
 
-  <footer>
-    <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Tian</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-06T06:29:00-08:00" pubdate data-updated="true">Dec 6<span>th</span>, 2012</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/paper/'>Paper</a>, <a class='category' href='/blog/categories/review/'>Review</a>
-  
-</span>
-
-
-    </p>
-    
-      <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.puncsky.com/blog/2012/12/06/chord/" data-via="" data-counturl="http://www.puncsky.com/blog/2012/12/06/chord/" >Tweet</a>
-  
-  
-  
 </div>
 
-    
-    
-    <section>
-      <h1>Comments</h1>
-      <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-    </section>
-    
-    <ul class="pager">
-      
-      <li class="previous"><a class="basic-alignment left"
-        href="/blog/2012/12/01/cells/" title="Previous Post:
-        Cells: a virtual mobile smartphone architecture (SOSP '11)">&laquo; Cells: a virtual mobile smartphone architecture (SOSP '11)</a></li>
-      
-      <li><a href="/blog/archives">Blog Archives</a></li>
-      
-      <li class="next"><a class="basic-alignment right" href="/blog/2012/12/06/cleanos/"
-        title="Next Post: CleanOS: Limiting Mobile Data Exposure with Idle Eviction (OSDI'12)">CleanOS: Limiting Mobile Data Exposure with Idle Eviction (OSDI'12)
-        &raquo;</a></li>
-      
-    </ul>
-  </footer>
+  
 </article>
 
 <aside class="sidebar-nav span3">
@@ -375,10 +212,7 @@
       var disqus_shortname = 'puncsky';
       
         
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://www.puncsky.com/blog/2012/12/06/chord/';
-        var disqus_url = 'http://www.puncsky.com/blog/2012/12/06/chord/';
-        var disqus_script = 'embed.js';
+        var disqus_script = 'count.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

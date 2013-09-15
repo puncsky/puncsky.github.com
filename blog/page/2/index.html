@@ -45,13 +45,19 @@
   <script src="/javascripts/libs/bootstrap.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Puncsky CS Notebook" type="application/atom+xml">
-  <!--
-<link href="http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic" rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,500italic,700italic,300,400,500,700,800" rel="stylesheet" type="text/css">
--->
-
-<link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js">
+  MathJax.Hub.Config({
+   extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+   jax: ["input/TeX", "output/HTML-CSS"],
+   tex2jax: {
+       inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+       displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+   },
+   "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
 
   
   <script type="text/javascript">
@@ -110,6 +116,59 @@
     <div class="row-fluid">
       <div class="span9">
   
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/27/hadoopdb-vldb-09/">HadoopDB (VLDB&#8217;09)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-27T15:50:00-08:00" pubdate data-updated="true">Jan 27<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/01/27/hadoopdb-vldb-09/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://db.cs.yale.edu/hadoopdb/hadoopdb.html">Yale DB</a></p>
+
+<h3>Comments</h3>
+
+<p>Two ways to improve HadoopDB</p>
+
+<ol>
+<li>Integrate the file system for local database with HDFS. In the design of HadoopDB, the file system and the database are separated, which means that the more space one part is preallocated and the less space the other part will occupy. This design is not scalable because the system administrator has to partition the space by hand. We could investigate a way to let the database run on the HDFS directly. The database&#8217;s file descriptor can be adapted to HDFS directly. Or, even better, we can add an extra virtualized layer between the database and the HDFS.</li>
+<li>Set up a better scheduler. It is mentioned in the paper that the original version of hadoop fair scheduler is not so good. It is queue-based and locally greedy and simply does not consider the big picture much. &#8220;Quincy: Fair Scheduling for Distributed Computing Clusters&#8221; advances a flow-based algorithm, which has a very good performance by increasing the throughput up to 40%.</li>
+</ol>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/01/27/hadoopdb-vldb-09/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -5295,53 +5354,6 @@ vector examples</li>
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/06/chord/">Chord: A Scalable Peer-to-peer Lookup Service for Internet Applications</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-06T06:29:00-08:00" pubdate data-updated="true">Dec 6<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/12/06/chord/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://pdos.lcs.mit.edu/chord/">MIT PDOS</a>, <a href="http://pdos.csail.mit.edu/papers/chord:sigcomm01/chord_sigcomm.pdf">paper</a>, <a href="http://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=5&amp;cad=rja&amp;ved=0CGEQFjAE&amp;url=http%3A%2F%2Fpdos.csail.mit.edu%2Frtm%2Fslides%2Fsigcomm01.ppt&amp;ei=tYLAUNjmLoSt0AGb7YCoBw&amp;usg=AFQjCNHmlld_WDglWjj7TP_coYsk1O_l-A&amp;sig2=SO8yiWfEsi_V2VEI-F2pmw">slides</a></p>
-
-<h3>1. Problem</h3>
-
-<p><em>A lookup protocol</em>: How to locate the node that stores a data item in a dynamic P2P system with frequent node arrivals and departures? In other words, given a key, it maps the key onto a node.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/12/06/chord/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="/blog/page/3/">&larr; Older</a></li>
@@ -5366,6 +5378,10 @@ vector examples</li>
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2013/09/14/h-quincy/">H-Quincy: Fair Scheduling for Hadoop Clusters</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/09/07/trips-to-mt-rainier-and-san-juan-islands/">Trip to Mt. Rainier and San Juan Islands</a>
       </li>
     
@@ -5379,10 +5395,6 @@ vector examples</li>
     
       <li class="post">
         <a href="/blog/2013/08/14/essential-c-sharp-basics/">Essential C# 4.0: Basics</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/11/%5B%3F%5D-ben-chu-chuang-gong-si-de-hui-yi-lu-%3C%3Cda-zao-facebook%3E%3E/">中国工程师在初创公司的经验总结&#8211;《打造Facebook》</a>
       </li>
     
   </ul>

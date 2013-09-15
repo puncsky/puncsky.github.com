@@ -4,7 +4,7 @@
   <title><![CDATA[Puncsky CS Notebook]]></title>
   <link href="http://www.puncsky.com/atom.xml" rel="self"/>
   <link href="http://www.puncsky.com/"/>
-  <updated>2013-09-07T19:06:57-07:00</updated>
+  <updated>2013-09-14T18:13:40-07:00</updated>
   <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -12,6 +12,148 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[H-Quincy: Fair Scheduling for Hadoop Clusters]]></title>
+    <link href="http://www.puncsky.com/blog/2013/09/14/h-quincy/"/>
+    <updated>2013-09-14T16:49:00-07:00</updated>
+    <id>http://www.puncsky.com/blog/2013/09/14/h-quincy</id>
+    <content type="html"><![CDATA[<p><a href="https://github.com/puncsky/H-Quincy">H-Quincy</a> implements the paper <a href="http://www.sigops.org/sosp/sosp09/papers/isard-sosp09.pdf">Quincy: Fair Scheduling for Distributed Computing Clusters</a> on Hadoop, which improves the mapreduce scheduler by replacing the default queue-based one with a flow-based one. A min cost flow is calculated and updated to assign map tasks among the cluster, according to the size of the data split and the communication overhead in the cluster&#8217;s hierarchy.</p>
+
+<h2>Install</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git clone https://github.com/puncsky/H-Quincy.git
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can either build from source code or user the JAR directly.</p>
+
+<ul>
+<li><em>Build from Source Code</em>. Replace your <code>$HADOOP_HOME/src/mapred/org/apache/hadoop/mapred</code> with files in <code>src/</code>. Enter <code>$HADOOP_HOME</code> and build with <code>ant</code>.</li>
+<li><em>utilize the JAR directly</em>. Replace your <code>$HADOOP_HOME/hadoop-core-{version}.jar</code> with <code>hadoop-core-1.0.4-SNAPSHOT.jar</code></li>
+</ul>
+
+
+<hr />
+
+<p>The <a href="http://www.sigops.org/sosp/sosp09/papers/isard-sosp09.pdf">Quincy paper</a> is rather theoretical organized and involves a large number of mathematical details, which reasonably makes itself hard to understand. The following sections explains our implementation.</p>
+
+<!--more-->
+
+
+<h2>Architecture</h2>
+
+<p><em>Figure 1</em> displays an outline of our architecture. There exist three kinds of nodes and accordingly three levels of hierarchy in the cluster. Computing nodes are connected via a rack switch, and placed in the same rack. Rack switches are connected via a core switch. Core switches and rack switches do not undertake computing works but can still be presented in the Hadoop system as nodes.</p>
+
+<p align="middle"><img src="https://raw.github.com/puncsky/H-Quincy/master/doc/architecture.png" alt="architecture"></p>
+
+
+
+
+<p align="middle"><i>Figure 1: A sample architecture with simplified preferred lists.</i></p>
+
+
+
+
+<!--more-->
+
+
+<p>As we know, Hadoop takes a master/slave architecture, which includes a single master and multiple worker nodes. The master node in general consists of a JobTracker and a NameNode. The slave worker consist of a TaskTracker and a DataNode. Nevertheless, the master can also play the role of the slave at the same time. JobTracker assigns tasks to the TaskTrackers for execution, and then collects the result. NameNode manages the index for blocks of data storing in DataNodes among the Hadoop Distributed File System.</p>
+
+<p>In our cluster, each computing node is both a TaskTracker and a DataNode, which means they are all slaves. And we select one of them as a master, which is both a JobTracker and a DataNode simultaneously. The master maintains the relationship with slaves through heartbeat, whose overhead is ignorable when compared to the data transfer or the execution of tasks.</p>
+
+<p>There may be many jobs sharing the cluster resources at the same time. When a job comes into the JobTracker&#8217;s job queue, the JobTracker resorts the queue by the priority and the start time of these jobs. A job is composed of the map tasks and the reduce tasks. When the job comes out of the queue and starts to run, the JobTracker will analyze the input data&#8217;s distribution over those TaskTrackers and initialize a list of preferred tasks for each TaskTracker, rack switch, and core switch, as shown in <em>figure 1</em>. A task will occur on the preferred list of some node if its data splits are stored in that node <em>or</em> in any of its child nodes. Then the JobTracker&#8217;s scheduler matches tasks to the TaskTrackers and launch them to run the tasks on their own newly-assigned lists. At the same time, the JobTracker keeps collecting status information from TaskTrackers until all the tasks finish. If failure happens in the TaskTracker, the JobTracker will restart the task from that TaskTracker or enable a new TaskTracker to execute the task. The scheduler can kill a task on a TaskTracker with preemption if there is a more suitable arrangement.</p>
+
+<h2>Hadoop Default Scheduler</h2>
+
+<p>After the initialization of preferred lists, the JobTracker assign a series of actions, including the tasks waiting for execution, into the response to heartbeat from the matched TaskTracker. The matched TaskTracker receives the heartbeat response and adds the actions to the task queue.</p>
+
+<h3>Queue-based Greedy Scheduler without Fairness</h3>
+
+<p>In the task assignment, the JobTracker&#8217;s task scheduler first calculates the max workload for every job, and leaves certain padding slots for speculative tasks. The speculative task backs up some running task, in case that the running task is too slow and impede the job&#8217;s progress. Map tasks are assigned before reduce tasks. Data-local and rack-local tasks are assigned before non-local tasks.</p>
+
+<p>The default setup for Hadoop is a queue-based greedy scheduler. The preferred task lists of every node can be deemed as queues. Each computing node has a queue of tasks which can be executed without pulling data from other places. Each computing node in a rack shares a rack queue in case that computing node can execute tasks with pulling data splits from other nodes in the same rack, when the local list has already been finished. Since racks are connected with a core switch, racks also share a global queue. For every assignment, node will compute the previously failed tasks first, then the non-running local and non-local tasks, and finally the speculative tasks.</p>
+
+<h3>Queue-based Greedy and Fair Scheduler</h3>
+
+<p>When only one job is running on the cluster, that job will use the entire cluster. What will happen if multiple jobs are submitted? The default&#8217;s sorting by priority and start time only ensures that more significant and earlier submitted jobs are dequeued first. However, the Hadoop fair scheduler arranges jobs into pools. Computing resources are divided fairly between these pools. A pool can be occupied by only one user (by default) or shared by a user group. Within the pool, jobs can be scheduled evenly or first-in-first-serve.</p>
+
+<p>Assume we have $M$ computers and $K$ running jobs, and job $j$ has $N_{j}$ tasks in total. Each job $j$ will be allocated $A_{j} = min(\lfloor M/K\rfloor, N_{j})$ task slots. If there are still resting slots, divide them evenly. After finishing the running tasks, a TaskTracker will follow the new allocation $A_{j}$. However, if the process is not preemptive, the running tasks will definitely not be affected when new jobs are submitted irrespective of the changed allocation $A_{j}$. If the fairness is ensured with preemption, the running tasks will be killed while a new quota $A_{j}$ shows up.</p>
+
+<p>Hadoop default scheduler sets up a wait time to enable a portion of the cluster wait to get better locality, preventing a job&#8217;s tasks from becoming sticky to a TaskTracker.</p>
+
+<h2>Quincy Scheduler</h2>
+
+<p><a href="Quincy:%20Fair%20Scheduling%20for%20Distributed%20Computing%20Clusters">Quincy</a> introduces a new framework transforming the scheduling into a global min cost max flow problem. Running a particular task on some machine incurs a data calculation cost and, potentially, a data transfer cost. Killing a running task also incurs a wasted time cost. If different kinds of costs can be expressed in the same unit, then we can investigate an algorithm to minimize the total cost of the scheduling.</p>
+
+<h3>Min Cost Max Flow</h3>
+
+<p>In a flow network, a directed graph $G=(V, E)$ has $source \in V$ and $sink \in V$. For each edge $(u,v)\in E$, there are $capacity(u,v)\in\mathbb{N}$, $flow(u,v)\in\mathbb{N}$ and $cost(u,v)\in\mathbb{R}$.</p>
+
+<p>The problem is to calculate the min cost flow</p>
+
+<p>$min(\sum_{E}flow\cdot cost)$</p>
+
+<p><a href="http://web.mit.edu/~ecprice/acm/acm08/MinCostMaxFlow.java">Edmonds-Karp algorithm</a> is used to calculate the min cost flow with $O(V\cdot E ^ 2)$ in our implementation.</p>
+
+<h3>Initialization of the Matrix</h3>
+
+<p><em>Figure 2</em> shows the graph along with the same topology in <em>Figure 1</em>. Since supplies are from a variety of sources &#8211; task nodes and unscheduled nodes, the graph is a multi-source single-sink flow. Our implementation adds a virtual source to transform the flow into a single-source one.</p>
+
+<p align="middle"><img src="https://raw.github.com/puncsky/H-Quincy/master/doc/mincostflow.png" alt="flow graph"></p>
+
+
+
+
+<p align="middle"><i>Figure 2: Min-Cost Max Flow Graph</i></p>
+
+
+<h4>Capacity</h4>
+
+<p>Each task node has a supply of 1, so $capacity(source, task) = 1$. The <em>unscheduled</em> is used to control the fairness. Tasks flowing to the unscheduled will not be assigned to computing nodes at this time. Each job must have and only has one unscheduled node with $$capacity(source, unscheduled) = F_j - N_j$$ where $F_j$ is the max number of running tasks job j may has. $N_j$ is the number of TaskTrackers assigned to this job.</p>
+
+<p>From each task node, there are edges to the core switch, preferred rack, and preferred computing nodes. By default, every split of data has three replicas, so the number of preferred computing nodes is usually 3. So we can yield $$capacity(task, core switch) = 1$$ $$capacity(task, preferredRackSwitch) = 1$$  $$capacity(task, preferredComputingNode) = 1$$</p>
+
+<p>From the unscheduled, there is only one edge to sink with $capacity(unscheduled, sink) = F_j - E_j$, where $E_j$ is the min number of running tasks job j may have.</p>
+
+<p>From the core switch, there are edges to every rack with capacities of $$capacity(coreSwitch, rackSwitch) = numberOfTaskTrackersInThatRack$$</p>
+
+<p>From each rack switch, there are edges to every computing node with capacity of $capacity(rackSwitch, computingNode) = 1$.</p>
+
+<p>From each computing node, there is only one edge with $capacity(computing node, sink) = numberOfTaskSlots$. The number of task slots is 2 by Hadoop&#8217;s default for map tasks. The value is 1 for reduce tasks.</p>
+
+<h4>Cost</h4>
+
+<p>The cost of scheduling a task $t_n ^ j$ job $j$ with $n$ tasks onto a computing node is $\alpha_n ^ j = \psi  R ^ X(t_n ^ j) + \xi  X ^ X(t_n ^ j)$, where $\psi$ is the cost to transfer one GB across a rack switch, $\xi$ is the cost to transfer one GB across the core switch. $(R ^ X(t_n ^ j), X ^ X(t_n ^ j))$ is the upper bounds of the transferred data size across a rack switch and across a core switch.</p>
+
+<p>The cost of scheduling a task onto a preferred rack is $\rho ^ j_{n,l} = \psi  R ^ R_l(t_n ^ j) + \xi  X ^ R_l(t_n ^ j)$.</p>
+
+<p>The cost of scheduling a task onto a preferred computer is $\gamma ^ j_{n,m} = \psi  R ^ C_m(t_n ^ j) + \xi  X ^ C_m(t_n ^ j)$. However, if the computer is now executing the same task, the cost should be  $\gamma ^ j_{n,m} = \psi  R ^ C_m(t_n ^ j) + \xi  X ^ C_m(t_n ^ j) - \theta ^ j_n$, where $\theta$ is the number of seconds for which the task has been running.</p>
+
+<p>The cost of scheduling a task onto the unscheduled is $\upsilon ^ j_n = \omega \nu ^ j_n$, where $\omega$ is a wait-time factor and $\nu ^ j_n$ is the total number of seconds that task $n$ in job $j$ has spent unscheduled.</p>
+
+<p>In our current version for testing, the wait-time factor $\omega=0.5$, $\psi = 1$ per GB, $\xi = 2$ per GB. $\psi$ and $\xi$ can be set larger to achieve a better locality.</p>
+
+<h3>Assignment and Update</h3>
+
+<p>After initialization, the min cost flow matrix will be recalculated every time before a new task is assigned to a TaskTracker. When the job is running on the cluster, the capacity matrix and cost matrix will be updated if a task is finished. An edge from the finished task to the sink will be set with a capacity 1 and cost $-1000-\nu ^ j_n$.</p>
+
+<h3>Preemption and Fairness</h3>
+
+<p>There exist four versions of quincy.</p>
+
+<ul>
+<li>Quincy without Preemption and without Fairness(Q).</li>
+<li>Quincy with Preemption and without Fairness(QP).</li>
+<li>Quincy without Preemption and with Fairness(QF).</li>
+<li>Quincy with Preemption and with Fairness(QPF).</li>
+</ul>
+
+
+<p>Limited to the time, our current implementation does not include preemption and fairness. Preemption is easy to achieve but there are more classes and source codes to modify for fairness control.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Trip to Mt. Rainier and San Juan Islands]]></title>
@@ -22,7 +164,7 @@
 
 <p>Surely I have already known that the world is wonderful and full of unexpected surprises. Like many other groups of people, traveling around the world is also one of my childhood dreams. Wandering around leads to stumbling upon. Travel is admittedly the right way to discover <a href="http://en.wikipedia.org/wiki/Black_swan_theory">&#8220;the black swan&#8221;</a>, in which an unpredictable slight event can make a significant difference.</p>
 
-<p>However, for a Internet guy like me, of course, Internet is exactly the greatest treasure and playground. Everything I read and work on everyday comes from it &#8211; books, papers, SNS news feed, blogs, source code, etc. So, how dare I still shamelessly claim that I would love to travel?</p>
+<p>However, for an Internet guy like me, of course, Internet is exactly the greatest treasure and playground. Everything I read and work on everyday comes from it &#8211; books, papers, SNS news feed, blogs, source code, etc. So, how dare I still shamelessly claim that I would love to travel?</p>
 
 <p><strong>It is the person I travel with that really matters to me.</strong> Reading is a personal issue. Thinking is a personal issue. Deep love is also a personal issue. Like the Protoss (a kind of aliens) in Starcraft, it seems that the highest state of human society tends to be highly independent. And even better or worse, loneliness seems to be our final fate. Hardly are there a chance like this for friends to get together and enjoy a journey in life.</p>
 
@@ -70,11 +212,14 @@
     <link href="http://www.puncsky.com/blog/2013/09/05/essential-c-sharp-intermediate/"/>
     <updated>2013-09-05T14:00:00-07:00</updated>
     <id>http://www.puncsky.com/blog/2013/09/05/essential-c-sharp-intermediate</id>
-    <content type="html"><![CDATA[<p><a href="http://www.puncsky.com/blog/2013/08/14/essential-c-sharp-basics/">Essential C# 4.0: Basics</a>
-Essential C# 4.0: Intermediate
-<a href="">Essential C# 4.0: Advanced</a></p>
+    <content type="html"><![CDATA[<p>This is the second part of my serials of notes on learning C#.</p>
 
-<p>This is the second part of my serials of notes on learning C#.</p>
+<ol>
+<li><a href="http://www.puncsky.com/blog/2013/08/14/essential-c-sharp-basics/">Essential C# 4.0: Basics</a></li>
+<li>Essential C# 4.0: Intermediate (this post)</li>
+<li><a href="">Essential C# 4.0: Advanced</a></li>
+</ol>
+
 
 <p>A productive-focused language like C# has so much <em>syntax sugar</em> that I feel not so comfortable with, because I used to be a C++ programmer and everything in the C++ kingdom appears to be straight forward, although, at the same time, tend to be fallible.</p>
 
@@ -104,9 +249,11 @@ Essential C# 4.0: Intermediate
 <ul>
 <li> <code>public static</code>
 
-<pre><code> - avoid recursive loop `(leftHandSide == null)` when check equality
- - One of the parameters of a operator must be the containing type
-</code></pre></li>
+<ul>
+<li>avoid recursive loop <code>(leftHandSide == null)</code> when check equality</li>
+<li>One of the parameters of a operator must be the containing type</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>Referencing other Assemblies
@@ -114,11 +261,13 @@ Essential C# 4.0: Intermediate
 <ul>
 <li> Assembly Target: <code>csc /target:library /out:Coordinates.dll Coordinate.cs IAngle.cs</code>
 
-<pre><code> - console executable
- - class library
- - windows executable
- - module
-</code></pre></li>
+<ul>
+<li>console executable</li>
+<li>class library</li>
+<li>windows executable</li>
+<li>module</li>
+</ul>
+</li>
 <li> Reference an Assembly <code>csc /R:Coordinates.dll Program.cs</code></li>
 <li> By default, a class without any access modifier is defined as <code>internal</code> (accessible from within the assembly only).</li>
 </ul>
@@ -128,12 +277,14 @@ Essential C# 4.0: Intermediate
 <ul>
 <li> <strong><em>namespace alias qualifier</em></strong>
 
-<pre><code> - `csc /R:CoordPlus=CoordinatesPlus.dll /R:Coordinates.dll Program.cs`
- - `extern alias CoordPlus;` before all `using` statements
- - `using CoordPlus:
- Blah.Blah;` equally or `using CoordPlus.Blah.Blah;`
- - How about global scope? `using global::Blah.Blah` (different from `using global.Blah.Blah` which means the real namespace of `global`)
-</code></pre></li>
+<ul>
+<li><code>csc /R:CoordPlus=CoordinatesPlus.dll /R:Coordinates.dll Program.cs</code></li>
+<li><code>extern alias CoordPlus;</code> before all <code>using</code> statements</li>
+<li><code>using CoordPlus:
+  Blah.Blah;</code> equally or <code>using CoordPlus.Blah.Blah;</code></li>
+<li>How about global scope? <code>using global::Blah.Blah</code> (different from <code>using global.Blah.Blah</code> which means the real namespace of <code>global</code>)</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>XML Comments
@@ -151,17 +302,21 @@ Essential C# 4.0: Intermediate
 <li> Finalizer: <code>~ClassName()</code> like <a href="http://www.puncsky.com/blog/2013/01/14/gc-garbage-collection-in-java/">Java&#8217;s <code>finalize()</code></a></li>
 <li> Deterministic finalization with the <code>using</code> statement
 
-<pre><code> - The `IDisposable` interface defines
- the details of the pattern with a single method called `Dispose()`, which
- developers call on a resource class to “dispose” of the consumed
- - HOWEVER, there is a chance that an exception will occur before the dispose call
- resources. If this
- happens, Dispose() will not be invoked and the resource cleanup will
- have to rely on the finalizer.
- - SO 2 ways:
-   1. try / finally
-   2. `using` statement and **all variables are of the same type and they implement `IDisposable`**
+<ul>
+<li>The <code>IDisposable</code> interface defines
+  the details of the pattern with a single method called <code>Dispose()</code>, which
+  developers call on a resource class to “dispose” of the consumed</li>
+<li>HOWEVER, there is a chance that an exception will occur before the dispose call
+  resources. If this
+  happens, Dispose() will not be invoked and the resource cleanup will
+  have to rely on the finalizer.</li>
+<li>SO 2 ways:
+
+<pre><code>1. try / finally
+2. `using` statement and **all variables are of the same type and they implement `IDisposable`**
 </code></pre></li>
+</ul>
+</li>
 <li> The <strong><em>f-reachable queue</em></strong> is a list of all the objects that are ready for
 garbage collection and that also have finalization implementations. <code>System.GC.SuppressFinalize(reference)</code> can remove reference instance from f-reachable queue.</li>
 <li> Resource Utilization and Finalization Guidelines. Refer the book page 400.</li>
@@ -175,7 +330,7 @@ garbage collection and that also have finalization implementations. <code>System
 </ol>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -202,33 +357,34 @@ garbage collection and that also have finalization implementations. <code>System
 <span class='line-number'>25</span>
 <span class='line-number'>26</span>
 <span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Lazy Initialization
-</span><span class='line'>using System.IO;
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// Lazy Initialization</span>
+</span><span class='line'><span class="k">using</span> <span class="n">System</span><span class="p">.</span><span class="n">IO</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>class DataCache
-</span><span class='line'>{
-</span><span class='line'>  // ...
-</span><span class='line'>  
-</span><span class='line'>  public DataCache(string FileStreamName)
-</span><span class='line'>  {
-</span><span class='line'>    _FileStream = new Lazy&lt;TemporaryFileStream&gt;(
-</span><span class='line'>      () =&gt; new TemporaryFileStream(FileStreamName));
-</span><span class='line'>  // the lambda expression provides a means of passing the
-</span><span class='line'>  //  instructions for what will happen, but not actually performing those
-</span><span class='line'>  //  instructions until explicitly requested.
-</span><span class='line'>  }
-</span><span class='line'>  
-</span><span class='line'>  public TemporaryFileStream FileStream
-</span><span class='line'>  {
-</span><span class='line'>    get
-</span><span class='line'>  {
-</span><span class='line'>    return _FileStream.Value;
-</span><span class='line'>  }
-</span><span class='line'>  }
-</span><span class='line'>  private Lazy&lt;TemporaryFileStream&gt; _FileStream;
+</span><span class='line'><span class="k">class</span> <span class="nc">DataCache</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// ...</span>
 </span><span class='line'>
-</span><span class='line'>  // ...
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>  <span class="k">public</span> <span class="n">DataCache</span><span class="p">(</span><span class="n">string</span> <span class="n">FileStreamName</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>    <span class="n">_FileStream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Lazy</span><span class="o">&lt;</span><span class="n">TemporaryFileStream</span><span class="o">&gt;</span><span class="p">(</span>
+</span><span class='line'>      <span class="p">()</span> <span class="o">=&gt;</span> <span class="k">new</span> <span class="n">TemporaryFileStream</span><span class="p">(</span><span class="n">FileStreamName</span><span class="p">));</span>
+</span><span class='line'>  <span class="c1">// the lambda expression provides a means of passing the</span>
+</span><span class='line'>  <span class="c1">// instructions for what will happen, but not actually performing those</span>
+</span><span class='line'>  <span class="c1">// instructions until explicitly requested.</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">public</span> <span class="n">TemporaryFileStream</span> <span class="n">FileStream</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>    <span class="n">get</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">_FileStream</span><span class="p">.</span><span class="n">Value</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">private</span> <span class="n">Lazy</span><span class="o">&lt;</span><span class="n">TemporaryFileStream</span><span class="o">&gt;</span> <span class="n">_FileStream</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// ...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>10 Exception Handling 405</h2>
@@ -291,7 +447,7 @@ garbage collection and that also have finalization implementations. <code>System
 </ol>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -343,63 +499,64 @@ garbage collection and that also have finalization implementations. <code>System
 <span class='line-number'>50</span>
 <span class='line-number'>51</span>
 <span class='line-number'>52</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Needing the type parameter to support an interface or exception thrown
-</span><span class='line'>public class BinaryTree&lt;T&gt;
-</span><span class='line'>{
-</span><span class='line'>  // ...
-</span><span class='line'>  public Pair&lt;BinaryTree&lt;T&gt;&gt; SubItems
-</span><span class='line'>  {
-</span><span class='line'>      get { return _SubItems; }
-</span><span class='line'>      set {
-</span><span class='line'>          IComparable&lt;T&gt; first;
-</span><span class='line'>          first = (IComparable&lt;T&gt;)value.First.Item;
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// Needing the type parameter to support an interface or exception thrown</span>
+</span><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// ...</span>
+</span><span class='line'>  <span class="k">public</span> <span class="n">Pair</span><span class="o">&lt;</span><span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;</span> <span class="n">SubItems</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="n">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">_SubItems</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>      <span class="n">set</span> <span class="p">{</span>
+</span><span class='line'>          <span class="n">IComparable</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">first</span><span class="p">;</span>
+</span><span class='line'>          <span class="n">first</span> <span class="o">=</span> <span class="p">(</span><span class="n">IComparable</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">)</span><span class="n">value</span><span class="p">.</span><span class="n">First</span><span class="p">.</span><span class="n">Item</span><span class="p">;</span>
 </span><span class='line'>              
-</span><span class='line'>          if (first.CompareTo(value.Second.Item) &lt; 0)
-</span><span class='line'>          {
-</span><span class='line'>              // first is less than second.
-</span><span class='line'>          }
-</span><span class='line'>          else
-</span><span class='line'>          {
-</span><span class='line'>              // second is less than first.
-</span><span class='line'>          }
-</span><span class='line'>          _SubItems = value;
-</span><span class='line'>      }
-</span><span class='line'>  }
-</span><span class='line'>  private Pair&lt;BinaryTree&lt;T&gt;&gt; _SubItems;
-</span><span class='line'>}
+</span><span class='line'>          <span class="k">if</span> <span class="p">(</span><span class="n">first</span><span class="p">.</span><span class="n">CompareTo</span><span class="p">(</span><span class="n">value</span><span class="p">.</span><span class="n">Second</span><span class="p">.</span><span class="n">Item</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>              <span class="c1">// first is less than second.</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>          <span class="k">else</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>              <span class="c1">// second is less than first.</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>          <span class="n">_SubItems</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">private</span> <span class="n">Pair</span><span class="o">&lt;</span><span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;</span> <span class="n">_SubItems</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>// Declaring the interface constrant
-</span><span class='line'>public class BinaryTree&lt;T&gt;
-</span><span class='line'>  where T: System.IComparable&lt;T&gt;
-</span><span class='line'>{
-</span><span class='line'>  // ...
-</span><span class='line'>  public Pair&lt;BinaryTree&lt;T&gt;&gt; SubItems
-</span><span class='line'>  {
-</span><span class='line'>      get{ return _SubItems; }
-</span><span class='line'>      set
-</span><span class='line'>      {
-</span><span class='line'>          IComparable&lt;T&gt; first;
-</span><span class='line'>          // Notice that the cast can now be eliminated.
-</span><span class='line'>          first = value.First.Item;
+</span><span class='line'><span class="c1">// Declaring the interface constrant</span>
+</span><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="n">where</span> <span class="nl">T:</span> <span class="n">System</span><span class="p">.</span><span class="n">IComparable</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// ...</span>
+</span><span class='line'>  <span class="k">public</span> <span class="n">Pair</span><span class="o">&lt;</span><span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;</span> <span class="n">SubItems</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="n">get</span><span class="p">{</span> <span class="k">return</span> <span class="n">_SubItems</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>      <span class="n">set</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>          <span class="n">IComparable</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">first</span><span class="p">;</span>
+</span><span class='line'>          <span class="c1">// Notice that the cast can now be eliminated.</span>
+</span><span class='line'>          <span class="n">first</span> <span class="o">=</span> <span class="n">value</span><span class="p">.</span><span class="n">First</span><span class="p">.</span><span class="n">Item</span><span class="p">;</span>
 </span><span class='line'>          
-</span><span class='line'>          if (first.CompareTo(value.Second.Item) &lt; 0)
-</span><span class='line'>          {
-</span><span class='line'>              // first is less than second
-</span><span class='line'>          }
-</span><span class='line'>          else
-</span><span class='line'>          {
-</span><span class='line'>              // second is less than or equal to first
-</span><span class='line'>          }
-</span><span class='line'>          _SubItems = value;
-</span><span class='line'>      }
-</span><span class='line'>  }
-</span><span class='line'>  private Pair&lt;BinaryTree&lt;T&gt;&gt; _SubItems;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>          <span class="k">if</span> <span class="p">(</span><span class="n">first</span><span class="p">.</span><span class="n">CompareTo</span><span class="p">(</span><span class="n">value</span><span class="p">.</span><span class="n">Second</span><span class="p">.</span><span class="n">Item</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>              <span class="c1">// first is less than second</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>          <span class="k">else</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>              <span class="c1">// second is less than or equal to first</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>          <span class="n">_SubItems</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">private</span> <span class="n">Pair</span><span class="o">&lt;</span><span class="n">BinaryTree</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;</span> <span class="n">_SubItems</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -408,20 +565,21 @@ garbage collection and that also have finalization implementations. <code>System
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// multiple constraints
-</span><span class='line'>// an AND relationship is assumed
-</span><span class='line'>public class EntityDictionary&lt;TKey, TValue&gt;
-</span><span class='line'>  : Dictionary&lt;TKey, TValue&gt;
-</span><span class='line'>  where TKey : IComparable&lt;TKey&gt;, IFormattable
-</span><span class='line'>  where TValue : EntityBase
-</span><span class='line'>{
-</span><span class='line'>  // ...
-</span><span class='line'>} </span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// multiple constraints</span>
+</span><span class='line'><span class="c1">// an AND relationship is assumed</span>
+</span><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">EntityDictionary</span><span class="o">&lt;</span><span class="n">TKey</span><span class="p">,</span> <span class="n">TValue</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">:</span> <span class="n">Dictionary</span><span class="o">&lt;</span><span class="n">TKey</span><span class="p">,</span> <span class="n">TValue</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="n">where</span> <span class="n">TKey</span> <span class="o">:</span> <span class="n">IComparable</span><span class="o">&lt;</span><span class="n">TKey</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">IFormattable</span>
+</span><span class='line'>  <span class="n">where</span> <span class="n">TValue</span> <span class="o">:</span> <span class="n">EntityBase</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">// ...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -432,17 +590,18 @@ garbage collection and that also have finalization implementations. <code>System
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// constructor constraints ensure default ctors only
-</span><span class='line'>// Ctors with parameters are NOT supported
-</span><span class='line'>public class EntityDictionary&lt;TKey, TValue&gt; :
-</span><span class='line'>  Dictionary&lt;TKey, TValue&gt;
-</span><span class='line'>  where TKey: IComparable&lt;TKey&gt;, IFormattable
-</span><span class='line'>  where TValue : EntityBase&lt;TKey&gt;, new()
-</span><span class='line'>{
-</span><span class='line'>  //...
-</span><span class='line'>  TValue newEntity = new TValue();
-</span><span class='line'>  //...
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// constructor constraints ensure default ctors only</span>
+</span><span class='line'><span class="c1">// Ctors with parameters are NOT supported</span>
+</span><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">EntityDictionary</span><span class="o">&lt;</span><span class="n">TKey</span><span class="p">,</span> <span class="n">TValue</span><span class="o">&gt;</span> <span class="o">:</span>
+</span><span class='line'>  <span class="n">Dictionary</span><span class="o">&lt;</span><span class="n">TKey</span><span class="p">,</span> <span class="n">TValue</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="n">where</span> <span class="nl">TKey:</span> <span class="n">IComparable</span><span class="o">&lt;</span><span class="n">TKey</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">IFormattable</span>
+</span><span class='line'>  <span class="n">where</span> <span class="n">TValue</span> <span class="o">:</span> <span class="n">EntityBase</span><span class="o">&lt;</span><span class="n">TKey</span><span class="o">&gt;</span><span class="p">,</span> <span class="k">new</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">//...</span>
+</span><span class='line'>  <span class="n">TValue</span> <span class="n">newEntity</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TValue</span><span class="p">();</span>
+</span><span class='line'>  <span class="c1">//...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>12 Delegates and Lambda Expressions 469</h2>
@@ -546,7 +705,7 @@ garbage collection and that also have finalization implementations. <code>System
 </ol>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -597,57 +756,58 @@ garbage collection and that also have finalization implementations. <code>System
 <span class='line-number'>49</span>
 <span class='line-number'>50</span>
 <span class='line-number'>51</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>using System;
-</span><span class='line'>class DelegateSample {
-</span><span class='line'>    public static void BubbleSort(int[] items, ComparisonHandler comparisonMethod) {
-</span><span class='line'>        int i;
-</span><span class='line'>        int j;
-</span><span class='line'>        int temp;
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">using</span> <span class="n">System</span><span class="p">;</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">DelegateSample</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="k">static</span> <span class="kt">void</span> <span class="n">BubbleSort</span><span class="p">(</span><span class="kt">int</span><span class="p">[]</span> <span class="n">items</span><span class="p">,</span> <span class="n">ComparisonHandler</span> <span class="n">comparisonMethod</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">j</span><span class="p">;</span>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">temp</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>        if (items == null) return;
-</span><span class='line'>        if (comparisonMethod == null) throw new ArgumentNullException("comparisonMethod");
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">items</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">comparisonMethod</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="n">ArgumentNullException</span><span class="p">(</span><span class="s">&quot;comparisonMethod&quot;</span><span class="p">);</span>
 </span><span class='line'>
-</span><span class='line'>        for (i = items.Length - 1; i &gt;= 0; i--) {
-</span><span class='line'>            for (j = 1; j &lt;= i; j++) {
-</span><span class='line'>                if (comparisonMethod(items[j - 1], items[j])) {
-</span><span class='line'>                    temp = items[j - 1];
-</span><span class='line'>                    items[j - 1] = items[j];
-</span><span class='line'>                    items[j] = temp;
-</span><span class='line'>                }
-</span><span class='line'>            }
-</span><span class='line'>        }
-</span><span class='line'>    }
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="n">items</span><span class="p">.</span><span class="n">Length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">if</span> <span class="p">(</span><span class="n">comparisonMethod</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">items</span><span class="p">[</span><span class="n">j</span><span class="p">]))</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="n">temp</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
+</span><span class='line'>                    <span class="n">items</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+</span><span class='line'>                    <span class="n">items</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">;</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>    public delegate bool ComparisonHandler(int first, int second);
-</span><span class='line'>    
-</span><span class='line'>    public static bool GreaterThan(int first, int second) {
-</span><span class='line'>        return first &gt; second;
-</span><span class='line'>    }
+</span><span class='line'>    <span class="k">public</span> <span class="n">delegate</span> <span class="kt">bool</span> <span class="n">ComparisonHandler</span><span class="p">(</span><span class="kt">int</span> <span class="n">first</span><span class="p">,</span> <span class="kt">int</span> <span class="n">second</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="k">static</span> <span class="kt">bool</span> <span class="n">GreaterThan</span><span class="p">(</span><span class="kt">int</span> <span class="n">first</span><span class="p">,</span> <span class="kt">int</span> <span class="n">second</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">first</span> <span class="o">&gt;</span> <span class="n">second</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>  
-</span><span class='line'>  public static bool AlphabeticalGreaterThan(int first, int second) {
-</span><span class='line'>      int comparison;
-</span><span class='line'>      comparison = (first.ToString().CompareTo(second.ToString()));
+</span><span class='line'>  <span class="k">public</span> <span class="k">static</span> <span class="kt">bool</span> <span class="n">AlphabeticalGreaterThan</span><span class="p">(</span><span class="kt">int</span> <span class="n">first</span><span class="p">,</span> <span class="kt">int</span> <span class="n">second</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="kt">int</span> <span class="n">comparison</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">comparison</span> <span class="o">=</span> <span class="p">(</span><span class="n">first</span><span class="p">.</span><span class="n">ToString</span><span class="p">().</span><span class="n">CompareTo</span><span class="p">(</span><span class="n">second</span><span class="p">.</span><span class="n">ToString</span><span class="p">()));</span>
 </span><span class='line'>      
-</span><span class='line'>      return comparison &gt; 0;
-</span><span class='line'>  }
+</span><span class='line'>      <span class="k">return</span> <span class="n">comparison</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>    static void Main() {
-</span><span class='line'>        int[] items = new int[100];
-</span><span class='line'>        Random random = new Random();
-</span><span class='line'>        for (int i = 0; i &lt; items.Length; i++) {
-</span><span class='line'>            items[i] = random.Next(0, 100);
-</span><span class='line'>        }
+</span><span class='line'>    <span class="k">static</span> <span class="kt">void</span> <span class="n">Main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="kt">int</span><span class="p">[]</span> <span class="n">items</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">Random</span> <span class="n">random</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Random</span><span class="p">();</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">items</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">Next</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>        BubbleSort(items, GreaterThan);
-</span><span class='line'>      // In C# 2.0, we can also use BubbleSort(items, new ComparisonHandler(GreaterThan))
+</span><span class='line'>        <span class="n">BubbleSort</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">GreaterThan</span><span class="p">);</span>
+</span><span class='line'>      <span class="c1">// In C# 2.0, we can also use BubbleSort(items, new ComparisonHandler(GreaterThan))</span>
 </span><span class='line'>
-</span><span class='line'>        for (int i = 0; i &lt; items.Length; i++) {
-</span><span class='line'>            Console.WriteLine(items[i]);
-</span><span class='line'>        }
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">items</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+</span><span class='line'>        <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>        Console.ReadLine();
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">ReadLine</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>13 Events 507</h2>
@@ -709,7 +869,7 @@ garbage collection and that also have finalization implementations. <code>System
 </ol>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -842,144 +1002,145 @@ garbage collection and that also have finalization implementations. <code>System
 <span class='line-number'>131</span>
 <span class='line-number'>132</span>
 <span class='line-number'>133</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// delegate's implementation of subscriber-publisher
-</span><span class='line'>using System;
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// delegate&#39;s implementation of subscriber-publisher</span>
+</span><span class='line'><span class="k">using</span> <span class="n">System</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>// Heater and Cooler Event Subscriber Implementations
-</span><span class='line'>class Cooler {
-</span><span class='line'>    public Cooler(float temperature) {
-</span><span class='line'>        Temperature = temperature;
-</span><span class='line'>    } 
+</span><span class='line'><span class="c1">// Heater and Cooler Event Subscriber Implementations</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Cooler</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">Cooler</span><span class="p">(</span><span class="kt">float</span> <span class="n">temperature</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Temperature</span> <span class="o">=</span> <span class="n">temperature</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>    public float Temperature {
-</span><span class='line'>        get { return _Temperature; }
-</span><span class='line'>        set { _Temperature = value; }
-</span><span class='line'>    }
+</span><span class='line'>    <span class="k">public</span> <span class="kt">float</span> <span class="n">Temperature</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">_Temperature</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>        <span class="n">set</span> <span class="p">{</span> <span class="n">_Temperature</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>    private float _Temperature;
+</span><span class='line'>    <span class="k">private</span> <span class="kt">float</span> <span class="n">_Temperature</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>    public void OnTemperatureChanged(float newTemperature) {
-</span><span class='line'>        if (newTemperature &gt; Temperature) {
-</span><span class='line'>            System.Console.WriteLine("Cooler: On");
-</span><span class='line'>        }
-</span><span class='line'>        else {
-</span><span class='line'>            System.Console.WriteLine("Cooler: Off");
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'>}
+</span><span class='line'>    <span class="k">public</span> <span class="kt">void</span> <span class="n">OnTemperatureChanged</span><span class="p">(</span><span class="kt">float</span> <span class="n">newTemperature</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">newTemperature</span> <span class="o">&gt;</span> <span class="n">Temperature</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Cooler: On&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Cooler: Off&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>class Heater {
-</span><span class='line'>    public Heater(float temperature) {
-</span><span class='line'>        Temperature = temperature;
-</span><span class='line'>    }
+</span><span class='line'><span class="k">class</span> <span class="nc">Heater</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">Heater</span><span class="p">(</span><span class="kt">float</span> <span class="n">temperature</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Temperature</span> <span class="o">=</span> <span class="n">temperature</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>    public float Temperature {
-</span><span class='line'>        get { return _Temperature; }
-</span><span class='line'>        set { _Temperature = value; }
-</span><span class='line'>    }
-</span><span class='line'>    private float _Temperature;
+</span><span class='line'>    <span class="k">public</span> <span class="kt">float</span> <span class="n">Temperature</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">_Temperature</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>        <span class="n">set</span> <span class="p">{</span> <span class="n">_Temperature</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">private</span> <span class="kt">float</span> <span class="n">_Temperature</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>    public void OnTemperatureChanged(float newTemperature) {
-</span><span class='line'>        if (newTemperature &lt; Temperature) {
-</span><span class='line'>            System.Console.WriteLine("Heater: On");
-</span><span class='line'>        }
-</span><span class='line'>        else {
-</span><span class='line'>            System.Console.WriteLine("Heater: Off");
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'>}
+</span><span class='line'>    <span class="k">public</span> <span class="kt">void</span> <span class="n">OnTemperatureChanged</span><span class="p">(</span><span class="kt">float</span> <span class="n">newTemperature</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">newTemperature</span> <span class="o">&lt;</span> <span class="n">Temperature</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Heater: On&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Heater: Off&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>// Defining the Event Publisher, `Thermostat`
-</span><span class='line'>public class Thermostat {
-</span><span class='line'>    // Define the delegate data type
-</span><span class='line'>    public delegate void TemperatureChangeHandler(float newTemperature);
+</span><span class='line'><span class="c1">// Defining the Event Publisher, `Thermostat`</span>
+</span><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">Thermostat</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// Define the delegate data type</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">delegate</span> <span class="kt">void</span> <span class="n">TemperatureChangeHandler</span><span class="p">(</span><span class="kt">float</span> <span class="n">newTemperature</span><span class="p">);</span>
 </span><span class='line'>
-</span><span class='line'>    // Define the event Publisher
-</span><span class='line'>    public TemperatureChangeHandler OnTemperatureChange {
-</span><span class='line'>        get { return _OnTemperatureChange; }
-</span><span class='line'>        set { _OnTemperatureChange = value; }
-</span><span class='line'>    }
-</span><span class='line'>    private TemperatureChangeHandler _OnTemperatureChange;
+</span><span class='line'>    <span class="c1">// Define the event Publisher</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">TemperatureChangeHandler</span> <span class="n">OnTemperatureChange</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">_OnTemperatureChange</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>        <span class="n">set</span> <span class="p">{</span> <span class="n">_OnTemperatureChange</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">private</span> <span class="n">TemperatureChangeHandler</span> <span class="n">_OnTemperatureChange</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>    public float CurrentTemperature {
-</span><span class='line'>        get { return _CurrentTemperature; }
-</span><span class='line'>        set {
-</span><span class='line'>            if (value != CurrentTemperature) {
-</span><span class='line'>                _CurrentTemperature = value;
+</span><span class='line'>    <span class="k">public</span> <span class="kt">float</span> <span class="n">CurrentTemperature</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">_CurrentTemperature</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>        <span class="n">set</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="n">value</span> <span class="o">!=</span> <span class="n">CurrentTemperature</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">_CurrentTemperature</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>                TemperatureChangeHandler localOnChange = OnTemperatureChange;
-</span><span class='line'>                
-</span><span class='line'>                if (localOnChange != null) {
-</span><span class='line'>                    // call subscribers
-</span><span class='line'>                    OnTemperatureChange(value); // multicast delegates
-</span><span class='line'>                }
-</span><span class='line'>            }
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'>    public float CurrentTemperatureHandlingError {
-</span><span class='line'>        get { return _CurrentTemperature; }
-</span><span class='line'>        set {
-</span><span class='line'>            if (value != CurrentTemperature) {
-</span><span class='line'>                _CurrentTemperature = value;
+</span><span class='line'>                <span class="n">TemperatureChangeHandler</span> <span class="n">localOnChange</span> <span class="o">=</span> <span class="n">OnTemperatureChange</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>                if (OnTemperatureChange != null) {
-</span><span class='line'>                    foreach (TemperatureChangeHandler handler in OnTemperatureChange.GetInvocationList()) {
-</span><span class='line'>                        try {
-</span><span class='line'>                            handler(value);
-</span><span class='line'>                        }
-</span><span class='line'>                        catch (Exception e) {
-</span><span class='line'>                            Console.WriteLine(e.Message);
-</span><span class='line'>                        }
-</span><span class='line'>                    }
-</span><span class='line'>                }
-</span><span class='line'>            }
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'>    private float _CurrentTemperature;
-</span><span class='line'>}
+</span><span class='line'>                <span class="k">if</span> <span class="p">(</span><span class="n">localOnChange</span> <span class="o">!=</span> <span class="n">null</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="c1">// call subscribers</span>
+</span><span class='line'>                    <span class="n">OnTemperatureChange</span><span class="p">(</span><span class="n">value</span><span class="p">);</span> <span class="c1">// multicast delegates</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">public</span> <span class="kt">float</span> <span class="n">CurrentTemperatureHandlingError</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">_CurrentTemperature</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>        <span class="n">set</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="n">value</span> <span class="o">!=</span> <span class="n">CurrentTemperature</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">_CurrentTemperature</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>class Program {
-</span><span class='line'>    public static void Main() {
-</span><span class='line'>        Thermostat thermostat = new Thermostat();
-</span><span class='line'>        Heater heater = new Heater(60);
-</span><span class='line'>        Cooler cooler = new Cooler(80);
-</span><span class='line'>        string temperature;
+</span><span class='line'>                <span class="k">if</span> <span class="p">(</span><span class="n">OnTemperatureChange</span> <span class="o">!=</span> <span class="n">null</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="n">foreach</span> <span class="p">(</span><span class="n">TemperatureChangeHandler</span> <span class="n">handler</span> <span class="n">in</span> <span class="n">OnTemperatureChange</span><span class="p">.</span><span class="n">GetInvocationList</span><span class="p">())</span> <span class="p">{</span>
+</span><span class='line'>                        <span class="k">try</span> <span class="p">{</span>
+</span><span class='line'>                            <span class="n">handler</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+</span><span class='line'>                        <span class="p">}</span>
+</span><span class='line'>                        <span class="k">catch</span> <span class="p">(</span><span class="n">Exception</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">Message</span><span class="p">);</span>
+</span><span class='line'>                        <span class="p">}</span>
+</span><span class='line'>                    <span class="p">}</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">private</span> <span class="kt">float</span> <span class="n">_CurrentTemperature</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>        // Register subscribers
-</span><span class='line'>        thermostat.OnTemperatureChange += heater.OnTemperatureChanged;
-</span><span class='line'>        thermostat.OnTemperatureChange += cooler.OnTemperatureChanged;
+</span><span class='line'><span class="k">class</span> <span class="nc">Program</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="k">static</span> <span class="kt">void</span> <span class="n">Main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Thermostat</span> <span class="n">thermostat</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thermostat</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">Heater</span> <span class="n">heater</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Heater</span><span class="p">(</span><span class="mi">60</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">Cooler</span> <span class="n">cooler</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Cooler</span><span class="p">(</span><span class="mi">80</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">string</span> <span class="n">temperature</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>        Console.Write("Enter temperature: ");
-</span><span class='line'>        temperature = Console.ReadLine();
-</span><span class='line'>        thermostat.CurrentTemperature = int.Parse(temperature);
+</span><span class='line'>        <span class="c1">// Register subscribers</span>
+</span><span class='line'>        <span class="n">thermostat</span><span class="p">.</span><span class="n">OnTemperatureChange</span> <span class="o">+=</span> <span class="n">heater</span><span class="p">.</span><span class="n">OnTemperatureChanged</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">thermostat</span><span class="p">.</span><span class="n">OnTemperatureChange</span> <span class="o">+=</span> <span class="n">cooler</span><span class="p">.</span><span class="n">OnTemperatureChanged</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>        // Delegate Operators +=, -=, +, -
-</span><span class='line'>        Thermostat.TemperatureChangeHandler delegate1;
-</span><span class='line'>        Thermostat.TemperatureChangeHandler delegate2;
-</span><span class='line'>        Thermostat.TemperatureChangeHandler delegate3;
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">Write</span><span class="p">(</span><span class="s">&quot;Enter temperature: &quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">temperature</span> <span class="o">=</span> <span class="n">Console</span><span class="p">.</span><span class="n">ReadLine</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">thermostat</span><span class="p">.</span><span class="n">CurrentTemperature</span> <span class="o">=</span> <span class="kt">int</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">temperature</span><span class="p">);</span>
 </span><span class='line'>
-</span><span class='line'>        delegate1 = heater.OnTemperatureChanged;
-</span><span class='line'>        delegate2 = cooler.OnTemperatureChanged;
+</span><span class='line'>        <span class="c1">// Delegate Operators +=, -=, +, -</span>
+</span><span class='line'>        <span class="n">Thermostat</span><span class="p">.</span><span class="n">TemperatureChangeHandler</span> <span class="n">delegate1</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">Thermostat</span><span class="p">.</span><span class="n">TemperatureChangeHandler</span> <span class="n">delegate2</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">Thermostat</span><span class="p">.</span><span class="n">TemperatureChangeHandler</span> <span class="n">delegate3</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>        Console.WriteLine("Invoke both delegates:");
-</span><span class='line'>        delegate3 = delegate1;
-</span><span class='line'>        delegate3 += delegate2;
-</span><span class='line'>        delegate3(90);
+</span><span class='line'>        <span class="n">delegate1</span> <span class="o">=</span> <span class="n">heater</span><span class="p">.</span><span class="n">OnTemperatureChanged</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">delegate2</span> <span class="o">=</span> <span class="n">cooler</span><span class="p">.</span><span class="n">OnTemperatureChanged</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>        Console.WriteLine("Invoke only delegate2");
-</span><span class='line'>        delegate3 -= delegate1;
-</span><span class='line'>        delegate3(30);
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Invoke both delegates:&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">delegate3</span> <span class="o">=</span> <span class="n">delegate1</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">delegate3</span> <span class="o">+=</span> <span class="n">delegate2</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">delegate3</span><span class="p">(</span><span class="mi">90</span><span class="p">);</span>
 </span><span class='line'>
-</span><span class='line'>        // Error handling
-</span><span class='line'>        thermostat.OnTemperatureChange += (newTemperature) =&gt; { throw new ApplicationException(); };
-</span><span class='line'>        thermostat.CurrentTemperatureHandlingError = int.Parse(temperature) + 1;
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Invoke only delegate2&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">delegate3</span> <span class="o">-=</span> <span class="n">delegate1</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">delegate3</span><span class="p">(</span><span class="mi">30</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// Error handling</span>
+</span><span class='line'>        <span class="n">thermostat</span><span class="p">.</span><span class="n">OnTemperatureChange</span> <span class="o">+=</span> <span class="p">(</span><span class="n">newTemperature</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="k">throw</span> <span class="k">new</span> <span class="n">ApplicationException</span><span class="p">();</span> <span class="p">};</span>
+</span><span class='line'>        <span class="n">thermostat</span><span class="p">.</span><span class="n">CurrentTemperatureHandlingError</span> <span class="o">=</span> <span class="kt">int</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">temperature</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1085,117 +1246,118 @@ garbage collection and that also have finalization implementations. <code>System
 <span class='line-number'>104</span>
 <span class='line-number'>105</span>
 <span class='line-number'>106</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// event implementation of subscriber-publisher
-</span><span class='line'>using System;
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// event implementation of subscriber-publisher</span>
+</span><span class='line'><span class="k">using</span> <span class="n">System</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>// Heater and Cooler Event Subscriber Implementations
-</span><span class='line'>class Cooler {
-</span><span class='line'>    public Cooler(float temperature) {
-</span><span class='line'>        Temperature = temperature;
-</span><span class='line'>    } 
+</span><span class='line'><span class="c1">// Heater and Cooler Event Subscriber Implementations</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Cooler</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">Cooler</span><span class="p">(</span><span class="kt">float</span> <span class="n">temperature</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Temperature</span> <span class="o">=</span> <span class="n">temperature</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>    public float Temperature {
-</span><span class='line'>        get { return _Temperature; }
-</span><span class='line'>        set { _Temperature = value; }
-</span><span class='line'>    }
+</span><span class='line'>    <span class="k">public</span> <span class="kt">float</span> <span class="n">Temperature</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">_Temperature</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>        <span class="n">set</span> <span class="p">{</span> <span class="n">_Temperature</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>    private float _Temperature;
+</span><span class='line'>    <span class="k">private</span> <span class="kt">float</span> <span class="n">_Temperature</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>    public void OnTemperatureChanged(object sender, Thermostat.TemperatureArgs args) {
-</span><span class='line'>        if (args.NewTemperature &gt; Temperature) {
-</span><span class='line'>            System.Console.WriteLine("Cooler: On");
-</span><span class='line'>        }
-</span><span class='line'>        else {
-</span><span class='line'>            System.Console.WriteLine("Cooler: Off");
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'>}
+</span><span class='line'>    <span class="k">public</span> <span class="kt">void</span> <span class="n">OnTemperatureChanged</span><span class="p">(</span><span class="n">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">Thermostat</span><span class="p">.</span><span class="n">TemperatureArgs</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">args</span><span class="p">.</span><span class="n">NewTemperature</span> <span class="o">&gt;</span> <span class="n">Temperature</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Cooler: On&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Cooler: Off&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>class Heater {
-</span><span class='line'>    public Heater(float temperature) {
-</span><span class='line'>        Temperature = temperature;
-</span><span class='line'>    }
+</span><span class='line'><span class="k">class</span> <span class="nc">Heater</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">Heater</span><span class="p">(</span><span class="kt">float</span> <span class="n">temperature</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Temperature</span> <span class="o">=</span> <span class="n">temperature</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>    public float Temperature {
-</span><span class='line'>        get { return _Temperature; }
-</span><span class='line'>        set { _Temperature = value; }
-</span><span class='line'>    }
-</span><span class='line'>    private float _Temperature;
+</span><span class='line'>    <span class="k">public</span> <span class="kt">float</span> <span class="n">Temperature</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">_Temperature</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>        <span class="n">set</span> <span class="p">{</span> <span class="n">_Temperature</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">private</span> <span class="kt">float</span> <span class="n">_Temperature</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>    public void OnTemperatureChanged(object sender, Thermostat.TemperatureArgs args) {
-</span><span class='line'>        if (args.NewTemperature &lt; Temperature) {
-</span><span class='line'>            System.Console.WriteLine("Heater: On");
-</span><span class='line'>        }
-</span><span class='line'>        else {
-</span><span class='line'>            System.Console.WriteLine("Heater: Off");
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'>}
+</span><span class='line'>    <span class="k">public</span> <span class="kt">void</span> <span class="n">OnTemperatureChanged</span><span class="p">(</span><span class="n">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">Thermostat</span><span class="p">.</span><span class="n">TemperatureArgs</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">args</span><span class="p">.</span><span class="n">NewTemperature</span> <span class="o">&lt;</span> <span class="n">Temperature</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Heater: On&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Heater: Off&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>// Defining the Event Publisher, `Thermostat`
-</span><span class='line'>public class Thermostat {
-</span><span class='line'>    public class TemperatureArgs: System.EventArgs { // conventions
-</span><span class='line'>        public TemperatureArgs(float newTemperature) {
-</span><span class='line'>            NewTemperature = newTemperature;
-</span><span class='line'>        }
+</span><span class='line'><span class="c1">// Defining the Event Publisher, `Thermostat`</span>
+</span><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">Thermostat</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="k">class</span> <span class="nc">TemperatureArgs</span><span class="o">:</span> <span class="n">System</span><span class="p">.</span><span class="n">EventArgs</span> <span class="p">{</span> <span class="c1">// conventions</span>
+</span><span class='line'>        <span class="k">public</span> <span class="n">TemperatureArgs</span><span class="p">(</span><span class="kt">float</span> <span class="n">newTemperature</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">NewTemperature</span> <span class="o">=</span> <span class="n">newTemperature</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>        public float NewTemperature {
-</span><span class='line'>            get { return _newTemperature; }
-</span><span class='line'>            set { _newTemperature = value; }
-</span><span class='line'>        }
-</span><span class='line'>        private float _newTemperature;
-</span><span class='line'>    }
+</span><span class='line'>        <span class="k">public</span> <span class="kt">float</span> <span class="n">NewTemperature</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">_newTemperature</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>            <span class="n">set</span> <span class="p">{</span> <span class="n">_newTemperature</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">private</span> <span class="kt">float</span> <span class="n">_newTemperature</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>    // Define the delegate data type
-</span><span class='line'>    // It is a norm:
-</span><span class='line'>    //      sender: reference of the to the object that invoke the delegate 
-</span><span class='line'>    //      args:   if of type `System.EventArgs` or derives from `System.EventArgs` but contains additional data
-</span><span class='line'>    public delegate void TemperatureChangeHandler(object sender, TemperatureArgs newTemperature);
+</span><span class='line'>    <span class="c1">// Define the delegate data type</span>
+</span><span class='line'>    <span class="c1">// It is a norm:</span>
+</span><span class='line'>    <span class="c1">//      sender: reference of the to the object that invoke the delegate </span>
+</span><span class='line'>    <span class="c1">//      args:   if of type `System.EventArgs` or derives from `System.EventArgs` but contains additional data</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">delegate</span> <span class="kt">void</span> <span class="n">TemperatureChangeHandler</span><span class="p">(</span><span class="n">object</span> <span class="n">sender</span><span class="p">,</span> <span class="n">TemperatureArgs</span> <span class="n">newTemperature</span><span class="p">);</span>
 </span><span class='line'>
-</span><span class='line'>    // Define the event publisher
-</span><span class='line'>    // delegate类型之前加event，赋一个空的delegate
-</span><span class='line'>    // an empty delegate represents a collection of zero listeners
-</span><span class='line'>    public event TemperatureChangeHandler OnTemperatureChange = delegate {};
+</span><span class='line'>    <span class="c1">// Define the event publisher</span>
+</span><span class='line'>    <span class="c1">// delegate类型之前加event，赋一个空的delegate</span>
+</span><span class='line'>    <span class="c1">// an empty delegate represents a collection of zero listeners</span>
+</span><span class='line'>    <span class="k">public</span> <span class="n">event</span> <span class="n">TemperatureChangeHandler</span> <span class="n">OnTemperatureChange</span> <span class="o">=</span> <span class="n">delegate</span> <span class="p">{};</span>
 </span><span class='line'>
-</span><span class='line'>    public float CurrentTemperature {
-</span><span class='line'>        get { return _CurrentTemperature; }
-</span><span class='line'>        set {
-</span><span class='line'>            if (value != CurrentTemperature) {
-</span><span class='line'>                _CurrentTemperature = value;
-</span><span class='line'>                // If there are any subscribers
-</span><span class='line'>                // then notify them of changes in 
-</span><span class='line'>                // temperature
-</span><span class='line'>                if (OnTemperatureChange != null) {
-</span><span class='line'>                    // Call subscribers
-</span><span class='line'>                    OnTemperatureChange(this, new TemperatureArgs(value));
-</span><span class='line'>                }
-</span><span class='line'>            }
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'>    private float _CurrentTemperature;
-</span><span class='line'>}
+</span><span class='line'>    <span class="k">public</span> <span class="kt">float</span> <span class="n">CurrentTemperature</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">_CurrentTemperature</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>        <span class="n">set</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="n">value</span> <span class="o">!=</span> <span class="n">CurrentTemperature</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">_CurrentTemperature</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span>
+</span><span class='line'>                <span class="c1">// If there are any subscribers</span>
+</span><span class='line'>                <span class="c1">// then notify them of changes in </span>
+</span><span class='line'>                <span class="c1">// temperature</span>
+</span><span class='line'>                <span class="k">if</span> <span class="p">(</span><span class="n">OnTemperatureChange</span> <span class="o">!=</span> <span class="n">null</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="c1">// Call subscribers</span>
+</span><span class='line'>                    <span class="n">OnTemperatureChange</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="k">new</span> <span class="n">TemperatureArgs</span><span class="p">(</span><span class="n">value</span><span class="p">));</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">private</span> <span class="kt">float</span> <span class="n">_CurrentTemperature</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>class Program {
-</span><span class='line'>    public static void Main() {
-</span><span class='line'>        Thermostat thermostat = new Thermostat();
-</span><span class='line'>        Heater heater = new Heater(60);
-</span><span class='line'>        Cooler cooler = new Cooler(80);
-</span><span class='line'>        string temperature;
+</span><span class='line'><span class="k">class</span> <span class="nc">Program</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="k">static</span> <span class="kt">void</span> <span class="n">Main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Thermostat</span> <span class="n">thermostat</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thermostat</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">Heater</span> <span class="n">heater</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Heater</span><span class="p">(</span><span class="mi">60</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">Cooler</span> <span class="n">cooler</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Cooler</span><span class="p">(</span><span class="mi">80</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">string</span> <span class="n">temperature</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>        // Register subscribers
-</span><span class='line'>        thermostat.OnTemperatureChange += heater.OnTemperatureChanged;
-</span><span class='line'>        thermostat.OnTemperatureChange += cooler.OnTemperatureChanged;
+</span><span class='line'>        <span class="c1">// Register subscribers</span>
+</span><span class='line'>        <span class="n">thermostat</span><span class="p">.</span><span class="n">OnTemperatureChange</span> <span class="o">+=</span> <span class="n">heater</span><span class="p">.</span><span class="n">OnTemperatureChanged</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">thermostat</span><span class="p">.</span><span class="n">OnTemperatureChange</span> <span class="o">+=</span> <span class="n">cooler</span><span class="p">.</span><span class="n">OnTemperatureChanged</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>        Console.Write("Enter temperature: ");
-</span><span class='line'>        temperature = Console.ReadLine();
-</span><span class='line'>        thermostat.CurrentTemperature = int.Parse(temperature);
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>        <span class="n">Console</span><span class="p">.</span><span class="n">Write</span><span class="p">(</span><span class="s">&quot;Enter temperature: &quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">temperature</span> <span class="o">=</span> <span class="n">Console</span><span class="p">.</span><span class="n">ReadLine</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">thermostat</span><span class="p">.</span><span class="n">CurrentTemperature</span> <span class="o">=</span> <span class="kt">int</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">temperature</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1208,19 +1370,20 @@ garbage collection and that also have finalization implementations. <code>System
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>// Define the event publisher
-</span><span class='line'>public event TemperatureChangeHandler OnTemperatureChange {
-</span><span class='line'>  add
-</span><span class='line'>  {
-</span><span class='line'>      System.Delegate.Remove(_OnTemperatureChange, value);
-</span><span class='line'>  }
-</span><span class='line'>  remove
-</span><span class='line'>  {
-</span><span class='line'>      System.Delegate.Combine(value, _OnTemperatureChange);
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// Define the event publisher</span>
+</span><span class='line'><span class="k">public</span> <span class="n">event</span> <span class="n">TemperatureChangeHandler</span> <span class="n">OnTemperatureChange</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">add</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="n">System</span><span class="p">.</span><span class="n">Delegate</span><span class="p">.</span><span class="n">Remove</span><span class="p">(</span><span class="n">_OnTemperatureChange</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="n">remove</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="n">System</span><span class="p">.</span><span class="n">Delegate</span><span class="p">.</span><span class="n">Combine</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">_OnTemperatureChange</span><span class="p">);</span>
 </span><span class='line'>      
-</span><span class='line'>  } 
-</span><span class='line'>}
-</span><span class='line'>protected TemperatureChangeHandler _OnTemperatureChange;</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">protected</span> <span class="n">TemperatureChangeHandler</span> <span class="n">_OnTemperatureChange</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 ]]></content>
   </entry>
@@ -1281,9 +1444,6 @@ garbage collection and that also have finalization implementations. <code>System
 
 <p>Consequently, I make a list of PLs I would study seriously in the future.</p>
 
-<!-- more -->
-
-
 <ol>
 <li>C# or Java
 
@@ -1320,7 +1480,17 @@ garbage collection and that also have finalization implementations. <code>System
 </ol>
 
 
-<p>The following part is my notes on the book <em>Essential C#</em>, which is redeemed as the best book for C# learners.</p>
+<p>The following part is the first part of my series notes on the book <em>Essential C#</em>, which is redeemed as the best book for C# learners.</p>
+
+<ol>
+<li>Essential C# 4.0: Basics(this post)</li>
+<li><a href="http://www.puncsky.com/blog/2013/09/05/essential-c-sharp-intermediate/">Essential C# 4.0: Intermediate</a></li>
+<li><a href="">Essential C# 4.0: Advanced</a></li>
+</ol>
+
+
+<!-- more -->
+
 
 <h1>Essential C# 4.0</h1>
 
@@ -9041,115 +9211,6 @@ sdoEvicted(appName, sdoID)
 <h3>4. Conclusion</h3>
 
 <p>Smartphones accumulate sensitive data over time and is vulnerable to physical attacks. CleanOS protects confidentiality in smartphones by evicting idle sensitive data to the trusted cloud. The idea is mainly implemented with SDO and eiGC. It successfully provides practical protection and auditing services for Android devices.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Chord: A Scalable Peer-to-peer Lookup Service for Internet Applications]]></title>
-    <link href="http://www.puncsky.com/blog/2012/12/06/chord/"/>
-    <updated>2012-12-06T06:29:00-08:00</updated>
-    <id>http://www.puncsky.com/blog/2012/12/06/chord</id>
-    <content type="html"><![CDATA[<p><a href="http://pdos.lcs.mit.edu/chord/">MIT PDOS</a>, <a href="http://pdos.csail.mit.edu/papers/chord:sigcomm01/chord_sigcomm.pdf">paper</a>, <a href="http://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=5&amp;cad=rja&amp;ved=0CGEQFjAE&amp;url=http%3A%2F%2Fpdos.csail.mit.edu%2Frtm%2Fslides%2Fsigcomm01.ppt&amp;ei=tYLAUNjmLoSt0AGb7YCoBw&amp;usg=AFQjCNHmlld_WDglWjj7TP_coYsk1O_l-A&amp;sig2=SO8yiWfEsi_V2VEI-F2pmw">slides</a></p>
-
-<h3>1. Problem</h3>
-
-<p><em>A lookup protocol</em>: How to locate the node that stores a data item in a dynamic P2P system with frequent node arrivals and departures? In other words, given a key, it maps the key onto a node.</p>
-
-<!--more-->
-
-
-<h3>2. Challenges</h3>
-
-<ul>
-<li>Scalability
-
-<ul>
-<li>Previous consistent hashing needs to know <strong>most</strong> other nodes</li>
-</ul>
-</li>
-<li>Robustness</li>
-<li>Efficiency
-
-<ul>
-<li>Centralized lookup (Napster): O(N)</li>
-<li>Flooded queries (Gnutella): Worst case O(N)</li>
-</ul>
-</li>
-<li>Simplicity</li>
-</ul>
-
-
-<h3>3. Solution</h3>
-
-<p>Chord: Just <code>IPaddress Lookup(key)</code> service, no data storage.</p>
-
-<p>Distributed Hash Table (DHT)</p>
-
-<p><strong>Consistent Hashing</strong>: Key ID and Node ID are in the <strong>same ID space</strong> with SHA-1. A key is stored at is successor (node with next higher ID). For each node &#8230;</p>
-
-<h4>Simple Lookup Algorithm (O(n))</h4>
-
-<p>Each node picks a random ID in a circular numeric space, and supervises a region of ID space immediately following its ID. The data shall be stored in its successor.</p>
-
-<pre><code>Lookup(my-id, key-id)
-    n = my sucessor
-    if my-id &lt; n &lt; key-id
-        call Lookup(id) on node n   // next hop
-    else
-        return my successor         // done
-</code></pre>
-
-<h4>Lookup with finger tables (log(N))</h4>
-
-<p>Finger i points to successor of n+2<sup>i.</sup></p>
-
-<pre><code>Lookup(my-id, key)
-    look in local finger table for highest node m s.t. my-id &lt; n &lt; key-id
-    if n exists
-        call Lookup(id) on node n   // next hop
-    else
-        return my successor         // done
-</code></pre>
-
-<p>How to join a new node? For example, join N36 (Node 36) between N25 and N40.</p>
-
-<ol>
-<li>Lookup(36) and get N40&#8217;s IP</li>
-<li>N36 sets its own successor pointer point to N40</li>
-<li>Copy keys 26~36 from N40 to N36</li>
-<li>Set N25&#8217;s successor pointer point to N36, and update finger pointers in the background</li>
-</ol>
-
-
-<p>How to deal with failure (a node doesn&#8217;t know correct successor)?</p>
-
-<ul>
-<li>Successor lists. Each node knows <em>r</em> immediate successors.
-
-<ul>
-<li>Assume 1/2 of nodes fail.</li>
-<li>P(successor list all dead) (1/2)<sup>r</sup></li>
-<li>P(no broken nodes)=(1-(1/2)<sup>r)<sup>N</sup></sup></li>
-</ul>
-</li>
-</ul>
-
-
-<h4>Lookup with fault tolerance</h4>
-
-<pre><code>Lookup(my-id, key-id)
-    look in local finger table and sucessor-list for highest node n s.t. my-id &lt; n &lt; key-id
-    if n exists
-        call Lookup(id) on node n   // next hop
-        if call failed
-            remove n from finger table
-            return Lookup(my-id, key-id)
-    else return my sucessor         // done
-</code></pre>
-
-<h3>4. Conclusion</h3>
-
-<p>Chord uses consistent hashing, distributed hash tables, and novel finger tables to provide lookup services for P2P systems. Each node maintains only O(logN) other nodes. The arrivals and departures acquire only O(log<sup>2</sup> N) messages. The successor list can deal with failure effectively. Chord is simple, scalable, and efficient.</p>
 ]]></content>
   </entry>
   

@@ -45,13 +45,19 @@
   <script src="/javascripts/libs/bootstrap.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Puncsky CS Notebook" type="application/atom+xml">
-  <!--
-<link href="http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic" rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,500italic,700italic,300,400,500,700,800" rel="stylesheet" type="text/css">
--->
-
-<link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js">
+  MathJax.Hub.Config({
+   extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+   jax: ["input/TeX", "output/HTML-CSS"],
+   tex2jax: {
+       inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+       displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+   },
+   "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
 
   
   <script type="text/javascript">
@@ -116,6 +122,68 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2013/09/14/h-quincy/">H-Quincy: Fair Scheduling for Hadoop Clusters</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-14T16:49:00-07:00" pubdate data-updated="true">Sep 14<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/09/14/h-quincy/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://github.com/puncsky/H-Quincy">H-Quincy</a> implements the paper <a href="http://www.sigops.org/sosp/sosp09/papers/isard-sosp09.pdf">Quincy: Fair Scheduling for Distributed Computing Clusters</a> on Hadoop, which improves the mapreduce scheduler by replacing the default queue-based one with a flow-based one. A min cost flow is calculated and updated to assign map tasks among the cluster, according to the size of the data split and the communication overhead in the cluster&#8217;s hierarchy.</p>
+
+<h2>Install</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git clone https://github.com/puncsky/H-Quincy.git
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can either build from source code or user the JAR directly.</p>
+
+<ul>
+<li><em>Build from Source Code</em>. Replace your <code>$HADOOP_HOME/src/mapred/org/apache/hadoop/mapred</code> with files in <code>src/</code>. Enter <code>$HADOOP_HOME</code> and build with <code>ant</code>.</li>
+<li><em>utilize the JAR directly</em>. Replace your <code>$HADOOP_HOME/hadoop-core-{version}.jar</code> with <code>hadoop-core-1.0.4-SNAPSHOT.jar</code></li>
+</ul>
+
+
+<hr />
+
+<p>The <a href="http://www.sigops.org/sosp/sosp09/papers/isard-sosp09.pdf">Quincy paper</a> is rather theoretical organized and involves a large number of mathematical details, which reasonably makes itself hard to understand. The following sections explains our implementation.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/09/14/h-quincy/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2013/09/07/trips-to-mt-rainier-and-san-juan-islands/">Trip to Mt. Rainier and San Juan Islands</a></h1>
     
     
@@ -145,7 +213,7 @@
 
 <p>Surely I have already known that the world is wonderful and full of unexpected surprises. Like many other groups of people, traveling around the world is also one of my childhood dreams. Wandering around leads to stumbling upon. Travel is admittedly the right way to discover <a href="http://en.wikipedia.org/wiki/Black_swan_theory">&#8220;the black swan&#8221;</a>, in which an unpredictable slight event can make a significant difference.</p>
 
-<p>However, for a Internet guy like me, of course, Internet is exactly the greatest treasure and playground. Everything I read and work on everyday comes from it &#8211; books, papers, SNS news feed, blogs, source code, etc. So, how dare I still shamelessly claim that I would love to travel?</p>
+<p>However, for an Internet guy like me, of course, Internet is exactly the greatest treasure and playground. Everything I read and work on everyday comes from it &#8211; books, papers, SNS news feed, blogs, source code, etc. So, how dare I still shamelessly claim that I would love to travel?</p>
 
 <p><strong>It is the person I travel with that really matters to me.</strong> Reading is a personal issue. Thinking is a personal issue. Deep love is also a personal issue. Like the Protoss (a kind of aliens) in Starcraft, it seems that the highest state of human society tends to be highly independent. And even better or worse, loneliness seems to be our final fate. Hardly are there a chance like this for friends to get together and enjoy a journey in life.</p>
 
@@ -204,11 +272,14 @@
   </header>
 
 
-  <div class="entry-content"><p><a href="http://www.puncsky.com/blog/2013/08/14/essential-c-sharp-basics/">Essential C# 4.0: Basics</a>
-Essential C# 4.0: Intermediate
-<a href="">Essential C# 4.0: Advanced</a></p>
+  <div class="entry-content"><p>This is the second part of my serials of notes on learning C#.</p>
 
-<p>This is the second part of my serials of notes on learning C#.</p>
+<ol>
+<li><a href="http://www.puncsky.com/blog/2013/08/14/essential-c-sharp-basics/">Essential C# 4.0: Basics</a></li>
+<li>Essential C# 4.0: Intermediate (this post)</li>
+<li><a href="">Essential C# 4.0: Advanced</a></li>
+</ol>
+
 
 <p>A productive-focused language like C# has so much <em>syntax sugar</em> that I feel not so comfortable with, because I used to be a C++ programmer and everything in the C++ kingdom appears to be straight forward, although, at the same time, tend to be fallible.</p>
 
@@ -338,6 +409,51 @@ Essential C# 4.0: Intermediate
   <div class="entry-content"><p>No one can ever master a programming language (PL) by studying it only without looking into and comparing it with other ones. Modern application software often requires a variety of components written in different PLs. Most importantly, language itself is not important at all; at least not important when compared to the fundamental ideas on architectures, frameworks, the design of the PL. A competing programmer can always get the hang of any PLs quickly.</p>
 
 <p>Consequently, I make a list of PLs I would study seriously in the future.</p>
+
+<ol>
+<li>C# or Java
+
+<ul>
+<li>A serious pure OOP and enterprise level PL is always necessary for the reason of productivity.</li>
+</ul>
+</li>
+<li>C/C++
+
+<ul>
+<li>The most powerful PL, which can be used to create almost everything.</li>
+<li>Help to understand things under the hood.</li>
+<li>C++: semi-OOP version of C, a horrible language which requires a life long time to study.</li>
+</ul>
+</li>
+<li>Bash/Python
+
+<ul>
+<li>Scripts make your life easier.</li>
+</ul>
+</li>
+<li>Javascript
+
+<ul>
+<li>Everything could be written in Javascript will be eventually written in Javascript.</li>
+</ul>
+</li>
+<li>Lisp
+
+<ul>
+<li>Help to understand the beauty of functional PL.</li>
+</ul>
+</li>
+</ol>
+
+
+<p>The following part is the first part of my series notes on the book <em>Essential C#</em>, which is redeemed as the best book for C# learners.</p>
+
+<ol>
+<li>Essential C# 4.0: Basics(this post)</li>
+<li><a href="http://www.puncsky.com/blog/2013/09/05/essential-c-sharp-intermediate/">Essential C# 4.0: Intermediate</a></li>
+<li><a href="">Essential C# 4.0: Advanced</a></li>
+</ol>
+
 
 </div>
   
@@ -595,59 +711,6 @@ Essential C# 4.0: Intermediate
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/27/hadoopdb-vldb-09/">HadoopDB (VLDB&#8217;09)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-27T15:50:00-08:00" pubdate data-updated="true">Jan 27<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/01/27/hadoopdb-vldb-09/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://db.cs.yale.edu/hadoopdb/hadoopdb.html">Yale DB</a></p>
-
-<h3>Comments</h3>
-
-<p>Two ways to improve HadoopDB</p>
-
-<ol>
-<li>Integrate the file system for local database with HDFS. In the design of HadoopDB, the file system and the database are separated, which means that the more space one part is preallocated and the less space the other part will occupy. This design is not scalable because the system administrator has to partition the space by hand. We could investigate a way to let the database run on the HDFS directly. The database&#8217;s file descriptor can be adapted to HDFS directly. Or, even better, we can add an extra virtualized layer between the database and the HDFS.</li>
-<li>Set up a better scheduler. It is mentioned in the paper that the original version of hadoop fair scheduler is not so good. It is queue-based and locally greedy and simply does not consider the big picture much. &#8220;Quincy: Fair Scheduling for Distributed Computing Clusters&#8221; advances a flow-based algorithm, which has a very good performance by increasing the throughput up to 40%.</li>
-</ol>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/01/27/hadoopdb-vldb-09/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="/blog/page/2/">&larr; Older</a></li>
@@ -670,6 +733,10 @@ Essential C# 4.0: Intermediate
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2013/09/14/h-quincy/">H-Quincy: Fair Scheduling for Hadoop Clusters</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/09/07/trips-to-mt-rainier-and-san-juan-islands/">Trip to Mt. Rainier and San Juan Islands</a>
       </li>
     
@@ -683,10 +750,6 @@ Essential C# 4.0: Intermediate
     
       <li class="post">
         <a href="/blog/2013/08/14/essential-c-sharp-basics/">Essential C# 4.0: Basics</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/11/%5B%3F%5D-ben-chu-chuang-gong-si-de-hui-yi-lu-%3C%3Cda-zao-facebook%3E%3E/">中国工程师在初创公司的经验总结&#8211;《打造Facebook》</a>
       </li>
     
   </ul>

@@ -45,13 +45,19 @@
   <script src="/javascripts/libs/bootstrap.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Puncsky CS Notebook" type="application/atom+xml">
-  <!--
-<link href="http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic" rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,500italic,700italic,300,400,500,700,800" rel="stylesheet" type="text/css">
--->
-
-<link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js">
+  MathJax.Hub.Config({
+   extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+   jax: ["input/TeX", "output/HTML-CSS"],
+   tex2jax: {
+       inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+       displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+   },
+   "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
 
   
   <script type="text/javascript">
@@ -143,7 +149,7 @@
 
 <p>Surely I have already known that the world is wonderful and full of unexpected surprises. Like many other groups of people, traveling around the world is also one of my childhood dreams. Wandering around leads to stumbling upon. Travel is admittedly the right way to discover <a href="http://en.wikipedia.org/wiki/Black_swan_theory">&#8220;the black swan&#8221;</a>, in which an unpredictable slight event can make a significant difference.</p>
 
-<p>However, for a Internet guy like me, of course, Internet is exactly the greatest treasure and playground. Everything I read and work on everyday comes from it &#8211; books, papers, SNS news feed, blogs, source code, etc. So, how dare I still shamelessly claim that I would love to travel?</p>
+<p>However, for an Internet guy like me, of course, Internet is exactly the greatest treasure and playground. Everything I read and work on everyday comes from it &#8211; books, papers, SNS news feed, blogs, source code, etc. So, how dare I still shamelessly claim that I would love to travel?</p>
 
 <p><strong>It is the person I travel with that really matters to me.</strong> Reading is a personal issue. Thinking is a personal issue. Deep love is also a personal issue. Like the Protoss (a kind of aliens) in Starcraft, it seems that the highest state of human society tends to be highly independent. And even better or worse, loneliness seems to be our final fate. Hardly are there a chance like this for friends to get together and enjoy a journey in life.</p>
 
@@ -241,6 +247,10 @@
       
       <li><a href="/blog/archives">Blog Archives</a></li>
       
+      <li class="next"><a class="basic-alignment right" href="/blog/2013/09/14/h-quincy/"
+        title="Next Post: H-Quincy: Fair Scheduling for Hadoop Clusters">H-Quincy: Fair Scheduling for Hadoop Clusters
+        &raquo;</a></li>
+      
     </ul>
   </footer>
 </article>
@@ -259,6 +269,10 @@
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2013/09/14/h-quincy/">H-Quincy: Fair Scheduling for Hadoop Clusters</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/09/07/trips-to-mt-rainier-and-san-juan-islands/">Trip to Mt. Rainier and San Juan Islands</a>
       </li>
     
@@ -272,10 +286,6 @@
     
       <li class="post">
         <a href="/blog/2013/08/14/essential-c-sharp-basics/">Essential C# 4.0: Basics</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/11/%5B%3F%5D-ben-chu-chuang-gong-si-de-hui-yi-lu-%3C%3Cda-zao-facebook%3E%3E/">中国工程师在初创公司的经验总结--《打造Facebook》</a>
       </li>
     
   </ul>
