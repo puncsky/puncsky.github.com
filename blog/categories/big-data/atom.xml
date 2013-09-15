@@ -4,7 +4,7 @@
   <title><![CDATA[Category: big_data | Puncsky CS Notebook]]></title>
   <link href="http://www.puncsky.com/blog/categories/big-data/atom.xml" rel="self"/>
   <link href="http://www.puncsky.com/"/>
-  <updated>2013-09-14T18:14:56-07:00</updated>
+  <updated>2013-09-14T18:21:00-07:00</updated>
   <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -38,9 +38,6 @@ git clone https://github.com/puncsky/H-Quincy.git
 
 <p>The <a href="http://www.sigops.org/sosp/sosp09/papers/isard-sosp09.pdf">Quincy paper</a> is rather theoretical organized and involves a large number of mathematical details, which reasonably makes itself hard to understand. The following sections explains our implementation.</p>
 
-<!--more-->
-
-
 <h2>Architecture</h2>
 
 <p><em>Figure 1</em> displays an outline of our architecture. There exist three kinds of nodes and accordingly three levels of hierarchy in the cluster. Computing nodes are connected via a rack switch, and placed in the same rack. Rack switches are connected via a core switch. Core switches and rack switches do not undertake computing works but can still be presented in the Hadoop system as nodes.</p>
@@ -53,10 +50,12 @@ git clone https://github.com/puncsky/H-Quincy.git
 <p align="middle"><i>Figure 1: A sample architecture with simplified preferred lists.</i></p>
 
 
-<p>As we know, Hadoop takes a master/slave architecture, which includes a single master and multiple worker nodes. The master node in general consists of a JobTracker and a NameNode. The slave worker consist of a TaskTracker and a DataNode. Nevertheless, the master can also play the role of the slave at the same time. JobTracker assigns tasks to the TaskTrackers for execution, and then collects the result. NameNode manages the index for blocks of data storing in DataNodes among the Hadoop Distributed File System.</p>
+
 
 <!--more-->
 
+
+<p>As we know, Hadoop takes a master/slave architecture, which includes a single master and multiple worker nodes. The master node in general consists of a JobTracker and a NameNode. The slave worker consist of a TaskTracker and a DataNode. Nevertheless, the master can also play the role of the slave at the same time. JobTracker assigns tasks to the TaskTrackers for execution, and then collects the result. NameNode manages the index for blocks of data storing in DataNodes among the Hadoop Distributed File System.</p>
 
 <p>In our cluster, each computing node is both a TaskTracker and a DataNode, which means they are all slaves. And we select one of them as a master, which is both a JobTracker and a DataNode simultaneously. The master maintains the relationship with slaves through heartbeat, whose overhead is ignorable when compared to the data transfer or the execution of tasks.</p>
 
