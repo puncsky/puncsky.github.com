@@ -4,7 +4,7 @@
   <title><![CDATA[Puncsky CS Notebook]]></title>
   <link href="http://www.puncsky.com/atom.xml" rel="self"/>
   <link href="http://www.puncsky.com/"/>
-  <updated>2013-09-15T17:59:04-07:00</updated>
+  <updated>2013-09-15T18:04:53-07:00</updated>
   <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -31,9 +31,9 @@
 
 <p>My passion on coding is mostly inspired by the colorful vim on Ubuntu. <em>It is amazing fun. I love it!!</em> So the first app I install on my new Windows workstation is, of course, cygwin. Now I have to use Visual Studio, so the first plugin I install on it is surely vsvim. Moreover, maybe I am not a guy of Eclipse. I can see no beauty and usability in it, although it is much more extensible than Visual Studio. The experience of configuring the build environment of Android and later Hadoop is awful and drives me crazy.</p>
 
-<p>As to the last chapters of this book, I am not interested in muti-processing/multi-threading in Windows OS, which is much slower than *nix OS and thus somewhat boring. Windows was not designed to be a multiprocessing and multi-user platform in the first place; instead, it was originally intended for <em>personal</em> usage. So I just skimmed this chapter. Maybe I will revisit it someday when I have to exhaust the computing resources. May that would not happen.</p>
+<p>As to the last chapters of this book, I am not interested in muti-processing/multi-threading in Windows OS, which is much slower than *nix OS and thus somewhat boring. Windows was not designed to be a multiprocessing and multi-user platform in the first place; instead, it was originally intended for <em>personal</em> usage. So I just skimmed this chapter. Maybe I will revisit it someday when I have to exhaust the computing power on Windows. May that not happen.</p>
 
-<p>At last, C# is not designed for manipulating pointers and addresses directly. Why do we bother to study it? We have C/C++ already. So I also skimmed the last two chapters. :D</p>
+<p>At last, C# is not designed for manipulating pointers and addresses directly. Why do we bother to study it? We have C/C++ already. So I also just skimmed the last two chapters. :D</p>
 
 <p>The following is my notes.</p>
 
@@ -2350,7 +2350,7 @@ garbage collection and that also have finalization implementations. <code>System
 <ol>
 <li>Essential C# 4.0: Basics(this post)</li>
 <li><a href="http://www.puncsky.com/blog/2013/09/05/essential-c-sharp-intermediate/">Essential C# 4.0: Intermediate</a></li>
-<li><a href="">Essential C# 4.0: Advanced</a></li>
+<li><a href="http://www.puncsky.com/blog/2013/09/15/essential-c-sharp-advanced/">Essential C# 4.0: Advanced</a></li>
 </ol>
 
 
