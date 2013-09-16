@@ -122,6 +122,65 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2012/11/20/quincy-fair-scheduling-for-distributed-computing-clusters-sosp-09/">Quincy: Fair Scheduling for Distributed Computing Clusters (SOSP &#8216;09)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-20T16:08:00-08:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/11/20/quincy-fair-scheduling-for-distributed-computing-clusters-sosp-09/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>Important update on 09/14/2013.</strong> I implemented the flow-based scheduler in this paper on Hadoop &#8211; H-Quincy. For a much more detailed discussion, please visit <a href="http://www.puncsky.com/blog/2013/09/14/h-quincy/">this link</a>.</p>
+
+<p><a href="http://research.microsoft.com/en-us/people/misard/">Microsoft</a>, <a href="http://www.sigops.org/sosp/sosp09/papers/isard-sosp09.pdf">paper</a>, <a href="http://www.sigops.org/sosp/sosp09/videos/19_michael_isard.mov">video</a>, <a href="http://www.sigops.org/sosp/sosp09/slides/quincy/QuincyTestPage.html">slides</a></p>
+
+<h2>1. Problem</h2>
+
+<p>How to achieve fair scheduling? In other words, a guy who gets up early and performs huge tasks on a cluster should not always monopolize most computing resource, and someone else&#8217;s assignments should not be ignored. Otherwise, it is unfair for all the cluster users.</p>
+
+<p><strong>Fair sharing</strong> of the cluster resources</p>
+
+<p>Job x takes <em>t</em> seconds, when running exclusively on the cluster. When the cluster has <em>J</em> jobs, x should take &lt;= <em>Jt</em> seconds.</p>
+
+<p><em>N</em> computers and <em>J</em> jobs: each job gets at least N/J computers.</p>
+
+<h2>2. Challenges</h2>
+
+<p>Traditionally,</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/20/quincy-fair-scheduling-for-distributed-computing-clusters-sosp-09/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2012/11/17/chun-tian-zai-na-li-ya-chun-tian-zai-na-li-%3F/">春天在哪里呀春天在哪里？</a></h1>
     
     
@@ -704,64 +763,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2010/11/05/write-down-and-forget/">写下，忘记，然后继续</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-11-05T01:36:00-07:00" pubdate data-updated="true">Nov 5<span>th</span>, 2010</time>
-        
-         | <a href="/blog/2010/11/05/write-down-and-forget/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>不写博客是有罪的。</p>
-
-<p>尽管有各种借口比如说我很忙啊，一周七天我每天都有课啊，我要在学生会带领一个新部门啊，我要管理N多网站啊，我妄图做项目啊，我要在电视台帮忙啊，我要去其他学校参加活动啊，我要保证锻炼身体的频率所以参加本校的太极推手啊。更重要的大BOSS是，我要参加某英语类考试啊。另外，我还有一些业余爱好，比如看看闲书啊，看看美女啊，发发呆啊，吃吃零食啊，写写博客啊。我还妄图每个黄昏在操场跑一个小时同时听听有声书啊……OMG，我丰富多彩的人生呐，没有消停的啊。</p>
-
-<p>但是，就我的榆木脑袋而言，生活愈发地丰富多彩，内存与硬盘就愈发的不够用。就非常真切地觉得，那些知识渊博的人简直就是另外一种生物：他们对各种各涉及“数据”或者“情节”的东西如数家珍，中国的基尼系数到底是几点几，文化大革命是几几年到几几年，三年自然灾害到底饿死多少人，今天老师上课提到的某书的第几张第几页到底是在哪里，对1984从梗概到细节侃侃而谈不知疲倦：大哥，我也看了，也流泪了，为什么一瞬间那三大国四大部怎就就忘了呢？怎么的他妈的就记不起来了呢？</p>
-
-<p>其实我也企图扩大脑容量来着，我抱着红宝书死磕半年，当惊悉哥哥姐姐们两个小时就能刷完那本六千多个古怪的词的厚厚的一大本的时候，我简直又要哭了。</p>
-
-<p>好吧，我认了。就像面对她不接受我的依恋一般，我认了。一直被拒绝，从未被接受。对不起，我只是一个对世界充满好奇的邋遢的矮小而肥大的妄图成为大叔的小正太，而已。</p>
-
-<p>我认了，我记忆力很坏，回忆ISO OSI具体的哪几层有哪些用都要半天；我反应慢，10月23日那场荒唐的考试时左侧的女生做一个SECTION数学题的速度比我快3分钟。我认了，就像我承认我与长辈谈话身子乱动、吃饭有声、走路背直不起来一般，哥没有气质，哥不帅。其实我也想BlahBlah来着，但是事实却是，明明知道想要高GPA把手头的课上好就可以了，却还要选那些吃力不讨好的辅修课；明明知道想要国一只需要学习成绩好就够了，却还要折腾那些BlahBlah来着。</p>
-
-<p>有时候，我会拿起摄像机拍一点东西，我拍他们踢球，我拍他们打球，我拍他们唱歌，我拍他们跳舞，我拍他们演讲，我拍他们开会：我拍他们活泼可爱，我拍他们冷峻严肃。我拍，我拍，我拍拍拍，但是我却从未好好地整理过这些素材，我甚至都不敢看：凭什么我的青春就像这窄窄的屏幕，你在那头，我在这头。</p>
-
-<p>还好我有妄图培养写习惯作的习惯，否则我没法记住那些细节：我某年某月某日居然还读过那本书，我某年某月某日居然还遇到过这个人，我某年某月某日居然还做过这种事，我某年某月某日居然还为她怎么怎么地。写作让我的反射弧完整得如此犀利，让我成为了一个带实参会return的函数，让我的所作所为所见所思赤裸裸地定格在网络的角落里。</p>
-
-<p>不写博客是有罪的，原告就是我的“青春”、我“丰富多彩的生活”。</p>
-
-<p>结尾的事情，就像她曾经说的，写下，忘记，然后继续。就像我应该做的，写下，忘记，然后继续。</p>
-
-<p>EOF</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="/blog/page/5/">&larr; Older</a></li>
@@ -786,6 +787,10 @@
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2013/09/15/essential-c-sharp-advanced/">Essential C# 4.0: Advanced</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/09/14/h-quincy/">H-Quincy: Fair Scheduling for Hadoop Clusters</a>
       </li>
     
@@ -799,10 +804,6 @@
     
       <li class="post">
         <a href="/blog/2013/09/02/ipadmini/">我的iPad安装的应用</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/08/14/essential-c-sharp-basics/">Essential C# 4.0: Basics</a>
       </li>
     
   </ul>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming_language | Puncsky CS Notebook]]></title>
   <link href="http://www.puncsky.com/blog/categories/programming-language/atom.xml" rel="self"/>
   <link href="http://www.puncsky.com/"/>
-  <updated>2013-09-14T22:27:50-07:00</updated>
+  <updated>2013-09-15T17:59:04-07:00</updated>
   <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -12,6 +12,718 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Essential C# 4.0: Advanced]]></title>
+    <link href="http://www.puncsky.com/blog/2013/09/15/essential-c-sharp-advanced/"/>
+    <updated>2013-09-15T13:58:00-07:00</updated>
+    <id>http://www.puncsky.com/blog/2013/09/15/essential-c-sharp-advanced</id>
+    <content type="html"><![CDATA[<p>This is the third and final part of my series of notes on learning C#.</p>
+
+<ol>
+<li><a href="http://www.puncsky.com/blog/2013/08/14/essential-c-sharp-basics/">Essential C# 4.0: Basics</a></li>
+<li><a href="http://www.puncsky.com/blog/2013/09/05/essential-c-sharp-intermediate/">Essential C# 4.0: Intermediate</a></li>
+<li>Essential C# 4.0: Advanced(this post)</li>
+</ol>
+
+
+<p>In general, C# leaves me an unpleasant impression of redundancy and tyranny. The designers of the language seem to be always mocking "oh my stupid boy, we have to spare no effort to prevent you from making stupid mistakes~" However, this idea of design is <em>good</em> to some extend.</p>
+
+<p>My passion on coding is mostly inspired by the colorful vim on Ubuntu. <em>It is amazing fun. I love it!!</em> So the first app I install on my new Windows workstation is, of course, cygwin. Now I have to use Visual Studio, so the first plugin I install on it is surely vsvim. Moreover, maybe I am not a guy of Eclipse. I can see no beauty and usability in it, although it is much more extensible than Visual Studio. The experience of configuring the build environment of Android and later Hadoop is awful and drives me crazy.</p>
+
+<p>As to the last chapters of this book, I am not interested in muti-processing/multi-threading in Windows OS, which is much slower than *nix OS and thus somewhat boring. Windows was not designed to be a multiprocessing and multi-user platform in the first place; instead, it was originally intended for <em>personal</em> usage. So I just skimmed this chapter. Maybe I will revisit it someday when I have to exhaust the computing resources. May that would not happen.</p>
+
+<p>At last, C# is not designed for manipulating pointers and addresses directly. Why do we bother to study it? We have C/C++ already. So I also skimmed the last two chapters. :D</p>
+
+<p>The following is my notes.</p>
+
+<!--more-->
+
+
+<h2>14 Collection Interfaces with Standard Query Operators 535</h2>
+
+<ol>
+<li>Anonymous Types
+
+<ul>
+<li><code>var patent = new {Title = "Bifocals", YearOfPublication = "1784"}</code></li>
+</ul>
+</li>
+<li>Implicit Typed Local Variables (<code>var</code>)
+
+<ul>
+<li>There is no difference in the resultant CIL code for implic- itly typed variables whose assignment is not an anonymous type (such as string) and those that are declared as type string.</li>
+<li><strong><em>still strongly typed as well by the compiler.</em></strong>
+
+<ul>
+<li><em>Language Contrast</em>: JavaScript's var is dynamically typed. <a href="http://stackoverflow.com/questions/8457813/difference-between-the-implementation-of-var-in-javascript-and-c-sharp">See here</a>. C# is (usually) a statically typed language.</li>
+</ul>
+</li>
+<li>You should use implicitly typed variable declarations sparingly
+
+<ul>
+<li>To accomplish this with implicitly typed local variables, use them only when the type assigned to the implicitly typed variable is entirely obvious and makes themselves more readable.</li>
+<li>e.g. <code>var items = new Dictionary&lt;string, List&lt;Account&gt;&gt;();</code></li>
+<li>e.g. <code>Dictionary&lt;string, List&lt;Account&gt;&gt; dictionary = GetAccounts();</code></li>
+<li>the requirements for two anonymous types to be type-compatible within the same assembly are a match in property names, data types, and order of properties.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Collection Initializers</li>
+<li>Collections
+
+<ul>
+<li>Arrays(length fixed, index operator supported)
+
+<ul>
+<li><code>foreach(TItem item in array) {}</code></li>
+</ul>
+</li>
+<li>IEnumerable<T> (such as <code>Stack&lt;T&gt;</code>, <code>Queue&lt;T&gt;</code>, <code>Dictionary&lt;Tkey, Tvalue&gt;</code>)
+
+<ul>
+<li><code>while (stack.MoveNext()) {number = stack.Current; Console.WriteLine(number)}</code></li>
+<li><strong>The state of moving to the next is shared.</strong> So we need <code>Enumerator</code> and <code>GetEnumerator()</code></li>
+<li><code>Dispose()</code> the enumerator's state. A more simplified version in the example.</li>
+</ul>
+</li>
+<li><code>foreach</code> without <code>IEnumerable</code>?
+
+<ul>
+<li>"duck typing": if no IEnumerable/IEnumerable<T> method is found, it looks for the <code>GetEnumerator()</code> method to return a type with Current() and MoveNext() methods. Duck typing involves searching for a method by name rather than relying on an interface or explicit method call to the method.</li>
+</ul>
+</li>
+<li><strong><em>compiler prevents assignment of the foreach variable</em></strong> Do not modify the collection during a foreach loop.</li>
+</ul>
+</li>
+<li><strong>Standard Query Operators</strong>
+
+<ul>
+<li>Each method on <code>IEnumerable&lt;T&gt;</code> is a standard query operator</li>
+<li>Filtering with <code>Where()</code>
+
+<ul>
+<li>A delegate expression that takes an argument and returns a Boolean is called a <strong>predicate</strong></li>
+</ul>
+</li>
+<li>Projecting with <code>Select()</code>
+
+<ul>
+<li><code>IEnumerable&lt;FileInfo&gt; files = fileList.Select(file =&gt; new FileInfo(file))</code></li>
+<li>PLINQ(Parallel LINQ): <code>.AsParallel().</code> See CH18, CH19</li>
+</ul>
+</li>
+<li>Counting with <code>Count()</code></li>
+<li><strong><em>Deferring Execution</em></strong>: One of the most important concepts to remember when using LINQ
+
+<ul>
+<li>At the time of declaration(".Where()"), lambda expressions do not execute. It isn’t until the lambda expressions are invoked (<code>foreach</code>) that the code within them begins to execute.</li>
+<li><strong>To avoid such repeated execution, it is necessary to cache the data that the executed query retrieves.</strong> To do this, you assign the data to a local collection using one of the “To” method’s collection methods.</li>
+</ul>
+</li>
+<li>Sorting with <code>OrderBy()</code> and <code>OrderBy().ThenBy()</code>
+
+<ul>
+<li>return a <code>IOrderedEnumerable&lt;T&gt;</code> instead of <code>IEnumerable&lt;T&gt;</code></li>
+</ul>
+</li>
+<li><code>IEnumerable&lt;IGrouping&lt;int, Employee&gt;&gt; groupedEmployees = employees.GroupBy((employee) =&gt; employee.DepartmentId);</code></li>
+<li><code>GroupJoin()</code>, <code>SelectMany()</code>...</li>
+</ul>
+</li>
+</ol>
+
+
+<p>``` cpp
+using(System.Collections.Generic.Stack<int>.Enumerator<int></p>
+
+<pre><code>  enumerator = stack.GetEnumerator()) {
+while (enumerator.MoveNext()) {
+    number = enumerator.Current;
+    Console.WriteLine(number);
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<h2>15 LINQ with Query Expressions 589</h2>
+
+<ul>
+<li><strong>More readable and SQL-like query expressions</strong>, when compared to Standard Query Operators</li>
+</ul>
+
+
+<h2>16 Building Custom Collections 611</h2>
+
+<ol>
+<li>More Collection Interfaces
+
+<ul>
+<li><code>IList&lt;T&gt;</code></li>
+<li><code>IDictionary&lt;TKey, TValue&gt;</code></li>
+<li><code>IComparable&lt;T&gt;</code></li>
+<li><code>ICollection&lt;T&gt;</code></li>
+</ul>
+</li>
+<li>Primary Collection Classes
+
+<ul>
+<li><code>List&lt;T&gt;</code></li>
+<li><code>Dictionary&lt;TKey, TValue&gt;</code></li>
+<li><code>SortedDictionary&lt;TKey, TValue&gt;</code> and <code>SortedList&lt;T&gt;</code></li>
+<li><code>Stack&lt;T&gt;</code></li>
+<li><code>Queue&lt;T&gt;</code></li>
+<li><code>LinkedList&lt;T&gt;</code></li>
+</ul>
+</li>
+<li>Providing an Index Operator <code>[]</code>
+
+<ul>
+<li><code>public T1 this[T2 index] {}</code> and <code>public T this[params PairItem[] branches] {}</code></li>
+</ul>
+</li>
+<li>Returning null or an Empty Collection
+
+<ul>
+<li>The better choice in general is to return a collection instance with no items.</li>
+<li>One of the few times to deviate from this guideline is when <code>null</code> is intentionally indicating something different from zero items. e.g. telephone number, <code>null</code> for not set, empty for no phone number</li>
+</ul>
+</li>
+<li>Iterators, <code>IEnumerator&lt;T&gt;</code> and <code>IEnumerator</code>
+
+<ul>
+<li>If classes want to support iteration using the foreach loop construct, they must implement the enumerator pattern.</li>
+<li>Defining</li>
+<li>Syntax
+
+<ol>
+<li>the class should derive from <code>IEnumerable&lt;T&gt;</code></li>
+<li><code>public IEnumerator&lt;T&gt; GetEnumerator() {}</code> method</li>
+</ol>
+</li>
+<li><strong><em>yield</em></strong>
+
+<ul>
+<li>Iterators are like functions, but instead of returning values, they yield them. 生成一个个即将被iterate 的结果？</li>
+<li><code>yield return SomeObject;</code> you can use yield only in <code>GetEnumerator()</code> methods that return <code>IEnumerator&lt;T&gt;</code>, or in methods that return <code>IEnumerable&lt;T&gt;</code> but are not called GetEnumerator().
+
+<ul>
+<li>C# compiler generates the code to maintain the state machine for the iterator.</li>
+</ul>
+</li>
+<li><code>yield break;</code></li>
+<li>some other restrictions: P649</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+
+
+<h2>17 Reflection, Attributes, and Dynamic Programming 651</h2>
+
+<p><strong>Reflection</strong> is the process of examining the metadata within an assembly.</p>
+
+<ol>
+<li>Accessing Metadata Using <code>System.Type</code>
+
+<ul>
+<li><code>GetType()</code></li>
+<li><code>typeof()</code></li>
+</ul>
+</li>
+<li>Member Invocation
+
+<ul>
+<li><code>type.GetProperty()</code> and <code>property.SetValue()</code> see examples</li>
+</ul>
+</li>
+<li>Reflection on Generics
+
+<ul>
+<li><code>type.IsGenericType</code></li>
+<li><code>foreach(Type type in t.GetGenericArguments()) {}</code></li>
+</ul>
+</li>
+<li>Custom Attributes
+
+<ul>
+<li>attributes are a means of associating additional data with a property (and other constructs).</li>
+<li><em>Language Contrast</em>: Attributes are to C# what annotations are to Java</li>
+<li>2 ways to combine
+
+<ol>
+<li><code>[Attr1] [Attr2]</code></li>
+<li><code>[Attr1, Attr2]</code></li>
+</ol>
+</li>
+<li>custom attributes
+
+<ul>
+<li><code>public class CLISwitchRequiredAttribute : Attribute {}</code></li>
+</ul>
+</li>
+<li>get custom attributes
+
+<ul>
+<li><code>Attribute[] a = (Attribute[])property.GetCustomAttributes(...)</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Attribute Constructors
+
+<ul>
+<li><code>public class CLISwitchRequiredAttribute : Attribute { CLISwitchAliasAttribute(string alias) {Alias = alias;}}</code></li>
+</ul>
+</li>
+<li>Named Parameters</li>
+<li>Predefined Attributes
+
+<ul>
+<li><code>AttributeUsageAttribute</code> before the attribute class to set target properties</li>
+<li><code>ConditionalAttribute("CONDITION_BLAH")</code> before the methods to call on condition of <code>#define CONDITION_BLAH</code></li>
+<li><code>ObsoleteAttribute</code> causes a compile-time warning, optionally an error.</li>
+<li><code>Serializable</code> before class for storage
+
+<ul>
+<li><code>NonSerializable</code></li>
+<li>version problem? <code>System.Runtime.Serialization.OptionalFieldAttribute</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Dynamic Objects
+
+<ul>
+<li>Dynamic object support provides a common solution for talking to runtime environments that don’t necessarily have a compile-time-defined structure.</li>
+<li>The key difference when using a dynamic object is that it is necessary to identify the signature at compile time, rather than determine things such as the member name at runtime (like we did when parsing the command-line arguments).</li>
+<li>TODO</li>
+</ul>
+</li>
+</ol>
+
+
+<p>```
+// Using Type.GetProperties() to Obtain an Object's Public Properties
+DateTime dateTime = new DateTime();</p>
+
+<p>Type type = dateTime.GetType();
+foreach(System.Reflection.PropertyInfo property in type.GetProperties()) {</p>
+
+<pre><code>Console.WriteLine(property.Name);
+</code></pre>
+
+<p>}
+```</p>
+
+<h2>18 Multithreading 701</h2>
+
+<p>thread, time slicing.</p>
+
+<p>In .NET Framework 4, the task requests a thread from the thread pool.</p>
+
+<ul>
+<li><p><code>Task</code> in <strong>Task Parallel Library</strong></p>
+
+<ul>
+<li><code>class Task(Delegate Func);</code> and <code>class Task&lt;TResult&gt;(Delegate Func)</code></li>
+<li><code>task.Result</code>, <code>task.IsCompleted</code>, <code>task.Id</code>, <code>task.AsyncState</code>, static <code>Task.CurrentId</code>,</li>
+</ul>
+</li>
+<li><p>Parallel Loops</p>
+
+<ul>
+<li><code>Parallel.For()</code></li>
+<li><code>Parallel.ForEach&lt;T&gt;()</code></li>
+</ul>
+</li>
+<li>Unhanded Exceptions</li>
+<li><strong>Parallel LINQ</strong></li>
+<li>Multithreaded Programming with Tasks
+
+<ul>
+<li>Task Basiscs</li>
+<li><code>ContinueWith()</code></li>
+<li>Unhandled Exceptions</li>
+</ul>
+</li>
+<li>TPL Cancellation Requests
+
+<ul>
+<li>Canceling a Task</li>
+<li>Canceling Parallel Loops</li>
+<li>Canceling a Task</li>
+</ul>
+</li>
+<li><del>Multithreaded Programming before TPL (Before .NET 4)</del></li>
+</ul>
+
+
+<p>``` cpp
+// Task
+using System;
+using System.Threading.Tasks;</p>
+
+<p>public class Program {
+  public static void Main() {</p>
+
+<pre><code>const int repetitions = 10000;
+Task task = new Task( () =&gt; {
+    for (int count = 0; count &lt; repetitions; count++) {
+      Console.Write('-');
+    }   
+}); 
+
+task.Start();
+for (int count = 0; count &lt; repetitions; count++) {
+  Console.Write('.');
+}   
+
+// Wait until the Task completes
+task.Wait();
+</code></pre>
+
+<p>  }
+}
+```</p>
+
+<h2>19 Multithreading Patterns 749</h2>
+
+<ul>
+<li><p>Thread-safe: Code or dada synchronized for simultaneous access by multiple threads.</p></li>
+<li><p><a href="http://msdn.microsoft.com/en-us/library/ff963559.aspx">torn read</a>. When reading a variable requires more than one machine instruction, and another task writes to the variable between the read instructions.</p></li>
+<li><p>Local variables are loaded onto the stack and each thread has its own logical stack. (But they can still be accessed by other threads.)</p></li>
+<li><p>Synchronization</p>
+
+<ul>
+<li>Monitor
+
+<ul>
+<li>use a monitor to block the second thread from entering a protected code section before the first thread has exited that section. See the example.</li>
+<li><code>_Sync</code> object, <code>try</code>/<code>finally</code></li>
+</ul>
+</li>
+<li>Lock
+
+<ul>
+<li>Monitor is fallible with <code>try</code>/<code>finally</code> (forgettable)</li>
+<li>use a per-synchronization context instance of type object for the lock target.</li>
+<li>avoid locking <code>this</code>, <code>typeof(type)</code>, and <code>string</code>  TODO:??我的理解是不要从instance内部锁，一律从外部锁，防止死锁。</li>
+</ul>
+</li>
+<li><p>Volatile <em>Language Contrast</em>:</p>
+
+<ul>
+<li>C#: ensures that code accessing the field is not subject to some thread unsafe optimizations that may be performed by the compiler, the CLR, or by hardware. (forces all reads and writes to the volatile field to occur at the exact location the code identifies instead of at some other location that the) optimization produces.</li>
+<li>Java: read its current value before continuing, instead of (potentially) using a cached value. Volatile reads and writes establish a happens-before relationship, much like acquiring and releasing a mutex.</li>
+<li>C: volatile exists for specifying special treatment for such locations, specifically: (1) the content of a volatile variable is "unstable" (can change by means unknown to the compiler), (2) all writes to volatile data are "observable" so they must be executed religiously, and (3) all operations on volatile data are executed in the sequence in which they appear in the source code.
+
+<ul>
+<li>usage of volatile keyword as a portable synchronization mechanism <strong>is discouraged</strong> by many C/C++ groups.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>System.Threading.Interlocked</code></p>
+
+<ul>
+<li>synchronization with System.Threading.Monitor is a relatively expensive operation</li>
+<li>If <code>_Data</code> is <code>null</code> then set it to <code>newValue</code>
+
+<ul>
+<li><code>Interlocked.CompareExchange(ref _data, newValue, null);</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Synchronization Best Practices
+
+<ul>
+<li>avoid deadlocks. Deadlock's 4 conditions:
+
+<ol>
+<li>Mutual exclusion</li>
+<li>Hold and wait</li>
+<li>No preemption</li>
+<li>Circular wait condition</li>
+</ol>
+</li>
+<li>All static data should be thread-safe.
+
+<ul>
+<li>programmers should declare private static variables and then provide public methods for modifying the data. Such methods should internally handle the synchronization.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>Mutex</code></li>
+<li>WaitHandle</li>
+<li>Reset Events
+
+<ul>
+<li> reset events have nothing to do with C# delegates and events. Instead, reset events are a way to <strong>force code to wait for the execution of another thread until the other thread signals</strong></li>
+<li>Favor <code>ManualResetEvent</code> and <code>Semaphores</code> over <code>AutoResetEvent</code></li>
+</ul>
+</li>
+<li>Concurrent Collection Classes
+
+<ul>
+<li>designed to include built-in synchronization code so that they can support simultaneous access by multiple threads without concern for race conditions.</li>
+<li><code>BlockingCollection&lt;T&gt;</code></li>
+<li><code>ConcurrentBag&lt;T&gt;</code></li>
+<li><code>ConcurrentDictionary&lt;TKey, TValue&gt;</code></li>
+<li><code>ConcurrentQueue&lt;T&gt;</code></li>
+<li><code>ConcurrentStack&lt;T&gt;</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Thread Local Storage
+
+<ul>
+<li><code>ThreadLocal&lt;T&gt;</code></li>
+<li><code>ThreadStaticAttribute</code></li>
+</ul>
+</li>
+<li>Timers</li>
+<li>Asynchronous Programming Model (APM)
+
+<ul>
+<li>the key aspect of the APM is the pair of <code>IAsyncResult BeginX()</code> and <code>EndX()</code> methods with well-established signatures.</li>
+<li><code>WaitHandle</code> to determine when the asynchronous method completes.</li>
+<li><code>EndX()</code>
+
+<ol>
+<li>block further execution until the successful complete</li>
+<li>get the return data</li>
+<li>receive the exception</li>
+<li>clean up resources</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>Background Worker Pattern
+
+<ul>
+<li>TODO</li>
+</ul>
+</li>
+<li>Windows UI Programming
+
+<ul>
+<li>TODO</li>
+</ul>
+</li>
+</ul>
+
+
+<p>``` cpp
+// monitor
+using System;
+using System.Threading;
+using System.Threading.Tasks;</p>
+
+<p>class Program {
+  // Note that calls to Monitor.Enter() and Monitor.Exit() are associated
+  // with each other by sharing the same object reference passed as the
+  // parameter (in this case <em>Sync).
+  readonly static object </em>Sync = new object();
+  const int <em>Total = int.MaxValue;
+  static long </em>Count = 0;</p>
+
+<p>  public static void Main() {</p>
+
+<pre><code>Task task = Task.Factory.StartNew(Decrement);
+
+// Increment
+for (int i = 0; i &lt; _Total; i++) {
+  bool lockTaken = false;
+  Monitor.Enter(_Sync, ref lockTaken);
+  try {
+    _Count++;
+  } finally {
+    if (lockTaken) {
+      Monitor.Exit(_Sync);
+    }
+  }
+}
+
+task.Wait();
+Console.WriteLine("Count = {0}", _Count);
+</code></pre>
+
+<p>  }</p>
+
+<p>  static void Decrement() {</p>
+
+<pre><code>for (int i = 0; i &lt; _Total; i++) {
+  bool lockTaken = false;
+  Monitor.Enter(_Sync, ref lockTaken);
+  try {
+    _Count--;
+  } finally {
+    if (lockTaken) {
+      Monitor.Exit(_Sync);
+    }
+  }
+}
+</code></pre>
+
+<p>  }
+}
+```</p>
+
+<p>``` cpp
+// lock
+using System;
+using System.Threading;
+using System.Threading.Tasks;</p>
+
+<p>class Program {
+  readonly static object <em>Sync = new object();
+  const int </em>Total = int.MaxValue;
+  static long _Count = 0;</p>
+
+<p>  public static void Main() {</p>
+
+<pre><code>Task task = Task.Factory.StartNew(Decrement);
+
+// Increment
+for (int i = 0; i &lt; _Total; i++) {
+  lock (_Sync) {
+    _Count++;
+  }
+}
+
+task.Wait();
+Console.WriteLine("Count = {0}", _Count);
+</code></pre>
+
+<p>  }</p>
+
+<p>  static void Decrement() {</p>
+
+<pre><code>for (int i = 0; i &lt; _Total; i++) {
+  lock (_Sync) {
+    _Count--;
+  }
+}
+</code></pre>
+
+<p>  }
+}</p>
+
+<p>```</p>
+
+<p>``` cpp
+// mutex
+// It cannot run correctly on Ubuntu with mono.
+using System;
+using System.Threading;
+using System.Reflection;</p>
+
+<p>class Program {
+  public static void Main() {</p>
+
+<pre><code>// Indicates whether this is the first
+// application instance
+bool firstApplicationInstance;
+
+// Obtain the mutex name from the full
+// assembly name.
+string mutexName = Assembly.GetEntryAssembly().FullName;
+
+using (Mutex mutex = new Mutex(false, mutexName, out firstApplicationInstance)) {
+  if (!firstApplicationInstance) {
+    Console.Write("This application is already running.");
+  } else {
+    Console.WriteLine("ENTER to shut down");
+    Console.ReadLine();
+  }   
+}   
+</code></pre>
+
+<p>  }
+}</p>
+
+<p>```</p>
+
+<p>``` cpp
+// APM
+using System;
+using System.IO;
+using System.Net;
+using System.Linq;</p>
+
+<p>public class Program {
+  public static void Main(string[] args) {</p>
+
+<pre><code>string url = "http://www.puncsky.com";
+if (args.Length &gt; 0) {
+  url = args[0];
+}   
+
+Console.WriteLine(url);
+WebRequest webRequest = WebRequest.Create(url);
+
+// puncsky: `BeginX` method call
+IAsyncResult asyncResult = webRequest.BeginGetResponse(null, null);
+
+while (!asyncResult.AsyncWaitHandle.WaitOne(100)) {
+  Console.Write('.');
+}   
+
+// puncsky: `EndX` method call
+// Retrieve the results when finished
+// downloading
+WebResponse response = webRequest.EndGetResponse(asyncResult);
+using (StreamReader reader = new StreamReader(response.GetResponseStream())) {
+  int length = reader.ReadToEnd().Length;
+  Console.WriteLine(FormatBytes(length));
+}   
+</code></pre>
+
+<p>  }</p>
+
+<p>  static public string FormatBytes(long bytes) {</p>
+
+<pre><code>string[] magnitudes = new string[] { "GB", "MB", "KB", "Bytes" };
+long max = (long)Math.Pow(1024, magnitudes.Length);
+
+return string.Format("{1:##.##} {0}", magnitudes.FirstOrDefault(
+    magnitude =&gt; bytes &gt; (max /= 1024))?? "0 Bytes", (decimal)bytes / (decimal)max).Trim();
+</code></pre>
+
+<p>  }
+}
+```</p>
+
+<h2>20 Platform Interoperability and Unsafe Code 815</h2>
+
+<ul>
+<li>What if the memory addresses and pointers have be used?</li>
+<li>3 ways
+
+<ul>
+<li>Platform Invoke (P/Invoke)</li>
+<li><strong>unsafe code</strong></li>
+<li><strong>COM</strong></li>
+</ul>
+</li>
+</ul>
+
+
+<h2>21 The Common Language Infrastructure 843</h2>
+
+<ul>
+<li>TODO</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Essential C# 4.0: Intermediate]]></title>
