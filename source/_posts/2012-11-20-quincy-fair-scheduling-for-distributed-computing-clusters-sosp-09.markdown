@@ -5,6 +5,9 @@ date: 2012-11-20 16:08
 comments: true
 categories: paper_review
 ---
+
+**Important update on 09/14/2013.** I implemented the flow-based scheduler in this paper on Hadoop -- H-Quincy. For a much more detailed discussion, please visit [this link](http://www.puncsky.com/blog/2013/09/14/h-quincy/).
+
 [Microsoft](http://research.microsoft.com/en-us/people/misard/), [paper](http://www.sigops.org/sosp/sosp09/papers/isard-sosp09.pdf), [video](http://www.sigops.org/sosp/sosp09/videos/19_michael_isard.mov), [slides](http://www.sigops.org/sosp/sosp09/slides/quincy/QuincyTestPage.html)
 
 1. Problem

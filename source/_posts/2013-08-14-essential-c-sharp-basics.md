@@ -11,7 +11,6 @@ No one can ever master a programming language (PL) by studying it only without l
 
 Consequently, I make a list of PLs I would study seriously in the future.
 
-<!-- more -->
 
 1. C# or Java
     - A serious pure OOP and enterprise level PL is always necessary for the reason of productivity.
@@ -27,7 +26,13 @@ Consequently, I make a list of PLs I would study seriously in the future.
     - Help to understand the beauty of functional PL.
 
 
-The following part is my notes on the book *Essential C#*, which is redeemed as the best book for C# learners.
+The following part is the first part of my series notes on the book *Essential C#*, which is redeemed as the best book for C# learners. 
+
+1. Essential C# 4.0: Basics(this post)
+2. [Essential C# 4.0: Intermediate](http://www.puncsky.com/blog/2013/09/05/essential-c-sharp-intermediate/)
+3. [Essential C# 4.0: Advanced](http://www.puncsky.com/blog/2013/09/15/essential-c-sharp-advanced/)
+
+<!-- more -->
 
 
 # Essential C# 4.0

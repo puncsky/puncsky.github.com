@@ -7,11 +7,11 @@ categories:  programming_language
 published: true
 ---
 
-[Essential C# 4.0: Basics](http://www.puncsky.com/blog/2013/08/14/essential-c-sharp-basics/)
-Essential C# 4.0: Intermediate
-[Essential C# 4.0: Advanced]()
-
 This is the second part of my serials of notes on learning C#. 
+
+1. [Essential C# 4.0: Basics](http://www.puncsky.com/blog/2013/08/14/essential-c-sharp-basics/)
+2. Essential C# 4.0: Intermediate (this post)
+3. [Essential C# 4.0: Advanced](http://www.puncsky.com/blog/2013/09/15/essential-c-sharp-advanced/)
 
 A productive-focused language like C# has so much *syntax sugar* that I feel not so comfortable with, because I used to be a C++ programmer and everything in the C++ kingdom appears to be straight forward, although, at the same time, tend to be fallible.
 
@@ -32,23 +32,23 @@ The following is my notes from Chapter 9 through Chapter 13.
 	  - Calling `ReferenceEquals()` on *value types* will always return false since
 2. Operator Overloading
 	  - `public static`
-		    - avoid recursive loop `(leftHandSide == null)` when check equality
-			- One of the parameters of a operator must be the containing type
+	  	- avoid recursive loop `(leftHandSide == null)` when check equality
+		- One of the parameters of a operator must be the containing type
 3. Referencing other Assemblies
 	  - Assembly Target: `csc /target:library /out:Coordinates.dll Coordinate.cs IAngle.cs`
-		    - console executable
-			- class library
-			- windows executable
-			- module
+		- console executable
+		- class library
+		- windows executable
+		- module
 	  - Reference an Assembly `csc /R:Coordinates.dll Program.cs`
 	  - By default, a class without any access modifier is defined as `internal` (accessible from within the assembly only).
 4. Defining Namespaces
 	  - ***namespace alias qualifier***
-		    - `csc /R:CoordPlus=CoordinatesPlus.dll /R:Coordinates.dll Program.cs`
-			- `extern alias CoordPlus;` before all `using` statements
-			- `using CoordPlus:
+		- `csc /R:CoordPlus=CoordinatesPlus.dll /R:Coordinates.dll Program.cs`
+		- `extern alias CoordPlus;` before all `using` statements
+		- `using CoordPlus:
 			Blah.Blah;` equally or `using CoordPlus.Blah.Blah;`
-			- How about global scope? `using global::Blah.Blah` (different from `using global.Blah.Blah` which means the real namespace of `global`)
+		- How about global scope? `using global::Blah.Blah` (different from `using global.Blah.Blah` which means the real namespace of `global`)
 5. XML Comments
 	  - `///`, `<summary>`, `<remarks>`, `<param name="blah"> <param>`, `<returns>`, `<date>`
 	  - Generate an XML doc file `csc /doc:Comments.xml DataStorage.cs`
@@ -57,14 +57,14 @@ The following is my notes from Chapter 9 through Chapter 13.
 	  - **Weak reference** save the reference for future reuse (memory cache) `private WeakReference Data;`
 	  - Finalizer: `~ClassName()` like [Java's `finalize()`](http://www.puncsky.com/blog/2013/01/14/gc-garbage-collection-in-java/)
 	  - Deterministic finalization with the `using` statement
-		    - The `IDisposable` interface defines
+	  	- The `IDisposable` interface defines
 			the details of the pattern with a single method called `Dispose()`, which
 			developers call on a resource class to “dispose” of the consumed
-			- HOWEVER, there is a chance that an exception will occur before the dispose call
+		- HOWEVER, there is a chance that an exception will occur before the dispose call
 			resources. If this
 			happens, Dispose() will not be invoked and the resource cleanup will
 			have to rely on the finalizer.
-			- SO 2 ways:
+		- SO 2 ways:
 			  1. try / finally
 			  2. `using` statement and **all variables are of the same type and they implement `IDisposable`**
 	  - The ***f-reachable queue*** is a list of all the objects that are ready for
@@ -74,7 +74,7 @@ The following is my notes from Chapter 9 through Chapter 13.
 	  - **Lazy Initialization**: Defer the init of an object until it is required.
 		    - `System.Lazy<T>`
 
-```
+``` cpp
 // Lazy Initialization
 using System.IO;
 
@@ -135,7 +135,7 @@ class DataCache
 	- *Language Contrast*: Sun's implementation of generics for Java occurs within the compiler entirely, not within the JVM. JVM cannot support generics for value types.
 	
 	
-```
+``` cpp
 // Needing the type parameter to support an interface or exception thrown
 public class BinaryTree<T>
 {
@@ -190,7 +190,7 @@ public class BinaryTree<T>
 }
 ```
 
-```
+``` cpp
 // multiple constraints
 // an AND relationship is assumed
 public class EntityDictionary<TKey, TValue>
@@ -202,7 +202,7 @@ public class EntityDictionary<TKey, TValue>
 } 
 ```
 
-```
+``` cpp
 // constructor constraints ensure default ctors only
 // Ctors with parameters are NOT supported
 public class EntityDictionary<TKey, TValue> :
@@ -258,7 +258,7 @@ public class EntityDictionary<TKey, TValue> :
 		- compiled into a delegate in CIL
 		- compiled into a data structure of type "System.Linq.Expressions.Expression"
 
-```
+``` cpp
 using System;
 class DelegateSample {
     public static void BubbleSort(int[] items, ComparisonHandler comparisonMethod) {
@@ -336,7 +336,7 @@ publish-subscribe design pattern
 		- an empty delegate `delegate {}` represents a collection of zero listeners.
 	- customize with `add` and `remove`
 
-```
+``` cpp
 // delegate's implementation of subscriber-publisher
 using System;
 
@@ -472,7 +472,7 @@ class Program {
 }
 ```
 
-```
+``` cpp
 // event implementation of subscriber-publisher
 using System;
 
@@ -581,7 +581,7 @@ class Program {
 }
 ```
 
-```
+``` cpp
 // Define the event publisher
 public event TemperatureChangeHandler OnTemperatureChange {
 	add
