@@ -20,10 +20,7 @@ As for web development, I used to build a online shopping website in three days 
 
 2. **Record time in UTF.** The users are coming from around the globe. It is better to consider timezones early, with every time data saved in UTF.
 
-3. **Use MVVM instead of controller-fat MVC.** Web server is not the only thing to be considered. Sometimes, [it is still inevitable for the server to send data to native apps](http://techcrunch.com/2012/09/11/mark-zuckerberg-our-biggest-mistake-with-mobile-was-betting-too-much-on-html5/). So leaving space for REST-like services can make our lives easier. **Model layer can serve both the web UI and the native app UI.**. To have a better understanding of MVC, I highly recommend this link  (in simplified Chinese)[MVC之患上肥胖症的Controller](http://www.lovelucy.info/fat-controller-bad-mvc.html).
-
-<p align="middle"><img src="https://raw.github.com/puncsky/puncsky.github.com/source/images/webdev.png" alt="Web Development"></p>
-
+3. **Use MVVM instead of controller-fat MVC.** Web server is not the only thing to be considered. Sometimes, [it is still inevitable for the server to send data to native apps](http://techcrunch.com/2012/09/11/mark-zuckerberg-our-biggest-mistake-with-mobile-was-betting-too-much-on-html5/). So leaving space for REST-like services can make our lives easier. **Model layer can serve both the web UI and the native app UI.**(see the end of this post). To have a better understanding of MVC, I highly recommend this link  (in simplified Chinese)[MVC之患上肥胖症的Controller](http://www.lovelucy.info/fat-controller-bad-mvc.html).
 4. **Ponder over actions and the corresponding partial views.** Just2do is an actions-intensive web app. Many actions will update target partial views asynchronously. It is better to list all the possible actions first and then to coin the site.
 
 5. [Any application that can be written in JavaScript, will eventually be written in JavaScript.](http://www.codinghorror.com/blog/2009/08/all-programming-is-web-programming.html) Learn javascript for the sake of future.
@@ -32,4 +29,7 @@ Finally, I would like to mention the amazing tools:
 
 - [Bootstrap](http://getbootstrap.com/): Responsive Front-End Framework.
 - [Chosen](http://harvesthq.github.io/chosen/): a jQuery plugin that makes long, unwieldy select boxes much more user-friendly.
+
+
+<p align="middle"><img src="https://raw.github.com/puncsky/puncsky.github.com/source/images/webdev.png" alt="Web Development"></p>
 

@@ -41,8 +41,8 @@ The author tried three partition schemes. The latter versions decouple partition
 			- Traditionally, conflict is resolved during writes and keep the read complexity simple.
 			- Dynamo: rejecting writes -> poor customer experience: writes should never be rejected. **(always-writable)**
 		- **WHO** data store or the application?
-			- data store: ONLY last write wins
-			- the application: more flexible
+			- data store: ONLY last write wins (the choice is limited)
+			- the client: more flexible
 - Others
 	- Incremental scalability
 	- Symmetry (P2P)

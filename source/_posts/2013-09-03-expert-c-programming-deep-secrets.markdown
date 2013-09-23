@@ -35,6 +35,9 @@ hammock 吊床
 	- source file inclusion
 	- Expansion of general code templates
 		- space ` ` makes a difference
+- Steve Bourne's bash follows Algol-68 dialect for C.
+	- inspired The International Obfuscated C Code Competition
+	
 
 ### 1. C History: Sample Code
 
