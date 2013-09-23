@@ -122,6 +122,77 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2013/09/22/lessons-learned-from-dev-just2do/">Lesson Learned From Development of Just2do</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-22T18:26:00-07:00" pubdate data-updated="true">Sep 22<span>nd</span>, 2013</time>
+        
+         | <a href="/blog/2013/09/22/lessons-learned-from-dev-just2do/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Throughout this summer, I has been building a web application for the social todo list. Many developers, just as I used to be, might say that building a website is the <em>simplest</em> job in the programming world, and that the reason most people want to program for the web is that they&#8217;re <em>not smart enough</em> to do anything else. Unfortunately, this idea is <a href="http://www.youtube.com/watch?v=gSz-bzXCbMI">too simple and too naive</a>.</p>
+
+<p align="middle"><img src="https://raw.github.com/puncsky/puncsky.github.com/source/images/just2do.png" alt="just2do.it"></p>
+
+
+<p>Why is it stupid? Web is the future. In addition to the general advantages, web app is way more open, both for more users and for more machines. Native software applications simply do not have url, which means it is rather hard to share. As for me, it is unreasonable that I cannot search the application itself. It takes me minutes to find tabs for email / calendar /&#8230; in a desktop Microsoft Outlook. However, if it is a web app, I can make it in seconds with <code>ctrl + f</code>. Most importantly, desktop app means nothing in the new era of data mining, whereas webpages come alive for the reason of the web crawler and the search engine, especially when it is the semantic web.</p>
+
+<p>If you have to choose between Chrome and MS Office, which one do you prefer? My choice is chrome. Since we can render almost everything with Chrome, why do we bother to buy a fat-and-slow MS Office?</p>
+
+<p>As for web development, I used to build a online shopping website in three days and, of course, would think that was easy. However, through the work on Just2do, I resolve to give up the stupid idea. In the last two month, I got stuck in enormous situations&#8230; I should have completed this task over one month ago. Since I got stuck, maybe it is time to rethink about it. In summary, I learn that</p>
+
+<ol>
+<li><p><strong>Never underestimate the cost of developing a user-friendly action-intense website.</strong> When building native apps, one or two programming languages are enough. However, to craft a truly beautiful and useful website, that number is too idealistic.</p></li>
+<li><p><strong>Record time in UTF.</strong> The users are coming from around the globe. It is better to consider timezones early, with every time data saved in UTF.</p></li>
+<li><p><strong>Use MVVM instead of controller-fat MVC.</strong> Web server is not the only thing to be considered. Sometimes, <a href="http://techcrunch.com/2012/09/11/mark-zuckerberg-our-biggest-mistake-with-mobile-was-betting-too-much-on-html5/">it is still inevitable for the server to send data to native apps</a>. So leaving space for REST-like services can make our lives easier. <strong>Model layer can serve both the web UI and the native app UI.</strong>. To have a better understanding of MVC, I highly recommend this link  (in simplified Chinese)<a href="http://www.lovelucy.info/fat-controller-bad-mvc.html">MVC之患上肥胖症的Controller</a>.</p></li>
+</ol>
+
+
+<p align="middle"><img src="https://raw.github.com/puncsky/puncsky.github.com/source/images/webdev.png" alt="Web Development"></p>
+
+
+<ol>
+<li><p><strong>Ponder over actions and the corresponding partial views.</strong> Just2do is an actions-intensive web app. Many actions will update target partial views asynchronously. It is better to list all the possible actions first and then to coin the site.</p></li>
+<li><p><a href="http://www.codinghorror.com/blog/2009/08/all-programming-is-web-programming.html">Any application that can be written in JavaScript, will eventually be written in JavaScript.</a> Learn javascript for the sake of future.</p></li>
+</ol>
+
+
+<p>Finally, I would like to mention the amazing tools:</p>
+
+<ul>
+<li><a href="http://getbootstrap.com/">Bootstrap</a>: Responsive Front-End Framework.</li>
+<li><a href="http://harvesthq.github.io/chosen/">Chosen</a>: a jQuery plugin that makes long, unwieldy select boxes much more user-friendly.</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2013/09/15/essential-c-sharp-advanced/">Essential C# 4.0: Advanced</a></h1>
     
     
@@ -351,7 +422,7 @@
 <ol>
 <li><a href="http://www.puncsky.com/blog/2013/08/14/essential-c-sharp-basics/">Essential C# 4.0: Basics</a></li>
 <li>Essential C# 4.0: Intermediate (this post)</li>
-<li><a href="">Essential C# 4.0: Advanced</a></li>
+<li><a href="http://www.puncsky.com/blog/2013/09/15/essential-c-sharp-advanced/">Essential C# 4.0: Advanced</a></li>
 </ol>
 
 
@@ -679,61 +750,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2013/05/14/ren-sheng-shi-yuan/">人生十愿</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-14T04:18:00-07:00" pubdate data-updated="true">May 14<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/05/14/ren-sheng-shi-yuan/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>毕业啦！</p>
-
-<p>世事总不尽如人意，而贪心如我者，尝试写下人生的十个愿望；倘若某日能够实现十之八九，也就算是此生无悔啦！</p>
-
-<ol>
-<li>月高风黑的时候总是可以拉上三五好友宵夜。老到住进养老院的时候总有大爷大妈陪着打麻将。</li>
-<li>亲朋好友，还有我，都能够快乐健康地活着，不求有多大的出息，但求日子过得欢喜，无论多舒适还是多苦逼，都能够坚持自己选择的路，得瑟得瑟屁颠屁颠地走下去。</li>
-<li>有个萌妹子一起玩儿，我们都有健美的体魄心态和性格，开开心心玩上一辈子。</li>
-<li>拥有一家自己的互联网公司，创造有趣有用的产品，这是时代赋予青年们的使命。感激上苍让我们CSer成为时代的弄潮儿。</li>
-<li>拿到一个PhD学位，不仅是因为“谁有知识我就对谁佩服得五体投地”，而且理想主义的说，他们至少对人类知识做出了一丁点儿的贡献。完全没有贡献？那就不要浪费时间啦！</li>
-<li>写一本好书、绘一幅好画、填一篇好诗词、吟一支小曲儿、拍一部好电影。</li>
-<li>有精力、财力或者智力帮助他人，尤其是年轻人。</li>
-</ol>
-
-
-<p>剩下的三个，以后再许！</p>
-
-<p>EOF</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="/blog/page/2/">&larr; Older</a></li>
@@ -756,6 +772,10 @@
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2013/09/22/lessons-learned-from-dev-just2do/">Lesson Learned from Development of Just2do</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/09/15/essential-c-sharp-advanced/">Essential C# 4.0: Advanced</a>
       </li>
     
@@ -769,10 +789,6 @@
     
       <li class="post">
         <a href="/blog/2013/09/05/essential-c-sharp-intermediate/">Essential C# 4.0: Intermediate</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/09/02/ipadmini/">我的iPad安装的应用</a>
       </li>
     
   </ul>
