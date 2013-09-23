@@ -4,7 +4,7 @@
   <title><![CDATA[Category: paper_review | Puncsky CS Notebook]]></title>
   <link href="http://www.puncsky.com/blog/categories/paper-review/atom.xml" rel="self"/>
   <link href="http://www.puncsky.com/"/>
-  <updated>2013-09-22T20:39:43-07:00</updated>
+  <updated>2013-09-23T07:35:44-07:00</updated>
   <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -12,6 +12,21 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Call-of-Duty Weekend Reading: Scaling Memcache at Facebook (NSDI '13)]]></title>
+    <link href="http://www.puncsky.com/blog/2013/09/14/scaling-memcache-at-facebook/"/>
+    <updated>2013-09-14T00:13:00-07:00</updated>
+    <id>http://www.puncsky.com/blog/2013/09/14/scaling-memcache-at-facebook</id>
+    <content type="html"><![CDATA[<p>I felt a little under the weather last week, which prevented me from being productive. After a serious consideration over the last month (the first month I undertook a full-time job), I set up a new schedule for myself -- get up earlier so that I can have at least four hours in the morning for my own work without any distractions. Hope I can persist with the amazing plan.</p>
+
+<p>At the same time, as I have planned long ago, a new paper-reading project will be launched. Day after day, I find myself now soaked in technical details. It is good for improving my engineering skills, but not so good for seeing the big picture. Moreover, reading papers may be the best way to collect excellent ideas. At least, it is much better than reading newspapers, SNS feeds, and disappointing books (e.g. <a href="http://book.douban.com/subject/24335672/">淘宝技术这十年</a>).</p>
+
+<p>This paper comes from Facebook (<a href="https://www.usenix.org/conference/nsdi13/scaling-memcache-facebook">video</a>, <a href="https://www.usenix.org/system/files/conference/nsdi13/nsdi13-final170_update.pdf">paper</a>, slides](https://www.usenix.org/sites/default/files/conference/protected-files/nishtala_nsdi13_slides.pdf)), and introduces how the KV store evolves in Facebook in these years.</p>
+
+<p>Months ago, I posted a similar paper review, <a href="http://www.puncsky.com/blog/2013/04/06/dynamo-kv-store/">Dynamo: Amazon's Highly Available Key-value Store (SOSP'07)</a>. Different from Amazon, Facebook build the KV store on the basis of existing open-source memcached (memcached refers to the source code, and memcache refers to the store system). One thing I notice to be in common is that both of them push complexity into the client whenever possible, because a lighter data store is more flexible.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Dynamo: Amazon's Highly Available Key-value Store (SOSP'07)]]></title>
@@ -84,8 +99,8 @@
 <li><strong>WHO</strong> data store or the application?
 
 <ul>
-<li>data store: ONLY last write wins</li>
-<li>the application: more flexible</li>
+<li>data store: ONLY last write wins (the choice is limited)</li>
+<li>the client: more flexible</li>
 </ul>
 </li>
 </ul>
@@ -818,127 +833,6 @@ only support filter, select, aggregation</li>
 <p>这三个步骤并不一定是连在一起的，通常的情况是，拿着一堆论文先走第一步，几个星期后走第二部，再几个星期或者几个月后走第三步。当然，如果是赶进度的话，就甭想这么闲了 :P</p>
 
 <p>总而言之，想要一口吃掉一篇论文似乎是很难的事情，我们需要反复咀嚼，这也是为什么我要写不完整的阅读笔记的原因。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[HadoopDB: an architectural hybrid of MapReduce and DBMS technologies for analytical workloads (VLDB '09)]]></title>
-    <link href="http://www.puncsky.com/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09/"/>
-    <updated>2012-11-20T16:20:00-08:00</updated>
-    <id>http://www.puncsky.com/blog/2012/11/20/hadoopdb-an-architectural-hybrid-of-mapreduce-and-dbms-technologies-for-analytical-workloads-vldb-09</id>
-    <content type="html"><![CDATA[<p><a href="http://db.cs.yale.edu/hadoopdb/">Yale DB</a></p>
-
-<h3>1. Problem</h3>
-
-<p>Large analytical data management (OLAP) with commodity clusters</p>
-
-<h3>2. Challenges</h3>
-
-<ul>
-<li>Performance and efficiency
-
-<ul>
-<li>hadoop
-
-<ul>
-<li>is not for structured data analysis</li>
-<li>scale well</li>
-<li>open source, without cost</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>scalability, fault-tolerance, and flexibility
-
-<ul>
-<li>Previous parallel db fit into tens of nodes, not thousand of nodes.</li>
-<li>not scale well for failures, heterogeneous machines, performance untested</li>
-</ul>
-</li>
-</ul>
-
-
-<h3>3. Solutions</h3>
-
-<ul>
-<li>MapReduce (Hadoop) + parallel db (or single-node DBs) = HadoopDB<!--more-->
-
-<ul>
-<li>Translation layer: Hive</li>
-<li>Communication layer: Hadoop</li>
-<li>Database layer: PostgreSQL (or MySQL, ... JDBC)</li>
-</ul>
-</li>
-<li><p>Components</p>
-
-<ol>
-<li>Database Connector
-
-<ul>
-<li>Interface among dbs on nodes</li>
-<li>extends InputFormat class -> InputFormat Implementation lib</li>
-<li>JDBC-complaint</li>
-</ul>
-</li>
-<li>Catalog
-
-<ul>
-<li>metainformation as XML = connection para + metadata</li>
-</ul>
-</li>
-<li>Data Loader
-
-<ul>
-<li>Global Hasher: MR, repartition raw data from HDFS to NO. of nodes</li>
-<li>Local Hasher: copy from HDFS, repartition the partition into chunks</li>
-<li>Better load balance than Hadoop</li>
-</ul>
-</li>
-<li>SQL - MR - SQL (SMS) Planner
-
-<ul>
-<li>extend Hive for</li>
-<li>open and low cost</li>
-<li>each table stored separately in HDFS, low performance in multi-table trans.
-intercept normal Hive flow in</li>
-<li>update MetaStore before query execution</li>
-<li>between query plan generation and MR jobs
-retrieve fields, determine partition keys</li>
-</ul>
-
-
-<p>   traverse DAG bottom-up</p>
-
-<p> only support filter, select, aggregation</p></li>
-</ol>
-</li>
-<li><p>Extend performance [23] with fault tolerance and heterogeneous node exp</p>
-
-<p>  TODO: modify the current task scheduler, connect not straggler node but the replicas.</p>
-
-<p>  Exp on EC2, Hadoop, HadoopDB, Vertica, DBMS-X</p></li>
-</ul>
-
-
-<h3>4. Conclusion</h3>
-
-<ul>
-<li>HadoopDB's performance &lt; parallel db for
-
-<ul>
-<li>PostgreSQL (not column-store, not compression)</li>
-<li>Hadoop and Hive are young</li>
-</ul>
-</li>
-<li>performance, heterogeneous environ., fault tolerance, flexibility</li>
-</ul>
-
-
-<h3>Related Readings</h3>
-
-<p>[23] A Comparison of Approaches to Large Scale Data Analysis</p>
-
-<p>[6] Scope [11] Hive [24] C-store [4] What is the right way to measure scale?</p>
 ]]></content>
   </entry>
   
