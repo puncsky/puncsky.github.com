@@ -4,7 +4,7 @@
   <title><![CDATA[Category: paper_review | Puncsky CS Notebook]]></title>
   <link href="http://www.puncsky.com/blog/categories/paper-review/atom.xml" rel="self"/>
   <link href="http://www.puncsky.com/"/>
-  <updated>2013-09-23T07:35:44-07:00</updated>
+  <updated>2013-09-23T07:37:44-07:00</updated>
   <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Call-of-Duty Weekend Reading: Scaling Memcache at Facebook (NSDI '13)]]></title>
-    <link href="http://www.puncsky.com/blog/2013/09/14/scaling-memcache-at-facebook/"/>
-    <updated>2013-09-14T00:13:00-07:00</updated>
-    <id>http://www.puncsky.com/blog/2013/09/14/scaling-memcache-at-facebook</id>
+    <link href="http://www.puncsky.com/blog/2013/09/23/scaling-memcache-at-facebook/"/>
+    <updated>2013-09-23T07:37:00-07:00</updated>
+    <id>http://www.puncsky.com/blog/2013/09/23/scaling-memcache-at-facebook</id>
     <content type="html"><![CDATA[<p>I felt a little under the weather last week, which prevented me from being productive. After a serious consideration over the last month (the first month I undertook a full-time job), I set up a new schedule for myself -- get up earlier so that I can have at least four hours in the morning for my own work without any distractions. Hope I can persist with the amazing plan.</p>
 
 <p>At the same time, as I have planned long ago, a new paper-reading project will be launched. Day after day, I find myself now soaked in technical details. It is good for improving my engineering skills, but not so good for seeing the big picture. Moreover, reading papers may be the best way to collect excellent ideas. At least, it is much better than reading newspapers, SNS feeds, and disappointing books (e.g. <a href="http://book.douban.com/subject/24335672/">淘宝技术这十年</a>).</p>
