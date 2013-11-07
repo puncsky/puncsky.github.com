@@ -55,18 +55,13 @@ The following is my notes from Chapter 9 through Chapter 13.
 	  - tools to generate docs: GhostDoc, NDoc
 6. GC
 	  - **Weak reference** save the reference for future reuse (memory cache) `private WeakReference Data;`
-	  - Finalizer: `~ClassName()` like [Java's `finalize()`](http://www.puncsky.com/blog/2013/01/14/gc-garbage-collection-in-java/)
+	  - Finalizer: `~ClassName()` (注意，不是Dispose) like [Java's `finalize()`](http://www.puncsky.com/blog/2013/01/14/gc-garbage-collection-in-java/)一般`~ClassName()`会检查`Dispose`是否已经被调用
 	  - Deterministic finalization with the `using` statement
-	  	- The `IDisposable` interface defines
-			the details of the pattern with a single method called `Dispose()`, which
-			developers call on a resource class to “dispose” of the consumed
-		- HOWEVER, there is a chance that an exception will occur before the dispose call
-			resources. If this
-			happens, Dispose() will not be invoked and the resource cleanup will
-			have to rely on the finalizer.
+	  	- The `IDisposable` interface defines the details of the pattern with a single method called `Dispose()`, which developers call on a resource class to “dispose” of the consumed
+	  	- HOWEVER, there is a chance that an exception will occur before the dispose call resources. If this happens, Dispose() will not be invoked and the resource cleanup will have to rely on the finalizer.
 		- SO 2 ways:
-			  1. try / finally
-			  2. `using` statement and **all variables are of the same type and they implement `IDisposable`**
+			1. try / finally
+			2. `using` statement and **all variables are of the same type and they implement `IDisposable`**
 	  - The ***f-reachable queue*** is a list of all the objects that are ready for
 	  garbage collection and that also have finalization implementations. `System.GC.SuppressFinalize(reference)` can remove reference instance from f-reachable queue.
 	  - Resource Utilization and Finalization Guidelines. Refer the book page 400.
