@@ -3,7 +3,7 @@ layout: post
 title: "你做了土豪又怎样？"
 date: 2013-11-06 18:33
 comments: true
-categories: translate, life
+categories: translate life
 ---
 
 最近，美帝著名软件工程师兼企业家、Stack Overflow的联合创始人Jeff Atwood写了一篇名为[《You Don't Need Millions of Dollars(你做了土豪又怎样？)》](http://www.codinghorror.com/blog/2013/10/you-dont-need-millions-of-dollars.html)的博客，介绍了[《Doom启示录》](http://book.douban.com/subject/1152971/)这本书。

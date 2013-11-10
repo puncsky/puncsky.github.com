@@ -4,6 +4,7 @@ title: "Lesson Learned from Development of Just2do"
 date: 2013-09-22 18:26
 comments: true
 categories: web_development
+published: false
 ---
 
 Throughout this summer, I has been building a web application for the social todo list. Many developers, just as I used to be, might say that building a website is the *simplest* job in the programming world, and that the reason most people want to program for the web is that they're *not smart enough* to do anything else. Unfortunately, this idea is [too simple and too naive](http://www.youtube.com/watch?v=gSz-bzXCbMI).
