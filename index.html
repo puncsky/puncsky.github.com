@@ -332,75 +332,6 @@
       
   <header class="page-header">
     
-      <h1 class="entry-title"><a href="/blog/2013/09/22/lessons-learned-from-dev-just2do/">Lesson Learned From Development of Just2do</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-22T18:26:00-07:00" pubdate data-updated="true">Sep 22<span>nd</span>, 2013</time>
-        
-         | <a href="/blog/2013/09/22/lessons-learned-from-dev-just2do/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Throughout this summer, I has been building a web application for the social todo list. Many developers, just as I used to be, might say that building a website is the <em>simplest</em> job in the programming world, and that the reason most people want to program for the web is that they&#8217;re <em>not smart enough</em> to do anything else. Unfortunately, this idea is <a href="http://www.youtube.com/watch?v=gSz-bzXCbMI">too simple and too naive</a>.</p>
-
-<p align="middle"><img src="https://raw.github.com/puncsky/puncsky.github.com/source/images/just2do.png" alt="just2do.it"></p>
-
-
-<p>Why is it stupid? Web is the future. In addition to the general advantages, web app is way more open, both for more users and for more machines. Native software applications simply do not have url, which means it is rather hard to share. As for me, it is unreasonable that I cannot search the application itself. It takes me minutes to find tabs for email / calendar /&#8230; in a desktop Microsoft Outlook. However, if it is a web app, I can make it in seconds with <code>ctrl + f</code>. Every word on web is selectable and searchable. Most importantly, desktop app means nothing in the new era of data mining, whereas webpages come alive for the reason of the web crawler and the search engine, especially when it is the semantic web.</p>
-
-<p>If you have to choose between Chrome and MS Office, which one do you prefer? My choice is chrome. Since we can render almost everything with Chrome, why do we bother to buy a fat-and-slow MS Office?</p>
-
-<p>As for web development, I used to build a online shopping website in three days and, of course, would think that was easy. However, through the work on Just2do, I resolve to give up the stupid idea. In the last two month, I got stuck in enormous situations&#8230; I should have completed this task over one month ago. Since I got stuck, maybe it is time to rethink about it. In summary, I learn that</p>
-
-<ol>
-<li><p><strong>Never underestimate the cost of developing a user-friendly action-intense website.</strong> When building native apps, one or two programming languages are enough. However, to craft a truly beautiful and useful website, that number is too idealistic.</p></li>
-<li><p><strong>Record time in UTF.</strong> The users are coming from around the globe. It is better to consider timezones early, with every time data saved in UTF.</p></li>
-<li><p><strong>Use MVVM instead of controller-fat MVC.</strong> Web server is not the only thing to be considered. Sometimes, <a href="http://techcrunch.com/2012/09/11/mark-zuckerberg-our-biggest-mistake-with-mobile-was-betting-too-much-on-html5/">it is still inevitable for the server to send data to native apps</a>. So leaving space for REST-like services can make our lives easier. <strong>Model layer can serve both the web UI and the native app UI.</strong>(see the end of this post). To have a better understanding of MVC, I highly recommend this link  (in simplified Chinese)<a href="http://www.lovelucy.info/fat-controller-bad-mvc.html">MVC之患上肥胖症的Controller</a>.</p></li>
-<li><p><strong>Ponder over actions and the corresponding partial views.</strong> Just2do is an actions-intensive web app. Many actions will update target partial views asynchronously. It is better to list all the possible actions first and then to coin the site.</p></li>
-<li><p><a href="http://www.codinghorror.com/blog/2009/08/all-programming-is-web-programming.html">Any application that can be written in JavaScript, will eventually be written in JavaScript.</a> Learn javascript for the sake of future.</p></li>
-</ol>
-
-
-<p>Finally, I would like to mention the amazing tools:</p>
-
-<ul>
-<li><a href="http://getbootstrap.com/">Bootstrap</a>: Responsive Front-End Framework.</li>
-<li><a href="http://harvesthq.github.io/chosen/">Chosen</a>: a jQuery plugin that makes long, unwieldy select boxes much more user-friendly.</li>
-</ul>
-
-
-<p align="middle"><img src="https://raw.github.com/puncsky/puncsky.github.com/source/images/webdev.png" alt="Web Development"></p>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header class="page-header">
-    
       <h1 class="entry-title"><a href="/blog/2013/09/15/essential-c-sharp-advanced/">Essential C# 4.0: Advanced</a></h1>
     
     
@@ -819,6 +750,53 @@
 
     </article>
   
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/11/%5B%3F%5D-ben-chu-chuang-gong-si-de-hui-yi-lu-%3C%3Cda-zao-facebook%3E%3E/">中国工程师在初创公司的经验总结&#8211;《打造Facebook》</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-11T20:38:00-07:00" pubdate data-updated="true">Jun 11<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/06/11/%5B%3F%5D-ben-chu-chuang-gong-si-de-hui-yi-lu-%3C%3Cda-zao-facebook%3E%3E/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>这是一本无趣的书，甚至都不能被称作一本书，而更像是国内某大学老师上课的讲义，兼具冗余繁杂、事后诸葛亮。不可否认，的确有一些新奇的东西在里面，但无论怎么看都不禁让人疑惑：是不是原作者根据工作心得列了一份提纲，然后随意找了个写手照本宣科地添加了些文字？难道作者的目标群体仅仅就是些大一大二的学生么？</p>
+
+<p>当然，无论这本书水平如何，毕竟来自大名鼎鼎的Facebook，我们这些后生们怎么着也得战战兢兢地读完啊……</p>
+
+<p>以下是我的阅读笔记：</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/06/11/%5B%3F%5D-ben-chu-chuang-gong-si-de-hui-yi-lu-%3C%3Cda-zao-facebook%3E%3E/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
   <ul class="pager">
     
     <li class="previous"><a href="/blog/page/2/">&larr; Older</a></li>
@@ -853,11 +831,11 @@
       </li>
     
       <li class="post">
-        <a href="/blog/2013/09/22/lessons-learned-from-dev-just2do/">Lesson Learned from Development of Just2do</a>
+        <a href="/blog/2013/09/15/essential-c-sharp-advanced/">Essential C# 4.0: Advanced</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/09/15/essential-c-sharp-advanced/">Essential C# 4.0: Advanced</a>
+        <a href="/blog/2013/09/14/h-quincy/">H-Quincy: Fair Scheduling for Hadoop Clusters</a>
       </li>
     
   </ul>
