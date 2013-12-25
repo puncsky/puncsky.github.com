@@ -6,7 +6,7 @@ comments: true
 categories: translate life
 ---
 
-最近，美帝著名软件工程师兼企业家、Stack Overflow的联合创始人Jeff Atwood写了一篇名为[《You Don't Need Millions of Dollars(你做了土豪又怎样？)》](http://www.codinghorror.com/blog/2013/10/you-dont-need-millions-of-dollars.html)的博客，介绍了[《Doom启示录》](http://book.douban.com/subject/1152971/)这本书。
+最近，美帝著名软件工程师兼企业家、Stack Overflow的联合创始人Jeff Atwood写了一篇名为《[You Don't Need Millions of Dollars(你做了土豪又怎样？)](http://www.codinghorror.com/blog/2013/10/you-dont-need-millions-of-dollars.html)》的博客，介绍了《[Doom启世录](http://book.douban.com/subject/1152971/)》这本书。
 
 我早年正是受到了这本书的激励，热血沸腾，走上了软件开发的道路。受到这本书和一位CS PhD的启发，你若问我的梦想是什么，我的梦想是在海边有所房子，面朝大海，春暖花开，每天躺在甲板上，望着湛蓝的天空，随着碧绿的海水飘荡，做点什么呢？写写代码写写诗…… 是不是颇有"浴乎沂，风乎舞雩，咏而归"的感觉？
 
@@ -20,17 +20,15 @@ categories: translate life
 
 译者：[Puncsky](http://www.puncsky.com/)
 
-[《Doom启示录》](http://book.douban.com/subject/1152971/)讲述的是John Carmack和John Romero的故事，他们创造了大名鼎鼎的德军总部3D、毁灭战士、雷神之锤等游戏。
+《[Doom启世录](http://book.douban.com/subject/1152971/)》讲述的是John Carmack和John Romero的故事，他们创造了大名鼎鼎的德军总部3D、毁灭战士、雷神之锤等游戏。此书在诸多方面皆属于上乘之作——但主要还是归功于作者详实的考据。
 
 [![Masters of Doom](http://www.codinghorror.com/.a/6a0120a85dcdae970b019b001c3833970b-800wi)](http://www.amazon.com/exec/obidos/ASIN/0812972155/codihorr-20)
-
-此书在诸多方面皆属于上乘之作——但主要还是归功于作者详实的考据。
 
 > 为了再现两位John的故事，我在这六年里采访了数百次，同一个人也可能在不同场合采访多次。2000年的夏天，为了这本书，我搬到Dallas，名扬全镇，被称为“写这本书的那个人”。John Romero和John Carmack各自与我当面交谈了数十个小时，回答了我大多零碎的问题：他们当时感觉如何，有什么样的想法，他们说过、听到过、看见过、或者玩过些什么。如果当事者无法回忆起来，我会发掘网站、新闻组、电子邮件、聊天记录、杂志（尽管我参考这些，但是我更加重视当事人自己的观点）。我也曾经沉迷在他们的游戏世界当中，（是的，无法自拔），在家联机、或者参加联赛。
 
 > 我花了六个月将磁带录音转录成脚本，并据此撰写了文本，尽可能地详实有据地再现当时的情况。为了让读者更好地理解，本书经常以众人不同的角度来讲故事。
 
-通常很难有一本书在讲述错综复杂的友谊与利益冲突的同时，能够得到当事人双方的认可；哪怕这本书已经风靡了十多年。这也证明了Kushner这本书之*好*。**这本书正是行业人物传记之典范，考据详实，观点多元。**从这点上来讲，跟[《乔布斯传》](http://www.amazon.com/exec/obidos/ASIN/B004W2UBYW/codihorr-20)恰恰相反。《乔布斯传》尽管我还挺喜欢，但是它观点单一，考据懒散。如果真有哪本写乔布斯的书能够像此书这么优秀，我也就能够心满意足地*洗洗睡了*。
+通常很难有一本书在讲述错综复杂的友谊与利益冲突的同时，能够得到当事人双方的认可；哪怕这本书已经风靡了十多年。这也证明了Kushner这本书之*好*。**这本书正是行业人物传记之典范，考据详实，观点多元。**从这点上来讲，跟《[乔布斯传](http://www.amazon.com/exec/obidos/ASIN/B004W2UBYW/codihorr-20)》恰恰相反。《乔布斯传》尽管我还挺喜欢，但是它观点单一，考据懒散。如果真有哪本写乔布斯的书能够像此书这么优秀，我也就能够心满意足地*洗洗睡了*。
 
 可以说，我跟这俩哥们是同一时代的人，我几乎与他们同岁。虽然我错过了德军总部3D，因为那个时候我还在上大学，但是到了1993年12月，我和所有早年的PC玩家一样，望眼欲穿毁灭战士的发售。那么，又是谁让毁灭战士家喻户晓的呢？说来诡异，是汤姆克鲁斯。
 
@@ -70,7 +68,7 @@ Carmack就是编程界的传说，类似[Abrash](http://www.codinghorror.com/blo
 
 确实，他们做到了，如同此书所证明。[@ID_AA_Carmack](https://twitter.com/ID_AA_Carmack)和[@romero](https://twitter.com/romero)两人仍旧是游戏和编程社区的终身成员，影响显赫，鼓舞人心，因为爱，所以常在。
 
-[《Doom启示录》](http://www.amazon.com/exec/obidos/ASIN/0812972155/codihorr-20)的终极启示在于，**时至今日，想要成功，你都没有必要像John Carmack那般聪明**，John Carmack自己就是最好的证明，当时坐在德州Mesquite某小办公隔间的John，辛苦悲催，在勉强能用的破电脑上，从零开始写代码，每周工作80个小时。而如今，你口袋里装着超级计算机，桌上摆着超级计算机，有大把大把的开源框架、开源库能够帮你干90%的工作，你有Github、维基百科、Stack Overflow，你拥有整个互联网。
+[《Doom启世录》](http://www.amazon.com/exec/obidos/ASIN/0812972155/codihorr-20)的终极启示在于，**时至今日，想要成功，你都没有必要像John Carmack那般聪明**，John Carmack自己就是最好的证明，当时坐在德州Mesquite某小办公隔间的John，辛苦悲催，在勉强能用的破电脑上，从零开始写代码，每周工作80个小时。而如今，你口袋里装着超级计算机，桌上摆着超级计算机，有大把大把的开源框架、开源库能够帮你干90%的工作，你有Github、维基百科、Stack Overflow，你拥有整个互联网。
 
 你所要做的仅仅是，[开始写代码](http://www.codinghorror.com/blog/2004/11/good-programmers-get-off-their-butts.html)、[一直写代码](http://www.codinghorror.com/blog/2007/07/yes-but-what-have-you-done.html)。
 
