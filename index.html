@@ -122,6 +122,1047 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2014/08/16/notes-on-code-complete-ii-variables/">Notes on Code Complete II: Variables</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-16T12:00:00-07:00" pubdate data-updated="true">Aug 16<span>th</span>, 2014</time>
+        
+         | <a href="/blog/2014/08/16/notes-on-code-complete-ii-variables/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>III Variables</h2>
+
+<h3>10 General Issues in Using Variables</h3>
+
+<p><strong>Abstract</strong> 变量的声明与使用遵循精准确定、单一集中原则</p>
+
+<p><strong>Keywords</strong> proximity principle</p>
+
+<p>尽可能显式声明变量类型</p>
+
+<p>在靠近使用的地方初始化变量，而不是一开始的附近。因为 <strong>Principle of Proximity(相关的东西要放一起)</strong></p>
+
+<ol>
+<li>可能在使用的时候早就被其他(很可能后来新加的)代码修改了</li>
+<li>集中性的一次性初始化多个变量，会造成这些变量将在整个代码中用到的错觉</li>
+<li>围绕这小片代码将来可能会加循环之类的结构，导致bug</li>
+</ol>
+
+
+<p>在靠近使用的地方声明、定义变量</p>
+
+<p>尽量使用final和const</p>
+
+<p>初始化0是一个不错的选择，Intel处理器0xCC, 有些debugger容易识别的有0xDEADBEEF</p>
+
+<p>尽量让变量短命 live time = 最初到最后对变量引用的行数，比如，一开始选择最保守的visibility，需要时再拓展</p>
+
+<p>使用常量不要hard-coding，用类似<code>private static final int COLOR_BLUE = 0xFF;</code> 或者<code>color = ReadTitleBarColor()</code> 越早绑定优化程度越高，越迟绑定灵活性越高（更高的灵活性会导致更高的复杂性）。看如何权衡。</p>
+
+<p>Use each variable for EXACTLY one purpose.</p>
+
+<p>避免hybrid coupling: <code>pageCount=-1</code>表示错误</p>
+
+<h3>11 The Power of Variable Names</h3>
+
+<p><strong>Abstract</strong> 变量的命名极为重要且有章可循</p>
+
+<p><strong>Keywords</strong> 8~20, qualifier, naming conventions</p>
+
+<p>命名要充分、准确。当然一串对于该变量的描述是最准确的，但是，很可能会长得离谱。</p>
+
+<p>按what命名，不按how命名。能用problem domain的名称就不要用计算机方面的名称。</p>
+
+<p>研究表明平均变量名长度10~16是debug最容易的，其次是8~20。</p>
+
+<p>Good example: numTeamMembers, teamMemberCount, numSeatsInStadium, seatCount, teamPointsMax, pointsRecord.</p>
+
+<p>太长或太短的命名就完全不能用吗？当然不是，更长的变量适合于少用到的变量或者全局变量，更短的变量适合于局部或者loop里的变量。</p>
+
+<p>为了避免命名冲突，有namespace的编程语言用namespace，没有的在variable名称前加前缀。</p>
+
+<p>如果命名要用qualifier（限定词）,比如Total, Sum, Average, Max, Min, Record, String, or Pointer, 把限定词放到命名最后。除了num，放在前面代表总数，放在后面代表index，所以尽量不要用num，而是用Count后缀和Index后缀。(我个人喜欢用i前缀)</p>
+
+<p>用约定俗成的反义词</p>
+
+<ul>
+<li>begin/end</li>
+<li>first/last</li>
+<li>locked/unlocked</li>
+<li>min/max</li>
+<li>next/previous</li>
+<li>old/new</li>
+<li>opened/closed</li>
+<li>visible/invisible</li>
+<li>source/target</li>
+<li>source/destination</li>
+<li>up/down</li>
+</ul>
+
+
+<p>循环: 如果index仅限于循环内部，用i,j,k，如果1）循环外部也要用 2）循环过长 3）nested 则考虑有意义的名称</p>
+
+<p>状态: 用比flag更有意义的状态变量名称</p>
+
+<p>临时变量: 对临时变量持怀疑态度，能不用就不用</p>
+
+<p>bool: 用done, error, found, success or ok. 用is前缀是一个不错的做法。用正向含义的名词，不要用类似于notFound这种。</p>
+
+<p>不用的语言和项目有不同的naming conventions，P277有例子</p>
+
+<p>如果两个变量的命名可以互换而不会影响程序，两者的命名是有问题的。</p>
+
+<p>用数组<code>file[]</code>不要用<code>file1</code>, <code>file2</code>.</p>
+
+<h3>12 Fundamental Data Types</h3>
+
+<p><strong>Abstract</strong> 数据类型们有着各自的使用规则。本章单独列出了许多C语言的注意事项，足以说明C语言在数据类型方面的使用很容易出错。</p>
+
+<p><strong>Keywords</strong> int, float, char, string, bool, enum, named constants, array, user-defined types</p>
+
+<p>Avoid &#8220;magic numbers&#8221;(literal numbers such as 100 or 47524 出现在程序中而不加解释)唯一能够出现的数字literals应该是0和1，作为初始量或者增量。</p>
+
+<p>Chars and Strings</p>
+
+<ul>
+<li>All strings in Java are Unicode. 但是C/C++处理Unicode要用专门的库</li>
+<li>在软件开发早期就考虑国际化的问题</li>
+</ul>
+
+
+<p>Strings in C</p>
+
+<ul>
+<li>区分string pointers和char arrays
+
+<ul>
+<li>C几乎所有的字符串操作都是通过strcmp(), strcpy(), strlen()等完成的，<code>StringPtr = "text";</code>此处“text”是指向literal text的指针，<code>=</code>并没有拷贝内容的作用</li>
+</ul>
+</li>
+<li><code>char string[NAME_LENGTH + 1] = { 0 };</code> 尽量用array of chars</li>
+<li>用<code>strncpy()</code>, <code>strncmp()</code> 不用<code>strcpy()</code>, <code>strcmp()</code>，因为至少有一个parameter保证函数一定会终止</li>
+</ul>
+
+
+<p>bool: 当判断条件太多，用bool variable表示可读性更高</p>
+
+<p>Enum</p>
+
+<ul>
+<li>与switch合用的时候，default处理错误的case</li>
+<li>为enum定义first last 元素用于enumeration (First(0), A(0), B(1), C(2), Last(2)) 这样一个loop就能搞定了</li>
+</ul>
+
+
+<p>Array</p>
+
+<ul>
+<li>在C里面可以用宏<code>#define ARRAY_LENGTH(x) (sizeof(x)/sizeof(x[o]))</code>表示数组的长度</li>
+</ul>
+
+
+<p>用户自定义类型的时候尽量以现实世界的实体命名，尽量用class而不是typedef</p>
+
+<h3>13 Unusual Data Types</h3>
+
+<p><strong>Abstract</strong> 什么时候使用struct? pointer有哪些注意事项？使用全局数据导致的问题如何解决？</p>
+
+<p><strong>Keywords</strong> struct, pointer, memory corruption, global data</p>
+
+<h3>struct</h3>
+
+<p>group related data</p>
+
+<blockquote><p>C/C++ struct vs. class: In C++, structs and classes are pretty much the same; the only difference is that where access modifiers (edit: for member variables, methods, and for base classes) in classes default to private, access modifiers in structs default to public. However, in C, a struct is just an aggregate collection of (public) data, and has no other class-like features: no methods, no constructor, no base classes, etc. Although C++ inherited the keyword, it extended the semantics. (This, however, is why things default to public in structs—a struct written like a C struct behaves like one.)</p></blockquote>
+
+<h3>pointer</h3>
+
+<p>= position + how to interpret contents from that position</p>
+
+<p>最常见的错误是指针指向了不该指向的地方，（这时候向该内存写数据）会导致memory corruption.</p>
+
+<p>解决策略很简单，尽早甚至一开始就规避这种错误</p>
+
+<ul>
+<li>把指针操作限制在函数或者类的内部</li>
+<li>定义声明和初始化在一起(proximity principle)</li>
+<li>对指针持怀疑态度，无论是指针本身，还是指针指向的变量，使用之前都要检查，怀疑他们超出范围了</li>
+<li>用额外的dog-tag空间(和原空间在一起)以检查memory corruption. e.g. isOK tag for <code>free</code></li>
+<li>不要链条似地使用指针</li>
+<li>画图让问题更直观</li>
+<li>预留空间以在空间耗尽时备用</li>
+<li>free/allocate pointers 放在同一scoping level</li>
+<li>delete前要检查（并填充专门的垃圾数据），delete完要归NULL</li>
+<li>能不用指针还是不用指针的好</li>
+</ul>
+
+
+<h4>C++ Pointer Pointers</h4>
+
+<p>pointers vs. references?</p>
+
+<ul>
+<li>The most significant differences are that a reference must always refer to an object, whereas a pointer can point to NULL; and what a reference refers to can’t be changed after the reference is initialized.</li>
+</ul>
+
+
+<p>Use pointers for &#8220;pass by reference&#8221;. Use <code>const</code> references for &#8220;pass by value&#8221;.</p>
+
+<p>用smart pointer: <a href="http://stackoverflow.com/questions/6876751/differences-between-unique-ptr-and-shared-ptr">unique_ptr vs. shared_ptr</a> (there can only be one unique_ptr to any resource, any attempt to make a copy of a unique_ptr will cause a compile-time error.)</p>
+
+<h4>C-pointer Pointers</h4>
+
+<p>使用显示类型的指针</p>
+
+<p>尽量避免type-casting</p>
+
+<p>使用 sizeof() 内存分配时决定变量大小</p>
+
+<h3>Global Data</h3>
+
+<p>全局变量因为scope过大，导致该变量会对其他模块产生不可预料的影响，不到万不得已，不用全局变量。</p>
+
+<p>不要直接访问类成员变量就好像他们是全局变量似的，即便编程语言允许你这样做。</p>
+
+<ul>
+<li>用access routines (like getter, setter in Java) 而非直接访问成员有什么好处呢？好处极多(P352)，简单来讲
+
+<ul>
+<li>模块化、灵活性：允许变量和内部的实现与外部的交互分离，而外部的访问方式保持不变，代码改变的时候(变量变量，变化的情况还蛮多的)就不会影响到太多其他文件。getter,setter两者的访问级别可以不同。</li>
+</ul>
+</li>
+</ul>
+
+
+<p>同样因为模块化，在调用数据成员时，能用access routines尽量用access routines，<a href="http://stackoverflow.com/questions/8466790/java-conventions-use-getters-setters-within-the-class">即便在类的内部也不例外</a></p>
+
+<p>Don’t pretend you’re not using global data by putting all your data into a monster object and passing it everywhere 这是不必要的开销，要用就光明正大地用</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2014/08/16/notes-on-code-complete-ii-layout-and-style/">Notes on Code Complete II: Layout and Style</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-16T12:00:00-07:00" pubdate data-updated="true">Aug 16<span>th</span>, 2014</time>
+        
+         | <a href="/blog/2014/08/16/notes-on-code-complete-ii-layout-and-style/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>31 Layout and Style</h3>
+
+<p><strong>Abstract</strong> Layout as Religion 布局是一种信仰，好的布局使得逻辑准确，代码一致、易读、可维护。</p>
+
+<p><strong>Keywords</strong></p>
+
+<p>Objectives of Good Layout</p>
+
+<ul>
+<li>准确表示代码的逻辑结构</li>
+<li>始终如一的表现代码的逻辑结构</li>
+<li>改善可读性</li>
+<li>经得起修改：<strong>修改某行时不必连带修改其他行的代码</strong></li>
+</ul>
+
+
+<h4>Layout Styles</h4>
+
+<ul>
+<li>Pure blocks</li>
+<li>Emulating Pure Blocks: 用<code>{``}</code>模仿纯块风格，<code>{</code>放在第一行末尾</li>
+<li>Begin-End pairs (braces) as boundaries: <code>{``}</code>单独占一行，但是都有缩进</li>
+<li>Endline Layout: 让<code>switch</code>看起来对更齐，但是可维护性差</li>
+</ul>
+
+
+<h4>Laying Out Control Structures</h4>
+
+<p>if 必须加大括号，多个条件放到不同的行上</p>
+
+<p><code>goto</code>使得代码的布局很不好办</p>
+
+<p>段落之间空行</p>
+
+<h4>Laying Out Individual Statements</h4>
+
+<p>多用空格</p>
+
+<p>Formatting Continuation Lines 断行</p>
+
+<ul>
+<li>让续行更明显，比如，把运算符、逗号等放到行的末尾。如果把运算符放在前面可以凸显逻辑结构。</li>
+<li>把紧密关联的元素放在一起</li>
+<li><strong>将子程序调用的后续航按照标准量缩进</strong>，尽管对齐党觉得应该美观，可是就维护性来讲，标准缩进好些。</li>
+<li>让续行的结尾易于发现</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CallMethod(
+</span><span class='line'>    LongNameA,
+</span><span class='line'>    LongNameB,
+</span><span class='line'>    C,
+</span><span class='line'>    D
+</span><span class='line'>);</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>不要讲赋值语句按等号对齐，要按照标准量缩进</li>
+<li>每行只写一条语句，只能有一个操作</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>strcpy(char *t, char *s) {
+</span><span class='line'>    while (*++t = *++s) // 不容易发现错误
+</span><span class='line'>    ;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>strcpy(char *t, char *s) {
+</span><span class='line'>    do {
+</span><span class='line'>        ++t; // 很容易发现错误
+</span><span class='line'>        ++s;
+</span><span class='line'>        *t = *s;
+</span><span class='line'>    } while (*t != '\0');
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Laying Out Data Declarations</h4>
+
+<ul>
+<li>每行只声明一个数据</li>
+<li>声明尽量接近首次使用的位置</li>
+<li>合理组织声明的顺序</li>
+<li>C++指针声明把<strong><code>*</code>靠近变量名</strong></li>
+</ul>
+
+
+<h4>Laying Out Comments</h4>
+
+<ul>
+<li>注释缩进与代码一致</li>
+<li><strong>每行注释用至少一个空行分开</strong></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Comment0
+</span><span class='line'>Statement0
+</span><span class='line'>
+</span><span class='line'>// Comment1
+</span><span class='line'>Statement1</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Laying Out Routines</h4>
+
+<ul>
+<li>用空行分割子程序的各部分</li>
+<li>将子程序按照标准缩进</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public bool ReadEmployeeData(
+</span><span class='line'>    int maxEmployees,
+</span><span class='line'>    EmployeeList *employees,
+</span><span class='line'>    EmployeeFile *inputFile,
+</span><span class='line'>    int *employeeCount,
+</span><span class='line'>    bool *isInputError
+</span><span class='line'>)</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Laying Out Classes</h4>
+
+<p>Interfaces</p>
+
+<ol>
+<li>Ctors and destructors</li>
+<li>Public routines</li>
+<li>Protected routines</li>
+<li>Private routines and member data</li>
+</ol>
+
+
+<p>Class implementations</p>
+
+<ol>
+<li>Class data</li>
+<li>Public routines</li>
+<li>Protected routines</li>
+<li>Private routines</li>
+</ol>
+
+
+<p>如果文件包含多个类，要（用注释）清楚标出每个类</p>
+
+<h4>Laying Out Files and Programs</h4>
+
+<p>最好一个文件只有一个类，文件命名与类名一致或者相关</p>
+
+<h3>32 Self-Documenting Code</h3>
+
+<p><strong>Abstract</strong> 好的代码是Self-documenting的，但是因此就不需要注释了吗？非也非也。</p>
+
+<p><strong>Keywords</strong></p>
+
+<p>注释有那些种类？</p>
+
+<ul>
+<li>重复代码（bad）</li>
+<li>解释代码：用于解释复杂、巧妙、敏感的代码</li>
+<li>Maker in the Code: like <code>TODO</code></li>
+<li>Summary of the code</li>
+<li><strong>Description of the Code&#8217;s Intent: 指出需要解决的问题why，而非解决的方法how</strong></li>
+<li>传达代码无法表述的信息</li>
+</ul>
+
+
+<p>如何写高质量的注释呢？</p>
+
+<ul>
+<li>不写难以维护的（很麻烦的）注释</li>
+<li>用PPP伪代码编程法减少注释时间</li>
+<li>将注释集成到你的开发风格中 （写注释也是写代码）</li>
+</ul>
+
+
+<p>最佳注释频率？</p>
+
+<ul>
+<li>十步一杀</li>
+</ul>
+
+
+<p>Commenting Techniques</p>
+
+<ul>
+<li>Commenting Individual Lines</li>
+<li>Endline Comments and Their Problems
+
+<ul>
+<li>不好之处
+
+<ul>
+<li>难看难维护</li>
+<li>不要对单行代码做尾注释</li>
+<li>不要对多行代码做尾注释</li>
+</ul>
+</li>
+<li>那么什么时候可以用呢？
+
+<ul>
+<li>数据声明时解释数据</li>
+<li>标记block的尾部, end while, end if, etc.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Commenting Paragraphs of Code
+
+<ul>
+<li>注释应该表明代码的意图，为什么这么做而不是具体怎么做
+
+<ul>
+<li>e.g. find the command-word terminator ($)</li>
+<li>想象将这段代码换成同样功能的sub routine应该如何命名</li>
+<li>额外的变量或者函数本身具有说明作用</li>
+<li>说明非常规的嘴阀</li>
+<li>别用缩略语</li>
+<li>错误或者语言环境的独特点要注释</li>
+<li>给出违背良好编程风格的理由</li>
+<li>投机取巧的代码要重写，而不是加注释</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Commenting Data Declarations
+
+<ul>
+<li>注释数值单位</li>
+<li>对数值允许的范围给出解释</li>
+<li>如果没有枚举类型的支持，或者对于bit flags，注释编码含义</li>
+<li>注释对输入数据的限制</li>
+<li>注释要与变量名关联起来，e.g. <code>cref=""</code></li>
+<li>注释全局数据</li>
+</ul>
+</li>
+<li>Commenting Control Structures
+
+<ul>
+<li>while上一行，if/case下一行，都是不错的位置</li>
+</ul>
+</li>
+<li>Commenting Routines
+
+<ul>
+<li>无视子程序的大小和复杂，在开头放一堆信息：这是荒谬的做法</li>
+<li>记得注释接口的assumption</li>
+</ul>
+</li>
+<li>Commenting Classes, Files, and Programs
+
+<ul>
+<li>可以考虑说明类的设计方法、局限性等等</li>
+<li>如果不看实现就知道接口的用法吗？如果不知道，注释，但是不说实现细节</li>
+</ul>
+</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2014/08/16/notes-on-code-complete-ii-creating-high-quality-code/">Notes on Code Complete II: Creating High Quality Code</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-16T12:00:00-07:00" pubdate data-updated="true">Aug 16<span>th</span>, 2014</time>
+        
+         | <a href="/blog/2014/08/16/notes-on-code-complete-ii-creating-high-quality-code/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>II Creating High Quality Code</h2>
+
+<h3>5 Design in Construction</h3>
+
+<p><strong>Abstract</strong> 软件开发管理的实质是管理复杂性，怎么简单怎么来，设计和抽象有助于降低复杂性。一种方式是层层向下，另一种方式是启发式地从下向上。分层向下时，模块之间应该尽量少交互、尽量不要出现循环依赖。各个模块要把“我该隐藏些什么？”牢记在心。自下向上时，不要固执于单一一种方法，（这会损害创新），反复迭代与重新设计以达到最优方案。在设计的过程中要记录或者画下设计方案。</p>
+
+<p><strong>Keywords</strong> KISS, hiding secrets, loose coupling, design patterns, principle of one right place</p>
+
+<p>Software&#8217;s primary technical imperative: managing complexity. Dijkstra说，没有人的头脑能大到装得下一个复杂程序的全部细节。</p>
+
+<p>好的设计的特征:</p>
+
+<ul>
+<li>简单（当看到这片代码的时候，不去参考其他代码，也能很好地理解）。</li>
+<li>minimal connectedness （strong cohesion, loose coupling, encapsulation）</li>
+<li>可拓展性（可以在enhance代码的同时不更改已有的代码）</li>
+<li>可重用性</li>
+<li>high fan-in, low-to-medium fan-out 尽量让别人引用自己，自己少引用别人</li>
+<li>可移植性</li>
+<li>精简，一本书的完成并不止于没有内容可以增加，而是没有内容可以除去</li>
+<li>分层(stratification)</li>
+</ul>
+
+
+<h4>自上而下：设计是有层次的，不是一蹴而就的</h4>
+
+<p>设计的层次:</p>
+
+<ol>
+<li>software system</li>
+<li>division into subsystems/packages
+
+<ul>
+<li>任何需要花费几周才能完成的项目</li>
+<li>尽量精简子系统之间的交互关系，这样一个子系统的改变，对其他所有子系统的影响就会小很多</li>
+<li>依赖关系应该是无环的</li>
+<li>常用的子系统
+
+<ul>
+<li>business logic</li>
+<li>UI</li>
+<li>DB access</li>
+<li>OS dependencies</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>division into classes within packages</li>
+<li>division into data and routines within classes</li>
+<li>internal routine design</li>
+</ol>
+
+
+<h4>自下而上：因为软件开发是非确定性的，启发式(heuristics)的，所以需要“试错”</h4>
+
+<p>启发式设计的原则：你无需卡在单一的问题上，将问题留在未解决的状态，等拥有了更多信息后再去做。</p>
+
+<ul>
+<li>从现实世界寻找对象</li>
+<li>抽象</li>
+<li>封装</li>
+<li>Inherit when inheritance simplifies the design. 方便之处在于，
+
+<ol>
+<li>传递同一类对象</li>
+<li><strong>对同一类对象执行同样的操作 e.g. foreach loop</strong></li>
+</ol>
+</li>
+<li><strong>隐藏信息</strong>: 本质是隐藏复杂性
+
+<ul>
+<li>大量使用自我说明性质的简短函数有助于减少复杂性</li>
+<li>信息隐藏的秘密可以分为两大类：隐藏复杂度，不需要仔细研究的时候不用细看；隐藏<strong>变化源(sources of change)</strong>，当代码被改动时，其影响就能被限制在局部。</li>
+<li>信息隐藏失败的例子
+
+<ul>
+<li>信息过度分散，循环依赖，类太大导致类内变量也像全局变量，性能上可能的损耗导致过早优化（明晰的设计比过早优化要好很多）</li>
+</ul>
+</li>
+<li>养成问“我该隐藏什么？”的习惯</li>
+</ul>
+</li>
+<li>找出容易改变的区域，隔离开来，设计好固定的接口，把变化都限制在区域内部。那么，哪些区域容易发生变化呢？
+
+<ul>
+<li>业务规则、硬件依赖、输入和输出、非标准的语言特性、困难部分（因为困难所以很可能被重新改写）、状态变量、data-size constraints</li>
+</ul>
+</li>
+<li>松散耦合
+
+<ul>
+<li>小规模：模块之间的连接数要小，少的调用参数，少的public method</li>
+<li>高可见性：不要偷偷摸摸地通过全局变量传数据</li>
+<li>高灵活性：<code>LookupVacationBenefit(Employee.Date, Employee.Classification)</code>取代<code>LookupVacationBenefit(Employee)</code>因为有的地方需要临时拼凑<code>Employee</code>的其他字段，但是只有<code>Date</code>和<code>Classification</code>用到了</li>
+</ul>
+</li>
+<li>耦合的种类
+
+<ul>
+<li>简单数据参数耦合(simple-data-parameter coupling) primitive data type parameters coupling 正常可接受</li>
+<li>简单对象耦合 a module instantiates an object 也很不错</li>
+<li>对象参数耦合(object-parameter coupling) 这种耦合比第一中更紧密</li>
+<li>语义上的耦合(semantic coupling) 使用某个的模块的时候需要知道其内部的细节，如果想当然就很容易出错，这种耦合很糟糕，因为松散耦合的关键就在于抽象的简单性——意思是，一旦你写好了，使用者就应当可以想当然地用它，不用知道额外信息。</li>
+</ul>
+</li>
+<li>Look for common design patterns</li>
+<li>其他不大常用的方法
+
+<ul>
+<li>分层、接口是模块与其他部分的<strong>契约</strong>、为了测试而设计、<strong>the principle of one right place 对于每一段有用的代码应该只有一个地方看到他，并且只在一个正确的位置去做维护修改</strong>、拿不准时就用蛮力、画图。。。</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>6 Working classes</h3>
+
+<p><strong>Abstact</strong> 本章介绍如何使用类，作为数据和操作的集合，是管理复杂度的首选工具。数据成员最好不要超过七个，函数成员也是越少越好。函数的抽象层级要保持一致。类与类之间的联系应该尽可能少，尽量让被人用自己，而自己少用别人。用别人的时候，一大串的调用链条是很危险的。inheritance会增加复杂性，如果这个子类不是真的有其特殊性，那就不要用，即便用，层次超过3层就已经很麻烦了。完成类的最后一步，是检查是不是已经消除了所有不必要的信息。</p>
+
+<p><strong>Keywords</strong> 接口抽象一致性, 七正负二, Liskov Substitution Principle, high fan-in and low fan-out, Law of Demeter</p>
+
+<p>为什么需要类?</p>
+
+<ul>
+<li>encapsulation: 集中一系列的数据与操作。隐藏自己，减少自己对别人、别人对自己的影响，减少外界感知自己的复杂度。</li>
+<li>inheritance: 重用代码</li>
+<li>polymorphism: 对一系列的obj做同样的操作</li>
+</ul>
+
+
+<h4>Good Class Interfaces</h4>
+
+<ul>
+<li><strong>接口抽象一致性</strong>: 应该展现一致的抽象层次，是对<code>Employees</code> class 的逻辑就不要用计算机逻辑<code>NextListItem()</code>而是<code>NextEmployee()</code></li>
+<li>提供成对的服务，有开就有关</li>
+<li>不要对使用者做出任何假设，使用者不应该知道这些个接口的实现细节，比如尽量不要让接口之间相互依赖：method1()必须在method2()之前调用，可以用assert但是不要仅仅靠注释去解释</li>
+<li>采取保守的accessibility</li>
+<li>不要暴露data member</li>
+<li>C++中不要把private data member 暴露给到头文件类的接口中</li>
+<li>避免使用friend class，因为它tight coupling</li>
+</ul>
+
+
+<h4>Design and Implementation Issues</h4>
+
+<ul>
+<li>Containment (&#8220;has a&#8221; Relationship)
+
+<ul>
+<li>警惕有超过7个数据成员的类，人们在做事时能记住的离散项目个数是5~9个，平均7个</li>
+</ul>
+</li>
+<li>public inheritance 是&#8221;is a&#8221; relationship
+
+<ul>
+<li>继承会给程序增加复杂度（尽管带来了重用的便利性），使用时要进行详细说明，要么就不要用它</li>
+<li>Liskov Substitution Principle: 除非派生类真的是一个更特殊的基类，否则不应该从基类继承</li>
+<li>只有一个实例的类（singleton除外）、只有一个派生类的基类都值得怀疑</li>
+<li>派生后覆盖了某个子程序，但是其中没有做任何操作，也值得怀疑</li>
+<li><strong>尽量使用多态，避免大量的类型检查</strong> 频繁重复出现的<code>case</code>意味着或许应该用继承了</li>
+</ul>
+</li>
+<li>多重继承
+
+<ul>
+<li>多重继承的主要用途是定义<strong>mixins</strong>，很复杂，会极大增加复杂性</li>
+</ul>
+</li>
+</ul>
+
+
+<p>什么时候用inheritance 什么时候用containment?</p>
+
+<ul>
+<li>重用数据用包含，一旦重用操作则用继承（继承的方便之处在于对同一类对象执行同样的操作）。由基类控制接口用继承，自己控制接口用包含。</li>
+</ul>
+
+
+<h4>Member Functions and Data</h4>
+
+<ul>
+<li>keep the number of routines in a class as small as possible</li>
+<li>禁止隐式自动生成的，但是自己并不需要的methods or operator</li>
+<li>high fan-in, low fan-out: minimize direct routine calls to other classes</li>
+<li>Law of Demeter: 间接调用也要尽量避免, e.g. <code>A.CreateB().CreateC()</code></li>
+<li>尽量减少类和类之间相互合作的范围</li>
+</ul>
+
+
+<h4>Constructors</h4>
+
+<ul>
+<li><strong>initialize all member data in all constructors, if possible</strong>, in the order in which they are declared.</li>
+<li>Enforce singleton property by using a private constructor. 这时候当然要用static member了</li>
+<li>优先使用deep copy，论证可行后才用shallow copy</li>
+</ul>
+
+
+<h4>Classes to Avoid</h4>
+
+<p>避免god class，消除无关紧要的类，避免用动词命名类</p>
+
+<h3>7 High Quality routines</h3>
+
+<p><strong>Abstract</strong> 如何写高质量的routine( = function + procedure)? 高内聚（只干一件事），清楚命名（动宾结构、与返回值有关的是function，与返回值无关的是procedure），长度尽量短，参数有序讲抽象层次。除非特定的理由，不要用macro and inline routines.</p>
+
+<p><strong>Keywords</strong> cohesion</p>
+
+<p>除了常见的好处，还有，隐藏顺序，自我注解</p>
+
+<h4>Design at the Routine Level</h4>
+
+<p>Cohesion</p>
+
+<ul>
+<li>For routines, cohesion refers to how closely the operations in a routine are related.</li>
+<li>Good cohesion
+
+<ul>
+<li>最强的内聚, Functional cohesion : 一个函数只做一件事情</li>
+<li>sequential cohesion: 操作们顺序确定、共享数据 e.g.算年龄，再根据年龄算退休时间。
+
+<ul>
+<li>解决方法：两个函数分别算年龄和算退休时间</li>
+</ul>
+</li>
+<li>communicational cohesion: 操作们仅仅共享数据</li>
+<li>temporal cohesion: e.g. <code>Startup()</code>, <code>Configuration()</code> 这种内聚应该作为一系列事件的组织者，具体操作应该由里面的其他子函数完成。</li>
+</ul>
+</li>
+<li>Bad cohesion
+
+<ul>
+<li>procedural cohesion, 操作们顺序确定，<strong>不共享数据</strong></li>
+<li>logical cohesion, 一大堆<code>if ... else ...</code>/<code>case</code> 混杂着不同层次的逻辑
+
+<ul>
+<li>解决方案：<code>Event handler</code> 唯一的功能是发布各种命令，本身不做任何具体的操作。</li>
+</ul>
+</li>
+<li>coincidental cohesion: 一堆操作碰巧聚在了一起</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>Good Routine Names</h4>
+
+<ul>
+<li>完整描述所做的所有事情</li>
+<li>不能含糊、通用</li>
+<li>不要通过数字区别不同的routine</li>
+<li>对返回值要有所描述</li>
+<li>使用语气强烈的“动宾”结构</li>
+<li>使用对仗词
+
+<ul>
+<li>add/remove, increment/decrement, insert/delete, show/hide, create/destroy, start/stop, get/put, old/new</li>
+</ul>
+</li>
+<li>为常用操作确定coding style</li>
+</ul>
+
+
+<h4>How Long Can a Routine Be</h4>
+
+<p>越短越好，绝对不要超过200行</p>
+
+<h4>How to Use Routine Parameters</h4>
+
+<ul>
+<li>按照输入-修改-输出的顺序排列参数，考虑自建<code>in</code>和<code>out</code>关键字，甚至把参数加上前缀<code>i_</code>, <code>m_</code>, <code>o_</code>.</li>
+<li>类似的函数参数保持一致</li>
+<li>使用所有的参数</li>
+<li>把状态或者出错变量放在最后</li>
+<li>不要把子程序的参数用作工作变量，应该自己新建局部变量</li>
+<li>刚开始写函数的时候就document interface assumptions about parameters</li>
+<li>参数数量约7个以内</li>
+<li>pass variables vs. pass objects
+
+<ul>
+<li>答案是都可以，主要看函数的抽象层次。比如，Generally code that “sets up” for a call to a routine or “takes down” after a call to a routine is an indication that the routine is not well designed.</li>
+</ul>
+</li>
+</ul>
+
+
+<p>C is weakly typed. C++ and Java are strongly typed. TODO: see <a href="http://en.wikipedia.org/wiki/Strong_and_weak_typing">Strong and Weak Typing</a></p>
+
+<h4>Special Considerations</h4>
+
+<h5>Function vs. Procedure?</h5>
+
+<p>Function有返回值，Procedure没有返回值</p>
+
+<p>如果routine的主要用途是<strong>返回由其名字命名的返回值</strong>，就应该使用函数，否则，如果命名根本没有提到返回值的命名，用过程。</p>
+
+<h5>Return values</h5>
+
+<p>检查所有可能的路径，预设默认返回值是不错的做法。不要返回指向局部数据的引用或指针。</p>
+
+<h4>Macro Routines</h4>
+
+<pre><code>#define Cube(a) a*a*a   --&gt; (a)*(a)*(a) --&gt; ((a)*(a)*(a))
+                -----       -----------     -------------
+        如果a是 x+1 就悲剧了 仍然可能被更高级的拆开    不错
+</code></pre>
+
+<p>还有就是比如 a 是 x++ 就会很隐晦 TODO see <a href="http://en.wikipedia.org/wiki/Macro_and_security">Macro and Security</a></p>
+
+<p>Macros are useful for supporting conditional compilation (see Section 8.6), but careful programmers generally use a macro as an alternative to a routine only as a last resort. 不到万不得已不要用macro</p>
+
+<h4>Inline Routines</h4>
+
+<p>C++要求inline子程序写在头文件里面，违反了封装原则，<strong>除非profile代码觉得真的能够提高性能</strong>，否则不要用。</p>
+
+<h3>8 Defensive Programming</h3>
+
+<p><strong>Abstract</strong> 承认程序总会出问题，严于律己宽以待人，所以我们需要Defensive Programming. 具体来说，有很多不同的技术，常用的有Assertion, Exception，前者面向自己，后者面向别人。有很多debugging aids可以在开发时候采纳，使得错误显现得更加明显；在Production code中要清理他们，使得错误不影响程序的运行。处处检查当然也会产生不必要的开销，因此要有主次之分。</p>
+
+<p><strong>Keywords</strong> Error-handling, Assertion, Exception, Barricade, Offensive Programming</p>
+
+<p>总是检查输入</p>
+
+<h4>Assertion</h4>
+
+<p><code>assert(bool, msg)</code></p>
+
+<p>在private里用assert, 在public里throw exception</p>
+
+<p>用error-handling处理预期会发生的情况，用断言处理绝不该发生的情况</p>
+
+<p>把断言看做是可执行的注解，如果检查的目标变量来自系统外部，用error-handling，如果来自可信的系统内部，用assert。</p>
+
+<p>Design by Contract, 用断言来注解并验证precoditions and postconditions</p>
+
+<h4>Error-Handling Techniques</h4>
+
+<p>可以考虑的做法：换用下一个正确的数据，用最接近的合法值，把警告信息记录到日志，返回错误码，调用集中处理错误的对象或者routine，显示出错消息，局部最优地处理错误，关闭程序</p>
+
+<p>Robustness vs. Correctness</p>
+
+<ul>
+<li>两者的选择很可能是冲突的，要根据具体情况trade-off. (注：开发的时候求Correctness, production求Robustness)</li>
+</ul>
+
+
+<p>保持异常处理的一致性</p>
+
+<h4>Exceptions</h4>
+
+<p>什么时候抛出异常？遇到了意料之外的情况，举起双手说，“我不知道怎么处理，谁来告诉我该怎么办！”异常机制的优越性在于，提供了一种<strong>无法被忽略</strong>的错误通知机制，其他的机制可能会导致错误在不知不觉中扩散。</p>
+
+<p>C++ vs. Java on Exception Handling</p>
+
+<ul>
+<li>C++不支持<code>try-finally</code>，但是Java支持。</li>
+<li>C++可以抛出各种数据类型，Java只能抛出Exception的派生类</li>
+<li>如果异常未捕获，C++ call <code>std::unexpected()</code> - <code>std::terminate()</code> - <code>abort()</code>, Java: if it is a &#8220;checked exception&#8221; terminate the thread. If it is a <code>RuntimeException</code>, 不产生任何影响 TODO checked vs runtime exceptions in Java</li>
+<li>Java必须在类的接口中定义可能会抛出/捕获的异常，而C++不用</li>
+</ul>
+
+
+<p>避免在构造函数和析构函数中抛出异常，除非你在同一地方把他们捕获</p>
+
+<p>在恰当的抽象层次抛出异常</p>
+
+<figure class='code'><figcaption><span>Coding Horror</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">Employee</span> <span class="o">{</span>
+</span><span class='line'>    <span class="c1">//                             EmployeeDataNotAvailable</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">TaxId</span> <span class="nf">GetTaxId</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">EOFException</span> <span class="o">{</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>避免使用空的catch语句</p>
+
+<p>考虑创建一个集中的异常报告机制，<code>void ReportException(className, Exception)</code></p>
+
+<p>想清楚为什么要使用异常，除了异常还有其他的error handling techniques, 不能仅仅因为编程语言提供了这种机制而使用他，这是一种典型的&#8221;Programming in a Language&#8221; 而非我们提倡的 &#8220;Programming into a Language&#8221;</p>
+
+<h4>Barricade Your Program to Contain the Damage Caused by Errors</h4>
+
+<p>在外部的不可信的脏数据和内部的可信的类之间搭起“防火墙”，统一负责数据的清理工作。这种清理甚至可以有多层。Barricades的外部用error-handling techniques, 内部用assertion. 如果内部assertion检测到了错误，说明错误来自于程序内部，而非外部数据的错误。</p>
+
+<h4>Debugging Aides</h4>
+
+<p>Don&#8217;t Automatically Apply Production Constraints to the Development Version. 为了开发便利，可以采取开发版本不允许的一些做法。</p>
+
+<p>Introduce Debugging Aids Early</p>
+
+<p>Use Offensive Programming: 在开发阶段让异常显现得更猛烈些吧，在产品运行阶段让它能够自我恢复。</p>
+
+<p>Plan to Remove Debugging Aids</p>
+
+<ul>
+<li>Use version control and build tools like make</li>
+<li>Use a built-in preprocessor</li>
+<li>Write your own preprocessor</li>
+<li>Use debugging stubs (写routine检查，完结后去掉routine里面的东西)</li>
+</ul>
+
+
+<h4>Determine How Much Defensive Programming to Leave in Production Code</h4>
+
+<ul>
+<li>Leave in code that checks for important errors. Remove (with verison control, precompiler switches, etc.) code that checks for trivial errors.</li>
+<li>Remove code that results in hard crashes. Leave in code that helps the program crash gracefully (显示debug信息)</li>
+<li>Log errors for your technical support personnel</li>
+</ul>
+
+
+<h4>Being Defensive About Defensive Programming</h4>
+
+<h3>The Pseudocode Programming Process</h3>
+
+<p><strong>Abstract</strong> 本章讲述了如何利用伪代码简化routine的编码流程。伪代码让你更明确方向，更容易修改。</p>
+
+<p><strong>Keywords</strong> PPP</p>
+
+<p>如何写routine，作者最喜欢 Pseudocode</p>
+
+<ul>
+<li>好的伪代码应该忽略编程语言的细节，在intent层面上编码</li>
+<li>伪代码可以作为注释，在写代码的时候逐渐被删除掉</li>
+</ul>
+
+
+<p><strong>在通过编译后，在debugger中逐行执行代码，以检查错误</strong></p>
+
+<p>一件事情完结的时候，不要忘记清理工作！不清理就是没做完！</p>
+
+<p>Peer review! 绝大部分的问题出在自身</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2014/02/16/iit/">印度理工的手段</a></h1>
     
     
@@ -157,7 +1198,7 @@
 
 <p>这是什么原因呢？也许正是因为印度基础设施建设比较落后，以至于那里大量的人们群众们不得不天天宅在家里，打坐、拜神、瑜伽、编程。还有就是，人多地少、基础设施差、资源竞争激烈，移民英语国家就好处更多，生活水平能够得到极大的改善，动力也就越足。英语作为第二官方语言，融入西方肯定比我们更加容易，也更加源远流长。</p>
 
-<p>当然，仅仅靠自己意淫是不够的，于是我怀着崇敬的心情翻开《印度理工学院的精英们》这本书，想要一窥印度工程师教育的伟大之处。隔壁的隔壁的办公室有位小哥就毕业于IIT-Bangalore，俊朗冷漠……上到Gill Gates, Jeff Bezos, Mark Chandler，下到清华贵系的普通学生们（亲耳闻，贵校很萌的，排名第一的评论不要黑他们），都是对IIT的校友赞不绝口。</p>
+<p>当然，仅仅靠自己意淫是不够的，于是我怀着崇敬的心情翻开《印度理工学院的精英们》这本书，想要一窥印度工程师教育的伟大之处。隔壁的隔壁的办公室有位小哥就毕业于IIT-Bangalore，俊朗冷漠……上到Gill Gates, Jeff Bezos, Mark Chandler，下到清华贵系的普通学生们，都对IIT的校友赞不绝口。</p>
 
 <p>纵观此书，IIT校友之强悍，特色有三：</p>
 
@@ -603,203 +1644,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2013/09/14/h-quincy/">H-Quincy: Fair Scheduling for Hadoop Clusters</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-14T16:49:00-07:00" pubdate data-updated="true">Sep 14<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/09/14/h-quincy/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="https://github.com/puncsky/H-Quincy">H-Quincy</a> implements the paper <a href="http://www.sigops.org/sosp/sosp09/papers/isard-sosp09.pdf">Quincy: Fair Scheduling for Distributed Computing Clusters</a> on Hadoop, which improves the mapreduce scheduler by replacing the default queue-based one with a flow-based one. A min cost flow is calculated and updated to assign map tasks among the cluster, according to the size of the data split and the communication overhead in the cluster&#8217;s hierarchy.</p>
-
-<h2>Install</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>git clone https://github.com/puncsky/H-Quincy.git
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You can either build from source code or user the JAR directly.</p>
-
-<ul>
-<li><em>Build from Source Code</em>. Replace your <code>$HADOOP_HOME/src/mapred/org/apache/hadoop/mapred</code> with files in <code>src/</code>. Enter <code>$HADOOP_HOME</code> and build with <code>ant</code>.</li>
-<li><em>utilize the JAR directly</em>. Replace your <code>$HADOOP_HOME/hadoop-core-{version}.jar</code> with <code>hadoop-core-1.0.4-SNAPSHOT.jar</code></li>
-</ul>
-
-
-<hr />
-
-<p>The <a href="http://www.sigops.org/sosp/sosp09/papers/isard-sosp09.pdf">Quincy paper</a> is rather theoretical organized and involves a large number of mathematical details, which reasonably makes itself hard to understand. The following sections explains our implementation.</p>
-
-<h2>1. Architecture</h2>
-
-<p><em>Figure 1</em> displays an outline of our architecture. There exist three kinds of nodes and accordingly three levels of hierarchy in the cluster. Computing nodes are connected via a rack switch, and placed in the same rack. Rack switches are connected via a core switch. Core switches and rack switches do not undertake computing works but can still be presented in the Hadoop system as nodes.</p>
-
-<p align="middle"><img src="https://raw.github.com/puncsky/H-Quincy/master/doc/architecture.png" alt="architecture"></p>
-
-
-
-
-<p align="middle"><i>Figure 1: A sample architecture with simplified preferred lists.</i></p>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/09/14/h-quincy/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2013/09/07/trips-to-mt-rainier-and-san-juan-islands/">Trip to Mt. Rainier and San Juan Islands</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-07T18:30:00-07:00" pubdate data-updated="true">Sep 7<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/09/07/trips-to-mt-rainier-and-san-juan-islands/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Travel in person is of no importance to me at all.</p>
-
-<p>Surely I have already known that the world is wonderful and full of unexpected surprises. Like many other groups of people, traveling around the world is also one of my childhood dreams. Wandering around leads to stumbling upon. Travel is admittedly the right way to discover <a href="http://en.wikipedia.org/wiki/Black_swan_theory">&#8220;the black swan&#8221;</a>, in which an unpredictable slight event can make a significant difference.</p>
-
-<p>However, for an Internet guy like me, of course, Internet is exactly the greatest treasure and playground. Everything I read and work on everyday comes from it &#8211; books, papers, SNS news feed, blogs, source code, etc. So, how dare I still shamelessly claim that I would love to travel?</p>
-
-<p><strong>It is the person I travel with that really matters to me.</strong> Reading is a personal issue. Thinking is a personal issue. Deep love is also a personal issue. Like the Protoss (a kind of aliens) in Starcraft, it seems that the highest state of human society tends to be highly independent. And even better or worse, loneliness seems to be our final fate. Hardly are there a chance like this for friends to get together and enjoy a journey in life.</p>
-
-<p>Personally, exhausted with my CS profession, I have little friends in the US. My social life in Yale is almost zero. It is a trade-off, so you know my choice under my weak CS background.</p>
-
-<p>Last week, we visited Mt. Rainer and San Juan Islands. I had long admired the breathtaking beauty of the Emerald City, and with <a href="https://www.google.com/search?site=imghp&amp;tbm=isch&amp;q=space+needle+mount+rainier">a unforgettable view of the space needle accompanied by the Mt. Rainier in the far-away background</a>. Actually, that is one of my postcards serving as bookmarks for my GRE-related materials. Years later, Hmm, doesn&#8217;t it taste so nice to have a small dream come true? :D</p>
-
-<p>Thank you my friends, not for the wonderful trip, but for you.</p>
-
-<h2>Day 1 Mt. Rainer</h2>
-
-<p>It is better to reach the visitor center early for a better parking position. Otherwise, the queue will be meandering down the hill&#8230; It sounds funny, but trust me; you won&#8217;t like it.</p>
-
-<p><img src="https://raw.github.com/puncsky/puncsky.github.com/source/images/mt_rainier.jpg" alt="Mt Rainier" /></p>
-
-<p><img src="https://raw.github.com/puncsky/puncsky.github.com/source/images/reflection_lake.jpg" alt="The Reflection Lake" /></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/09/07/trips-to-mt-rainier-and-san-juan-islands/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2013/09/05/essential-c-sharp-intermediate/">Essential C# 4.0: Intermediate</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-05T14:00:00-07:00" pubdate data-updated="true">Sep 5<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/09/05/essential-c-sharp-intermediate/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the second part of my serials of notes on learning C#.</p>
-
-<ol>
-<li><a href="http://www.puncsky.com/blog/2013/08/14/essential-c-sharp-basics/">Essential C# 4.0: Basics</a></li>
-<li>Essential C# 4.0: Intermediate (this post)</li>
-<li><a href="http://www.puncsky.com/blog/2013/09/15/essential-c-sharp-advanced/">Essential C# 4.0: Advanced</a></li>
-</ol>
-
-
-<p>A productive-focused language like C# has so much <em>syntax sugar</em> that I feel not so comfortable with, because I used to be a C++ programmer and everything in the C++ kingdom appears to be straight forward, although, at the same time, tend to be fallible.</p>
-
-<p>The most serious problem I find about Microsoft&#8217;s tools is that up there exist so many auto-generated codes that I cannot know them all in details. I mean, that is good, you can ship as much stuff as possible within limited time. The problem is, it is not good for curious people like me, nor for the beginner. Back in school, when we build something, we build it <em>from scratch</em>. Perhaps, <em>reinvent the wheel</em> is the best way to learn the wheel. IEDs such as Visual Studio and Eclipse make people so lazy and forget to remember and to think.</p>
-
-<p>Consequently, in my spare time, I would do write every code with VIM.</p>
-
-<p>The following is my notes from Chapter 9 through Chapter 13.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/09/05/essential-c-sharp-intermediate/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="/blog/page/2/">&larr; Older</a></li>
@@ -822,23 +1666,23 @@
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2014/08/16/notes-on-code-complete-ii-variables/">Notes on Code Complete II: Variables</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/08/16/notes-on-code-complete-ii-layout-and-style/">Notes on Code Complete II: Layout and Style</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/08/16/notes-on-code-complete-ii-creating-high-quality-code/">Notes on Code Complete II: Creating High Quality Code</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/02/16/iit/">印度理工的手段</a>
       </li>
     
       <li class="post">
         <a href="/blog/2013/12/24/unreachable-peace/">心如止水不可达到</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/24/fire-and-motion/">Joel Spolsky: 开火中前进</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/11/06/masters-of-doom/">你做了土豪又怎样？</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/10/06/bai-xian-yong/">白先勇: 从台北人到父亲与民国</a>
       </li>
     
   </ul>

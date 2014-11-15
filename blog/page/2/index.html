@@ -122,6 +122,203 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2013/09/14/h-quincy/">H-Quincy: Fair Scheduling for Hadoop Clusters</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-14T16:49:00-07:00" pubdate data-updated="true">Sep 14<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/09/14/h-quincy/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://github.com/puncsky/H-Quincy">H-Quincy</a> implements the paper <a href="http://www.sigops.org/sosp/sosp09/papers/isard-sosp09.pdf">Quincy: Fair Scheduling for Distributed Computing Clusters</a> on Hadoop, which improves the mapreduce scheduler by replacing the default queue-based one with a flow-based one. A min cost flow is calculated and updated to assign map tasks among the cluster, according to the size of the data split and the communication overhead in the cluster&#8217;s hierarchy.</p>
+
+<h2>Install</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git clone https://github.com/puncsky/H-Quincy.git
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can either build from source code or user the JAR directly.</p>
+
+<ul>
+<li><em>Build from Source Code</em>. Replace your <code>$HADOOP_HOME/src/mapred/org/apache/hadoop/mapred</code> with files in <code>src/</code>. Enter <code>$HADOOP_HOME</code> and build with <code>ant</code>.</li>
+<li><em>utilize the JAR directly</em>. Replace your <code>$HADOOP_HOME/hadoop-core-{version}.jar</code> with <code>hadoop-core-1.0.4-SNAPSHOT.jar</code></li>
+</ul>
+
+
+<hr />
+
+<p>The <a href="http://www.sigops.org/sosp/sosp09/papers/isard-sosp09.pdf">Quincy paper</a> is rather theoretical organized and involves a large number of mathematical details, which reasonably makes itself hard to understand. The following sections explains our implementation.</p>
+
+<h2>1. Architecture</h2>
+
+<p><em>Figure 1</em> displays an outline of our architecture. There exist three kinds of nodes and accordingly three levels of hierarchy in the cluster. Computing nodes are connected via a rack switch, and placed in the same rack. Rack switches are connected via a core switch. Core switches and rack switches do not undertake computing works but can still be presented in the Hadoop system as nodes.</p>
+
+<p align="middle"><img src="https://raw.github.com/puncsky/H-Quincy/master/doc/architecture.png" alt="architecture"></p>
+
+
+
+
+<p align="middle"><i>Figure 1: A sample architecture with simplified preferred lists.</i></p>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/09/14/h-quincy/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/07/trips-to-mt-rainier-and-san-juan-islands/">Trip to Mt. Rainier and San Juan Islands</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-07T18:30:00-07:00" pubdate data-updated="true">Sep 7<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/09/07/trips-to-mt-rainier-and-san-juan-islands/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Travel in person is of no importance to me at all.</p>
+
+<p>Surely I have already known that the world is wonderful and full of unexpected surprises. Like many other groups of people, traveling around the world is also one of my childhood dreams. Wandering around leads to stumbling upon. Travel is admittedly the right way to discover <a href="http://en.wikipedia.org/wiki/Black_swan_theory">&#8220;the black swan&#8221;</a>, in which an unpredictable slight event can make a significant difference.</p>
+
+<p>However, for an Internet guy like me, of course, Internet is exactly the greatest treasure and playground. Everything I read and work on everyday comes from it &#8211; books, papers, SNS news feed, blogs, source code, etc. So, how dare I still shamelessly claim that I would love to travel?</p>
+
+<p><strong>It is the person I travel with that really matters to me.</strong> Reading is a personal issue. Thinking is a personal issue. Deep love is also a personal issue. Like the Protoss (a kind of aliens) in Starcraft, it seems that the highest state of human society tends to be highly independent. And even better or worse, loneliness seems to be our final fate. Hardly are there a chance like this for friends to get together and enjoy a journey in life.</p>
+
+<p>Personally, exhausted with my CS profession, I have little friends in the US. My social life in Yale is almost zero. It is a trade-off, so you know my choice under my weak CS background.</p>
+
+<p>Last week, we visited Mt. Rainer and San Juan Islands. I had long admired the breathtaking beauty of the Emerald City, and with <a href="https://www.google.com/search?site=imghp&amp;tbm=isch&amp;q=space+needle+mount+rainier">a unforgettable view of the space needle accompanied by the Mt. Rainier in the far-away background</a>. Actually, that is one of my postcards serving as bookmarks for my GRE-related materials. Years later, Hmm, doesn&#8217;t it taste so nice to have a small dream come true? :D</p>
+
+<p>Thank you my friends, not for the wonderful trip, but for you.</p>
+
+<h2>Day 1 Mt. Rainer</h2>
+
+<p>It is better to reach the visitor center early for a better parking position. Otherwise, the queue will be meandering down the hill&#8230; It sounds funny, but trust me; you won&#8217;t like it.</p>
+
+<p><img src="https://raw.github.com/puncsky/puncsky.github.com/source/images/mt_rainier.jpg" alt="Mt Rainier" /></p>
+
+<p><img src="https://raw.github.com/puncsky/puncsky.github.com/source/images/reflection_lake.jpg" alt="The Reflection Lake" /></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/09/07/trips-to-mt-rainier-and-san-juan-islands/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/05/essential-c-sharp-intermediate/">Essential C# 4.0: Intermediate</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-05T14:00:00-07:00" pubdate data-updated="true">Sep 5<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/09/05/essential-c-sharp-intermediate/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is the second part of my serials of notes on learning C#.</p>
+
+<ol>
+<li><a href="http://www.puncsky.com/blog/2013/08/14/essential-c-sharp-basics/">Essential C# 4.0: Basics</a></li>
+<li>Essential C# 4.0: Intermediate (this post)</li>
+<li><a href="http://www.puncsky.com/blog/2013/09/15/essential-c-sharp-advanced/">Essential C# 4.0: Advanced</a></li>
+</ol>
+
+
+<p>A productive-focused language like C# has so much <em>syntax sugar</em> that I feel not so comfortable with, because I used to be a C++ programmer and everything in the C++ kingdom appears to be straight forward, although, at the same time, tend to be fallible.</p>
+
+<p>The most serious problem I find about Microsoft&#8217;s tools is that up there exist so many auto-generated codes that I cannot know them all in details. I mean, that is good, you can ship as much stuff as possible within limited time. The problem is, it is not good for curious people like me, nor for the beginner. Back in school, when we build something, we build it <em>from scratch</em>. Perhaps, <em>reinvent the wheel</em> is the best way to learn the wheel. IEDs such as Visual Studio and Eclipse make people so lazy and forget to remember and to think.</p>
+
+<p>Consequently, in my spare time, I would do write every code with VIM.</p>
+
+<p>The following is my notes from Chapter 9 through Chapter 13.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/09/05/essential-c-sharp-intermediate/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2013/09/02/ipadmini/">我的iPad安装的应用</a></h1>
     
     
@@ -528,251 +725,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/27/hadoopdb-vldb-09/">HadoopDB (VLDB&#8217;09)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-27T15:50:00-08:00" pubdate data-updated="true">Jan 27<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/01/27/hadoopdb-vldb-09/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://db.cs.yale.edu/hadoopdb/hadoopdb.html">Yale DB</a></p>
-
-<h3>Comments</h3>
-
-<p>Two ways to improve HadoopDB</p>
-
-<ol>
-<li>Integrate the file system for local database with HDFS. In the design of HadoopDB, the file system and the database are separated, which means that the more space one part is preallocated and the less space the other part will occupy. This design is not scalable because the system administrator has to partition the space by hand. We could investigate a way to let the database run on the HDFS directly. The database&#8217;s file descriptor can be adapted to HDFS directly. Or, even better, we can add an extra virtualized layer between the database and the HDFS.</li>
-<li>Set up a better scheduler. It is mentioned in the paper that the original version of hadoop fair scheduler is not so good. It is queue-based and locally greedy and simply does not consider the big picture much. &#8220;Quincy: Fair Scheduling for Distributed Computing Clusters&#8221; advances a flow-based algorithm, which has a very good performance by increasing the throughput up to 40%.</li>
-</ol>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/01/27/hadoopdb-vldb-09/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/14/gc-garbage-collection-in-java/">GC(Garbage Collection) in Java</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-14T00:18:00-08:00" pubdate data-updated="true">Jan 14<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/01/14/gc-garbage-collection-in-java/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>本文摘录自<a href="http://www.amazon.com/Thinking-Java-4th-Bruce-Eckel/dp/0131872486">Thinking in Java</a></p>
-
-<h2>1. The method  <code>finalize()</code></h2>
-
-<p><code>finalize()</code>使用时，会在GC释放空间之前被调用到，目的是在GC的时候做一些特殊的清理工作；但<strong>finalize()绝不是C++里面的destructor，因为</strong></p>
-
-<p>1.对象<strong>不一定会</strong>被GC (而C++里析构函数一定会被调用到)</p>
-
-<p>2.GC不等于析构</p>
-
-<p>既然有GC，Java就没有必要用到析构函数，所以如果有需要在GC时候额外做些事情，就使用finalize()做最后的清理工作，<strong>尽管它不一定会被调用到，除非JVM没有内存空间了</strong>。</p>
-
-<p>3.GC仅和内存有关</p>
-
-<p>既然Java本身内存回收问题就被GC解决了，为什么还要finalize()呢？<strong>因为，Java可能内嵌其他语言的代码，如果有类似C的内存处理函数malloc()，就必须要手动写free()。</strong>因此，finalize()极少会被用到。</p>
-
-<p>C++创建对象的位置有两种，一是创建在本地的stack上，自动销毁于本段代码的回花括号处，另一个是创建在heap上，必须用<strong>delete</strong>手动销毁。Java不允许创建本地对象，必须使用<strong>new</strong>，但是既然有了GC就不用delete.</p>
-
-<p>总之，要记住的是，GC和finalize()并不总会被调用到。</p>
-
-<p>finalize()可以用到debug，代码如下</p>
-
-<figure class='code'><figcaption><span>TerminationCondition.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kd">class</span> <span class="nc">Book</span> <span class="o">{</span>
-</span><span class='line'>    <span class="kt">boolean</span> <span class="n">checkedOut</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-</span><span class='line'>    <span class="n">Book</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">checkOut</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>      <span class="n">checkedOut</span> <span class="o">=</span> <span class="n">checkOut</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>    <span class="kt">void</span> <span class="nf">checkIn</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>      <span class="n">checkedOut</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">finalize</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>      <span class="k">if</span><span class="o">(</span><span class="n">checkedOut</span><span class="o">)</span>
-</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Error: checked out.&quot;</span><span class="o">);</span>
-</span><span class='line'>        <span class="c1">// Normally, you’ll also do this:</span>
-</span><span class='line'>        <span class="c1">// super.finalize(); // Call the base-class version</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">TerminationCondition</span> <span class="o">{</span>
-</span><span class='line'>    <span class="c1">//static Test monitor = new Test();</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>      <span class="n">Book</span> <span class="n">novel</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Book</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
-</span><span class='line'>      <span class="c1">// Proper cleanup:</span>
-</span><span class='line'>      <span class="n">novel</span><span class="o">.</span><span class="na">checkIn</span><span class="o">();</span>
-</span><span class='line'>      <span class="c1">// Drop the reference, forget to clean up:</span>
-</span><span class='line'>      <span class="k">new</span> <span class="nf">Book</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
-</span><span class='line'>      <span class="c1">// Force garbage collection &amp; finalization:</span>
-</span><span class='line'>      <span class="n">System</span><span class="o">.</span><span class="na">gc</span><span class="o">();</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>  <span class="cm">/* output:</span>
-</span><span class='line'><span class="cm"> Error: checked out.</span>
-</span><span class='line'><span class="cm"> */</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>此处，<code>System.gc()</code> 强制<code>finalize()</code>必须执行。<strong>如果有finalize(),一般情况下，父类的finalize()也必须被执行到</strong>，所以<code>Book.finalize()</code>中有<code>super.finalize()</code>。</p>
-
-<h2>2. GC的工作机制</h2>
-
-<p>Java中在heap上new东西并不像其他语言那么expensive，几乎和其他语言在stack上创建对象一样快。</p>
-
-<p>非Java的GC机制：<em>reference counting</em> 数对象被引用了多少次，当等于零时就被清理掉。</p>
-
-<p>Java的机制：<strong><em>adaptive generational stop-and-copy mark-and-sweep.</em></strong> 所有未死的对象都可以追溯到stack或者static storage上的一个引用，形成一个个web。这时候，也有不同的处理方式：</p>
-
-<ol>
-<li><em>stop-and-copy</em>. 如果程序停下来了，将活的对象拷贝到新的heap上，垃圾就被留在了原来的heap。新heap上的对象也可以被排列得更加紧凑(compact)了。有两个问题：
-
-<ul>
-<li>保持两个heap</li>
-<li>周期性拷贝，即便没有new新的东西，或者产生的垃圾很少，会导致浪费，所以需要另一个机制处理这种特殊的情况</li>
-</ul>
-</li>
-<li><em>mark-and-sweep</em>. 比较慢，但是在产生少量垃圾或者没有垃圾时候非常快。做法是，标记活对象，所有的标记完成后，扫除没有标记的对象。</li>
-</ol>
-
-
-<p>如何做到adaptive地进行转化呢？JVM的内存分布在很多大的block当中。大的对象，可以独占block，不拷贝，而是增加其<em>generation count</em>，内含小对象的block则会被拷贝并整理。JVM会进行监视,如果所有对象都很稳定,GC效率降低的话,就切换到<em>mark-and-sweep</em>;同样, JVM会注意其效果,要是heap出现很多碎片,就会切换回<em>stop-and-copy</em>。</p>
-
-<p>EOF</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/08/clrs-2-advanced/">CLRS 2: Advanced</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-08T16:43:00-08:00" pubdate data-updated="true">Jan 8<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/01/08/clrs-2-advanced/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This post is the second pard of my series notes on the remarkable textbook <a href="http://mitpress.mit.edu/books/introduction-algorithms">Introduction to Algorithm</a> (a.k.a CLRS).</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/01/08/clrs-2-advanced/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="/blog/page/3/">&larr; Older</a></li>
@@ -797,23 +749,23 @@
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2014/08/16/notes-on-code-complete-ii-variables/">Notes on Code Complete II: Variables</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/08/16/notes-on-code-complete-ii-layout-and-style/">Notes on Code Complete II: Layout and Style</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/08/16/notes-on-code-complete-ii-creating-high-quality-code/">Notes on Code Complete II: Creating High Quality Code</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/02/16/iit/">印度理工的手段</a>
       </li>
     
       <li class="post">
         <a href="/blog/2013/12/24/unreachable-peace/">心如止水不可达到</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/24/fire-and-motion/">Joel Spolsky: 开火中前进</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/11/06/masters-of-doom/">你做了土豪又怎样？</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/10/06/bai-xian-yong/">白先勇: 从台北人到父亲与民国</a>
       </li>
     
   </ul>

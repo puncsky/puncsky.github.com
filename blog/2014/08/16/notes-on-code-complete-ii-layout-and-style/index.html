@@ -1,0 +1,595 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Notes on Code Complete II: Layout and Style - Puncsky CS Notebook</title>
+  <meta name="author" content="Tian">
+
+  
+  <meta name="description" content="Life and computer science notebook from Puncsky">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.puncsky.com/blog/2014/08/16/notes-on-code-complete-ii-layout-and-style">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    body {
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .sharing, .meta, .pager {
+      margin: 20px 0px 20px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/libs/jquery.js"></script>
+  <script src="/javascripts/libs/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/bootstrap.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Puncsky CS Notebook" type="application/atom+xml">
+  <link href="http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,500italic,700italic,300,400,500,700,800" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js">
+  MathJax.Hub.Config({
+   extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+   jax: ["input/TeX", "output/HTML-CSS"],
+   tex2jax: {
+       inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+       displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+   },
+   "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-43072488-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <nav role="navigation"><div class="navbar navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
+      <a class="brand" href="/">Puncsky CS Notebook</a>
+
+      <div class="nav-collapse">
+        <ul class="nav">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+
+        <ul class="nav pull-right" data-subscription="rss">
+          <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+          
+        </ul>
+
+        
+          <form class="pull-right navbar-search" action="http://google.com/search" method="get">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:www.puncsky.com" />
+              <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</nav>
+  <div class="container">
+    <div class="row-fluid">
+      
+<article class="hentry span9" role="article">
+
+  
+  <header class="page-header">
+    
+      <h1 class="entry-title">Notes on Code Complete II: Layout and Style</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-16T12:00:00-07:00" pubdate data-updated="true">Aug 16<span>th</span>, 2014</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>31 Layout and Style</h3>
+
+<p><strong>Abstract</strong> Layout as Religion 布局是一种信仰，好的布局使得逻辑准确，代码一致、易读、可维护。</p>
+
+<p><strong>Keywords</strong></p>
+
+<p>Objectives of Good Layout</p>
+
+<ul>
+<li>准确表示代码的逻辑结构</li>
+<li>始终如一的表现代码的逻辑结构</li>
+<li>改善可读性</li>
+<li>经得起修改：<strong>修改某行时不必连带修改其他行的代码</strong></li>
+</ul>
+
+
+<h4>Layout Styles</h4>
+
+<ul>
+<li>Pure blocks</li>
+<li>Emulating Pure Blocks: 用<code>{``}</code>模仿纯块风格，<code>{</code>放在第一行末尾</li>
+<li>Begin-End pairs (braces) as boundaries: <code>{``}</code>单独占一行，但是都有缩进</li>
+<li>Endline Layout: 让<code>switch</code>看起来对更齐，但是可维护性差</li>
+</ul>
+
+
+<h4>Laying Out Control Structures</h4>
+
+<p>if 必须加大括号，多个条件放到不同的行上</p>
+
+<p><code>goto</code>使得代码的布局很不好办</p>
+
+<p>段落之间空行</p>
+
+<h4>Laying Out Individual Statements</h4>
+
+<p>多用空格</p>
+
+<p>Formatting Continuation Lines 断行</p>
+
+<ul>
+<li>让续行更明显，比如，把运算符、逗号等放到行的末尾。如果把运算符放在前面可以凸显逻辑结构。</li>
+<li>把紧密关联的元素放在一起</li>
+<li><strong>将子程序调用的后续航按照标准量缩进</strong>，尽管对齐党觉得应该美观，可是就维护性来讲，标准缩进好些。</li>
+<li>让续行的结尾易于发现</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CallMethod(
+</span><span class='line'>    LongNameA,
+</span><span class='line'>    LongNameB,
+</span><span class='line'>    C,
+</span><span class='line'>    D
+</span><span class='line'>);</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>不要讲赋值语句按等号对齐，要按照标准量缩进</li>
+<li>每行只写一条语句，只能有一个操作</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>strcpy(char *t, char *s) {
+</span><span class='line'>    while (*++t = *++s) // 不容易发现错误
+</span><span class='line'>    ;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>strcpy(char *t, char *s) {
+</span><span class='line'>    do {
+</span><span class='line'>        ++t; // 很容易发现错误
+</span><span class='line'>        ++s;
+</span><span class='line'>        *t = *s;
+</span><span class='line'>    } while (*t != '\0');
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Laying Out Data Declarations</h4>
+
+<ul>
+<li>每行只声明一个数据</li>
+<li>声明尽量接近首次使用的位置</li>
+<li>合理组织声明的顺序</li>
+<li>C++指针声明把<strong><code>*</code>靠近变量名</strong></li>
+</ul>
+
+
+<h4>Laying Out Comments</h4>
+
+<ul>
+<li>注释缩进与代码一致</li>
+<li><strong>每行注释用至少一个空行分开</strong></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Comment0
+</span><span class='line'>Statement0
+</span><span class='line'>
+</span><span class='line'>// Comment1
+</span><span class='line'>Statement1</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Laying Out Routines</h4>
+
+<ul>
+<li>用空行分割子程序的各部分</li>
+<li>将子程序按照标准缩进</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public bool ReadEmployeeData(
+</span><span class='line'>    int maxEmployees,
+</span><span class='line'>    EmployeeList *employees,
+</span><span class='line'>    EmployeeFile *inputFile,
+</span><span class='line'>    int *employeeCount,
+</span><span class='line'>    bool *isInputError
+</span><span class='line'>)</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Laying Out Classes</h4>
+
+<p>Interfaces</p>
+
+<ol>
+<li>Ctors and destructors</li>
+<li>Public routines</li>
+<li>Protected routines</li>
+<li>Private routines and member data</li>
+</ol>
+
+
+<p>Class implementations</p>
+
+<ol>
+<li>Class data</li>
+<li>Public routines</li>
+<li>Protected routines</li>
+<li>Private routines</li>
+</ol>
+
+
+<p>如果文件包含多个类，要（用注释）清楚标出每个类</p>
+
+<h4>Laying Out Files and Programs</h4>
+
+<p>最好一个文件只有一个类，文件命名与类名一致或者相关</p>
+
+<h3>32 Self-Documenting Code</h3>
+
+<p><strong>Abstract</strong> 好的代码是Self-documenting的，但是因此就不需要注释了吗？非也非也。</p>
+
+<p><strong>Keywords</strong></p>
+
+<p>注释有那些种类？</p>
+
+<ul>
+<li>重复代码（bad）</li>
+<li>解释代码：用于解释复杂、巧妙、敏感的代码</li>
+<li>Maker in the Code: like <code>TODO</code></li>
+<li>Summary of the code</li>
+<li><strong>Description of the Code&#8217;s Intent: 指出需要解决的问题why，而非解决的方法how</strong></li>
+<li>传达代码无法表述的信息</li>
+</ul>
+
+
+<p>如何写高质量的注释呢？</p>
+
+<ul>
+<li>不写难以维护的（很麻烦的）注释</li>
+<li>用PPP伪代码编程法减少注释时间</li>
+<li>将注释集成到你的开发风格中 （写注释也是写代码）</li>
+</ul>
+
+
+<p>最佳注释频率？</p>
+
+<ul>
+<li>十步一杀</li>
+</ul>
+
+
+<p>Commenting Techniques</p>
+
+<ul>
+<li>Commenting Individual Lines</li>
+<li>Endline Comments and Their Problems
+
+<ul>
+<li>不好之处
+
+<ul>
+<li>难看难维护</li>
+<li>不要对单行代码做尾注释</li>
+<li>不要对多行代码做尾注释</li>
+</ul>
+</li>
+<li>那么什么时候可以用呢？
+
+<ul>
+<li>数据声明时解释数据</li>
+<li>标记block的尾部, end while, end if, etc.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Commenting Paragraphs of Code
+
+<ul>
+<li>注释应该表明代码的意图，为什么这么做而不是具体怎么做
+
+<ul>
+<li>e.g. find the command-word terminator ($)</li>
+<li>想象将这段代码换成同样功能的sub routine应该如何命名</li>
+<li>额外的变量或者函数本身具有说明作用</li>
+<li>说明非常规的嘴阀</li>
+<li>别用缩略语</li>
+<li>错误或者语言环境的独特点要注释</li>
+<li>给出违背良好编程风格的理由</li>
+<li>投机取巧的代码要重写，而不是加注释</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Commenting Data Declarations
+
+<ul>
+<li>注释数值单位</li>
+<li>对数值允许的范围给出解释</li>
+<li>如果没有枚举类型的支持，或者对于bit flags，注释编码含义</li>
+<li>注释对输入数据的限制</li>
+<li>注释要与变量名关联起来，e.g. <code>cref=""</code></li>
+<li>注释全局数据</li>
+</ul>
+</li>
+<li>Commenting Control Structures
+
+<ul>
+<li>while上一行，if/case下一行，都是不错的位置</li>
+</ul>
+</li>
+<li>Commenting Routines
+
+<ul>
+<li>无视子程序的大小和复杂，在开头放一堆信息：这是荒谬的做法</li>
+<li>记得注释接口的assumption</li>
+</ul>
+</li>
+<li>Commenting Classes, Files, and Programs
+
+<ul>
+<li>可以考虑说明类的设计方法、局限性等等</li>
+<li>如果不看实现就知道接口的用法吗？如果不知道，注释，但是不说实现细节</li>
+</ul>
+</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Tian</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-16T12:00:00-07:00" pubdate data-updated="true">Aug 16<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/software-craftsmanship/'>software_craftsmanship</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.puncsky.com/blog/2014/08/16/notes-on-code-complete-ii-layout-and-style/" data-via="" data-counturl="http://www.puncsky.com/blog/2014/08/16/notes-on-code-complete-ii-layout-and-style/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    
+    <section>
+      <h1>Comments</h1>
+      <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </section>
+    
+    <ul class="pager">
+      
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/2014/08/16/notes-on-code-complete-ii-creating-high-quality-code/" title="Previous Post:
+        Notes on Code Complete II: Creating High Quality Code">&laquo; Notes on Code Complete II: Creating High Quality Code</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+      <li class="next"><a class="basic-alignment right" href="/blog/2014/08/16/notes-on-code-complete-ii-variables/"
+        title="Next Post: Notes on Code Complete II: Variables">Notes on Code Complete II: Variables
+        &raquo;</a></li>
+      
+    </ul>
+  </footer>
+</article>
+
+<aside class="sidebar-nav span3">
+  
+    <section class="well">
+  <script src="/javascripts/onmouseoverpuncsky.js" type="text/javascript"> </script>
+  <img onmouseover="enlight(this)" onmouseout="darken(this)" src="/puncsky-gray.png" alt="puncsky" style="max-width:100%;">
+  <h4>Puncsky</h4>
+  <p><i>who strives on and lives to strive</i></p>
+  <p><a href="https://www.github.com/puncsky/">Github</a></p>
+</section>
+<section class="well">
+  <ul id="recent_posts" class="nav nav-list">
+    <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2014/08/16/notes-on-code-complete-ii-variables/">Notes on Code Complete II: Variables</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/08/16/notes-on-code-complete-ii-layout-and-style/">Notes on Code Complete II: Layout and Style</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/08/16/notes-on-code-complete-ii-creating-high-quality-code/">Notes on Code Complete II: Creating High Quality Code</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/16/iit/">印度理工的手段</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/24/unreachable-peace/">心如止水不可达到</a>
+      </li>
+    
+  </ul>
+</section>
+<section class="well">
+	<div id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://www.puncsky.com', 'user' : 1100959, 'server' : '2', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2013-06-24', 'lang' : 'en', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www2.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www2.clustrmaps.com/user/92810cc9f"><img src="http://www2.clustrmaps.com/stats/maps-no_clusters/www.puncsky.com-thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo" class="page-footer"><hr>
+<p>
+  Copyright &copy; 2014 - Tian -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'puncsky';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://www.puncsky.com/blog/2014/08/16/notes-on-code-complete-ii-layout-and-style/';
+        var disqus_url = 'http://www.puncsky.com/blog/2014/08/16/notes-on-code-complete-ii-layout-and-style/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
