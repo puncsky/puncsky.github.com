@@ -4,7 +4,7 @@
   <title><![CDATA[Puncsky CS Notebook]]></title>
   <link href="http://www.puncsky.com/atom.xml" rel="self"/>
   <link href="http://www.puncsky.com/"/>
-  <updated>2015-01-13T21:38:42-08:00</updated>
+  <updated>2015-01-13T22:49:50-08:00</updated>
   <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -70,7 +70,7 @@
 
 <blockquote><p> It is appropriate for sites that need to avoid threading for compatibility with non-thread-safe libraries. It is also the best MPM for isolating each request, so that a problem with a single request will not affect any other.</p></blockquote>
 
-<p>However, the isolation and thread-safety comes at a price. Processes are too heavyweight with slower context-switching and memory-consuming. Therefore, the <strong>thread-per-connection</strong> approach comes into being for better scalability, though programming with threads is error-prone and hard-to-debug.</p>
+<p>However, the isolation and thread-safety come at a price. Processes are too heavyweight with slower context-switching and memory-consuming. Therefore, the <strong>thread-per-connection</strong> approach comes into being for better scalability, though programming with threads is error-prone and hard-to-debug.</p>
 
 <p>In order to tune the number of threads for the best overall performance and avoid thread-creating/destroying overhead, it is a common practice to put a single dispatcher thread (acceptor thread) in front of a bounded blocking queue and a threadpool (worker threads). The dispatcher blocks on the socket for new connections and offers them to the bounded blocking queue. Connections exceeding the limitation of the queue will be dropped, but latencies for accepted connections become predictable. A pool of threads poll the queue for incoming requests, and then process and respond.</p>
 
@@ -92,7 +92,7 @@
 
 <h3>3.1 Reactor Pattern Explained with Echo Web Server in Java</h3>
 
-<p>Wait! <strong>Talk is cheap and show me the code :)</strong> Yeah, now let’s build an echo web server that can be tested with <code>telnet localhost 9090</code>. <a href="https://github.com/netty/netty/blob/master/example/src/main/java/io/netty/example/echo/EchoServer.java">You can also try building with Netty, a NIO client server framework</a>.</p>
+<p>Wait! <strong>Talk is cheap and show me the code :)</strong> Yeah, now let’s build an echo web server that can be tested with <code>telnet localhost 9090</code>. <a href="https://github.com/netty/netty/blob/master/example/src/main/java/io/netty/example/echo/EchoServer.java">You can also try to build with Netty, a NIO client server framework</a>.</p>
 
 <p>In the following code, a single boss thread is in an event loop blocking on a selector, which is registered with several channels and handlers. Associated handlers will be executed by the boss thread for specific events (accept, read, write operations) coming from those channels. In terms of processing the request, a threadpool is still used.</p>
 
