@@ -4,7 +4,7 @@
   <title><![CDATA[Puncsky CS Notebook]]></title>
   <link href="http://www.puncsky.com/atom.xml" rel="self"/>
   <link href="http://www.puncsky.com/"/>
-  <updated>2014-11-15T14:43:11-08:00</updated>
+  <updated>2015-01-13T21:38:42-08:00</updated>
   <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -12,6 +12,487 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Understanding Reactor Pattern for Highly Scalable I/O Bound Web Server]]></title>
+    <link href="http://www.puncsky.com/blog/2015/01/13/understanding-reactor-pattern-for-highly-scalable-i-o-bound-web-server/"/>
+    <updated>2015-01-13T21:28:00-08:00</updated>
+    <id>http://www.puncsky.com/blog/2015/01/13/understanding-reactor-pattern-for-highly-scalable-i-o-bound-web-server</id>
+    <content type="html"><![CDATA[<p>What is the best practice of a server architecture for an I/O bound web application on commodity machines? Why is the answer event-driven reactor pattern with async non-blocking I/O? How to implement an echo web server with reactor pattern in Java? Why does reactor pattern come with JavaScript and Node.js?</p>
+
+<p>To answer these questions, let us first look at how an HTTP request is handled in general. After accepting the incoming request, the server establishes a TCP connection. It reads and parses the content in the request from the socket (CPU bound). Then the request is dispatched to the application level for domain-specific logics, which would probably visit the file system for data. Or even more, since we are investigating a scalable website for high raw data throughput (I/O bound), and all complex components are decoupled, the server will probably execute a network-based task, e.g. fetching data from remote caches and databases. Once finished, the server writes the response to the client, and waits for the next request, or closes the connection.</p>
+
+<h2>1. Why async non-blocking I/O?</h2>
+
+<p>Since we are assuming it is an I/O bound web application (<a href="http://highscalability.com/numbers-everyone-should-know">which is often the case</a>), I/O operations can be extremely slow compared to the processing of data. Think about switching electric current vs. a physical hard drive seeking a track.</p>
+
+<p>Traditionally, we write an application to execute I/O operations in a <strong>synchronous and blocking way</strong>, that is to say, if the CPU has to wait for the I/O device to load all the data slowly, it has to wait and do nothing else. What? Idle CPU resources? Bad news for us! We should exhaust them!</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// Sync blocking  I/O example in JavaScript.</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="s1">&#39;filename&#39;</span><span class="p">);</span> <span class="c1">// wait for returning data, and waste valuable CPU time.</span>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Why not let <strong>the control flow and I/O operations return immediately just a status</strong>, and free the CPU from waiting and do other meaningful operations? After all, we can still revisit the status or results later. Here comes the notion of <strong>aync non-blocking I/O</strong>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// Async non-blocking I/O example in JavaScript.</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="s1">&#39;filename&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span> <span class="c1">// returns immediately, function will do the work when the data is ready.</span>
+</span><span class='line'><span class="c1">// do other meaningful operations.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It looks quite straightforward in JavaScript as shown above, but how is it implemented under the hood? Intuition told me it was manually done by the application developers with threads, but I was wrong. Actually, there are various ways to do this – different programming languages have their own libraries (e.g. NIO for Java, libuv for JavaScript) on different operating systems. And the operating systems themselves also provide system calls in the kernel level – e.g. <a href="http://daniel.haxx.se/docs/poll-vs-select.html">select, poll</a>, <a href="http://www.eecs.berkeley.edu/~sangjin/2012/12/21/epoll-vs-kqueue.html">epoll, and kqueue</a>.</p>
+
+<h2>2. Why event-driven?</h2>
+
+<p>To handle web requests, there are two competitive web architectures – thread-based one and event-driven one.</p>
+
+<h3>2.1 Thread-based Architecture</h3>
+
+<p>The most intuitive way to implement a multi-threaded server is to follow the process/thread-per-connection approach.</p>
+
+<p>In reality, the first HTTP server, CERN httpd, was created with a <strong>process-per-connection</strong> model. Nowadays <a href="http://httpd.apache.org/docs/2.2/mpm.html">Apache-MPM prefork</a> still retains the feature for the following reasons.</p>
+
+<blockquote><p> It is appropriate for sites that need to avoid threading for compatibility with non-thread-safe libraries. It is also the best MPM for isolating each request, so that a problem with a single request will not affect any other.</p></blockquote>
+
+<p>However, the isolation and thread-safety comes at a price. Processes are too heavyweight with slower context-switching and memory-consuming. Therefore, the <strong>thread-per-connection</strong> approach comes into being for better scalability, though programming with threads is error-prone and hard-to-debug.</p>
+
+<p>In order to tune the number of threads for the best overall performance and avoid thread-creating/destroying overhead, it is a common practice to put a single dispatcher thread (acceptor thread) in front of a bounded blocking queue and a threadpool (worker threads). The dispatcher blocks on the socket for new connections and offers them to the bounded blocking queue. Connections exceeding the limitation of the queue will be dropped, but latencies for accepted connections become predictable. A pool of threads poll the queue for incoming requests, and then process and respond.</p>
+
+<p><a href="http://httpd.apache.org/docs/2.2/mod/worker.html">Apache-MPM worker</a> takes advantages of both processes and threads (threadpool).</p>
+
+<blockquote><p>By using threads to serve requests, it is able to serve a large number of requests with fewer system resources than a process-based server. However, it retains much of the stability of a process-based server by keeping multiple processes available, each with many threads.</p></blockquote>
+
+<p>Unfortunately, <strong>there is always a one-to-one relationship between connections and threads.</strong> Long-living connections like Keep-Alive connections give rise to a large number of worker threads waiting in the idle state for whatever it is slow, e.g. file system access, network, etc. In addition, hundreds or even thousands of concurrent threads can waste a great deal of stack space in the memory.</p>
+
+<h3>2.2 Event-driven Architecture</h3>
+
+<p>Event-driven approach can separate threads from connections, which only uses threads for events on specific callbacks/handlers.</p>
+
+<h2>3. Reactor Pattern</h2>
+
+<p>The reactor pattern is one implementation technique of the event-driven architecture. In simple words, it uses a single threaded event loop blocking on resources emitting events and dispatches them to corresponding handlers/callbacks. There is no need to block on I/O, as long as handlers/callbacks for events are registered to take care of them. Events are like incoming a new connection, ready for read, ready for write, etc.  Those handlers/callbacks may utilize a threadpool in multi-core environments.</p>
+
+<p>This pattern decouples modular application-level code from reusable reactor implementation.</p>
+
+<h3>3.1 Reactor Pattern Explained with Echo Web Server in Java</h3>
+
+<p>Wait! <strong>Talk is cheap and show me the code :)</strong> Yeah, now let’s build an echo web server that can be tested with <code>telnet localhost 9090</code>. <a href="https://github.com/netty/netty/blob/master/example/src/main/java/io/netty/example/echo/EchoServer.java">You can also try building with Netty, a NIO client server framework</a>.</p>
+
+<p>In the following code, a single boss thread is in an event loop blocking on a selector, which is registered with several channels and handlers. Associated handlers will be executed by the boss thread for specific events (accept, read, write operations) coming from those channels. In terms of processing the request, a threadpool is still used.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">package</span> <span class="n">reactor</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.net.InetSocketAddress</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.nio.channels.Selector</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.nio.channels.SelectionKey</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.nio.channels.ServerSocketChannel</span><span class="o">;</span> <span class="c1">// listening for incoming TCP connections</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.nio.channels.SocketChannel</span><span class="o">;</span>    <span class="c1">// TCP connection</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.Iterator</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.concurrent.ExecutorService</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.concurrent.Executors</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">class</span> <span class="nc">ReactiveEchoServer</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Selector</span> <span class="n">_selector</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">final</span> <span class="n">ServerSocketChannel</span> <span class="n">_serverSocketChannel</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">WORKER_POOL_SIZE</span> <span class="o">=</span> <span class="mi">10</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">static</span> <span class="n">ExecutorService</span> <span class="n">_workerPool</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">ReactiveEchoServer</span><span class="o">(</span><span class="kt">int</span> <span class="n">port</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">_selector</span> <span class="o">=</span> <span class="n">Selector</span><span class="o">.</span><span class="na">open</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">_serverSocketChannel</span> <span class="o">=</span> <span class="n">ServerSocketChannel</span><span class="o">.</span><span class="na">open</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">_serverSocketChannel</span><span class="o">.</span><span class="na">socket</span><span class="o">().</span><span class="na">bind</span><span class="o">(</span><span class="k">new</span> <span class="n">InetSocketAddress</span><span class="o">(</span><span class="n">port</span><span class="o">));</span>
+</span><span class='line'>        <span class="n">_serverSocketChannel</span><span class="o">.</span><span class="na">configureBlocking</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// Register _serverSocketChannel with _selector listening on OP_ACCEPT events.</span>
+</span><span class='line'>       <span class="c1">// Callback: Acceptor, selected when a new connection incomes.</span>
+</span><span class='line'>        <span class="n">SelectionKey</span> <span class="n">selectionKey</span> <span class="o">=</span> <span class="n">_serverSocketChannel</span><span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="n">_selector</span><span class="o">,</span> <span class="n">SelectionKey</span><span class="o">.</span><span class="na">OP_ACCEPT</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">selectionKey</span><span class="o">.</span><span class="na">attach</span><span class="o">(</span><span class="k">new</span> <span class="n">Acceptor</span><span class="o">());</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>            <span class="c1">// Event Loop</span>
+</span><span class='line'>            <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                <span class="n">_selector</span><span class="o">.</span><span class="na">select</span><span class="o">();</span>
+</span><span class='line'>                <span class="n">Iterator</span> <span class="n">it</span> <span class="o">=</span> <span class="n">_selector</span><span class="o">.</span><span class="na">selectedKeys</span><span class="o">().</span><span class="na">iterator</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="k">while</span> <span class="o">(</span><span class="n">it</span><span class="o">.</span><span class="na">hasNext</span><span class="o">())</span> <span class="o">{</span>
+</span><span class='line'>                    <span class="n">SelectionKey</span> <span class="n">sk</span> <span class="o">=</span> <span class="o">(</span><span class="n">SelectionKey</span><span class="o">)</span> <span class="n">it</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
+</span><span class='line'>                    <span class="n">it</span><span class="o">.</span><span class="na">remove</span><span class="o">();</span>
+</span><span class='line'>                    <span class="n">Runnable</span> <span class="n">r</span> <span class="o">=</span> <span class="o">(</span><span class="n">Runnable</span><span class="o">)</span> <span class="n">sk</span><span class="o">.</span><span class="na">attachment</span><span class="o">();</span> <span class="c1">// handler or acceptor callback/runnable</span>
+</span><span class='line'>                    <span class="k">if</span> <span class="o">(</span><span class="n">r</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                        <span class="n">r</span><span class="o">.</span><span class="na">run</span><span class="o">();</span>
+</span><span class='line'>                    <span class="o">}</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">ex</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="n">ExecutorService</span> <span class="nf">getWorkerPool</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">_workerPool</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// Acceptor: if connection is established, assign a handler to it.</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">class</span> <span class="nc">Acceptor</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
+</span><span class='line'>        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>                <span class="n">SocketChannel</span> <span class="n">socketChannel</span> <span class="o">=</span> <span class="n">_serverSocketChannel</span><span class="o">.</span><span class="na">accept</span><span class="o">();</span>
+</span><span class='line'>                <span class="k">if</span> <span class="o">(</span><span class="n">socketChannel</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                    <span class="k">new</span> <span class="nf">Handler</span><span class="o">(</span><span class="n">_selector</span><span class="o">,</span> <span class="n">socketChannel</span><span class="o">);</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>            <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                <span class="n">ex</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">_workerPool</span> <span class="o">=</span> <span class="n">Executors</span><span class="o">.</span><span class="na">newFixedThreadPool</span><span class="o">(</span><span class="n">WORKER_POOL_SIZE</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">new</span> <span class="nf">Thread</span><span class="o">(</span><span class="k">new</span> <span class="n">ReactiveEchoServer</span><span class="o">(</span><span class="mi">9090</span><span class="o">)).</span><span class="na">start</span><span class="o">();</span> <span class="c1">// a single thread blocking on selector for events</span>
+</span><span class='line'>        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">ex</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">package</span> <span class="n">reactor</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.nio.ByteBuffer</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.nio.charset.Charset</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.nio.channels.Selector</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.nio.channels.SelectionKey</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.nio.channels.SocketChannel</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">class</span> <span class="nc">Handler</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
+</span><span class='line'>   <span class="kd">private</span> <span class="kd">final</span> <span class="n">SocketChannel</span> <span class="n">_socketChannel</span><span class="o">;</span>
+</span><span class='line'>   <span class="kd">private</span> <span class="kd">final</span> <span class="n">SelectionKey</span> <span class="n">_selectionKey</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">READ_BUF_SIZE</span> <span class="o">=</span> <span class="mi">1024</span><span class="o">;</span>
+</span><span class='line'>   <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">WRiTE_BUF_SIZE</span> <span class="o">=</span> <span class="mi">1024</span><span class="o">;</span>
+</span><span class='line'>   <span class="kd">private</span> <span class="n">ByteBuffer</span> <span class="n">_readBuf</span> <span class="o">=</span> <span class="n">ByteBuffer</span><span class="o">.</span><span class="na">allocate</span><span class="o">(</span><span class="n">READ_BUF_SIZE</span><span class="o">);</span>
+</span><span class='line'>   <span class="kd">private</span> <span class="n">ByteBuffer</span> <span class="n">_writeBuf</span> <span class="o">=</span> <span class="n">ByteBuffer</span><span class="o">.</span><span class="na">allocate</span><span class="o">(</span><span class="n">WRiTE_BUF_SIZE</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="kd">public</span> <span class="nf">Handler</span><span class="o">(</span><span class="n">Selector</span> <span class="n">selector</span><span class="o">,</span> <span class="n">SocketChannel</span> <span class="n">socketChannel</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span><span class='line'>       <span class="n">_socketChannel</span> <span class="o">=</span> <span class="n">socketChannel</span><span class="o">;</span>
+</span><span class='line'>       <span class="n">_socketChannel</span><span class="o">.</span><span class="na">configureBlocking</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>       <span class="c1">// Register _socketChannel with _selector listening on OP_READ events.</span>
+</span><span class='line'>       <span class="c1">// Callback: Handler, selected when the connection is established and ready for READ</span>
+</span><span class='line'>       <span class="n">_selectionKey</span> <span class="o">=</span> <span class="n">_socketChannel</span><span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="n">selector</span><span class="o">,</span> <span class="n">SelectionKey</span><span class="o">.</span><span class="na">OP_READ</span><span class="o">);</span>
+</span><span class='line'>       <span class="n">_selectionKey</span><span class="o">.</span><span class="na">attach</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span><span class='line'>       <span class="n">selector</span><span class="o">.</span><span class="na">wakeup</span><span class="o">();</span> <span class="c1">// let blocking select() return</span>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>       <span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>           <span class="k">if</span> <span class="o">(</span><span class="n">_selectionKey</span><span class="o">.</span><span class="na">isReadable</span><span class="o">())</span> <span class="o">{</span>
+</span><span class='line'>               <span class="n">read</span><span class="o">();</span>
+</span><span class='line'>           <span class="o">}</span>
+</span><span class='line'>           <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">_selectionKey</span><span class="o">.</span><span class="na">isWritable</span><span class="o">())</span> <span class="o">{</span>
+</span><span class='line'>               <span class="n">write</span><span class="o">();</span>
+</span><span class='line'>           <span class="o">}</span>
+</span><span class='line'>       <span class="o">}</span>
+</span><span class='line'>       <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>           <span class="n">ex</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class='line'>       <span class="o">}</span>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="c1">// Process data by echoing input to output</span>
+</span><span class='line'>   <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">process</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>       <span class="n">_readBuf</span><span class="o">.</span><span class="na">flip</span><span class="o">();</span>
+</span><span class='line'>       <span class="kt">byte</span><span class="o">[]</span> <span class="n">bytes</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="n">_readBuf</span><span class="o">.</span><span class="na">remaining</span><span class="o">()];</span>
+</span><span class='line'>       <span class="n">_readBuf</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">bytes</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">bytes</span><span class="o">.</span><span class="na">length</span><span class="o">);</span>
+</span><span class='line'>       <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">&quot;process(): &quot;</span> <span class="o">+</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">bytes</span><span class="o">,</span> <span class="n">Charset</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">&quot;ISO-8859-1&quot;</span><span class="o">)));</span>
+</span><span class='line'>
+</span><span class='line'>       <span class="n">_writeBuf</span> <span class="o">=</span> <span class="n">ByteBuffer</span><span class="o">.</span><span class="na">wrap</span><span class="o">(</span><span class="n">bytes</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>       <span class="c1">// Set the key&#39;s interest to WRITE operation</span>
+</span><span class='line'>       <span class="n">_selectionKey</span><span class="o">.</span><span class="na">interestOps</span><span class="o">(</span><span class="n">SelectionKey</span><span class="o">.</span><span class="na">OP_WRITE</span><span class="o">);</span>
+</span><span class='line'>       <span class="n">_selectionKey</span><span class="o">.</span><span class="na">selector</span><span class="o">().</span><span class="na">wakeup</span><span class="o">();</span>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">read</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span><span class='line'>       <span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>           <span class="kt">int</span> <span class="n">numBytes</span> <span class="o">=</span> <span class="n">_socketChannel</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">_readBuf</span><span class="o">);</span>
+</span><span class='line'>           <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;read(): #bytes read into &#39;_readBuf&#39; buffer = &quot;</span> <span class="o">+</span> <span class="n">numBytes</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>           <span class="k">if</span> <span class="o">(</span><span class="n">numBytes</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>               <span class="n">_selectionKey</span><span class="o">.</span><span class="na">cancel</span><span class="o">();</span>
+</span><span class='line'>               <span class="n">_socketChannel</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span><span class='line'>               <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;read(): client connection might have been dropped!&quot;</span><span class="o">);</span>
+</span><span class='line'>           <span class="o">}</span>
+</span><span class='line'>           <span class="k">else</span> <span class="o">{</span>
+</span><span class='line'>               <span class="n">ReactiveEchoServer</span><span class="o">.</span><span class="na">getWorkerPool</span><span class="o">().</span><span class="na">execute</span><span class="o">(</span><span class="k">new</span> <span class="n">Runnable</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>                   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>                       <span class="n">process</span><span class="o">();</span>
+</span><span class='line'>                   <span class="o">}</span>
+</span><span class='line'>               <span class="o">});</span>
+</span><span class='line'>           <span class="o">}</span>
+</span><span class='line'>       <span class="o">}</span>
+</span><span class='line'>       <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>           <span class="n">ex</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class='line'>           <span class="k">return</span><span class="o">;</span>
+</span><span class='line'>       <span class="o">}</span>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="kt">void</span> <span class="nf">write</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span><span class='line'>       <span class="kt">int</span> <span class="n">numBytes</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>       <span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>           <span class="n">numBytes</span> <span class="o">=</span> <span class="n">_socketChannel</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">_writeBuf</span><span class="o">);</span>
+</span><span class='line'>           <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;write(): #bytes read from &#39;_writeBuf&#39; buffer = &quot;</span> <span class="o">+</span> <span class="n">numBytes</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>           <span class="k">if</span> <span class="o">(</span><span class="n">numBytes</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>               <span class="n">_readBuf</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+</span><span class='line'>               <span class="n">_writeBuf</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>               <span class="c1">// Set the key&#39;s interest-set back to READ operation</span>
+</span><span class='line'>               <span class="n">_selectionKey</span><span class="o">.</span><span class="na">interestOps</span><span class="o">(</span><span class="n">SelectionKey</span><span class="o">.</span><span class="na">OP_READ</span><span class="o">);</span>
+</span><span class='line'>               <span class="n">_selectionKey</span><span class="o">.</span><span class="na">selector</span><span class="o">().</span><span class="na">wakeup</span><span class="o">();</span>
+</span><span class='line'>           <span class="o">}</span>
+</span><span class='line'>       <span class="o">}</span>
+</span><span class='line'>       <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>           <span class="n">ex</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class='line'>       <span class="o">}</span>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>3.2 Reactor Pattern, JavaScript, and Node.js</h3>
+
+<p>Node.js is a phenomenon in the Silicon Valley. Yay, it is server-side JavaScript! Atwood’s law says any application that can be written in JavaScript will eventually be written in JavaScript. My question is why it is JavaScript with powerful Node.js and its reactor pattern, not other programming languages.</p>
+
+<p>The answer may be as simple as  a single word &#8211; tradition. JavaScript has a tradition of being single threaded (though it has limited web worker API). Its concurrency model is based on an event loop. Words like “async”, “non-blocking”, and “callback”, which sound so fancy and advanced in other programming languages, are so ordinary and can be seen everywhere in the JavaScript world. In this world, if you want your APIs to be popular, you have to make them  aync and non-blocking.</p>
+
+<p>As to C# async programing with <code>async</code> and <code>await</code> keywords, that is another story.</p>
+
+<h2>References</h2>
+
+<ul>
+<li>C10k problem, http://www.kegel.com/c10k.html</li>
+<li>Architecture of a Highly Scalable NIO-Based Server, https://today.java.net/pub/a/today/2007/02/13/architecture-of-highly-scalable-nio-server.html</li>
+<li>Explain “Event-Driven” Web Servers to Your Grandma, http://daverecycles.tumblr.com/post/3104767110/explain-event-driven-web-servers-to-your-grandma</li>
+<li>Reactor pattern, http://en.wikipedia.org/wiki/Reactor_pattern</li>
+<li>JavaScript 运行机制详解：再谈Event Loop, http://www.ruanyifeng.com/blog/2014/10/event-loop.html</li>
+<li>Concurrency model and Event Loop, https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/EventLoop</li>
+<li>Concurrent Programming for Scalable Web Architectures, http://berb.github.io/diploma-thesis/index.html</li>
+<li>Scalable Event Multiplexing: epoll vs. kqueue, http://www.eecs.berkeley.edu/~sangjin/2012/12/21/epoll-vs-kqueue.html</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Notes on Code Complete II: Variables]]></title>
@@ -5514,310 +5995,6 @@ or <code>ulong</code>, but not <code>char</code>.</li>
 
 
 <p>剩下的三个，以后再许！</p>
-
-<p>EOF</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Dynamo: Amazon's Highly Available Key-value Store (SOSP'07)]]></title>
-    <link href="http://www.puncsky.com/blog/2013/04/06/dynamo-kv-store/"/>
-    <updated>2013-04-06T14:16:00-07:00</updated>
-    <id>http://www.puncsky.com/blog/2013/04/06/dynamo-kv-store</id>
-    <content type="html"><![CDATA[<p>From <a href="http://www.allthingsdistributed.com/2007/10/amazons_dynamo.html">Amazon</a></p>
-
-<h3>Comments</h3>
-
-<p>Dynamo successfully builds a highly available and scalable data store, which sacrifices consistency under certain failure scenarios but the data storage is still eventually consistent. The system is complex and thus this paper involves a huge number of details. However, the paper could not specify all of them. Some interesting parts seem to be missing. What are the supporting techniques used in Dynamo? How is it compared to other existing KV distributed store systems? Are there any possible extensions or future works?</p>
-
-<p>This paper assumes that security concerns can be ignored for its internal use. Theoretically, security problems is still possible. At least, how can the administrator detect sybil attacks?</p>
-
-<p>The author tried three partition schemes. The latter versions decouple partitioning and partition placement. The placement is changeable at run time. Consequently, the strategy 3 has a better efficiency. And the system recovers faster and it is easier to archive. However, the key space is partitioned equally into Q partitions, and every node assume Q/S tokens per node. The strategy 3 in Figure 7 is a little confusing. The author should specify that the span each node is responsible for is SIMILAR IN SIZE to each other, instead of exactly EQUAL IN SIZE to each other.</p>
-
-<!--more-->
-
-
-<h3>1. Problem</h3>
-
-<ul>
-<li>How to build a highly available key-value storage system (which will be applied to productions with demanding applications)?</li>
-<li>Assumptions:
-
-<ol>
-<li>Query model: Simple KV store with read/write operations on small objects (&lt;= 1 MB).</li>
-<li>ACID properties: Weak consistency and no isolation guarantees for high availability.</li>
-<li>Efficiency: Commodity machines. Stringent latency requirements specified by SLAs.
-
-<ul>
-<li><strong>SLA</strong> (service level agreements): a client/server agreement on clear bounds
-
-<ul>
-<li>SLA should NOT be stated in terms of mean/median response time (Some custom with longer history may require more processing and thus the performance may be ignored.)</li>
-<li>Dynamo: <strong>99.9%</strong> of the distribution based on a cost-benefit analysis.</li>
-<li>Can be customized.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>No security concerns: because of internal use.</li>
-</ol>
-</li>
-</ul>
-
-
-<h3>2. Challenges</h3>
-
-<ul>
-<li>How to achieve a strongly consistent data access interface?
-
-<ul>
-<li>Data replication algorithms. Strong consistency and high data availability cannot be achieved simultaneously. Traditionally, consistency comes first.</li>
-</ul>
-</li>
-<li>How to increase availability on failure-prone commodity clusters?
-
-<ul>
-<li>Optimistic replication techniques -> conflicting changes to be resolved -> <strong>WHEN</strong> and <strong>WHO</strong>?
-
-<ul>
-<li><strong>WHEN</strong> during writes or reads?
-
-<ul>
-<li>Traditionally, conflict is resolved during writes and keep the read complexity simple.</li>
-<li>Dynamo: rejecting writes -> poor customer experience: writes should never be rejected. <strong>(always-writable)</strong></li>
-</ul>
-</li>
-<li><strong>WHO</strong> data store or the application?
-
-<ul>
-<li>data store: ONLY last write wins (the choice is limited)</li>
-<li>the client: more flexible</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Others
-
-<ul>
-<li>Incremental scalability</li>
-<li>Symmetry (P2P)</li>
-<li>Decentralization</li>
-<li>Heterogeneity</li>
-</ul>
-</li>
-</ul>
-
-
-<h3>3. Solution</h3>
-
-<ul>
-<li>Key ideas
-
-<ul>
-<li>Sacrifice consistency under certain failure scenarios but is eventually-consistent</li>
-<li>object versioning</li>
-<li>application-assisted conflict resolution</li>
-</ul>
-</li>
-</ul>
-
-
-<h4>3.1 System Architecture</h4>
-
-<h5>Summary</h5>
-
-<table border="1">
- <tbody><tr>
-  <td>
-  <p align="center"><b>Problem</b></p>
-  </td>
-  <td>
-  <p align="center"><b>Technique</b></p>
-  </td>
-  <td>
-  <p align="center"><b>Advantage</b></p>
-  </td>
- </tr>
-<tr>
-  <td>
-   <p align="center">Partitioning</p>
-  </td>
-  <td>
-  <p align="center">Consistent Hashing</p>
-  </td>
-  <td>
-  <p align="center">Incremental Scalability</p>
-  </td>
- </tr>
- <tr>
-  <td>
-  <p align="center">High Availability for writes</p>
-  </td>
-  <td>
-  <p align="center">
-  Vector clocks with reconciliation during reads</p>
-  </td>
-  <td>
-  <p align="center">Version size is decoupled from update rates.</p>
-  </td>
- </tr>
- <tr>
-  <td><p align="center">Handling temporary failures</p>
-  </td>
-  <td>
-  <p align="center">Sloppy Quorum and hinted handoff</p>
-  </td>
-  <td>
-  <p align="center">
-  Provides high availability and durability guarantee
-  when some of the replicas are not available.</p>
-  </td>
- </tr>
- <tr>
-  <td>
-  <p align="center">
-  Recovering from permanent failures</p>
-  </td>
-  <td>
-  <p align="center">Anti-entropy using Merkle trees</p>
-  </td>
-  <td>
-  <p align="center">Synchronizes divergent replicas in the background.</p>
-  </td>
- </tr>
- <tr>
-  <td>
-  <p align="center">Membership and failure detection</p>
-  </td>
-  <td>
-  <p align="center">Gossip-based membership protocol and failure
-  detection.</p>
-  </td>
-  <td>
-  <p align="center">Preserves symmetry and avoids having a centralized
-  registry for storing membership and node liveness information.</p>
-  </td>
- </tr>
-</tbody>
-</table>
-
-
-<ul>
-<li>System Interface
-
-<ul>
-<li><em>[object/list of objects with context] get(key)</em></li>
-<li><em>put(key, context, object)    // context encodes system metadata about the object</em></li>
-<li>context and object are opaque</li>
-<li>MD5</li>
-</ul>
-</li>
-<li>Dynamic Partition
-
-<ul>
-<li>Introduce <em>virtual nodes</em> as a variant of consistent hashing.</li>
-</ul>
-</li>
-<li>Replication
-
-<ul>
-<li>Every <strong>coordinator</strong> node stores data locally and replicates them at the following <em>N-1</em> nodes in the ring.</li>
-<li>The N physical machines forms a <strong>preference list</strong>.</li>
-</ul>
-</li>
-<li>Data Versioning</li>
-<li>(Successful) Execution of put() and get()
-
-<ul>
-<li>HTTP request</li>
-<li>How to select a node? two ways:
-
-<ol>
-<li><strong>load balancer</strong> route it to any random node in the ring. If the node is not in the top N of the requested key&#8217;s preference list, the request is forwarded to the first among the top N nodes in the preference list.</li>
-<li><strong>partition-aware client library</strong> route it directly to the coordinator</li>
-</ol>
-</li>
-<li>R: min number of nodes that must participate in a successful read.</li>
-<li>W: min number of nodes that must participate in a successful write.</li>
-<li><em>R+W>N</em> -> quorum-like system</li>
-<li>How to define a successful write?
-
-<ul>
-<li>> = W-1 nodes respond</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>(Unsuccessful) Execution of put() and get()</li>
-<li>Membership
-
-<ul>
-<li>DHT + virtual nodes
-
-<h5>Implementation</h5></li>
-</ul>
-</li>
-</ul>
-
-
-<h5>Lessons Learned</h5>
-
-<ul>
-<li>Dynamo&#8217;s configurations
-
-<ul>
-<li>Business logic specific reconciliation</li>
-<li>Timestamp based reconciliation</li>
-<li>High performance read engine</li>
-</ul>
-</li>
-<li><em>N, R, W</em>
-
-<ul>
-<li>N -> durability of each object</li>
-<li>W, R -> availability, durability, and consistency</li>
-<li>Dynamo: (3,2,2)</li>
-</ul>
-</li>
-<li>Performance or Durability?
-
-<ul>
-<li>Durability can be sacrificed to lower the 99.9% latency by a factor of 5, in which object buffers will be periodically written to the disk by a <em>writer thread</em>.</li>
-</ul>
-</li>
-<li>Load balance
-
-<ol>
-<li>T random tokens per node and partition by token value.
-
-<ul>
-<li>Schemes for partitioning and partition placement are intertwined.
-a) adding a new node costs a lot but has a low priority (should not affect the customer performance) -> slow
-b) key ranges change and Merkle trees (hash trees) need re-calculation.
-c) randomness -> hard to archive the entire key spaces.</li>
-</ul>
-</li>
-<li>T random tokens per node and equal sized partitions.</li>
-<li>Q/S tokens per node, equal-sized partitions.</li>
-</ol>
-</li>
-</ul>
-
-
-<h3>4. Conclusion</h3>
-
-<ul>
-<li>“Always writable” asynchronous replication</li>
-<li>Update may not propagate all replicas</li>
-<li>put() creates a new and immutable version of data</li>
-<li>get() may return multiple versions of data</li>
-<li>Reconcile divergent versions</li>
-<li>When: during reads</li>
-<li>Who: system itself (syntactic reconciliation) client application (semantic reconciliation)</li>
-</ul>
-
 
 <p>EOF</p>
 ]]></content>

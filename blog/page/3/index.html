@@ -122,6 +122,57 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2013/04/06/dynamo-kv-store/">Dynamo: Amazon&#8217;s Highly Available Key-value Store (SOSP&#8217;07)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-06T14:16:00-07:00" pubdate data-updated="true">Apr 6<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/06/dynamo-kv-store/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>From <a href="http://www.allthingsdistributed.com/2007/10/amazons_dynamo.html">Amazon</a></p>
+
+<h3>Comments</h3>
+
+<p>Dynamo successfully builds a highly available and scalable data store, which sacrifices consistency under certain failure scenarios but the data storage is still eventually consistent. The system is complex and thus this paper involves a huge number of details. However, the paper could not specify all of them. Some interesting parts seem to be missing. What are the supporting techniques used in Dynamo? How is it compared to other existing KV distributed store systems? Are there any possible extensions or future works?</p>
+
+<p>This paper assumes that security concerns can be ignored for its internal use. Theoretically, security problems is still possible. At least, how can the administrator detect sybil attacks?</p>
+
+<p>The author tried three partition schemes. The latter versions decouple partitioning and partition placement. The placement is changeable at run time. Consequently, the strategy 3 has a better efficiency. And the system recovers faster and it is easier to archive. However, the key space is partitioned equally into Q partitions, and every node assume Q/S tokens per node. The strategy 3 in Figure 7 is a little confusing. The author should specify that the span each node is responsible for is SIMILAR IN SIZE to each other, instead of exactly EQUAL IN SIZE to each other.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/04/06/dynamo-kv-store/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2013/01/27/hadoopdb-vldb-09/">HadoopDB (VLDB&#8217;09)</a></h1>
     
     
@@ -5307,53 +5358,6 @@ vector examples</li>
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/06/cleanos/">CleanOS: Limiting Mobile Data Exposure With Idle Eviction (OSDI&#8217;12)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-06T06:40:00-08:00" pubdate data-updated="true">Dec 6<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/12/06/cleanos/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://systems.cs.columbia.edu/projects/cleanos/">Columbia University</a>, <a href="https://www.usenix.org/system/files/conference/osdi12/osdi12-final-203.pdf">paper</a> <a href="https://www.usenix.org/sites/default/files/conference/protected-files/tang_osdi12_slides.pdf">slides</a>, <a href="https://www.usenix.org/conference/osdi12/cleanos-increasing-mobile-data-control-cloud-based-eviction">video</a></p>
-
-<h3>1. Problem</h3>
-
-<p>How to protect sensitive data in mobile phones? Mobile devices are extremely prone to be stolen or lost.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/12/06/cleanos/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="/blog/page/4/">&larr; Older</a></li>
@@ -5378,6 +5382,10 @@ vector examples</li>
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2015/01/13/understanding-reactor-pattern-for-highly-scalable-i-o-bound-web-server/">Understanding Reactor Pattern for Highly Scalable I/O Bound Web Server</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/08/16/notes-on-code-complete-ii-variables/">Notes on Code Complete II: Variables</a>
       </li>
     
@@ -5391,10 +5399,6 @@ vector examples</li>
     
       <li class="post">
         <a href="/blog/2014/02/16/iit/">印度理工的手段</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/24/unreachable-peace/">心如止水不可达到</a>
       </li>
     
   </ul>
@@ -5415,7 +5419,7 @@ vector examples</li>
   </div>
   <footer role="contentinfo" class="page-footer"><hr>
 <p>
-  Copyright &copy; 2014 - Tian -
+  Copyright &copy; 2015 - Tian -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

@@ -122,6 +122,66 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2013/09/15/essential-c-sharp-advanced/">Essential C# 4.0: Advanced</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-15T13:58:00-07:00" pubdate data-updated="true">Sep 15<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/09/15/essential-c-sharp-advanced/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is the third and final part of my series of notes on learning C#.</p>
+
+<ol>
+<li><a href="http://www.puncsky.com/blog/2013/08/14/essential-c-sharp-basics/">Essential C# 4.0: Basics</a></li>
+<li><a href="http://www.puncsky.com/blog/2013/09/05/essential-c-sharp-intermediate/">Essential C# 4.0: Intermediate</a></li>
+<li>Essential C# 4.0: Advanced(this post)</li>
+</ol>
+
+
+<p>In general, C# leaves me an unpleasant impression of redundancy and tyranny. The designers of the language seem to be always mocking &#8220;oh my stupid boy, we have to spare no effort to prevent you from making stupid mistakes~&#8221; However, this idea of design is <em>good</em> to some extend.</p>
+
+<p>My passion on coding is mostly inspired by the colorful vim on Ubuntu. <em>It is amazing fun. I love it!!</em> So the first app I install on my new Windows workstation is, of course, cygwin. Now I have to use Visual Studio, so the first plugin I install on it is surely vsvim. Moreover, maybe I am not a guy of Eclipse. I can see no beauty and usability in it, although it is much more extensible than Visual Studio. The experience of configuring the build environment of Android and later Hadoop is awful and drives me crazy.</p>
+
+<p>As to the last chapters of this book, I am not interested in muti-processing/multi-threading in Windows OS, which is much slower than *nix OS and thus somewhat boring. Windows was not designed to be a multiprocessing and multi-user platform in the first place; instead, it was originally intended for <em>personal</em> usage. So I just skimmed this chapter. Maybe I will revisit it someday when I have to exhaust the computing power on Windows. May that not happen.</p>
+
+<p>At last, C# is not designed for manipulating pointers and addresses directly. Why do we bother to study it? We have C/C++ already. So I also just skimmed the last two chapters. :D</p>
+
+<p>The following is my notes.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/09/15/essential-c-sharp-advanced/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2013/09/14/h-quincy/">H-Quincy: Fair Scheduling for Hadoop Clusters</a></h1>
     
     
@@ -674,57 +734,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2013/04/06/dynamo-kv-store/">Dynamo: Amazon&#8217;s Highly Available Key-value Store (SOSP&#8217;07)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-06T14:16:00-07:00" pubdate data-updated="true">Apr 6<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/04/06/dynamo-kv-store/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>From <a href="http://www.allthingsdistributed.com/2007/10/amazons_dynamo.html">Amazon</a></p>
-
-<h3>Comments</h3>
-
-<p>Dynamo successfully builds a highly available and scalable data store, which sacrifices consistency under certain failure scenarios but the data storage is still eventually consistent. The system is complex and thus this paper involves a huge number of details. However, the paper could not specify all of them. Some interesting parts seem to be missing. What are the supporting techniques used in Dynamo? How is it compared to other existing KV distributed store systems? Are there any possible extensions or future works?</p>
-
-<p>This paper assumes that security concerns can be ignored for its internal use. Theoretically, security problems is still possible. At least, how can the administrator detect sybil attacks?</p>
-
-<p>The author tried three partition schemes. The latter versions decouple partitioning and partition placement. The placement is changeable at run time. Consequently, the strategy 3 has a better efficiency. And the system recovers faster and it is easier to archive. However, the key space is partitioned equally into Q partitions, and every node assume Q/S tokens per node. The strategy 3 in Figure 7 is a little confusing. The author should specify that the span each node is responsible for is SIMILAR IN SIZE to each other, instead of exactly EQUAL IN SIZE to each other.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/04/06/dynamo-kv-store/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="/blog/page/3/">&larr; Older</a></li>
@@ -749,6 +758,10 @@
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2015/01/13/understanding-reactor-pattern-for-highly-scalable-i-o-bound-web-server/">Understanding Reactor Pattern for Highly Scalable I/O Bound Web Server</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/08/16/notes-on-code-complete-ii-variables/">Notes on Code Complete II: Variables</a>
       </li>
     
@@ -762,10 +775,6 @@
     
       <li class="post">
         <a href="/blog/2014/02/16/iit/">印度理工的手段</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/24/unreachable-peace/">心如止水不可达到</a>
       </li>
     
   </ul>
@@ -786,7 +795,7 @@
   </div>
   <footer role="contentinfo" class="page-footer"><hr>
 <p>
-  Copyright &copy; 2014 - Tian -
+  Copyright &copy; 2015 - Tian -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
