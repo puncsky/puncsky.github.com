@@ -1,0 +1,570 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Miguel de Icaza: Callbacks 就像我们这一代人的 Go To 语句 - Puncsky CS Notebook</title>
+  <meta name="author" content="Tian">
+
+  
+  <meta name="description" content="Life and computer science notebook from Puncsky">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.puncsky.com/blog/2015/02/04/callbacks-as-our-generations-goto">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    body {
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .sharing, .meta, .pager {
+      margin: 20px 0px 20px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/libs/jquery.js"></script>
+  <script src="/javascripts/libs/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/bootstrap.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Puncsky CS Notebook" type="application/atom+xml">
+  <link href="http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,500italic,700italic,300,400,500,700,800" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js">
+  MathJax.Hub.Config({
+   extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+   jax: ["input/TeX", "output/HTML-CSS"],
+   tex2jax: {
+       inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+       displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+   },
+   "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-43072488-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <nav role="navigation"><div class="navbar navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
+      <a class="brand" href="/">Puncsky CS Notebook</a>
+
+      <div class="nav-collapse">
+        <ul class="nav">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+
+        <ul class="nav pull-right" data-subscription="rss">
+          <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+          
+        </ul>
+
+        
+          <form class="pull-right navbar-search" action="http://google.com/search" method="get">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:www.puncsky.com" />
+              <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</nav>
+  <div class="container">
+    <div class="row-fluid">
+      
+<article class="hentry span9" role="article">
+
+  
+  <header class="page-header">
+    
+      <h1 class="entry-title">Miguel De Icaza: Callbacks 就像我们这一代人的 Go to 语句</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-04T18:04:00-08:00" pubdate data-updated="true">Feb 4<span>th</span>, 2015</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>作者：<a href="http://tirania.org/blog/archive/2013/Aug-15.html">Miguel de Icaza</a></p>
+
+<p>译者：潘天 (puncsky)</p>
+
+<p>本周，我一直在准备一份讲稿，主题为“让 C# 在 iOS 和 Android 上欢唱”，我突然意识到，基于 callback 的编程，从某种程度上说，竟然成为了大家可以接受的编程方式。</p>
+
+<p>成为了大家可以接受的编程方式，就好像用 IF / GOTO 写代码在上世纪六十年代可以被大家接受一般。他们之所以可以被接受，是因为那时候没有更好的东西来替代他们。</p>
+
+<p>时至今日，C# 和 F# 都支持这种基于 callback 的编程方式。然而这种编程方式却让我们这一代人重蹈覆辙，如同六十年代结构化编程、高级语言、控制流语句对开发者所干的那些事情一般。</p>
+
+<p>可悲的是，很多开发者一听到 “C# <code>async</code>” 就立马想到了 “我的编程语言有 callback”。类似的回答还有 “<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a> 更好”，“<a href="http://en.wikipedia.org/wiki/Futures_and_promises">Future</a> 才是正道”，“Objective-C 有 <a href="https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/Blocks/Articles/00_Introduction.html">block</a> 了”，“<a href="http://en.wikipedia.org/wiki/Asynchronous_I/O">操作系统有那个功能</a>”。所有的这些说法，都出自于那些还没学习过 C# 的人之口，或者他们还不知道它有多么地美妙。</p>
+
+<p>这次，我要解释，为什么对开发者来说，C# <code>async</code> 模型是一次巨大的飞跃。</p>
+
+<h2>Callback 是创可贴</h2>
+
+<p>Callback 这些年来进展显著。在纯 C 语言的年代，如果你要用 callback ，代码会是这样的：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="kt">void</span> <span class="nf">cback</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">key</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">value</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">user_state</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// 我们的数据存在 user_state 中, 把它拿出来</span>
+</span><span class='line'>    <span class="c1">// 在这里，它就是个 int 整数</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="o">*</span><span class="n">sum</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span> <span class="n">user_state</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="o">*</span><span class="n">sum</span> <span class="o">=</span> <span class="o">*</span><span class="n">sum</span> <span class="o">+</span> <span class="o">*</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span><span class="n">value</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="nf">sum_values</span> <span class="p">(</span><span class="n">Hashtable</span> <span class="o">*</span><span class="n">hash</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">hash_table_foreach</span> <span class="p">(</span><span class="n">hash</span><span class="p">,</span> <span class="n">cback</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">sum</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>开发者不得不把这些指向状态的指针传来传去，手动管理，如此地笨拙。</p>
+
+<p>而当今这些支持 lambda 表达式的语言，能让你的代码自动保留状态。所以上面的东东就变成了这样：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="kt">int</span> <span class="nf">sum_values</span> <span class="p">(</span><span class="n">Hashtable</span> <span class="n">hash</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">sum</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">hash</span><span class="p">.</span><span class="k">foreach</span> <span class="p">((</span><span class="n">key</span><span class="p">,</span> <span class="k">value</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span> <span class="n">sum</span> <span class="p">+=</span> <span class="k">value</span><span class="p">;</span> <span class="p">});</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Lambda 让写代码更加轻松简单，如今我们能看到很多应用程序 UI 会用到 events / lambdas 与用户的输入交互，JavaScript 则在浏览器和客户端拿 callback 完成工作。</p>
+
+<p>Node.js 最初的想法就是，去掉那些阻塞的操作 (blocking operations)，取而代之以纯 callback 驱动的异步模型。就桌面应用而言，通常需要链接一系列的操作，“当响应点击的时候，下载文件，解压缩，保存到用户指定的位置”，此时，UI 操作和背景操作就交杂在一起。</p>
+
+<p>于是就产生了一些 callbacks 嵌套在另外的 callbacks 中，他们每个的缩进的层级对应着在未来的某个时间点执行。有人说，这就是 <a href="http://callbackhell.com/">Callback Hell</a>.</p>
+
+<p>本周，Marco Arment 恰好 tweet 了一条消息，大意是一堆 block callback 们深深地混杂在一起，产生了滑稽的效果。</p>
+
+<p>这其实很常见，在我们的网站上，做异步操作时，我们发布了这样的范例：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">private</span> <span class="k">void</span> <span class="nf">SnapAndPost</span> <span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">Busy</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">UpdateUIStatus</span> <span class="p">(</span><span class="s">&quot;Taking a picture&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">picker</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Xamarin</span><span class="p">.</span><span class="n">Media</span><span class="p">.</span><span class="n">MediaPicker</span> <span class="p">();</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">picTask</span> <span class="p">=</span> <span class="n">picker</span><span class="p">.</span><span class="n">TakePhotoAsync</span> <span class="p">(</span><span class="k">new</span> <span class="n">Xamarin</span><span class="p">.</span><span class="n">Media</span><span class="p">.</span><span class="n">StoreCameraMediaOptions</span> <span class="p">());</span>
+</span><span class='line'>    <span class="n">picTask</span><span class="p">.</span><span class="n">ContinueWith</span> <span class="p">((</span><span class="n">picRetTask</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">InvokeOnMainThread</span> <span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="n">picRetTask</span><span class="p">.</span><span class="n">IsCanceled</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">Busy</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span><span class='line'>                <span class="n">UpdateUIStatus</span> <span class="p">(</span><span class="s">&quot;Canceled&quot;</span><span class="p">);</span>
+</span><span class='line'>            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                <span class="kt">var</span> <span class="n">tagsCtrl</span> <span class="p">=</span> <span class="k">new</span> <span class="n">GetTagsUIViewController</span> <span class="p">(</span><span class="n">picRetTask</span><span class="p">.</span><span class="n">Result</span><span class="p">.</span><span class="n">GetStream</span> <span class="p">());</span>
+</span><span class='line'>                <span class="n">PresentViewController</span> <span class="p">(</span><span class="n">tagsCtrl</span><span class="p">,</span> <span class="k">true</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="n">UpdateUIStatus</span> <span class="p">(</span><span class="s">&quot;Submitting picture to server&quot;</span><span class="p">);</span>
+</span><span class='line'>                    <span class="kt">var</span> <span class="n">uploadTask</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Task</span> <span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span><span class='line'>                        <span class="k">return</span> <span class="nf">PostPicToService</span> <span class="p">(</span><span class="n">picRetTask</span><span class="p">.</span><span class="n">Result</span><span class="p">.</span><span class="n">GetStream</span> <span class="p">(),</span> <span class="n">tagsCtrl</span><span class="p">.</span><span class="n">Tags</span><span class="p">);</span>
+</span><span class='line'>                    <span class="p">});</span>
+</span><span class='line'>                    <span class="n">uploadTask</span><span class="p">.</span><span class="n">ContinueWith</span> <span class="p">((</span><span class="n">uploadRetTask</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span><span class='line'>                        <span class="n">InvokeOnMainThread</span> <span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span><span class='line'>                            <span class="n">Busy</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span><span class='line'>                            <span class="n">UpdateUIStatus</span> <span class="p">(</span><span class="n">uploadRetTask</span><span class="p">.</span><span class="n">Result</span><span class="p">.</span><span class="n">Failed</span> <span class="p">?</span> <span class="s">&quot;Canceled&quot;</span> <span class="p">:</span> <span class="s">&quot;Success&quot;</span><span class="p">);</span>
+</span><span class='line'>                        <span class="p">});</span>
+</span><span class='line'>                    <span class="p">});</span>
+</span><span class='line'>                    <span class="n">uploadTask</span><span class="p">.</span><span class="n">Start</span> <span class="p">();</span>
+</span><span class='line'>                <span class="p">});</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">});</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这般 callback 们嵌套所导致的问题是，你会很快发现，你根本就不想碰这堆乱糟糟的代码。它确实做了一些基本的错误处理 (basic error handling)，但是却没有丝毫做好错误恢复 (error recover)的意图。</p>
+
+<p>我停下来慢慢思考，如何扩展上述功能，或许还有更好地做法，能够让我避免这种潦草的实现？</p>
+
+<p>如果我想要更好的错误恢复，代码逻辑更加流畅，我会发现，需要类似记流水账一般，在每一处代码的出口，（以及我可能会拓展处的出口），手动核对每个 <code>Busy</code> 值的正确性，真烦躁。</p>
+
+<p>这种丑陋的实现会让你走神：&#8221;或许可以刷一刷 hacker news 啦&#8221;，&#8221;又有新的喵星人帖到 catoverflow.com 上了吗？&#8221;</p>
+
+<p>注意，如上代码中每一个 lambda  都会产生一次上下文切换：从背景线程 (background threads) 切换到前景线程 (foreground threads) 。可以想象，真实世界中这种代码会更加地庞杂，加入更多的功能，也就会有更多的 bug 积累在犄角旮旯，难以被注意得到。</p>
+
+<p>这让我想到了 Dijkstra 的 《Go To 语句有害论》，他在六十年代是这么说的：</p>
+
+<blockquote><p>多年来，我一直注意到，程序员的水平和他们goto语句的使用频率成递减关系。直到前段时间，我发现了为什么使用goto语句会有如此恶劣的影响。我相信所有的“高级”编程语言都不应该再支持goto语句。那时候我还没有意识到这一发现的重要性，但在直到最近的一次讨论中，有人敦促我发表这些看法，我才提交这篇文章。</p>
+
+<p>我的第一个看法是，虽然程序员的工作在他们写出了正确的程序 (program) 后就结束了，但在此程序控制下的进程 (process) 才是真正重要的，因为正是进程来达成预期的效果，正是进程的动态行为要满足程序员预期的规范。一旦程序写完后，相应的进程就转交给了机器来做了。</p>
+
+<p>我的第二个看法是，<strong>我们的大脑善于处理静态关系，却不善于想象随时间推进的进程。</strong>所以我们应该（聪明的程序员明白自己的局限性）尽力缩小静态程序和动态进程之间的概念差距，让文本里的程序 (program) 和时间轴上的进程 (process) 的对应关系尽量简单。</p></blockquote>
+
+<p>而这，恰恰是我们现在正在面对的问题——混杂嵌套的 callback 所导致的问题。</p>
+
+<p>就像是那 GOTO 的年代，或者是手动内存管理的年代，我们这一代人也正在成为光荣的会计师，勤勤恳恳地在每条代码路径下核查那些状态，该重置的重置，该修改的修改，该抛弃的抛弃，该交付的交付。</p>
+
+<p>作为一个可以进化的物种，我们理所应当地能够做得更好。</p>
+
+<p>就在这个节骨眼上，C# <code>async</code> （和 F#）到来了。每当你在程序中放入<code>await</code> 关键字，编译器就知道你程序中的这一点需要被挂起，切换做某背景操作。一旦 task 执行完毕，程序执行就恢复到这 <code>await</code> 一点的位置。</p>
+
+<p>如上丑陋的代码，会变成这样：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">private</span> <span class="k">async</span> <span class="n">Task</span> <span class="nf">SnapAndPostAsync</span> <span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">try</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Busy</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">UpdateUIStatus</span> <span class="p">(</span><span class="s">&quot;Taking a picture&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="kt">var</span> <span class="n">picker</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Xamarin</span><span class="p">.</span><span class="n">Media</span><span class="p">.</span><span class="n">MediaPicker</span> <span class="p">();</span>
+</span><span class='line'>        <span class="kt">var</span> <span class="n">mFile</span> <span class="p">=</span> <span class="k">await</span> <span class="n">picker</span><span class="p">.</span><span class="n">TakePhotoAsync</span> <span class="p">(</span><span class="k">new</span> <span class="n">Xamarin</span><span class="p">.</span><span class="n">Media</span><span class="p">.</span><span class="n">StoreCameraMediaOptions</span> <span class="p">());</span>
+</span><span class='line'>        <span class="kt">var</span> <span class="n">tagsCtrl</span> <span class="p">=</span> <span class="k">new</span> <span class="n">GetTagsUIViewController</span> <span class="p">(</span><span class="n">mFile</span><span class="p">.</span><span class="n">GetStream</span> <span class="p">());</span>
+</span><span class='line'>        <span class="c1">// Call new iOS await API</span>
+</span><span class='line'>        <span class="k">await</span> <span class="nf">PresentViewControllerAsync</span> <span class="p">(</span><span class="n">tagsCtrl</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">UpdateUIStatus</span> <span class="p">(</span><span class="s">&quot;Submitting picture to server&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">await</span> <span class="nf">PostPicToServiceAsync</span> <span class="p">(</span><span class="n">mFile</span><span class="p">.</span><span class="n">GetStream</span> <span class="p">(),</span> <span class="n">tagsCtrl</span><span class="p">.</span><span class="n">Tags</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">UpdateUIStatus</span> <span class="p">(</span><span class="s">&quot;Success&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">OperationCanceledException</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">UpdateUIStatus</span> <span class="p">(</span><span class="s">&quot;Canceled&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">finally</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Busy</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>编译器处理如上代码后，编译的产物和人写的代码间就没有（按照同样的顺序）一行行直接对应的关系了。类似的事情会发生在 C# iterator  甚至 lambda 身上。</p>
+
+<p>这种代码看上去很线性，这样一来，我就能信心满满地修改程序流。或是使用条件语句开不同的背景进程，或是使用循环语句把图片存到不同的位置，又或是一次性使用多个过滤器。Jeremie 恰巧写了篇<a href="https://blog.neteril.org/blog/2013/07/05/data-extraction-mobile-apps-with-xamarin/">不错的文章做这些事情</a>。</p>
+
+<p>注意，因为 <code>finally</code> 语句，<code>Busy</code> 状态的处理变得集中而简洁。我现在能够保证，变量总是合理地得到了维护，无论在这段代码长怎么样，发生了什么。</p>
+
+<p>记流水账这种事情，就交给了编译器。</p>
+
+<p><code>async</code> 让我能够动用流程图上的那些基本元素，来思考我的软件。而不是按照那些紧紧耦合在一起的混乱而粗糙的进程们来做同样的事情。</p>
+
+<h2>思维的解放</h2>
+
+<p>C# 编译器处理 <code>async</code> 的基础是 <code>Task</code> 原生类型。<code>Task</code> 类正是其他编程语言所谓的那些 future, promise 和 async，难免会导致混淆。</p>
+
+<p>此刻，我把所有的这些框架（包括 .NET 里的这只）都比作很底层的基础水暖管道。</p>
+
+<p><code>Task</code> 类封装一系列的操作，由一些 properties 来反应它们的执行状态、结果（如果完成的话）、抛出的异常或者错误。有很丰富的 API 来有趣地组合这些 task ：等待所有、等待一些、聚合很多个成一个，等等不一而足。</p>
+
+<p>那些（callback 的做法）尽管很重要，比起你自己惯常的做法已经是很大的进步了，但它们却并不能帮你解放思维。C# <code>async</code> 却可以。</p>
+
+<h2>关于 <code>async</code> 关键字的常见问答</h2>
+
+<p>借这次机会，我要直接回答下列问题：</p>
+
+<p>问：每次使用 <code>async</code> 的时候会创建新的线程么？</p>
+
+<p>答：当你使用 <code>async</code> method 的时候，你的操作被封装在 <code>Task</code> (或者 <code>Task&lt;T&gt;</code>) 对象中。有时候，这些操作需要另一个线程去跑；有时候，这些操作会进入事件队列，供给事件循环去处理(runloop)；有时候，这些操作会调用带有通知机制的内核异步API. 你不会确定地知道幕后到底发生了什么，这取决于 <code>async</code> method 自己的实现。(译者注：调用 <code>async</code> method 不会产生新的线程，但是 <code>async</code> method 内部，开发者自己定义的实现里面可以开新的线程。)</p>
+
+<p>问：在使用 <code>async</code> 的时候，你似乎不再需要 <code>InvokeOnMainThread</code>了，为啥呢？</p>
+
+<p>答：当 task 结束的时候，执行流程会默认恢复到当下同步的上下文，这是因为 <code>ThreadLocal</code> 的 property 指向了<code>SynchronizationContext</code> 的某个具体实现。</p>
+
+<p>在 iOS 和 Android 上，我们在 UI 线程设定一个<code>SynchronizationContext</code>，确保代码每次都恢复到主线程上。微软在它们的平台上也在做同样的事情。</p>
+
+<p>而且，在 iOS 上，我们还有一个 <code>DispatchQueue</code> 同步上下文，因此默认情况下，用<a href="https://developer.apple.com/library/ios/documentation/General/Conceptual/ConcurrencyProgrammingGuide/OperationQueues/OperationQueues.html">Grand Central Dispatch (GCD)</a>调用 await ，完成后会回到那个 queue.</p>
+
+<p>当然你可以调整这一行为，用 <code>SynchronizationContext</code> 和 <code>ConfigureAwait</code>。</p>
+
+<p>最后，PFX team 有篇不错的  <a href="http://blogs.msdn.com/b/pfxteam/archive/2012/04/12/async-await-faq.aspx">FAQ for Async and Await</a>.</p>
+
+<h2><code>async</code> 的参考资源</h2>
+
+<p>这儿有些不错的 <code>async</code> 学习资料：</p>
+
+<ul>
+<li>Microsoft&#8217;s <a href="http://www.microsoft.com/en-us/download/details.aspx?id=19957">Task-based Asynchronous Pattern</a> shows great idioms to use with Async.</li>
+<li><a href="http://blogs.msdn.com/b/pfxteam/">Parallel Programming with .NET blog</a>.</li>
+<li><a href="http://praeclarum.org/post/45277337108/await-in-the-land-of-ios-scripting-users">Very cute use of Async</a> for adding an interactive walkthrough to your mobile app.</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Tian</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-04T18:04:00-08:00" pubdate data-updated="true">Feb 4<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/programming-language/'>programming_language</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.puncsky.com/blog/2015/02/04/callbacks-as-our-generations-goto/" data-via="" data-counturl="http://www.puncsky.com/blog/2015/02/04/callbacks-as-our-generations-goto/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    
+    <section>
+      <h1>Comments</h1>
+      <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </section>
+    
+    <ul class="pager">
+      
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/2015/01/13/understanding-reactor-pattern-for-highly-scalable-i-o-bound-web-server/" title="Previous Post:
+        Understanding Reactor Pattern for Highly Scalable I/O Bound Web Server">&laquo; Understanding Reactor Pattern for Highly Scalable I/O Bound Web Server</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+    </ul>
+  </footer>
+</article>
+
+<aside class="sidebar-nav span3">
+  
+    <section class="well">
+  <script src="/javascripts/onmouseoverpuncsky.js" type="text/javascript"> </script>
+  <img onmouseover="enlight(this)" onmouseout="darken(this)" src="/puncsky-gray.png" alt="puncsky" style="max-width:100%;">
+  <h4>Puncsky</h4>
+  <p><i>who strives on and lives to strive</i></p>
+  <p><a href="https://www.github.com/puncsky/">Github</a></p>
+</section>
+<section class="well">
+  <ul id="recent_posts" class="nav nav-list">
+    <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2015/02/04/callbacks-as-our-generations-goto/">Miguel de Icaza: Callbacks 就像我们这一代人的 Go To 语句</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/01/13/understanding-reactor-pattern-for-highly-scalable-i-o-bound-web-server/">Understanding Reactor Pattern for Highly Scalable I/O Bound Web Server</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/08/16/notes-on-code-complete-ii-variables/">Notes on Code Complete II: Variables</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/08/16/notes-on-code-complete-ii-layout-and-style/">Notes on Code Complete II: Layout and Style</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/08/16/notes-on-code-complete-ii-creating-high-quality-code/">Notes on Code Complete II: Creating High Quality Code</a>
+      </li>
+    
+  </ul>
+</section>
+<section class="well">
+	<div id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://www.puncsky.com', 'user' : 1100959, 'server' : '2', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2013-06-24', 'lang' : 'en', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www2.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www2.clustrmaps.com/user/92810cc9f"><img src="http://www2.clustrmaps.com/stats/maps-no_clusters/www.puncsky.com-thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo" class="page-footer"><hr>
+<p>
+  Copyright &copy; 2015 - Tian -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'puncsky';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://www.puncsky.com/blog/2015/02/04/callbacks-as-our-generations-goto/';
+        var disqus_url = 'http://www.puncsky.com/blog/2015/02/04/callbacks-as-our-generations-goto/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

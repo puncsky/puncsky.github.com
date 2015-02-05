@@ -122,6 +122,53 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2012/11/20/three-papers-review-about-deterministic-parallelism/">Three Papers Review About Deterministic Parallelism</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-20T16:10:00-08:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/11/20/three-papers-review-about-deterministic-parallelism/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://dedis.cs.yale.edu/2010/det/">Yale Dedis</a></p>
+
+<h3>1. Efficient System-Enforced Deterministic Parallelism (OSDI’10)</h3>
+
+<p>Parallelism introduces 1) non-determinism and 2) data races (heisenbugs). Determinism means that a given input always produces the same output. In other words, input alone determines the output, regardless of extrinsic events such as the OS’s thread scheduling.</p>
+
+<p>To achieve determinism,</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/20/three-papers-review-about-deterministic-parallelism/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2012/11/20/quincy-fair-scheduling-for-distributed-computing-clusters-sosp-09/">Quincy: Fair Scheduling for Distributed Computing Clusters (SOSP &#8216;09)</a></h1>
     
     
@@ -701,68 +748,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2010/11/19/from-io-error-to-evolution/">从游戏光盘的输入输出错误谈到浪潮之巅的进步法则</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-11-19T05:56:00-08:00" pubdate data-updated="true">Nov 19<span>th</span>, 2010</time>
-        
-         | <a href="/blog/2010/11/19/from-io-error-to-evolution/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>多少年后，我或许还能够记得那些个橘黄色的下午，知了在叫嚣，房间里回荡着鼠标、键盘、调制解调器以及风扇的声音。那是临近新世纪的前几年，表哥与我在他的电脑上一同见证了一系列神奇的故事，比如，红警中电塔与坦克混战的海洋、来自台湾的小虾米在江湖上无厘头的闯荡、李逍遥大叔先上车不买票的伎俩、为了获取资源妄图把黑森林地图的树木全部采光、在矿区的后方把金甲虫和光明圣堂空降。当然，在互联网尚未发达的年代，所有这些神奇的上层建筑必须是以一张张CD-ROM为经济基础的。俗话说得好，软驱越用越好，光驱越用越坏……我们坏坏的光驱在安装游戏进度条的最后一刻经常会弹出&#8221;I/O错误&#8221;，导致所有望穿秋水的期待在瞬间功亏一篑。此时，我就会一边吸鼻涕一边纯真地问道，“这是为什么乜？”老哥就会像一位慈祥的老者耐心地回答道，“1除以0本身就是一个不存在的数，因此光驱出错是一件很正常的事情啊。”</p>
-
-<p>是为序。(I/O错误即输入/输出错误Input/Output Error)</p>
-
-<p>输入与输出真是一门学问，它不仅决定着孩子们能否欢愉地度过一个个下午，而且貌似还决定着青年们能否欢愉地度过一生。我高中的时候有幸耳闻了朱元晨的光辉事迹，这位大牛人绝对是属于少年天才获奖获到手抽筋的那种类型。我在网上搜集了他的相关文章重点学习，有一段谈英语学习的，至今记忆犹新：</p>
-
-<blockquote><p>“我父亲在训练我时，将“听说读写”的训练方法改成了“读听写说”的训练方法。这当然不是一个简单的换字游戏。实际上他把英语的学习划分成了输入（读和听）训练和输出（写和说）训练两个部分，认为一个学生在中文环境下学习英语时不可能在这两者上均衡花力气，也不必均衡花力气。正确的方法应该把训练的重点先放在前者，即学生英语输入能力的训练，强化先输入后输出的语言学习原则，从而使得整个的英语学习过程更符合人类语言学习的规律。”</p></blockquote>
-
-<p>在海量的输入过后，自然而然的就会有输出，就像天龙八部里的游坦之，即便是偶然修炼易筋经，把内力提高到一定程度后，也能在打斗的过程中举手投足之间发出浑厚的内劲；就像现代计算机之父高纳德(Knuth)所言，TeX学的最好的往往是那些“笨拙地”把整本书所有代码一个一个敲下来的人。</p>
-
-<p>来到大学之后，英语老师岸青哥反复向我们强调：一定要海量阅读原著。出于对岸青哥“兄弟当年在英国的时候”屋外风雨如注书里呼啸山庄嗑瓜子的风范的强烈崇拜，我亦是像模像样地开始了原著的阅读道路。其实，早在大一上，我就一直坚持NYtimes、MIT某原版计算机教材的阅读，可惜自我感觉效果都不大好，导致后来一年基本上没怎么认真学英语，所有英语考试都是裸考，分数不高。痛定思痛，于是在今年年初下定决心开始认真学英语，从G和T入手。久而久之，我就发现一个道理：“勿在浮沙筑高台。”(这么高雅的说法自然不是我的原创，而是来自我们业内知名的《深入浅出MFC》的作者侯俊杰老师。)为什么？因为“不在其位不谋其政”，词汇量没有达到那种水平，就不要看多余的东西嘛。一来磕磕绊绊完全没有快感可言；二来即便通过阅读与摘录的方式记单词，效率底下不说，记单词的纸或者本子还很容易丢。所以说，如果再给我一个选择的机会的话，我会推迟看书的满足感，把最最基础的输入训练——背GT单词 的任务放到大一。</p>
-
-<p>谈到满足感，在《少有人走的路》中的自律四原则，就极其明确而且首屈一指地提出了“推迟满足感”的概念——推迟满足感、承担责任、尊重事实、保持平衡。输入与输出原来还是一种人生态度呢。我们有一系列的短语可以例证“输出决定于输入”：潜移默化、耳濡目染、孟母三迁、近朱者赤近墨者黑等等。如果说输入是一种投资的话，输出则可以说是一种消费：投资获得能力，消费让人获得满足感。我们应该更看重能力的培养，而非抓住机会。</p>
-
-<p>多年前我会以为，机会是怎样来的？它不是天上掉下来的，是自己争取而来的。但是，三年来，各种事情见得多了，又学会了另外一句话：机会尽管重要，但它是瞬间的，更重要的是能力，因为能力需要长期的培养。拿能力的积累和权力的更替来说，举个例子，柏杨《中国人史纲》讲到南北朝和隋朝，在目睹了大分裂时代下各种扯淡的白 痴皇帝的所作所为之后，就反复强调：权力不等于能力。</p>
-
-<blockquote><p>“五○五年，萧衍命他的弟弟萧宏亲王当总司令，统军北伐。只不过四年前，萧宏还是南齐帝国一个平民庶姓的微不足道的低级职员（功曹史），可是他既当了亲王，权力就是能力了，他遂成为大兵团的最高指挥官，渡过淮河，进入敌境。但他心中却十分恐惧，推进了十数公里，到达洛口（安徽怀远），即不敢再进。明年（五○六），北魏反攻部队陆续集结，萧宏更加神魂不安，几次都要撤退，被一些将领苦苦留住。可是，一个暴风雨的晚上，营中发生夜惊，稍为熟习军旅生活的人都知道，夜惊是平常的事。萧宏却心胆俱裂，竟抛下他所统率的大军。秘密乘坐小艇逃走。等到天亮，将士们才发现失去元帅，全军立刻崩溃，抢先渡淮河南奔，互相争夺残杀，死伤五万余人，却连敌人的影子都没有看见。然而最奇异的是，萧宏高官贵爵如故。”</p></blockquote>
-
-<p>“中国永不称霸”或许正是意识到“权力不等于能力”后的产物，我们“韬光养晦”也好，我们“闷声发大财”也好，国家实力的提升是不言而喻的：一个国家霸气不霸气是无需多言的，我宣称也好，不宣称也好；你接受也好，不接受也好——都没有关系，只要我强大了，就不会挨打。反倒是如果刻意去装树大，必定是树大招风，必定是枪打出头鸟。韩国和朝鲜就是最好的例证。蜘蛛侠的爷爷说得好：能力越大，责任越大。在各国之间出面斡旋地太多，反倒更多地会受到各国的干涉。</p>
-
-<p>当然，不可否认，即便能力不到，也会随着那个位置而进步。像谷歌的吴军博士所言，到达了浪潮的巅峰，即便没有任何动作，也能够随着浪潮向前进步，独领风骚数十年。摩托罗拉公司在二战时期不可一世，今天我们在各种反应二战时期的电影、照片中都可以看见那些背着“大箱子”的通讯兵，那些“大箱子”则大多是摩托罗拉制造。军工出身的摩托罗拉当年擅长的领域是模拟信号的手机（大哥大），不在乎数字信号手机的研发，在数字信号手机大行其道的今天，尽管手机市场的大部头份额被诺基亚、苹果、三星占去，但是瘦死的骆驼比马大，我们发现摩托罗拉仍旧是占有手机市场的一席之地。</p>
-
-<p>最后，放眼现实，在各种诱惑充斥的今天，埋头打磨基本功的永远是最令人佩服的人。在狭小的校园，即便是站在浪潮之巅，又能冲多远？</p>
-
-<p>EOF</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="/blog/page/6/">&larr; Older</a></li>
@@ -787,6 +772,10 @@
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2015/02/04/callbacks-as-our-generations-goto/">Miguel de Icaza: Callbacks 就像我们这一代人的 Go To 语句</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/01/13/understanding-reactor-pattern-for-highly-scalable-i-o-bound-web-server/">Understanding Reactor Pattern for Highly Scalable I/O Bound Web Server</a>
       </li>
     
@@ -800,10 +789,6 @@
     
       <li class="post">
         <a href="/blog/2014/08/16/notes-on-code-complete-ii-creating-high-quality-code/">Notes on Code Complete II: Creating High Quality Code</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/02/16/iit/">印度理工的手段</a>
       </li>
     
   </ul>

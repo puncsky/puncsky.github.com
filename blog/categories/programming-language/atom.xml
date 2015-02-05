@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming_language | Puncsky CS Notebook]]></title>
   <link href="http://www.puncsky.com/blog/categories/programming-language/atom.xml" rel="self"/>
   <link href="http://www.puncsky.com/"/>
-  <updated>2015-01-13T22:49:50-08:00</updated>
+  <updated>2015-02-04T18:12:10-08:00</updated>
   <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -12,6 +12,222 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Miguel de Icaza: Callbacks 就像我们这一代人的 Go To 语句]]></title>
+    <link href="http://www.puncsky.com/blog/2015/02/04/callbacks-as-our-generations-goto/"/>
+    <updated>2015-02-04T18:04:00-08:00</updated>
+    <id>http://www.puncsky.com/blog/2015/02/04/callbacks-as-our-generations-goto</id>
+    <content type="html"><![CDATA[<p>作者：<a href="http://tirania.org/blog/archive/2013/Aug-15.html">Miguel de Icaza</a></p>
+
+<p>译者：潘天 (puncsky)</p>
+
+<p>本周，我一直在准备一份讲稿，主题为“让 C# 在 iOS 和 Android 上欢唱”，我突然意识到，基于 callback 的编程，从某种程度上说，竟然成为了大家可以接受的编程方式。</p>
+
+<p>成为了大家可以接受的编程方式，就好像用 IF / GOTO 写代码在上世纪六十年代可以被大家接受一般。他们之所以可以被接受，是因为那时候没有更好的东西来替代他们。</p>
+
+<p>时至今日，C# 和 F# 都支持这种基于 callback 的编程方式。然而这种编程方式却让我们这一代人重蹈覆辙，如同六十年代结构化编程、高级语言、控制流语句对开发者所干的那些事情一般。</p>
+
+<p>可悲的是，很多开发者一听到 “C# <code>async</code>” 就立马想到了 “我的编程语言有 callback”。类似的回答还有 “<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a> 更好”，“<a href="http://en.wikipedia.org/wiki/Futures_and_promises">Future</a> 才是正道”，“Objective-C 有 <a href="https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/Blocks/Articles/00_Introduction.html">block</a> 了”，“<a href="http://en.wikipedia.org/wiki/Asynchronous_I/O">操作系统有那个功能</a>”。所有的这些说法，都出自于那些还没学习过 C# 的人之口，或者他们还不知道它有多么地美妙。</p>
+
+<p>这次，我要解释，为什么对开发者来说，C# <code>async</code> 模型是一次巨大的飞跃。</p>
+
+<h2>Callback 是创可贴</h2>
+
+<p>Callback 这些年来进展显著。在纯 C 语言的年代，如果你要用 callback ，代码会是这样的：</p>
+
+<p>``` c
+void cback (void <em>key, void </em>value, void *user_state)
+{</p>
+
+<pre><code>// 我们的数据存在 user_state 中, 把它拿出来
+// 在这里，它就是个 int 整数
+int *sum = (int *) user_state;
+
+*sum = *sum + *(int *)value;
+</code></pre>
+
+<p>}</p>
+
+<p>int sum_values (Hashtable *hash)
+{</p>
+
+<pre><code>int sum = 0;
+
+hash_table_foreach (hash, cback, &amp;sum);
+return sum;
+</code></pre>
+
+<p>}
+```</p>
+
+<p>开发者不得不把这些指向状态的指针传来传去，手动管理，如此地笨拙。</p>
+
+<p>而当今这些支持 lambda 表达式的语言，能让你的代码自动保留状态。所以上面的东东就变成了这样：</p>
+
+<p>``` csharp
+int sum_values (Hashtable hash)
+{</p>
+
+<pre><code>int sum = 0;
+hash.foreach ((key, value) =&gt; { sum += value; });
+return sum;
+</code></pre>
+
+<p>}
+```</p>
+
+<p>Lambda 让写代码更加轻松简单，如今我们能看到很多应用程序 UI 会用到 events / lambdas 与用户的输入交互，JavaScript 则在浏览器和客户端拿 callback 完成工作。</p>
+
+<p>Node.js 最初的想法就是，去掉那些阻塞的操作 (blocking operations)，取而代之以纯 callback 驱动的异步模型。就桌面应用而言，通常需要链接一系列的操作，“当响应点击的时候，下载文件，解压缩，保存到用户指定的位置”，此时，UI 操作和背景操作就交杂在一起。</p>
+
+<p>于是就产生了一些 callbacks 嵌套在另外的 callbacks 中，他们每个的缩进的层级对应着在未来的某个时间点执行。有人说，这就是 <a href="http://callbackhell.com/">Callback Hell</a>.</p>
+
+<p>本周，Marco Arment 恰好 tweet 了一条消息，大意是一堆 block callback 们深深地混杂在一起，产生了滑稽的效果。</p>
+
+<p>这其实很常见，在我们的网站上，做异步操作时，我们发布了这样的范例：</p>
+
+<p>``` csharp
+private void SnapAndPost ()
+{</p>
+
+<pre><code>Busy = true;
+UpdateUIStatus ("Taking a picture");
+var picker = new Xamarin.Media.MediaPicker ();
+var picTask = picker.TakePhotoAsync (new Xamarin.Media.StoreCameraMediaOptions ());
+picTask.ContinueWith ((picRetTask) =&gt; {
+    InvokeOnMainThread (() =&gt; {
+        if (picRetTask.IsCanceled) {
+            Busy = false;
+            UpdateUIStatus ("Canceled");
+        } else {
+            var tagsCtrl = new GetTagsUIViewController (picRetTask.Result.GetStream ());
+            PresentViewController (tagsCtrl, true, () =&gt; {
+                UpdateUIStatus ("Submitting picture to server");
+                var uploadTask = new Task (() =&gt; {
+                    return PostPicToService (picRetTask.Result.GetStream (), tagsCtrl.Tags);
+                });
+                uploadTask.ContinueWith ((uploadRetTask) =&gt; {
+                    InvokeOnMainThread (() =&gt; {
+                        Busy = false;
+                        UpdateUIStatus (uploadRetTask.Result.Failed ? "Canceled" : "Success");
+                    });
+                });
+                uploadTask.Start ();
+            });
+        }
+    });
+});
+</code></pre>
+
+<p>}
+```</p>
+
+<p>这般 callback 们嵌套所导致的问题是，你会很快发现，你根本就不想碰这堆乱糟糟的代码。它确实做了一些基本的错误处理 (basic error handling)，但是却没有丝毫做好错误恢复 (error recover)的意图。</p>
+
+<p>我停下来慢慢思考，如何扩展上述功能，或许还有更好地做法，能够让我避免这种潦草的实现？</p>
+
+<p>如果我想要更好的错误恢复，代码逻辑更加流畅，我会发现，需要类似记流水账一般，在每一处代码的出口，（以及我可能会拓展处的出口），手动核对每个 <code>Busy</code> 值的正确性，真烦躁。</p>
+
+<p>这种丑陋的实现会让你走神："或许可以刷一刷 hacker news 啦"，"又有新的喵星人帖到 catoverflow.com 上了吗？"</p>
+
+<p>注意，如上代码中每一个 lambda  都会产生一次上下文切换：从背景线程 (background threads) 切换到前景线程 (foreground threads) 。可以想象，真实世界中这种代码会更加地庞杂，加入更多的功能，也就会有更多的 bug 积累在犄角旮旯，难以被注意得到。</p>
+
+<p>这让我想到了 Dijkstra 的 《Go To 语句有害论》，他在六十年代是这么说的：</p>
+
+<blockquote><p>多年来，我一直注意到，程序员的水平和他们goto语句的使用频率成递减关系。直到前段时间，我发现了为什么使用goto语句会有如此恶劣的影响。我相信所有的“高级”编程语言都不应该再支持goto语句。那时候我还没有意识到这一发现的重要性，但在直到最近的一次讨论中，有人敦促我发表这些看法，我才提交这篇文章。</p>
+
+<p>我的第一个看法是，虽然程序员的工作在他们写出了正确的程序 (program) 后就结束了，但在此程序控制下的进程 (process) 才是真正重要的，因为正是进程来达成预期的效果，正是进程的动态行为要满足程序员预期的规范。一旦程序写完后，相应的进程就转交给了机器来做了。</p>
+
+<p>我的第二个看法是，<strong>我们的大脑善于处理静态关系，却不善于想象随时间推进的进程。</strong>所以我们应该（聪明的程序员明白自己的局限性）尽力缩小静态程序和动态进程之间的概念差距，让文本里的程序 (program) 和时间轴上的进程 (process) 的对应关系尽量简单。</p></blockquote>
+
+<p>而这，恰恰是我们现在正在面对的问题——混杂嵌套的 callback 所导致的问题。</p>
+
+<p>就像是那 GOTO 的年代，或者是手动内存管理的年代，我们这一代人也正在成为光荣的会计师，勤勤恳恳地在每条代码路径下核查那些状态，该重置的重置，该修改的修改，该抛弃的抛弃，该交付的交付。</p>
+
+<p>作为一个可以进化的物种，我们理所应当地能够做得更好。</p>
+
+<p>就在这个节骨眼上，C# <code>async</code> （和 F#）到来了。每当你在程序中放入<code>await</code> 关键字，编译器就知道你程序中的这一点需要被挂起，切换做某背景操作。一旦 task 执行完毕，程序执行就恢复到这 <code>await</code> 一点的位置。</p>
+
+<p>如上丑陋的代码，会变成这样：</p>
+
+<p>``` csharp
+private async Task SnapAndPostAsync ()
+{</p>
+
+<pre><code>try {
+    Busy = true;
+    UpdateUIStatus ("Taking a picture");
+    var picker = new Xamarin.Media.MediaPicker ();
+    var mFile = await picker.TakePhotoAsync (new Xamarin.Media.StoreCameraMediaOptions ());
+    var tagsCtrl = new GetTagsUIViewController (mFile.GetStream ());
+    // Call new iOS await API
+    await PresentViewControllerAsync (tagsCtrl, true);
+    UpdateUIStatus ("Submitting picture to server");
+    await PostPicToServiceAsync (mFile.GetStream (), tagsCtrl.Tags);
+    UpdateUIStatus ("Success");
+} catch (OperationCanceledException) {
+    UpdateUIStatus ("Canceled");
+} finally {
+    Busy = false;
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>编译器处理如上代码后，编译的产物和人写的代码间就没有（按照同样的顺序）一行行直接对应的关系了。类似的事情会发生在 C# iterator  甚至 lambda 身上。</p>
+
+<p>这种代码看上去很线性，这样一来，我就能信心满满地修改程序流。或是使用条件语句开不同的背景进程，或是使用循环语句把图片存到不同的位置，又或是一次性使用多个过滤器。Jeremie 恰巧写了篇<a href="https://blog.neteril.org/blog/2013/07/05/data-extraction-mobile-apps-with-xamarin/">不错的文章做这些事情</a>。</p>
+
+<p>注意，因为 <code>finally</code> 语句，<code>Busy</code> 状态的处理变得集中而简洁。我现在能够保证，变量总是合理地得到了维护，无论在这段代码长怎么样，发生了什么。</p>
+
+<p>记流水账这种事情，就交给了编译器。</p>
+
+<p><code>async</code> 让我能够动用流程图上的那些基本元素，来思考我的软件。而不是按照那些紧紧耦合在一起的混乱而粗糙的进程们来做同样的事情。</p>
+
+<h2>思维的解放</h2>
+
+<p>C# 编译器处理 <code>async</code> 的基础是 <code>Task</code> 原生类型。<code>Task</code> 类正是其他编程语言所谓的那些 future, promise 和 async，难免会导致混淆。</p>
+
+<p>此刻，我把所有的这些框架（包括 .NET 里的这只）都比作很底层的基础水暖管道。</p>
+
+<p><code>Task</code> 类封装一系列的操作，由一些 properties 来反应它们的执行状态、结果（如果完成的话）、抛出的异常或者错误。有很丰富的 API 来有趣地组合这些 task ：等待所有、等待一些、聚合很多个成一个，等等不一而足。</p>
+
+<p>那些（callback 的做法）尽管很重要，比起你自己惯常的做法已经是很大的进步了，但它们却并不能帮你解放思维。C# <code>async</code> 却可以。</p>
+
+<h2>关于 <code>async</code> 关键字的常见问答</h2>
+
+<p>借这次机会，我要直接回答下列问题：</p>
+
+<p>问：每次使用 <code>async</code> 的时候会创建新的线程么？</p>
+
+<p>答：当你使用 <code>async</code> method 的时候，你的操作被封装在 <code>Task</code> (或者 <code>Task&lt;T&gt;</code>) 对象中。有时候，这些操作需要另一个线程去跑；有时候，这些操作会进入事件队列，供给事件循环去处理(runloop)；有时候，这些操作会调用带有通知机制的内核异步API. 你不会确定地知道幕后到底发生了什么，这取决于 <code>async</code> method 自己的实现。(译者注：调用 <code>async</code> method 不会产生新的线程，但是 <code>async</code> method 内部，开发者自己定义的实现里面可以开新的线程。)</p>
+
+<p>问：在使用 <code>async</code> 的时候，你似乎不再需要 <code>InvokeOnMainThread</code>了，为啥呢？</p>
+
+<p>答：当 task 结束的时候，执行流程会默认恢复到当下同步的上下文，这是因为 <code>ThreadLocal</code> 的 property 指向了<code>SynchronizationContext</code> 的某个具体实现。</p>
+
+<p>在 iOS 和 Android 上，我们在 UI 线程设定一个<code>SynchronizationContext</code>，确保代码每次都恢复到主线程上。微软在它们的平台上也在做同样的事情。</p>
+
+<p>而且，在 iOS 上，我们还有一个 <code>DispatchQueue</code> 同步上下文，因此默认情况下，用<a href="https://developer.apple.com/library/ios/documentation/General/Conceptual/ConcurrencyProgrammingGuide/OperationQueues/OperationQueues.html">Grand Central Dispatch (GCD)</a>调用 await ，完成后会回到那个 queue.</p>
+
+<p>当然你可以调整这一行为，用 <code>SynchronizationContext</code> 和 <code>ConfigureAwait</code>。</p>
+
+<p>最后，PFX team 有篇不错的  <a href="http://blogs.msdn.com/b/pfxteam/archive/2012/04/12/async-await-faq.aspx">FAQ for Async and Await</a>.</p>
+
+<h2><code>async</code> 的参考资源</h2>
+
+<p>这儿有些不错的 <code>async</code> 学习资料：</p>
+
+<ul>
+<li>Microsoft's <a href="http://www.microsoft.com/en-us/download/details.aspx?id=19957">Task-based Asynchronous Pattern</a> shows great idioms to use with Async.</li>
+<li><a href="http://blogs.msdn.com/b/pfxteam/">Parallel Programming with .NET blog</a>.</li>
+<li><a href="http://praeclarum.org/post/45277337108/await-in-the-land-of-ios-scripting-users">Very cute use of Async</a> for adding an interactive walkthrough to your mobile app.</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Essential C# 4.0: Advanced]]></title>

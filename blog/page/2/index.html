@@ -122,6 +122,50 @@
       
   <header class="page-header">
     
+      <h1 class="entry-title"><a href="/blog/2013/09/23/scaling-memcache-at-facebook/">Call-of-Duty Weekend Reading: Scaling Memcache at Facebook (NSDI &#8216;13)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-23T07:37:00-07:00" pubdate data-updated="true">Sep 23<span>rd</span>, 2013</time>
+        
+         | <a href="/blog/2013/09/23/scaling-memcache-at-facebook/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I felt a little under the weather last week, which prevented me from being productive. After a serious consideration over the last month (the first month I undertook a full-time job), I set up a new schedule for myself &#8211; get up earlier so that I can have at least four hours in the morning for my own work without any distractions. Hope I can persist with the amazing plan.</p>
+
+<p>At the same time, as I have planned long ago, a new paper-reading project will be launched. Day after day, I find myself now soaked in technical details. It is good for improving my engineering skills, but not so good for seeing the big picture. Moreover, reading papers may be the best way to collect excellent ideas. At least, it is much better than reading newspapers, SNS feeds, and disappointing books (e.g. <a href="http://book.douban.com/subject/24335672/">淘宝技术这十年</a> ).</p>
+
+<p>This paper comes from Facebook ( <a href="https://www.usenix.org/conference/nsdi13/scaling-memcache-facebook">video</a>, <a href="https://www.usenix.org/system/files/conference/nsdi13/nsdi13-final170_update.pdf">paper</a>, <a href="https://www.usenix.org/sites/default/files/conference/protected-files/nishtala_nsdi13_slides.pdf">slides</a> ), and introduces how the KV store evolves at Facebook in these years.</p>
+
+<p>Months ago, I posted a similar paper review, <a href="http://www.puncsky.com/blog/2013/04/06/dynamo-kv-store/">Dynamo: Amazon&#8217;s Highly Available Key-value Store (SOSP&#8217;07)</a>. Different from Amazon, Facebook built the KV store on the basis of existing open-source memcached (memcached refers to the source code, while memcache refers to the store system). One thing I notice to be in common is that both of them push complexity into the client whenever possible, because a lighter data store is more flexible. Both of them add additional marks along with the cached content for future processing.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
       <h1 class="entry-title"><a href="/blog/2013/09/15/essential-c-sharp-advanced/">Essential C# 4.0: Advanced</a></h1>
     
     
@@ -679,61 +723,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2013/05/14/ren-sheng-shi-yuan/">人生十愿</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-14T04:18:00-07:00" pubdate data-updated="true">May 14<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/05/14/ren-sheng-shi-yuan/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>毕业啦！</p>
-
-<p>世事总不尽如人意，而贪心如我者，尝试写下人生的十个愿望；倘若某日能够实现十之八九，也就算是此生无悔啦！</p>
-
-<ol>
-<li>月高风黑的时候总是可以拉上三五好友宵夜。老到住进养老院的时候总有大爷大妈陪着打麻将。</li>
-<li>亲朋好友，还有我，都能够快乐健康地活着，不求有多大的出息，但求日子过得欢喜，无论多舒适还是多苦逼，都能够坚持自己选择的路，得瑟得瑟屁颠屁颠地走下去。</li>
-<li>有个萌妹子一起玩儿，我们都有健美的体魄心态和性格，开开心心玩上一辈子。</li>
-<li>拥有一家自己的互联网公司，创造有趣有用的产品，这是时代赋予青年们的使命。感激上苍让我们CSer成为时代的弄潮儿。</li>
-<li>拿到一个PhD学位，不仅是因为“谁有知识我就对谁佩服得五体投地”，而且理想主义的说，他们至少对人类知识做出了一丁点儿的贡献。完全没有贡献？那就不要浪费时间啦！</li>
-<li>写一本好书、绘一幅好画、填一篇好诗词、吟一支小曲儿、拍一部好电影。</li>
-<li>有精力、财力或者智力帮助他人，尤其是年轻人。</li>
-</ol>
-
-
-<p>剩下的三个，以后再许！</p>
-
-<p>EOF</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="/blog/page/3/">&larr; Older</a></li>
@@ -758,6 +747,10 @@
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2015/02/04/callbacks-as-our-generations-goto/">Miguel de Icaza: Callbacks 就像我们这一代人的 Go To 语句</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/01/13/understanding-reactor-pattern-for-highly-scalable-i-o-bound-web-server/">Understanding Reactor Pattern for Highly Scalable I/O Bound Web Server</a>
       </li>
     
@@ -771,10 +764,6 @@
     
       <li class="post">
         <a href="/blog/2014/08/16/notes-on-code-complete-ii-creating-high-quality-code/">Notes on Code Complete II: Creating High Quality Code</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/02/16/iit/">印度理工的手段</a>
       </li>
     
   </ul>
