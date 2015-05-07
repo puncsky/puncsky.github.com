@@ -1,0 +1,375 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>面向痛苦编程 (译文) - Puncsky CS Notebook</title>
+  <meta name="author" content="Tian">
+
+  
+  <meta name="description" content="Life and computer science notebook from Puncsky">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://www.puncsky.com/blog/2015/05/06/suffering-oriented-programming">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/bootstrap/bootstrap.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/bootstrap/responsive.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/syntax/syntax.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    body {
+      padding-bottom: 40px;
+    }
+    h1 {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+    }
+    .sharing, .meta, .pager {
+      margin: 20px 0px 20px 0px;
+    }
+    .page-footer p {
+      text-align: center;
+    }
+  </style>
+  <script src="/javascripts/libs/jquery.js"></script>
+  <script src="/javascripts/libs/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/bootstrap.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Puncsky CS Notebook" type="application/atom+xml">
+  <link href="http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,500italic,700italic,300,400,500,700,800" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js">
+  MathJax.Hub.Config({
+   extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+   jax: ["input/TeX", "output/HTML-CSS"],
+   tex2jax: {
+       inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+       displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+   },
+   "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-43072488-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <nav role="navigation"><div class="navbar navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
+      <a class="brand" href="/">Puncsky CS Notebook</a>
+
+      <div class="nav-collapse">
+        <ul class="nav">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+
+        <ul class="nav pull-right" data-subscription="rss">
+          <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+          
+        </ul>
+
+        
+          <form class="pull-right navbar-search" action="http://google.com/search" method="get">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:www.puncsky.com" />
+              <input class="search-query" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</nav>
+  <div class="container">
+    <div class="row-fluid">
+      
+<article class="hentry span9" role="article">
+
+  
+  <header class="page-header">
+    
+      <h1 class="entry-title">面向痛苦编程 (译文)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-06T18:04:00-07:00" pubdate data-updated="true">May 6<span>th</span>, 2015</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Nathan Marz 是 Twitter 的分布式流处理框架 Storm 的主要作者，他的新书 <em>Big Data: Principles and best practices of scalable realtime data systems</em> 今天正式<a href="http://www.amazon.com/dp/1617290343">发售</a>了，我半个月前就下了订单，满心期盼。先前在浏览他的<a href="http://nathanmarz.com/">博客</a>时看到一篇有趣的文章，发表于2012年，现中文翻译于此，和大家分享。</p>
+
+<hr />
+
+<p>面向痛苦编程</p>
+
+<p>作者：Nathan Marz</p>
+
+<p>译者：潘天 (puncsky)</p>
+
+<p>前些天，有人问了我个有趣的问题：“在创业公司工作的时候，还能够有勇气去写 <a href="http://storm.apache.org/">Storm</a>，你是怎样做到的？” 我知道，在外界看来，创业公司做如此大规模的项目，是相当冒险的行为。而在我自己看来，其实，写 Storm 一点儿风险都没有：它很有挑战性，但并没有风险。</p>
+
+<p>我遵从了一种能够极大地规避风险的开发方式，来应对像 Storm 这种大型项目，并将其命名为 “面向痛苦编程” 。简单来说，面向痛苦编程是这样的：不去做那些不重要的项目，除非，缺少它真的让你感到痛苦难耐。这一准则放之四海而皆准，大到架构上的决策，小到每天写的代码。面向痛苦编程保证你总是在做重要的事情，在尝试大的投入前先从小处精通问题的本质，因此而能够极大地规避风险。</p>
+
+<p>面向痛苦编程有三句箴言：“先做成，再做美，后做快。” (First make it possible. Then make it beautiful. Then make it fast.)</p>
+
+<h2>先做成</h2>
+
+<p>当你进入某个你不熟悉的问题领域 (problem domain) 时，不要立马写一个 “通用的” 或者 “可拓展” 的解。你都不太了解，如何预见未来会有哪些需求？你会把不必通用的变通用，浪费了时间，增加了复杂性。</p>
+
+<p>更好的做法是仅仅 “三下五除二干出来再说” (hack things out) ，直面解决手头的问题。这样，你就能够做成你需要做成的事儿，避免浪费时间。</p>
+
+<p>Storm 的 “先做成” 阶段是一年的快速开发，用队列和工作节点做一个流试处理处理系统。我们学到了如何用 “ack” 协议保证数据处理，我们学到了如何用集群的队列和工作节点规模化实时计算，我们学到了有时候要用不同的方式分割 (partition) 消息流：有时候随机地、有时候 hash/mod 地，确保同样的东西总是流到同样的工作节点上。</p>
+
+<p>当时我们还甚至不知道我们处在 “先做成” 的阶段，只是专注于做产品。尽管队列和工作节点们形成的系统在后来很快让我们痛得不行，但是当时，规模化这个系统很乏味，我们也并不需要容错机制。很明显，队列和工作节点形成的范式并不是一层正确的抽象，因为我们大多数的代码与路由 (routing messages) 和序列化有关，并非我们真正关心的业务逻辑。</p>
+
+<p>同时，开发产品让我们发现了 “实时计算” 的新用例。我们写了一个功能，计算 Twitter 上某一个 URL 的 受众量 (Reach)，所谓受众量，就是能够接触到 Twitter 上的某个 URL 的去除重复后的人数。这一计算很困难，一次计算就需要上百次的数据库访问、和上千万的去重操作。要处理这些绝对路径的 URL，我们最初的单机实现要跑一分多钟，显然，我们需要某种分布式系统来并行处理，加速计算。</p>
+
+<p>启发 Storm 的一个关键就在于，我们意识到了 “受众量问题” 和 “流处理问题” 可以被归化成简单的抽象。</p>
+
+<h2>再做美</h2>
+
+<p>当你三下五除二干出来再说 (hacking things out) 的时候，这一问题领域的 “地图” 也逐渐明晰起来。随着时间的推移，你逐渐习得这一领域越来越多的用例，深入了解这些系统的微妙与复杂之处。这些深入的了解能够启发 “美丽” 的技术，来替代现有的系统，减轻你的痛苦，让过去的不可能做到的新系统、新功能变成可能。</p>
+
+<p>做“美”的关键在于，搞清楚能够解决已知具体问题的最简抽象集。不要预测那些实际上你并未遇到的具体用例，否则结果就会做得太过了 (overengineering)。经验法则是，要想投入更多，对问题领域的理解需要更深刻，用例需要更多样。否则，就有发生<a href="http://en.wikipedia.org/wiki/Second-system_effect">第二系统效应</a>的风险。</p>
+
+<p>在“做美”阶段，你动用设计与抽象的技能，把问题区间提炼成简单的、可组合在一起的抽象们。提炼美好的抽象就似统计学所谓的回归一般：图上一堆点 (用例) ，找条最简单的曲线 (抽象) 契合这些点。</p>
+
+<p>用例越多，找契合点的曲线也就越方便。如果点不够，得到的曲线要么做得太过，要么做得不够好，最终过度工程或者浪费时间。</p>
+
+<p>做美有很大一块是去了解问题区间的性能与资源特征 (understanding the performance and resource characteristics of the problem space)，设计优美的解要利用那些属于前一阶段“做成”时学到的微妙与复杂。</p>
+
+<p>就 Storm 而言，我把实时处理提炼成了一堆小的抽象：流 (streams)，出水口 (spouts)，水栓 (bolts)，和拓扑结构 (topologies)。我发明了新的算法，消除中间消息的代理，同时又能够保证数据得到了处理，整个系统中最复杂最令人痛苦的部分因此而被除去。流处理和受众量，两个看上去迥异的问题，如此优雅地归化到了 Storm，这强烈地预示着，我做的东西，了不得。</p>
+
+<p>我继而进一步地为 Storm 寻找更多的用例，验证我的设计。我和其他工程师深入讨论，学习他们处理实时问题的独到之处。我并没有只去问我认识的人，我还发了 tweeter 说我正在做一款新的实时系统，想要知道其他人的用例，随后有很多有趣的讨论，让我对问题领域有了更深的认识，并验证了我的设计思路。</p>
+
+<h2>后做快</h2>
+
+<p>一旦得到了优美的设计，就能安全地花时间做性能分析 (profiling) 和优化了。过早优化浪费时间，因为你仍然有可能重新做设计。</p>
+
+<p>“做快”并不是指系统高层级的性能特征。这些特征本应该在“做成”阶段被理解到，在“做美”阶段被设计好。“做快”是指微观上的优化，让代码更紧凑，更有效率地利用资源。所以说，在“做美”阶段，你会关心诸如渐进复杂度的问题；在“做快”阶段，你会关心诸如复杂度中那些常量的问题。</p>
+
+<h2>反复雕琢</h2>
+
+<p>面向痛苦编程是持续的过程。构建美丽的系统赋予你新的能力，让你在问题区间里更新更深的领域有能力“做成”。学到的新的知识又反馈到原有的技术中，用以微调或者补充原有的抽象，这样就能够搞定更多的用例。</p>
+
+<p>Storm 就像这样迭代了好多次。一开始使用 Storm 的时候，我们发现了，单一的组件需要有能力放出多个独立的流。我们发现了，Storm 批处理元组 (process batches of tuples) 作为具体的单元，需要增加一种特殊的“直接流 (direct stream) ”。最近，我又开发了“事务性拓扑 (transactional topologies)” ，在 Storm 至少处理一次的基础上，对几乎任意情况的实时处理需求，达成恰好通知一次的语义。</p>
+
+<p>当然了，在自己不了解的领域三下五除二干出来再说，然后持续性地迭代，会导致一些渣代码。而面向痛苦编程最重要的特性便是大无畏地专注于重构。这正是规避“<a href="http://en.wikipedia.org/wiki/Accidental_complexity">附属复杂度 (accidental complexity)</a>” (译者注：将概念上的构思施行于电脑上所遭遇到的困难。) 破坏项目的核心所在。</p>
+
+<h2>结论</h2>
+
+<p>用例在面向痛苦编程中至关重要，用黄金来形容它们的价值也不为过。而习得用例的唯一方法，就是写代码积累经验。</p>
+
+<p>绝大多数的程序员都会经历这样的进化过程。一开始挣扎地让东西跑起来，代码乱得毫无章法，渣代码和拷贝粘贴的代码一塌糊涂。后来，你会发现结构化编程的好处，尽可能多地共享代码逻辑。然后，你学到了如何抽象，用封装的思想看系统。再后来，你着迷于通用化你的代码，让一切可以拓展到未来的程序中。</p>
+
+<p>面向痛苦编程拒绝相信人们能够有效地预测未知的需求，它承认，在不了解问题领域的情况下通用化代码，终将导致复杂与浪费。设计一定要，也总是要，驱动于活生生的用例。</p>
+
+<p>EOF</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Tian</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-06T18:04:00-07:00" pubdate data-updated="true">May 6<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/programming-language/'>programming_language</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.puncsky.com/blog/2015/05/06/suffering-oriented-programming/" data-via="" data-counturl="http://www.puncsky.com/blog/2015/05/06/suffering-oriented-programming/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    
+    <section>
+      <h1>Comments</h1>
+      <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </section>
+    
+    <ul class="pager">
+      
+      <li class="previous"><a class="basic-alignment left"
+        href="/blog/2015/02/04/callbacks-as-our-generations-goto/" title="Previous Post:
+        Miguel de Icaza: Callbacks 就像我们这一代人的 Go To 语句">&laquo; Miguel de Icaza: Callbacks 就像我们这一代人的 Go To 语句</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+    </ul>
+  </footer>
+</article>
+
+<aside class="sidebar-nav span3">
+  
+    <section class="well">
+  <script src="/javascripts/onmouseoverpuncsky.js" type="text/javascript"> </script>
+  <img onmouseover="enlight(this)" onmouseout="darken(this)" src="/puncsky-gray.png" alt="puncsky" style="max-width:100%;">
+  <h4>Puncsky</h4>
+  <p><i>who strives on and lives to strive</i></p>
+  <p><a href="https://www.github.com/puncsky/">Github</a></p>
+</section>
+<section class="well">
+  <ul id="recent_posts" class="nav nav-list">
+    <li class="nav-header">Recent Posts</li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/06/suffering-oriented-programming/">面向痛苦编程 (译文)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/02/04/callbacks-as-our-generations-goto/">Miguel de Icaza: Callbacks 就像我们这一代人的 Go To 语句</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/01/13/understanding-reactor-pattern-for-highly-scalable-i-o-bound-web-server/">Understanding Reactor Pattern for Highly Scalable I/O Bound Web Server</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/08/16/notes-on-code-complete-ii-variables/">Notes on Code Complete II: Variables</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/08/16/notes-on-code-complete-ii-layout-and-style/">Notes on Code Complete II: Layout and Style</a>
+      </li>
+    
+  </ul>
+</section>
+<section class="well">
+	<div id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://www.puncsky.com', 'user' : 1100959, 'server' : '2', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2013-06-24', 'lang' : 'en', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www2.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www2.clustrmaps.com/user/92810cc9f"><img src="http://www2.clustrmaps.com/stats/maps-no_clusters/www.puncsky.com-thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo" class="page-footer"><hr>
+<p>
+  Copyright &copy; 2015 - Tian -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'puncsky';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://www.puncsky.com/blog/2015/05/06/suffering-oriented-programming/';
+        var disqus_url = 'http://www.puncsky.com/blog/2015/05/06/suffering-oriented-programming/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
