@@ -4,7 +4,7 @@
   <title><![CDATA[Category: design_pattern | Puncsky CS Notebook]]></title>
   <link href="http://www.puncsky.com/blog/categories/design-pattern/atom.xml" rel="self"/>
   <link href="http://www.puncsky.com/"/>
-  <updated>2015-05-06T19:34:53-07:00</updated>
+  <updated>2015-05-10T00:24:03-07:00</updated>
   <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -70,6 +70,70 @@ fs.readFile('filename', function(err, data) {</p>
 <p><a href="http://httpd.apache.org/docs/2.2/mod/worker.html">Apache-MPM worker</a> takes advantages of both processes and threads (threadpool).</p>
 
 <blockquote><p>By using threads to serve requests, it is able to serve a large number of requests with fewer system resources than a process-based server. However, it retains much of the stability of a process-based server by keeping multiple processes available, each with many threads.</p></blockquote>
+
+<p>Here is a simple implementation with a threadpool for connections:</p>
+
+<p>``` java</p>
+
+<p>import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.*;</p>
+
+<p>public class EchoServer {</p>
+
+<pre><code>private static final int PORT = 4000;
+private static final int BUFFER_SZ = 1024;
+
+public static void main(String[] args) {
+    try {
+        ServerSocket server = new ServerSocket(PORT);
+        ExecutorService executor = Executors.newCachedThreadPool();
+        while (true) {
+            Socket s = server.accept();
+            executor.submit(new Handler(s));
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+private static class Handler implements Runnable {
+    Socket _s;
+
+    public Handler(Socket s) {
+        _s = s;
+    }
+
+    @Override
+    public void run() {
+        try {
+            InputStream in = _s.getInputStream();
+            OutputStream out = _s.getOutputStream();
+            int read = 0;
+            byte[] buf = new byte[BUFFER_SZ];
+            while ((read = in.read(buf)) != -1) {
+                out.write(buf, 0, read);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                _s.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>}</p>
+
+<p>```</p>
 
 <p>Unfortunately, <strong>there is always a one-to-one relationship between connections and threads.</strong> Long-living connections like Keep-Alive connections give rise to a large number of worker threads waiting in the idle state for whatever it is slow, e.g. file system access, network, etc. In addition, hundreds or even thousands of concurrent threads can waste a great deal of stack space in the memory.</p>
 
