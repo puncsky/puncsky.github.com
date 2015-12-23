@@ -4,7 +4,7 @@
   <title><![CDATA[Category: big_data | Puncsky CS Notebook]]></title>
   <link href="http://www.puncsky.com/blog/categories/big-data/atom.xml" rel="self"/>
   <link href="http://www.puncsky.com/"/>
-  <updated>2015-05-10T00:24:03-07:00</updated>
+  <updated>2015-12-22T18:08:37-08:00</updated>
   <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -62,7 +62,7 @@
 
 <p>就 Storm 而言，我把实时处理提炼成了一堆小的抽象：流 (streams)，出水口 (spouts)，水栓 (bolts)，和拓扑结构 (topologies)。我发明了新的算法，消除中间消息的代理，同时又能够保证数据得到了处理，整个系统中最复杂最令人痛苦的部分因此而被除去。流处理和受众量，两个看上去迥异的问题，如此优雅地归化到了 Storm，这强烈地预示着，我做的东西，了不得。</p>
 
-<p>我继而进一步地为 Storm 寻找更多的用例，验证我的设计。我和其他工程师深入讨论，学习他们处理实时问题的独到之处。我并没有只去问我认识的人，我还发了 tweeter 说我正在做一款新的实时系统，想要知道其他人的用例，随后有很多有趣的讨论，让我对问题领域有了更深的认识，并验证了我的设计思路。</p>
+<p>我继而进一步地为 Storm 寻找更多的用例，验证我的设计。我和其他工程师深入讨论，学习他们处理实时问题的独到之处。我并没有只去问我认识的人，我还发了 Twitter 说我正在做一款新的实时系统，想要知道其他人的用例，随后有很多有趣的讨论，让我对问题领域有了更深的认识，并验证了我的设计思路。</p>
 
 <h2>后做快</h2>
 

@@ -91,6 +91,7 @@
         <ul class="nav">
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/notes">Notes</a></li>
 </ul>
 
 
@@ -116,6 +117,690 @@
     <div class="row-fluid">
       <div class="span9">
   
+  
+  
+    <article>
+      
+  <header class="page-header">
+    
+      <h1 class="entry-title"><a href="/blog/2012/12/19/oop2/">OOP Final Term Notes</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-19T02:01:00-08:00" pubdate data-updated="true">Dec 19<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/12/19/oop2/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><hr />
+
+<p>如果自己不定义constructor，C++会默认使用空的constructor。但是如果自己声明了，就一定要把定义写出来。</p>
+
+<hr />
+
+<p>Reuse and recycle. Maintain a <strong>free list</strong> a pool of currently unused objects and reuse rather than recreate when possible.</p>
+
+<hr />
+
+<p>How to measure run time of a program?</p>
+
+<p>Clocks advance in discrete clicks called <strong>jiffies</strong>. A jiffy on the Zoo linux machines is one millisecond (0.001 seconds) long.</p>
+
+<p>the first run of a program is likely to be slower than subsequent runs because of caching.</p>
+
+<p>class members are private by default.</p>
+
+<pre><code>if(!in) {...}
+</code></pre>
+
+<p>to test if an istream object in is open for reading. Here, the <code>istream</code> object is coerced to a <code>bool</code> because operator <code>bool()</code> is defined inside the streams package.</p>
+
+<hr />
+
+<p>operator⊕ overload</p>
+
+<h3>a⊕b can be ambiguous</h3>
+
+<ul>
+<li>Global function: operator⊕(a, b).</li>
+<li>Member function: a.operator⊕(b).</li>
+</ul>
+
+
+<p>It could mean either, and the compiler sees if either one matches. If both match, it reports an ambiguity.</p>
+
+<p>We use a global form of operator&lt;&lt; because the left hand operator is of predefined type ostream, and we can’t add member functions to that class.</p>
+
+<h3>++, &#8211;</h3>
+
+<ol>
+<li><p>prefix unary operators</p></li>
+<li><p>class member: <code>operator++()</code></p></li>
+<li><p>global: <code>operator++(ClassA a)</code></p></li>
+<li><p>postfix unary operators</p></li>
+</ol>
+
+
+<p>They <strong>must be</strong> like</p>
+
+<ul>
+<li>class member: <code>operator++(int)</code></li>
+<li>global: <code>operator++(ClassA a, int)</code></li>
+</ul>
+
+
+<p>Here <code>int</code> is dummy.</p>
+
+<hr />
+
+<p>两种定义类的cast的方式 cast A to B</p>
+
+<pre><code>class A {};
+class B{
+    public:
+    B(A&amp; a) {
+        cout &lt;&lt; "constructor cast called" &lt;&lt; endl;
+    }
+};
+</code></pre>
+
+<p>conversion function cast</p>
+
+<pre><code>class B {};
+class A {
+    public:
+    operator B() {
+        cout &lt;&lt; "operator B cast called" &lt;&lt; endl;
+        return *new B;
+    } 
+};
+</code></pre>
+
+<p>注意没有返回类型，讲述自己怎么被cast成其他类</p>
+
+<hr />
+
+<p>Polymorphism</p>
+
+<pre><code>class B     { public: int f(); ... };
+class U : B { int f(); ... };
+class V : B { int f(); ... };
+</code></pre>
+
+<p><code>B* bp</code> can point to B, U, and V, but bp->f() always refers to B::f()</p>
+
+<p>Solution: Polymorphic derivation</p>
+
+<pre><code>   class B     { public: virtual int f(); ... };
+   class U : B { virtual int f(); ... };
+   class V : B { virtual int f(); ... };
+   B* bp;
+</code></pre>
+
+<p>A virtual function is dispatched at run time to the class of the actual object.</p>
+
+<ul>
+<li>bp->f() refers to U::f() if bp points to a U.</li>
+<li>bp->f() refers to V::f() if bp points to a V.</li>
+<li>bp->f() refers to B::f() if bp points to a B.</li>
+</ul>
+
+
+<p>Here, the type refers to the allocation type.</p>
+
+<p>其实，只有基类加virtual都是可以的</p>
+
+<hr />
+
+<p>Calling constructors implicitly</p>
+
+<pre><code>MyClass b;
+MyClass b(4);
+new MyClass(4);
+</code></pre>
+
+<p>Calling constructors explicitly</p>
+
+<pre><code>MyClass(4);
+throw Fatal("Error message"); 
+</code></pre>
+
+<hr />
+
+<p>A <strong>pure virtual function</strong> is sometimes called a <strong>promise</strong>. Instances of B are never created and B::f() does not exist. It tells the compiler that a construct like bp->f() is legal. The compiler requires every derived class to contain a method f().</p>
+
+<p>An <strong>abstract class</strong> is a class with one or more pure virtual functions. An abstract class <strong>cannot be instantiated</strong>. It can <strong>only be used as the base</strong> for another class. The <strong>destructor can never be a pure virtual function but will generally be virtual</strong>.</p>
+
+<p>A <strong>pure abstract class</strong> is one where all member functions are pure virtual (except for the destructor) and there are no data members, Pure abstract classes define an <strong>interface</strong> `a la Java. An interface allows user-supplied code to integrate into a large system.</p>
+
+<hr />
+
+<p>A global function is one that takes zero or more explicit arguments. Example: f(a, b) has two explicit arguments a and b.</p>
+
+<p>A member function is one that <strong>takes an implicit argument</strong> along with zero or more explicit arguments.
+Example: c.g(a, b) has two explicit arguments a and b and implicit argument c.
+Example: d->g(a, b) has two explicit arguments a and b and implicit argument *d.</p>
+
+<p>Note that an omitted implicit argument defaults to (<em>this), which must make sense in the context.
+Example: If g is a member function of class MyClass, then within MyClass, the call g(a, b) defaults to (</em>this).g(a,b) (or equivalently this->g(a,b)).</p>
+
+<hr />
+
+<p>Good function prototypes</p>
+
+<p>Pass by reference instead of by pointer. A pass by pointer may imply optional and the user may pass a null pointer:</p>
+
+<pre><code>Method(const Class *value); // value can be null Cannot pass a null pointer via reference
+Method(const Class &amp;value); // value cannot be null
+</code></pre>
+
+<p>Always include “const” unless the calling function needs to modify the state of passed reference</p>
+
+<p>Do not pass simple data types (int, char, bool) by by const reference … it does not do anything good and may actually inhibit some optimizations</p>
+
+<hr />
+
+<p>Casting!</p>
+
+<pre><code>int x = 5;
+double y0 = (int) x;
+double y1 = static_cast&lt;int&gt;(x);
+</code></pre>
+
+<p>Do not use C style casting it is difficult to find</p>
+
+<hr />
+
+<p>Iterators
+Iterators are like generalized pointers into containers.
+Most pointer operations *, ->, ++, ==, !=, etc. work with iterators.</p>
+
+<ul>
+<li><code>begin()</code> returns an iterator pointing to the first element of the vector.</li>
+<li><code>end()</code> returns an iterator pointing past the last element of the vector.</li>
+</ul>
+
+
+<hr />
+
+<p><code>class B : A { ... };</code> specifies private derivation of B from A.</p>
+
+<hr />
+
+<p>Protected class members are inaccessible from outside the class (like private) but accessible within a derived class (like public).</p>
+
+<hr />
+
+<p>ln16.pdf</p>
+
+<ul>
+<li>The declaration context is the context in which the <strong>referent</strong> of x appears.</li>
+<li>The reference context is the context in which the <strong>reference</strong> x appears.</li>
+</ul>
+
+
+<hr />
+
+<p>Template functions and specialization</p>
+
+<p>Template functions
+Definition:</p>
+
+<p>   template <class X> void swapargs(X&amp; a, X&amp; b) {</p>
+
+<pre><code> X temp;
+ temp = a;
+ a = b;
+ b = temp;
+</code></pre>
+
+<p>}</p>
+
+<p>Use:</p>
+
+<pre><code> int i,j;
+ double x,y;
+ char a, b;
+ swapargs(i,j);
+ swapargs(x,y);
+ swapargs(a,b);
+</code></pre>
+
+<p>Specialization
+Definition:</p>
+
+<pre><code> template &lt;&gt; void swapargs(int&amp; a, int&amp; b) {
+   // different code
+ }
+</code></pre>
+
+<p>This overrides the template body for int arguments.</p>
+
+<hr />
+
+<p><strong>Non-inline template functions must be compiled and linked for each instantiation</strong></p>
+
+<ul>
+<li>(a) Put all template function definitions in the .hpp file along with the class definition.</li>
+<li>(b) Put template function definition in the .hpp file and explicitly instantiate all the possible types.
+  e.g. <code>template class FlexArray&lt;int&gt;; template class FlexArray&lt;double&gt;; ...</code></li>
+</ul>
+
+
+<hr />
+
+<p>C casts. C uses the same syntax for different kinds of casts.</p>
+
+<ul>
+<li><strong>Value casts</strong> convert from one representation to another, partially preserving semantics. Often called <em>conversions</em>.</li>
+<li><strong>Pointer casts</strong> leave representation alone but change interpretation of pointer.</li>
+</ul>
+
+
+<p>C++ casts</p>
+
+<p>C++ has four kinds of casts.</p>
+
+<ol>
+<li>Static cast includes value casts of C. Tries to preserve semantics, but not always safe. Applied at compile time.</li>
+<li>Dynamic cast Applies only to pointers and references to objects. Preserves semantics. Applied at run time. [See demo 18c-Dynamic cast.]</li>
+<li>Reinterpret cast is like the C pointer cast. Ignores semantics. Applied at compile time.</li>
+<li>Const cast Allows const restriction to be overridden. Applied at compile time.</li>
+</ol>
+
+
+<p>notation</p>
+
+<pre><code>int x; myBase* b; const int c;
+static_cast&lt;double&gt;(x);
+dynamic_cast&lt;myDerived*&gt;(b);
+reinterpret_cast&lt;int*&gt;(p);
+const_cast&lt;int&gt;(c);
+</code></pre>
+
+<hr />
+
+<p><code>explicit</code> keyword inhibit implicit casts.</p>
+
+<pre><code>class B;
+class A {
+public:
+    A(){};
+    explicit A(B&amp; b) { cout&lt;&lt; "constructed A from B\n"; }
+};
+</code></pre>
+
+<hr />
+
+<p>C-style exception solution uses status returns</p>
+
+<p>The C library functions generally report exceptions by returning <em>status values</em> or <em>error codes</em>.</p>
+
+<p>C++ exception mechanism</p>
+
+<p>Deriving your own exception classes from std::exception</p>
+
+<pre><code>#include &lt;iostream&gt;
+#include &lt;exception&gt;
+using namespace std;
+class myexception: public exception {
+  virtual const char* what() const throw()
+    { return "My exception happened"; }
+} myex;  // declares class and instantiates it
+int main () {
+  try {
+    throw myex;
+  }
+  catch (exception&amp; e) {
+    cout &lt;&lt; e.what() &lt;&lt; endl;
+  }
+return 0; }
+</code></pre>
+
+<p>each kind of exception should <strong>throw it’s own type of object</strong>.</p>
+
+<hr />
+
+<p>rethrow</p>
+
+<p><code>throw e;</code> will throw a new copy of e</p>
+
+<p><code>throw;</code> will not throw a new copy of e, but e itself</p>
+
+<hr />
+
+<p><strong>All exceptions should be caught and dealt with explicitly.</strong> That terminate() is called to abort the process is a bad thing when exceptions are not caught or thrown by the destructor.</p>
+
+<hr />
+
+<p>multiple inheritance</p>
+
+<p>class A: public B, protected C {&#8230;};</p>
+
+<p><em>diamond pattern</em>, A->B, A->C, {B,C}->D</p>
+
+<hr />
+
+<p>Good Reference Books</p>
+
+<p>C Programming Language, Effective C++, More Effective C++, Design Patterns</p>
+
+<hr />
+
+<p>test</p>
+
+<pre><code>make test&amp;&amp; ./test
+</code></pre>
+
+<hr />
+
+<p>STL</p>
+
+<p>Common wisdom on the internet says <strong>not to inherit from STL containers</strong>.</p>
+
+<blockquote><p>STL containers are not intended to be used as base classes (their destructors are deliberately non-virtual); deriving from a container is a common mistake.”</p></blockquote>
+
+<hr />
+
+<p>Two kinds of derivation</p>
+
+<p>C++ supports two distinct kinds of derivation:</p>
+
+<ul>
+<li>Simple derivation.</li>
+<li><p>Polymorphic derivation.</p>
+
+<p>  class A { &#8230; };
+  class B : public A { &#8230; };</p></li>
+</ul>
+
+
+<p>We say B is derived from A, and B inherits members from A. Each B object has an A object embedded within it.<strong>The derivation is simple if no members of A are virtual; otherwise it is polymorphic.</strong></p>
+
+<hr />
+
+<p>What are the problems of polymorphic derivation? (ln13.pdf)</p>
+
+<p>Every polymorphic base class (containing even one virtual function) adds a <strong>runtime type tag</strong> to each instance.</p>
+
+<p>This costs in both time and space.</p>
+
+<ul>
+<li>Time: Each call to a virtual function goes through a <strong>run-time dispatch table (the vtable)</strong>.</li>
+<li>Space: Each instance of a polymorphic object contains a <strong>type tag</strong>, which takes extra space.</li>
+<li>Every polymorphic base class should have a virtual destructor.</li>
+</ul>
+
+
+<hr />
+
+<p>General OO principles</p>
+
+<ol>
+<li><strong>Encapsulation</strong> <em>Data members should be private.</em> Public accessing functions should be defined only when absolutely necessary. This minimizes the ways in which one class can depend on the representation of another.</li>
+<li><strong>Narrow interface</strong> <em>Keep the interface (set of public functions) as simple as possible</em>; include only those functions that are of direct interest to client classes. Utility functions that are used only to implement the interface should be kept private. This minimizes the chance for information to leak out of the class or for a function to be used inappropriately.</li>
+<li><strong>Delegation</strong> A class that is called upon to perform a task often delegates that task (or part of it) to one of its members who is an expert.</li>
+</ol>
+
+
+<hr />
+
+<p>What is a design pattern?</p>
+
+<p>A pattern has four essential elements.</p>
+
+<ol>
+<li>A pattern name.</li>
+<li>The problem, which describes when to apply the pattern.</li>
+<li>The solution, which describes the elements, relations, and responsibilities.</li>
+<li>The consequences, which are the results and tradeoffs.</li>
+</ol>
+
+
+<h2>Design Patterns</h2>
+
+<ul>
+<li><em>Adaptor</em> matches interface between toolkit classes and applications.</li>
+<li><em>Indirection</em> decouples high-level applications from manipulations of low-level devices.</li>
+<li><em>Proxy</em> could interface to anything, is like indirection and controls access via a placeholder</li>
+<li><em>Polymorphism</em> enables multiple implementations from the abstraction</li>
+<li><em>Controller</em> handles system events</li>
+<li><em>Bridge</em> is generalized indirection and decouples interface from implementation. Used when both application and implementation are polymorphic.</li>
+<li><em>Subject-observer</em>: keep updated states of the subject with observers.</li>
+<li><em>Singleton</em> enforces only one instance of a class</li>
+<li><em>Strategy</em> defines a family of algorithms, encapsulates each one, and makes them interchangeable at run time.
+
+<ul>
+<li>The Bridge pattern is a structural pattern (HOW DO YOU BUILD A SOFTWARE COMPONENT?).</li>
+<li>The Strategy pattern is a dynamic pattern (HOW DO YOU WANT RUN A BEHAVIOUR IN SOFTWARE?).</li>
+<li>The syntax is similar but the goal are differents:
+
+<ul>
+<li>Bridge: you can split the hierarchy of interface and class join him with an abstract reference</li>
+<li>Strategy: you have more ways for doing an operation; with strategy you can choice the algorithm at run-time and you can modify a single Strategy without a lot of side-effects at compile-time;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><em>Factory method</em> defines an interface for creating an object but lets the implementation decide which class to instantiate.</li>
+</ul>
+
+
+<h3>Factory</h3>
+
+<figure class='code'><figcaption><span>ImageReaderFactory.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">ImageReaderFactory</span> <span class="o">{</span>
+</span><span class='line'>      <span class="kd">public</span> <span class="kd">static</span> <span class="n">ImageReader</span> <span class="nf">imageReaderFactoryMethod</span><span class="o">(</span><span class="n">InputStream</span> <span class="n">is</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>          <span class="n">ImageReader</span> <span class="n">product</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="kt">int</span> <span class="n">imageType</span> <span class="o">=</span> <span class="n">determineImageType</span><span class="o">(</span><span class="n">is</span><span class="o">);</span>
+</span><span class='line'>          <span class="k">switch</span> <span class="o">(</span><span class="n">imageType</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>              <span class="k">case</span> <span class="n">ImageReaderFactory</span><span class="o">.</span><span class="na">GIF</span><span class="o">:</span>
+</span><span class='line'>                  <span class="n">product</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GifReader</span><span class="o">(</span><span class="n">is</span><span class="o">);</span>
+</span><span class='line'>                  <span class="k">break</span><span class="o">;</span>
+</span><span class='line'>              <span class="k">case</span> <span class="n">ImageReaderFactory</span><span class="o">.</span><span class="na">JPEG</span><span class="o">:</span>
+</span><span class='line'>                  <span class="n">product</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JpegReader</span><span class="o">(</span><span class="n">is</span><span class="o">);</span>
+</span><span class='line'>                  <span class="k">break</span><span class="o">;</span>
+</span><span class='line'>              <span class="c1">//...</span>
+</span><span class='line'>          <span class="o">}</span>
+</span><span class='line'>          <span class="k">return</span> <span class="n">product</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Proxy</h3>
+
+<figure class='code'><figcaption><span>Real_Img_on_SystemA_and_Proxy_on_SystemB.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">interface</span> <span class="nc">Image</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">displayImage</span><span class="o">();</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//on System A </span>
+</span><span class='line'><span class="kd">class</span> <span class="nc">RealImage</span> <span class="kd">implements</span> <span class="n">Image</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">String</span> <span class="n">filename</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * Constructor</span>
+</span><span class='line'><span class="cm">     * @param FILENAME</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">RealImage</span><span class="o">(</span><span class="kd">final</span> <span class="n">String</span> <span class="n">FILENAME</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">filename</span> <span class="o">=</span> <span class="n">FILENAME</span><span class="o">;</span>
+</span><span class='line'>        <span class="n">loadImageFromDisk</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * Loads the image from the disk</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">loadImageFromDisk</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Loading   &quot;</span> <span class="o">+</span> <span class="n">filename</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * Displays the image</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">displayImage</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Displaying &quot;</span> <span class="o">+</span> <span class="n">filename</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//on System B </span>
+</span><span class='line'><span class="kd">class</span> <span class="nc">ProxyImage</span> <span class="kd">implements</span> <span class="n">Image</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">RealImage</span> <span class="n">image</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">String</span> <span class="n">filename</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * Constructor</span>
+</span><span class='line'><span class="cm">     * @param FILENAME</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">ProxyImage</span><span class="o">(</span><span class="kd">final</span> <span class="n">String</span> <span class="n">FILENAME</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">filename</span> <span class="o">=</span> <span class="n">FILENAME</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * Displays the image</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">displayImage</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">(</span><span class="n">image</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>           <span class="n">image</span> <span class="o">=</span> <span class="k">new</span> <span class="n">RealImage</span><span class="o">(</span><span class="n">filename</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>        <span class="n">image</span><span class="o">.</span><span class="na">displayImage</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">class</span> <span class="nc">ProxyExample</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="cm">/**</span>
+</span><span class='line'><span class="cm">    * Test method</span>
+</span><span class='line'><span class="cm">    */</span>
+</span><span class='line'>   <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="kd">final</span> <span class="n">Image</span> <span class="n">IMAGE1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ProxyImage</span><span class="o">(</span><span class="s">&quot;HiRes_10MB_Photo1&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="kd">final</span> <span class="n">Image</span> <span class="n">IMAGE2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ProxyImage</span><span class="o">(</span><span class="s">&quot;HiRes_10MB_Photo2&quot;</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">IMAGE1</span><span class="o">.</span><span class="na">displayImage</span><span class="o">();</span> <span class="c1">// loading necessary</span>
+</span><span class='line'>        <span class="n">IMAGE1</span><span class="o">.</span><span class="na">displayImage</span><span class="o">();</span> <span class="c1">// loading unnecessary</span>
+</span><span class='line'>        <span class="n">IMAGE2</span><span class="o">.</span><span class="na">displayImage</span><span class="o">();</span> <span class="c1">// loading necessary</span>
+</span><span class='line'>        <span class="n">IMAGE2</span><span class="o">.</span><span class="na">displayImage</span><span class="o">();</span> <span class="c1">// loading unnecessary</span>
+</span><span class='line'>        <span class="n">IMAGE1</span><span class="o">.</span><span class="na">displayImage</span><span class="o">();</span> <span class="c1">// loading unnecessary</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1251,69 +1936,6 @@ vector examples</li>
 
     </article>
   
-  
-    <article>
-      
-  <header class="page-header">
-    
-      <h1 class="entry-title"><a href="/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12/">Reliable Client Accounting for P2P-Infrastructure Hybrids (NSDI &#8216;12)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-20T16:16:00-08:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.mpi-sws.org/~paditya/">MPI-SWS</a>, UPenn, Duke, Akamai, <a href="http://www.mpi-sws.org/~paditya/papers/rca-nsdi2012.pdf">paper</a>, <a href="https://www.usenix.org/sites/default/files/conference/protected-files/nsdi12_reliable_client_accounting_for_p2p-infrastructure_hybrids.pdf">slides</a>, <a href="https://www.usenix.org/conference/nsdi12/reliable-client-accounting-hybrid-content-distribution-networks">video</a></p>
-
-<h2>1. Problems</h2>
-
-<p>Hybrid (Servers with assisting peers) designs in CDNs -> malicious clients can cause significant accounting inaccuracies.</p>
-
-<h2>2. Challenges</h2>
-
-<p>Infrastructure can not control P2P communications by malicious clients (peers). Even if infrastructure provides signed metadata and fallback (so content can not be mishandled by peers), there are still:</p>
-
-<ul>
-<li>Affect service quality</li>
-<li>Misreport P2P transfers</li>
-</ul>
-
-
-<p>For example, inflation attack occurred for a fake download report.</p>
-
-<h2>3. Solutions</h2>
-
-<p>Reliable Client Accounting (RCA)</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/11/20/reliable-client-accounting-for-p2p-infrastructure-hybrids-nsdi-12/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <ul class="pager">
     
     <li class="previous"><a href="/blog/page/5/">&larr; Older</a></li>
@@ -1338,6 +1960,10 @@ vector examples</li>
     <li class="nav-header">Recent Posts</li>
     
       <li class="post">
+        <a href="/blog/2015/12/22/da-xue-de-ling-hun-yu-wei-du/">大学的灵魂与维度</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/05/06/suffering-oriented-programming/">面向痛苦编程 (译文)</a>
       </li>
     
@@ -1351,10 +1977,6 @@ vector examples</li>
     
       <li class="post">
         <a href="/blog/2014/08/16/notes-on-code-complete-ii-variables/">Notes on Code Complete II: Variables</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/08/16/notes-on-code-complete-ii-layout-and-style/">Notes on Code Complete II: Layout and Style</a>
       </li>
     
   </ul>
