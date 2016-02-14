@@ -4,7 +4,7 @@
   <title><![CDATA[Category: big_data | Puncsky CS Notebook]]></title>
   <link href="http://www.puncsky.com/blog/categories/big-data/atom.xml" rel="self"/>
   <link href="http://www.puncsky.com/"/>
-  <updated>2016-02-13T11:14:44-08:00</updated>
+  <updated>2016-02-14T01:45:34-08:00</updated>
   <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -12,6 +12,305 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Crack the System Design Interview]]></title>
+    <link href="http://www.puncsky.com/blog/2016/02/14/crack-the-system-design-interview/"/>
+    <updated>2016-02-14T01:27:00-08:00</updated>
+    <id>http://www.puncsky.com/blog/2016/02/14/crack-the-system-design-interview</id>
+    <content type="html"><![CDATA[<p>Building applications is not a hard thing, but having the vision of the overall architecture really makes a difference. We have to crack the system interview sooner or later in our career as a software engineer or engineering manager.</p>
+
+<p>Interviewers are looking for future teammates that they like to work with. The future teammates would better, at least, be capable of solving problems independently. There are so many choices for the solution to a given problem, but not all of them are the best given the context. So the interviewee has to specify different choices and their tradeoffs. To summarize it, <strong>system design interview is a happy show-off of our knowledge on technologies, and their tradeoffs. In an ideal case, keep talking what the interviewer expect throughout the interview, instead of letting them ask.</strong></p>
+
+<p>Keep talking for 45 min could be easy, as long as we are armed with the following <strong>four steps and three common topics</strong>. Take <strong>"design Pinterest"</strong> for example.</p>
+
+<h2>1. Four steps to Crack the System Design Interview</h2>
+
+<p>Breaking down a complex task into small chunks helps us handle them with better paces and in actionable ways.</p>
+
+<h3>1.1 Step 1. Clarify Requirements and Specs</h3>
+
+<p>First things first, the ultimate goals should always be clear.</p>
+
+<p>Pinterest is a highly scalable photo-sharing service:</p>
+
+<ul>
+<li>features: user profile, upload photos, news feed, etc.</li>
+<li>scaling out: horizontal scalability and micro services.</li>
+</ul>
+
+
+<h3>1.2 Step 2. Sketch High Level Design</h3>
+
+<p><strong>Do not dive into details before outline the big picture.</strong> Otherwise, digging into an unwanted direction would prevent us from giving a roughly correct solution in the first place. We will regret if we do not have time to finish the task.</p>
+
+<p>OK, let us sketch the following picture and do not explain too much about the detailed implementation of those components.</p>
+
+<p align="middle"><img src="http://puncsky.github.com/images/crack-the-system-design-interview/pinterest-arch-overview.png" alt="pinterest architecture"></p>
+
+
+<p>So far so good! To some extent, congrats, we have solved the problem! Surely this multi-tier architecture works, no matter how badly we would specify later!</p>
+
+<h3>1.3 Step 3. Discuss individual components and how they interact in details</h3>
+
+<p>When we truly understand a system, we should be able to identify what is what and explain how they interact. Look at those components above in the picture and specify one by one. This could lead to more general discussions, like three common topics in the next section 2. Three Common Topics, and to more specific domains, like how to <a href="https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Beaver.pdf">design the photo storage data layout</a>...</p>
+
+<h4>1.3.1 Load Balancer</h4>
+
+<p>Generally speaking, load balancers fall into three categories:</p>
+
+<ul>
+<li>DNS Round Robin (rarely used): clients get a randomly-ordered list of IP addresses.
+
+<ul>
+<li>pros: easy to implement and free</li>
+<li>cons: hard to control and not responsive, since DNS cache needs time to expire</li>
+</ul>
+</li>
+<li>L3/L4 Load Balancer: traffic is routed by IP address and port. L3 is network layer (IP). L4 is session layer (TCP).
+
+<ul>
+<li>pros: better granularity, simple, responsive</li>
+</ul>
+</li>
+<li>L7 Load Balancer: traffic is routed by what is inside the HTTP protocol. L7 is application layer (HTTP).</li>
+</ul>
+
+
+<p>It is good enough to talk to this level in the topic, but in case the interviewer wants more, we can suggest exact algorithms like round robin, weighted round robin, least loaded, least loaded with slow start, utilization limit, latency, cascade, etc.</p>
+
+<h4>1.3.2 Reverse Proxy</h4>
+
+<p>Reverse proxy, like varnish, centralizes internal services and provides unified interfaces to the external. For examole, www.example.com/index and www.example.com/sports feel like coming from the same domain, but they are from different micro services behind the reverse proxy. Reverse proxy could also help with caching and load balance.</p>
+
+<h4>1.3.3 (Frontend) Web Tier</h4>
+
+<p>This is where web pages are served, and usually combined with the service / backend tier in the very early stage of a web service.</p>
+
+<h5>Stateless</h5>
+
+<p><strong>There are two major bottlenecks of the whole system -- requests per second (rps) and bandwidth.</strong> We could improve the situation by using more efficient tech stack, like frameworks with <a href="http://www.puncsky.com/blog/2015/01/13/understanding-reactor-pattern-for-highly-scalable-i-o-bound-web-server/">async and non-blocking reactor pattern</a>, and enhancing the hardware, like <strong>scaling up (aka vertical scaling) or scaling out (aka horizontal scaling)</strong>.</p>
+
+<p>Internet companies prefer scaling out, since it is more cost-efficient with a huge number of commodity machines. This is also good for recruiting, because the target skillsets are equipped by most of the talents in the job market. Afterall, people rarely play with super computers or mainframes at their home.</p>
+
+<p><strong>Frontend web tier and service tier must be stateless, so it would be extremely convenient to add or remove hosts, and then horizontal scalability is achieved.</strong> As to feature switch or configs, there could be a database table / standalone service to keep those states.</p>
+
+<h5>Web Application and API</h5>
+
+<p><strong>MVC(MVT) or MVVC</strong> pattern is the dominant pattern in this layer. In the age of mobile computing, view can be as simple as serving the minimal package of data transporting to the mobile devices, which is called <strong>web API</strong>. People believe the API could be shared by clients and browsers. And that is why <strong>single page web application</strong> becoming popular, especially with the assistance of frontend frameworks like react.js, angular.js, backbone.js, etc.</p>
+
+<h4>1.3.4 App Service Tier</h4>
+
+<p><strong>The single responsibility principle</strong> advocates small and autonomous services that work together, so that each service could do one thing well and do not block others. And small teams with small services can plan much more aggressively, for the sake of hyper-growth.</p>
+
+<h5>Service Discovery</h5>
+
+<p>How do those services find each other? <a href="http://www.slideshare.net/sauravhaloi/introduction-to-apache-zookeeper">Zookeeper</a> is a popular and centralized choice. Instances with name, address, port, etc. are registered into the path in ZooKeeper for each service. If one service does not know where to find another service, query Zookeeper for the location and memorize it until unavailable.</p>
+
+<p>Zookeeper is CP system in terms of CAP theorem, which means it is consistent in case of failures, but the leader will be not available for registering new services.</p>
+
+<p>In contrast to Zookeeper, Uber is doing interesting work in a decentralized way, named <a href="https://github.com/uber/hyperbahn">hyperbahn</a>, based on <a href="https://github.com/uber/ringpop-node">Ringpop consisten hash ring</a>. Read <a href="http://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf">Amazon's Dynamo</a> for understanding AP and eventual consistency.</p>
+
+<h5>Micro Services</h5>
+
+<p>For designing Pinterest, those micro services could be user profile, follower, feed, search, spam, etc. Any of those topics could lead to an in-depth discussion. Useful links are listed in the section 3 future studies, to help us deal with them.</p>
+
+<p>However, for a generalized interview question like "design Pinterest", it is good enough for just having those services drawn as boxes. If we want to show more passions, trying to write down some sample endpoints / APIs for those services would be great.</p>
+
+<h4>1.3.5  Data Tier</h4>
+
+<p>Although a relational database can do almost all the storage work, please remember <strong>do not save blob, like photo, into a relational database, and choose the right database for the right service.</strong> As displayed in the architecture graph, follower service is demanding on read performance, so use a KV cache. Feeds are generated as time passing by, HBase/Cassandra's timestamp index fits into the user case very well. Users have relationships with other users or objects, so a relational database is our choice by default in a user profile service.</p>
+
+<p>Data and storage is a rather wide topic, and we will discuss it later in Section 2.2 Storage.</p>
+
+<h3>1.4 (Optional) Step 4. Back-of-the-envelop Calculation</h3>
+
+<p>The final step about estimating how many machines are required is absolutely optional, because time is almost up after all the discussions above and three common topics below. In case we meet this, we would better prepare it as well. It is a little tricky... we need to assume variables and give a function first, and then guess values for those variables, and finally calculate the result.</p>
+
+<p>The cost is a function of CPU, RAM, storage, bandwidth, number and size of the images uploaded each day.</p>
+
+<ul>
+<li><em>N</em> users 10<sup>10</sup></li>
+<li><em>i</em> images / (user * day) 10</li>
+<li><em>s</em> size in bytes / image 10<sup>6</sup></li>
+<li>viewed <em>v</em> times / image 100</li>
+<li><em>d</em> days</li>
+<li><em>h</em> requests / sec 10<sup>4</sup>   (bottleneck)</li>
+<li><em>b</em> bandwidth (bottleneck)</li>
+<li>Server cost: $1000 / server</li>
+<li>Storage cost: $0.1 / GB</li>
+<li>Storage = Nisd</li>
+</ul>
+
+
+<p>Remember the two bottlenecks we mentioned in section 1.3.3 Web Tier? -- requests per second (rps) and bandwidth. So the final expression would be</p>
+
+<p><em>Number of required servers = max(Niv/h, Nivs/b)</em></p>
+
+<h2>2 Three Common Topics</h2>
+
+<p>There are three common topics that could be applied to almost every system design question. They are extracted and summarized in this section.</p>
+
+<h3>2.1 Communication</h3>
+
+<p>How do different components interact with each other? -- communication protocols.</p>
+
+<p>Here is a simple comparison of those protocols.</p>
+
+<ul>
+<li>UDP and TCP are both transport layer protocols. TCP is reliable and connection-based. UDP is connectionless and unreliable.</li>
+<li>HTTP is in application layer. It is normally TCP based since HTTP assumes a reliable transport.</li>
+<li>RPC, an application layer protocol, is an inter-process communication that allows a computer program to cause a subroutine or procedure to execute in another address space (commonly on another computer on a shared network), without the programmer explicitly coding the details for this remote interaction. That is, the programmer writes essentially the same code whether the subroutine is local to the executing program, or remote. In an Object-Oriented Programming context, RPC is also called remote invocation or remote method invocation (RMI).</li>
+</ul>
+
+
+<h5>Further discussions</h5>
+
+<p>Since RPC is super useful, some interviewers may ask how RPC works. The following picture is a brief answer.</p>
+
+<p align="middle"><img src="http://puncsky.github.com/images/crack-the-system-design-interview/rpc.png" alt="RPC"></p>
+
+
+<p>*Stub procedure: a local procedure to marshal the procedure identifier and the arguments into a request message, which it sends via its communication module to the server. When the reply message arrives, it unmarshals the results.</p>
+
+<p>We do not have to implement our own RPC protocols. There are off-the-shelf frameworks.</p>
+
+<ul>
+<li>Google Protobuf: open source version does not have RPC implementations but only API. Smaller serialized data and slightly faster. Better documentations and cleaner APIs.</li>
+<li>Facebook Thrift: support more languages, richer data structures (support richer data structures: List/Set/Map, etc that Protobuf does not support) Incomplete documentation and hard to find good examples.
+
+<ul>
+<li>User case: Hbase/Cassandra/Hypertable/Scrib/..</li>
+</ul>
+</li>
+<li>Apache Avro: Avro is heavily used in the hadoop ecosystem and based on dynamic schemas in Json. It features dynamic typing, untagged data, and no manually-assigned field IDs.</li>
+</ul>
+
+
+<p>Generally speaking, RPC is internally used by tech companies for performance issues, but it is rather hard to debug and not flexible. So for public APIs, we tend to use HTTP APIs, and are usually following the RESTful style.</p>
+
+<ul>
+<li>REST (Representational state transfer of resources)
+
+<ul>
+<li>Best practice of HTTP API to interact with resources.</li>
+<li>URL only decides the location. Headers (Accept and Content-Type, etc.) decide the representation. HTTP methods(GET/POST/PUT/DELETE) decide the state transfer.</li>
+<li>minimize the coupling between client and server (a huge number of HTTP infras on various clients, data-marshalling).</li>
+<li>stateless and scaling out.</li>
+<li>service partitioning feasible.</li>
+<li>used for public API.</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>2.2 Storage</h3>
+
+<h4>2.2.1 Relational Database</h4>
+
+<p>Relational database is the by-default choice regarding most user cases, for the reason of ACID (atomicity, consistency, isolation, and durability). One tricky thing is <strong>consistency, which means that any transaction will bring database from one valid state to another, (different from the consistency in CAP</strong> as will be discussed in Section 2.3).</p>
+
+<h5>Schema Design and 3NF</h5>
+
+<p>To reduce redundancy and improve consistency, people follow 3NF to design database schemas, including:</p>
+
+<ul>
+<li>1NF: tabular, each row-column intersection contains only one value</li>
+<li>2NF: only primary key determine all the attributes</li>
+<li>3NF: only candidate keys determine all the attributes (and non-prime attributes do not depend on each other)</li>
+</ul>
+
+
+<h5>Db Proxy</h5>
+
+<p>What if we want to eliminate single point of failure and the dataset might be too large and one single machine could not hold? For MySQL, the answer is using a DB proxy to distribute data, <a href="http://dba.stackexchange.com/questions/8889/mysql-sharding-vs-mysql-cluster">either by clustering or by sharding</a>.</p>
+
+<p>Clustering is a decentralized solution. Everything is automatic. Data are distributed, moved, rebalanced automatically. Nodes gossip with each other, (though it may cause group isolation).</p>
+
+<p>Sharding is a centralized solution. Get rid of properties of clustering that we don't like, and we get sharding. Data are distributed manually and will not move. Nodes are not aware of each other.</p>
+
+<h4>2.2.2 NoSQL</h4>
+
+<p>In a regular Internet service, the read write ratio is about 100:1 to 1000:1. However, a join operation for read on a hard disk is time consuming, and 99% time is spent on disk seek. Don't even mention a distributed join operation.</p>
+
+<p>To optimize the read performance, <strong>denormalization</strong> is introduced by adding redundant data or by grouping data. There four categories of NoSQL to help us with it.</p>
+
+<h5>Key-value Store</h5>
+
+<p>The abstraction of a KV store is a giant hashtable/hashmap/dictionary.</p>
+
+<p>The main reason we want to use a key-value cache is to reduce latency for accessing active data. Achieve a O(1) read/write performance on a fast and expensive media (like memory or SSD), instead of a traditional O(logn) read/write on a slow and cheap media (typically hard drive).</p>
+
+<p>There are three major factors to consider when we design the cache.</p>
+
+<ol>
+<li>Pattern: How to cache? is it read-through/write-through/write-around/write-back/cache-aside?</li>
+<li>Placement: Where to place the cache? client side/distinct layer/server side?</li>
+<li>Replacement: When to expire/replace the data? LRU/LFU/ARC?</li>
+</ol>
+
+
+<p>Out-of-box choices: Redis/Memcache? Redis supports data persistence while memcache does not. Riak, Berkeley DB, HamsterDB, Amazon Dynamo, Project Voldemort, etc.</p>
+
+<h5>Document Store</h5>
+
+<p>The abstraction of a document store is like a KV store, but documents, like XML, JSON, BSON, and so on, are stored in the value part of the pair.</p>
+
+<p>The main reason we want to use a document store is for flexibility and performance. Flexibility is obtained by schemaless document, and performance is improved by breaking 3NF. Startup's business requirements are changing from time to time. Flexible schema empowers them to move fast.</p>
+
+<p>Out-of-box choices: MongoDB, CouchDB, Terrastore, OrientDB, RavenDB, etc.</p>
+
+<h5>Column-oriented Store</h5>
+
+<p>The abstraction of a column-oriented store is like a giant nested map: ColumnFamily&lt;RowKey, Columns&lt;Name, Value, Timestamp>>.</p>
+
+<p>The main reason we want to use a column-oriented store is that it is distributed, highly-available, and optimized for write.</p>
+
+<p>Out-of-box choices: Cassandra, HBase, Hypertable, Amazon SimpleDB, etc.</p>
+
+<h5>Graph Database</h5>
+
+<p>As the name described, this database's abstraction is a graph. It allows us to store entities and relationships between these entities.</p>
+
+<p>If we use a relational database to store the graph, adding/removing relationships may involve schema changes and data movement, which is not the case when using a graph database. On the other hand, when we create tables in relational database for the graph, we model based on the traversal we want; if the traversal changes, the data will have to change.</p>
+
+<p>Out-of-box choices: Neo4J, Infinitegraph, OrientDB, FlockDB, etc.</p>
+
+<h3>2.3 CAP Theorem</h3>
+
+<p>When we design a distributed system, trading off among CAP is almost the first thing we want to consider.</p>
+
+<ul>
+<li>Consistency: all nodes see the same data at the same time</li>
+<li>Availability: a guarantee that every request receives a response about whether it succeeded or failed</li>
+<li>Partition tolerance: system continues to operate despite arbitrary message loss or failure of part of the system</li>
+</ul>
+
+
+<p>In a distributed context, the choice is between CP and AP. Unfortunately, CA is just a joke, because single point of failure is a red flag in the system design interview.</p>
+
+<p>To ensure consistency, there are popular protocols to consider: 2PC, eventual consistency (vector clock + RWN), Paxos, <a href="http://www.confluent.io/blog/hands-free-kafka-replication-a-lesson-in-operational-simplicity/">In-Sync Replica</a>, etc.</p>
+
+<p>To ensure availability, we can add replicas for the data. As to components of the whole system, people usually do <a href="https://www.ibm.com/developerworks/community/blogs/RohitShetty/entry/high_availability_cold_warm_hot?lang=en">cold standby, warm standby, hot standby, and active-active</a> to handle the failover.</p>
+
+<h2>3 Future Studies</h2>
+
+<p>Just as everything else, preparation and practice always makes perfect. This article just provides limited resources. Please keep learning, and enjoy ;)</p>
+
+<ul>
+<li><a href="https://docs.google.com/document/d/1dNKjHICogW5f94MKoBr8wDA3TASbhP0nrcy4eKiuA8Q/edit?usp=sharing">Tian's notes on big data from a programmer's perspective</a></li>
+<li><a href="https://www.linkedin.com/pulse/100-open-source-big-data-architecture-papers-anil-madan">100 open source big data architecture papers</a></li>
+<li><a href="https://github.com/checkcheckzz/system-design-interview">System design interview for IT companies</a></li>
+<li><a href="http://www.amazon.com/The-Practice-Cloud-System-Administration/dp/032194318X">The Practice of Cloud System Administration: Designing and Operating Large Distributed Systems, Volume 2</a></li>
+<li><a href="http://www.amazon.com/NoSQL-Distilled-Emerging-Polyglot-Persistence/dp/0321826620">NoSQL Distilled: A Brief Guide to the Emerging World of Polyglot Persistence</a></li>
+<li><a href="http://www.amazon.com/MongoDB-Applied-Design-Patterns-Copeland/dp/1449340040">MongoDB Applied Design Patterns</a></li>
+<li><a href="https://msdn.microsoft.com/en-us/library/dn568099.aspx">Cloud Design Patterns: Prescriptive Architecture Guidance for Cloud Applications</a></li>
+</ul>
+
+
+<p>EOF</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[面向痛苦编程 (译文)]]></title>
