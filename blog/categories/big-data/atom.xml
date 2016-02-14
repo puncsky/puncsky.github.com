@@ -4,7 +4,7 @@
   <title><![CDATA[Category: big_data | Puncsky CS Notebook]]></title>
   <link href="http://www.puncsky.com/blog/categories/big-data/atom.xml" rel="self"/>
   <link href="http://www.puncsky.com/"/>
-  <updated>2016-02-14T01:45:34-08:00</updated>
+  <updated>2016-02-14T14:11:07-08:00</updated>
   <id>http://www.puncsky.com/</id>
   <author>
     <name><![CDATA[Tian]]></name>
@@ -20,13 +20,13 @@
     <id>http://www.puncsky.com/blog/2016/02/14/crack-the-system-design-interview</id>
     <content type="html"><![CDATA[<p>Building applications is not a hard thing, but having the vision of the overall architecture really makes a difference. We have to crack the system interview sooner or later in our career as a software engineer or engineering manager.</p>
 
-<p>Interviewers are looking for future teammates that they like to work with. The future teammates would better, at least, be capable of solving problems independently. There are so many choices for the solution to a given problem, but not all of them are the best given the context. So the interviewee has to specify different choices and their tradeoffs. To summarize it, <strong>system design interview is a happy show-off of our knowledge on technologies, and their tradeoffs. In an ideal case, keep talking what the interviewer expect throughout the interview, instead of letting them ask.</strong></p>
+<p>Interviewers are looking for future teammates that they like to work with. The future teammates are expected to be, at least, capable of solving problems independently. There are so many solutions to any given problem, but not all of them are suited given the context. So the interviewee has to specify different choices and their tradeoffs. To summarize, <strong>system design interview is a happy show-off of our knowledge on technologies and their tradeoffs. Ideally, keep talking what the interviewer expect throughout the interview, before they even have to ask.</strong></p>
 
-<p>Keep talking for 45 min could be easy, as long as we are armed with the following <strong>four steps and three common topics</strong>. Take <strong>"design Pinterest"</strong> for example.</p>
+<p>Keep talking for 45 mins could be easy, as long as we are armed with the following <strong>four steps and three common topics</strong>. Take <strong>"design Pinterest"</strong> for example.</p>
 
 <h2>1. Four steps to Crack the System Design Interview</h2>
 
-<p>Breaking down a complex task into small chunks helps us handle them with better paces and in actionable ways.</p>
+<p>Breaking down a complex task into small chunks helps us handle the problem at a better pace and in a more actionable way.</p>
 
 <h3>1.1 Step 1. Clarify Requirements and Specs</h3>
 
@@ -40,20 +40,20 @@
 </ul>
 
 
-<h3>1.2 Step 2. Sketch High Level Design</h3>
+<h3>1.2 Step 2. Sketch Out High Level Design</h3>
 
-<p><strong>Do not dive into details before outline the big picture.</strong> Otherwise, digging into an unwanted direction would prevent us from giving a roughly correct solution in the first place. We will regret if we do not have time to finish the task.</p>
+<p><strong>Do not dive into details before outlining the big picture.</strong>  Otherwise, going off too far towards a wrong direction would make it harder to even provide a roughly correct solution. We will regret wasting time on irrelevant details when we do not have time to finish the task.</p>
 
-<p>OK, let us sketch the following picture and do not explain too much about the detailed implementation of those components.</p>
+<p>OK, let us sketch out the following diagram without concerning too much about the implementation detail of these components.</p>
 
 <p align="middle"><img src="http://puncsky.github.com/images/crack-the-system-design-interview/pinterest-arch-overview.png" alt="pinterest architecture"></p>
 
 
-<p>So far so good! To some extent, congrats, we have solved the problem! Surely this multi-tier architecture works, no matter how badly we would specify later!</p>
+<p>So far so good! To some extent, congrats, we have solved the problem!</p>
 
-<h3>1.3 Step 3. Discuss individual components and how they interact in details</h3>
+<h3>1.3 Step 3. Discuss individual components and how they interact in detail</h3>
 
-<p>When we truly understand a system, we should be able to identify what is what and explain how they interact. Look at those components above in the picture and specify one by one. This could lead to more general discussions, like three common topics in the next section 2. Three Common Topics, and to more specific domains, like how to <a href="https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Beaver.pdf">design the photo storage data layout</a>...</p>
+<p>When we truly understand a system, we should be able to identify what each component is and explain how they interact with one another. Take these components in the above diagram and specify each one by one. This could lead to more general discussions, such as the three common topics in Section 2, and to more specific domains, like how to <a href="https://www.usenix.org/legacy/event/osdi10/tech/full_papers/Beaver.pdf">design the photo storage data layout</a>...</p>
 
 <h4>1.3.1 Load Balancer</h4>
 
@@ -77,11 +77,11 @@
 </ul>
 
 
-<p>It is good enough to talk to this level in the topic, but in case the interviewer wants more, we can suggest exact algorithms like round robin, weighted round robin, least loaded, least loaded with slow start, utilization limit, latency, cascade, etc.</p>
+<p>It is good enough to talk in this level of detail on this topic, but in case the interviewer wants more, we can suggest exact algorithms like round robin, weighted round robin, least loaded, least loaded with slow start, utilization limit, latency, cascade, etc.</p>
 
 <h4>1.3.2 Reverse Proxy</h4>
 
-<p>Reverse proxy, like varnish, centralizes internal services and provides unified interfaces to the external. For examole, www.example.com/index and www.example.com/sports feel like coming from the same domain, but they are from different micro services behind the reverse proxy. Reverse proxy could also help with caching and load balance.</p>
+<p>Reverse proxy, like varnish, centralizes internal services and provides unified interfaces to the public. For example, www.example.com/index and www.example.com/sports appear to come from the same domain, but in fact they are from different micro services behind the reverse proxy. Reverse proxy could also help with caching and load balancing.</p>
 
 <h4>1.3.3 (Frontend) Web Tier</h4>
 
@@ -91,41 +91,41 @@
 
 <p><strong>There are two major bottlenecks of the whole system -- requests per second (rps) and bandwidth.</strong> We could improve the situation by using more efficient tech stack, like frameworks with <a href="http://www.puncsky.com/blog/2015/01/13/understanding-reactor-pattern-for-highly-scalable-i-o-bound-web-server/">async and non-blocking reactor pattern</a>, and enhancing the hardware, like <strong>scaling up (aka vertical scaling) or scaling out (aka horizontal scaling)</strong>.</p>
 
-<p>Internet companies prefer scaling out, since it is more cost-efficient with a huge number of commodity machines. This is also good for recruiting, because the target skillsets are equipped by most of the talents in the job market. Afterall, people rarely play with super computers or mainframes at their home.</p>
+<p>Internet companies prefer scaling out, since it is more cost-efficient with a huge number of commodity machines. This is also good for recruiting, because the target skillsets are equipped by. After all, people rarely play with super computers or mainframes at home.</p>
 
-<p><strong>Frontend web tier and service tier must be stateless, so it would be extremely convenient to add or remove hosts, and then horizontal scalability is achieved.</strong> As to feature switch or configs, there could be a database table / standalone service to keep those states.</p>
+<p><strong>Frontend web tier and service tier must be stateless in order to add or remove hosts conveniently, thus achieving horizontal scalability.</strong> As for feature switch or configs, there could be a database table / standalone service to keep those states.</p>
 
 <h5>Web Application and API</h5>
 
-<p><strong>MVC(MVT) or MVVC</strong> pattern is the dominant pattern in this layer. In the age of mobile computing, view can be as simple as serving the minimal package of data transporting to the mobile devices, which is called <strong>web API</strong>. People believe the API could be shared by clients and browsers. And that is why <strong>single page web application</strong> becoming popular, especially with the assistance of frontend frameworks like react.js, angular.js, backbone.js, etc.</p>
+<p><strong>MVC(MVT) or MVVC</strong> pattern is the dominant pattern for this layer. Traditionally, view or template is rendered to HTML by the server at runtime. In the age of mobile computing, view can be as simple as serving the minimal package of data transporting to the mobile devices, which is called <strong>web API</strong>. People believe that the API can be shared by clients and browsers. And that is why <strong>single page web applications</strong> are becoming more and more popular, especially with the assistance of frontend frameworks like react.js, angular.js, backbone.js, etc.</p>
 
 <h4>1.3.4 App Service Tier</h4>
 
-<p><strong>The single responsibility principle</strong> advocates small and autonomous services that work together, so that each service could do one thing well and do not block others. And small teams with small services can plan much more aggressively, for the sake of hyper-growth.</p>
+<p><strong>The single responsibility principle</strong> advocates small and autonomous services that work together, so that each service can do one thing well and not block others. Small teams with small services can plan much more aggressively for the sake of hyper-growth.</p>
 
 <h5>Service Discovery</h5>
 
-<p>How do those services find each other? <a href="http://www.slideshare.net/sauravhaloi/introduction-to-apache-zookeeper">Zookeeper</a> is a popular and centralized choice. Instances with name, address, port, etc. are registered into the path in ZooKeeper for each service. If one service does not know where to find another service, query Zookeeper for the location and memorize it until unavailable.</p>
+<p>How do those services find each other? <a href="http://www.slideshare.net/sauravhaloi/introduction-to-apache-zookeeper">Zookeeper</a> is a popular and centralized choice. Instances with name, address, port, etc. are registered into the path in ZooKeeper for each service. If one service does not know where to find another service, it can query Zookeeper for the location and memorize it until that location is unavailable.</p>
 
-<p>Zookeeper is CP system in terms of CAP theorem, which means it is consistent in case of failures, but the leader will be not available for registering new services.</p>
+<p>Zookeeper is a CP system in terms of CAP theorem (See Section 2.3 for more discussion), which means it stays consistent in the case of failures, but the leader of the centralized consensus will be unavailable for registering new services.</p>
 
-<p>In contrast to Zookeeper, Uber is doing interesting work in a decentralized way, named <a href="https://github.com/uber/hyperbahn">hyperbahn</a>, based on <a href="https://github.com/uber/ringpop-node">Ringpop consisten hash ring</a>. Read <a href="http://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf">Amazon's Dynamo</a> for understanding AP and eventual consistency.</p>
+<p>In contrast to Zookeeper, Uber is doing interesting work in a decentralized way, named <a href="https://github.com/uber/hyperbahn">hyperbahn</a>, based on <a href="https://github.com/uber/ringpop-node">Ringpop consisten hash ring</a>. Read <a href="http://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf">Amazon's Dynamo</a> to understand AP and eventual consistency.</p>
 
 <h5>Micro Services</h5>
 
-<p>For designing Pinterest, those micro services could be user profile, follower, feed, search, spam, etc. Any of those topics could lead to an in-depth discussion. Useful links are listed in the section 3 future studies, to help us deal with them.</p>
+<p>For the Pinterest case, these micro services could be user profile, follower, feed, search, spam, etc. Any of those topics could lead to an in-depth discussion. Useful links are listed in Section 3: Future Studies, to help us deal with them.</p>
 
-<p>However, for a generalized interview question like "design Pinterest", it is good enough for just having those services drawn as boxes. If we want to show more passions, trying to write down some sample endpoints / APIs for those services would be great.</p>
+<p>However, for a general interview question like "design Pinterest", it is good enough to leave those services as black boxes.. If we want to show more passion,  elaborate with some sample endpoints / APIs for those services would be great.</p>
 
 <h4>1.3.5  Data Tier</h4>
 
-<p>Although a relational database can do almost all the storage work, please remember <strong>do not save blob, like photo, into a relational database, and choose the right database for the right service.</strong> As displayed in the architecture graph, follower service is demanding on read performance, so use a KV cache. Feeds are generated as time passing by, HBase/Cassandra's timestamp index fits into the user case very well. Users have relationships with other users or objects, so a relational database is our choice by default in a user profile service.</p>
+<p>Although a relational database can do almost all the storage work, please remember <strong>do not save a blob, like a photo, into a relational database, and choose the right database for the right service.</strong> For example, read performance is important for follower service, therefore it makes sense to use a key-value cache. Feeds are generated as time passes by, so HBase / Cassandra's timestamp index is a great fit for this use case. Users have relationships with other users or objects, so a relational database is our choice by default in an user profile service.</p>
 
 <p>Data and storage is a rather wide topic, and we will discuss it later in Section 2.2 Storage.</p>
 
-<h3>1.4 (Optional) Step 4. Back-of-the-envelop Calculation</h3>
+<h3>1.4 (Optional) Step 4. Back-of-the-envelope Calculation</h3>
 
-<p>The final step about estimating how many machines are required is absolutely optional, because time is almost up after all the discussions above and three common topics below. In case we meet this, we would better prepare it as well. It is a little tricky... we need to assume variables and give a function first, and then guess values for those variables, and finally calculate the result.</p>
+<p>The final step, estimating how many machines are required, is optional, because time is probably up after all the discussions above and three common topics below. In case we run into this topic, we’d better prepare for it as well. It is a little tricky... we need come up with some variables and a function first, and then make some guesses for the values of those variables, and finally calculate the result.</p>
 
 <p>The cost is a function of CPU, RAM, storage, bandwidth, number and size of the images uploaded each day.</p>
 
@@ -159,7 +159,7 @@
 
 <ul>
 <li>UDP and TCP are both transport layer protocols. TCP is reliable and connection-based. UDP is connectionless and unreliable.</li>
-<li>HTTP is in application layer. It is normally TCP based since HTTP assumes a reliable transport.</li>
+<li>HTTP is in the application layer and normally TCP based, since HTTP assumes a reliable transport.</li>
 <li>RPC, an application layer protocol, is an inter-process communication that allows a computer program to cause a subroutine or procedure to execute in another address space (commonly on another computer on a shared network), without the programmer explicitly coding the details for this remote interaction. That is, the programmer writes essentially the same code whether the subroutine is local to the executing program, or remote. In an Object-Oriented Programming context, RPC is also called remote invocation or remote method invocation (RMI).</li>
 </ul>
 
@@ -171,13 +171,13 @@
 <p align="middle"><img src="http://puncsky.github.com/images/crack-the-system-design-interview/rpc.png" alt="RPC"></p>
 
 
-<p>*Stub procedure: a local procedure to marshal the procedure identifier and the arguments into a request message, which it sends via its communication module to the server. When the reply message arrives, it unmarshals the results.</p>
+<p>*Stub procedure: a local procedure that marshals the procedure identifier and the arguments into a request message, and then to send via its communication module to the server. When the reply message arrives, it unmarshals the results.</p>
 
 <p>We do not have to implement our own RPC protocols. There are off-the-shelf frameworks.</p>
 
 <ul>
-<li>Google Protobuf: open source version does not have RPC implementations but only API. Smaller serialized data and slightly faster. Better documentations and cleaner APIs.</li>
-<li>Facebook Thrift: support more languages, richer data structures (support richer data structures: List/Set/Map, etc that Protobuf does not support) Incomplete documentation and hard to find good examples.
+<li>Google Protobuf: an open source RPC with only APIs but no RPC implementations. Smaller serialized data and slightly faster. Better documentations and cleaner APIs.</li>
+<li>Facebook Thrift: supports more languages, richer data structures: list, set, map, etc. that Protobuf does not support) Incomplete documentation and hard to find good examples.
 
 <ul>
 <li>User case: Hbase/Cassandra/Hypertable/Scrib/..</li>
@@ -187,7 +187,7 @@
 </ul>
 
 
-<p>Generally speaking, RPC is internally used by tech companies for performance issues, but it is rather hard to debug and not flexible. So for public APIs, we tend to use HTTP APIs, and are usually following the RESTful style.</p>
+<p>Generally speaking, RPC is internally used by many tech companies for performance issues, but it is rather hard to debug and not flexible. So for public APIs, we tend to use HTTP APIs, and are usually following the RESTful style.</p>
 
 <ul>
 <li>REST (Representational state transfer of resources)
@@ -208,38 +208,38 @@
 
 <h4>2.2.1 Relational Database</h4>
 
-<p>Relational database is the by-default choice regarding most user cases, for the reason of ACID (atomicity, consistency, isolation, and durability). One tricky thing is <strong>consistency, which means that any transaction will bring database from one valid state to another, (different from the consistency in CAP</strong> as will be discussed in Section 2.3).</p>
+<p>Relational database is the default choice for most use cases, by reason of ACID (atomicity, consistency, isolation, and durability). One tricky thing is <strong>consistency -- it means that any transaction will bring database from one valid state to another, (different from the consistency in CAP</strong>, which will be discussed in Section 2.3).</p>
 
-<h5>Schema Design and 3NF</h5>
+<h5>Schema Design and 3rd Normal Form (3NF)</h5>
 
-<p>To reduce redundancy and improve consistency, people follow 3NF to design database schemas, including:</p>
+<p>To reduce redundancy and improve consistency, people follow 3NF when designing database schemas:</p>
 
 <ul>
 <li>1NF: tabular, each row-column intersection contains only one value</li>
-<li>2NF: only primary key determine all the attributes</li>
-<li>3NF: only candidate keys determine all the attributes (and non-prime attributes do not depend on each other)</li>
+<li>2NF: only the primary key determines all the attributes</li>
+<li>3NF: only the candidate keys determine all the attributes (and non-prime attributes do not depend on each other)</li>
 </ul>
 
 
 <h5>Db Proxy</h5>
 
-<p>What if we want to eliminate single point of failure and the dataset might be too large and one single machine could not hold? For MySQL, the answer is using a DB proxy to distribute data, <a href="http://dba.stackexchange.com/questions/8889/mysql-sharding-vs-mysql-cluster">either by clustering or by sharding</a>.</p>
+<p>What if we want to eliminate single point of failure? What if the dataset is too large for one single machine to hold? For MySQL, the answer is to use a DB proxy to distribute data, <a href="http://dba.stackexchange.com/questions/8889/mysql-sharding-vs-mysql-cluster">either by clustering or by sharding</a>.</p>
 
-<p>Clustering is a decentralized solution. Everything is automatic. Data are distributed, moved, rebalanced automatically. Nodes gossip with each other, (though it may cause group isolation).</p>
+<p>Clustering is a decentralized solution. Everything is automatic. Data is distributed, moved, rebalanced automatically. Nodes gossip with each other, (though it may cause group isolation).</p>
 
-<p>Sharding is a centralized solution. Get rid of properties of clustering that we don't like, and we get sharding. Data are distributed manually and will not move. Nodes are not aware of each other.</p>
+<p>Sharding is a centralized solution. If we get rid of properties of clustering that we don't like, sharding is what we get. Data is distributed manually and does not move. Nodes are not aware of each other.</p>
 
 <h4>2.2.2 NoSQL</h4>
 
-<p>In a regular Internet service, the read write ratio is about 100:1 to 1000:1. However, a join operation for read on a hard disk is time consuming, and 99% time is spent on disk seek. Don't even mention a distributed join operation.</p>
+<p>In a regular Internet service, the read write ratio is about 100:1 to 1000:1. However, when reading from a hard disk, a database join operation is time consuming, and 99% of the time is spent on disk seek. Not to mention a distributed join operation across networks.</p>
 
-<p>To optimize the read performance, <strong>denormalization</strong> is introduced by adding redundant data or by grouping data. There four categories of NoSQL to help us with it.</p>
+<p>To optimize the read performance, <strong>denormalization</strong> is introduced by adding redundant data or by grouping data. These four categories of NoSQL are here to help.</p>
 
 <h5>Key-value Store</h5>
 
 <p>The abstraction of a KV store is a giant hashtable/hashmap/dictionary.</p>
 
-<p>The main reason we want to use a key-value cache is to reduce latency for accessing active data. Achieve a O(1) read/write performance on a fast and expensive media (like memory or SSD), instead of a traditional O(logn) read/write on a slow and cheap media (typically hard drive).</p>
+<p>The main reason we want to use a key-value cache is to reduce latency for accessing active data. Achieve an O(1) read/write performance on a fast and expensive media (like memory or SSD), instead of a traditional O(logn) read/write on a slow and cheap media (typically hard drive).</p>
 
 <p>There are three major factors to consider when we design the cache.</p>
 
@@ -270,15 +270,15 @@
 
 <h5>Graph Database</h5>
 
-<p>As the name described, this database's abstraction is a graph. It allows us to store entities and relationships between these entities.</p>
+<p>As the name indicates, this database's abstraction is a graph. It allows us to store entities and the relationships between them.</p>
 
-<p>If we use a relational database to store the graph, adding/removing relationships may involve schema changes and data movement, which is not the case when using a graph database. On the other hand, when we create tables in relational database for the graph, we model based on the traversal we want; if the traversal changes, the data will have to change.</p>
+<p>If we use a relational database to store the graph, adding/removing relationships may involve schema changes and data movement, which is not the case when using a graph database. On the other hand, when we create tables in a relational database for the graph, we model based on the traversal we want; if the traversal changes, the data will have to change.</p>
 
 <p>Out-of-box choices: Neo4J, Infinitegraph, OrientDB, FlockDB, etc.</p>
 
 <h3>2.3 CAP Theorem</h3>
 
-<p>When we design a distributed system, trading off among CAP is almost the first thing we want to consider.</p>
+<p>When we design a distributed system, <strong>trading off among CAP (consistency, availability, and partition tolerance)</strong> is almost the first thing we want to consider.</p>
 
 <ul>
 <li>Consistency: all nodes see the same data at the same time</li>
@@ -287,15 +287,15 @@
 </ul>
 
 
-<p>In a distributed context, the choice is between CP and AP. Unfortunately, CA is just a joke, because single point of failure is a red flag in the system design interview.</p>
+<p>In a distributed context, the choice is between CP and AP. Unfortunately, CA is just a joke, because single point of failure is a red flag in the real distributed systems world.</p>
 
-<p>To ensure consistency, there are popular protocols to consider: 2PC, eventual consistency (vector clock + RWN), Paxos, <a href="http://www.confluent.io/blog/hands-free-kafka-replication-a-lesson-in-operational-simplicity/">In-Sync Replica</a>, etc.</p>
+<p>To ensure consistency, there are some popular protocols to consider: 2PC, eventual consistency (vector clock + RWN), Paxos, <a href="http://www.confluent.io/blog/hands-free-kafka-replication-a-lesson-in-operational-simplicity/">In-Sync Replica</a>, etc.</p>
 
 <p>To ensure availability, we can add replicas for the data. As to components of the whole system, people usually do <a href="https://www.ibm.com/developerworks/community/blogs/RohitShetty/entry/high_availability_cold_warm_hot?lang=en">cold standby, warm standby, hot standby, and active-active</a> to handle the failover.</p>
 
 <h2>3 Future Studies</h2>
 
-<p>Just as everything else, preparation and practice always makes perfect. This article just provides limited resources. Please keep learning, and enjoy ;)</p>
+<p>Just as everything else, preparation and practice makes perfect. This article just provides limited resources for your reference. Please keep learning, and enjoy ;)</p>
 
 <ul>
 <li><a href="https://docs.google.com/document/d/1dNKjHICogW5f94MKoBr8wDA3TASbhP0nrcy4eKiuA8Q/edit?usp=sharing">Tian's notes on big data from a programmer's perspective</a></li>
